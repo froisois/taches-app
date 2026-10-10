@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Essai téléphone</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1d1d1b;--muted:#7f7c75;--line:#e4e1da;--accent:#2f6f5e;--ok:#3a9363;--ko:#c4524a}
+@media (prefers-color-scheme:dark){:root{--bg:#1b1b1a;--fg:#e8e6e1;--muted:#9a978f;--line:#2f2e2c;--accent:#7fbfa8}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,sans-serif}
+main{max-width:640px;margin:0 auto;padding:1rem 1rem 3rem}
+h1{font-size:1.25rem;margin:.2rem 0 .3rem}
+h2{font-size:1rem;margin:1.6rem 0 .4rem;padding-top:.8rem;border-top:1px solid var(--line)}
+p{margin:.4rem 0}
+.muted{color:var(--muted);font-size:.88rem}
+label.btn,button{display:inline-block;font:inherit;font-size:.95rem;padding:.55rem .9rem;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--bg);cursor:pointer;margin:.2rem .3rem .2rem 0}
+button.sec{background:none;color:var(--accent)}
+input[type=file]{display:none}
+input[type=text],input[type=email]{width:100%;font:inherit;padding:.45rem .6rem;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);margin:.2rem 0}
+pre{white-space:pre-wrap;word-break:break-word;font-size:.78rem;background:color-mix(in srgb,var(--fg) 5%,var(--bg));border:1px solid var(--line);border-radius:8px;padding:.6rem;max-height:40vh;overflow:auto}
+.res{margin:.4rem 0;font-size:.92rem}
+.ok{color:var(--ok);font-weight:600}.ko{color:var(--ko);font-weight:600}
+</style>
+</head>
+<body>
+<main>
+<h1>Essai sur téléphone</h1>
+<p class="muted">Page d’essai sans aucune donnée : rien n’est envoyé nulle part, le fichier est lu sur le téléphone. Fais les trois essais, puis « Copier le rapport » et colle-le à Claude.</p>
+
+<h2>1. Lire un fichier du OneDrive pro</h2>
+<p>Touche le bouton, choisis <strong>OneDrive</strong> dans le menu, puis ton <code>taches.md</code> (ou n’importe quel fichier texte de ton OneDrive pro).</p>
+<label class="btn" for="f1">Choisir un fichier</label><input type="file" id="f1">
+<div class="res" id="r1"></div>
+<pre id="p1" hidden></pre>
+
+<h2>2. Le même, avec un filtre « texte »</h2>
+<p class="muted">Pour savoir si Android grise les fichiers <code>.md</code> quand on filtre. Si le fichier est grisé ou absent, dis-le simplement.</p>
+<label class="btn" for="f2">Choisir (filtré)</label><input type="file" id="f2" accept=".md,text/markdown,text/plain">
+<div class="res" id="r2"></div>
+
+<h2>3. Préparer un e-mail</h2>
+<p class="muted">L’adresse n’est gardée que dans ce téléphone.</p>
+<input type="email" id="mail" placeholder="Ton adresse pro">
+<input type="text" id="subj" value="Tâche d’essai depuis le téléphone">
+<button id="send">Ouvrir l’e-mail</button>
+<div class="res" id="r3"></div>
+
+<h2>4. Mémoire de la page</h2>
+<div class="res" id="r4"></div>
+
+<h2>Rapport</h2>
+<button id="copy">Copier le rapport</button><button class="sec" id="show">Afficher</button>
+<pre id="rep" hidden></pre>
+</main>
+<script>
+'use strict';
+const $=s=>document.querySelector(s);
+const log={appareil:navigator.userAgent,essais:{}};
+const store={get(k){try{return localStorage.getItem(k);}catch(e){return null;}},set(k,v){try{localStorage.setItem(k,v);return true;}catch(e){return false;}}};
+function fmt(ms){return new Date(ms).toLocaleString('fr-FR');}
+function show(el,html,ok){el.innerHTML=(ok===true?'<span class="ok">✓ </span>':ok===false?'<span class="ko">✗ </span>':'')+html;}
+
+async function read(input,res,pre,key){
+  const f=input.files&&input.files[0];
+  if(!f){show(res,'Aucun fichier transmis par le téléphone.',false);log.essais[key]={transmis:false};return;}
+  let txt='',err=null;
+  try{txt=await f.text();}catch(e){err=String(e);}
+  const lignes=txt?txt.split(/\r?\n/):[];
+  const taches=lignes.filter(l=>/^\s*-\s\[[ xX]\]/.test(l)).length;
+  const r={transmis:true,nom:f.name,type:f.type||'(inconnu)',taille:f.size,modifie:f.lastModified?fmt(f.lastModified):'(inconnue)',lisible:!err&&txt.length>0,erreur:err,lignes:lignes.length,cases:taches};
+  log.essais[key]=r;
+  show(res,`<strong>${f.name}</strong> — ${f.size} octets, ${r.lignes} lignes, ${taches} cases à cocher<br>Modifié le ${r.modifie} · type ${r.type}${err?'<br>Erreur : '+err:''}`,r.lisible);
+  if(pre){pre.hidden=false;pre.textContent=lignes.slice(0,25).join('\n')+(lignes.length>25?'\n…':'');}
+  if(key==='lecture'&&r.lisible){const ok=store.set('essai-dernier',JSON.stringify({nom:f.name,quand:Date.now(),debut:lignes.slice(0,5).join('\n')}));log.essais.memoire_ecriture=ok;}
+  render();
+}
+$('#f1').onchange=e=>read(e.target,$('#r1'),$('#p1'),'lecture');
+$('#f2').onchange=e=>read(e.target,$('#r2'),null,'lecture_filtree');
+
+$('#mail').value=store.get('essai-mail')||'';
+$('#send').onclick=()=>{
+  const a=$('#mail').value.trim();if(!a){show($('#r3'),'Indique d’abord l’adresse.',false);return;}
+  store.set('essai-mail',a);
+  log.essais.email={tente:true};
+  location.href='mailto:'+encodeURIComponent(a).replace('%40','@')+'?subject='+encodeURIComponent($('#subj').value);
+  show($('#r3'),'Ta messagerie devrait s’ouvrir avec l’e-mail prérempli. Dis à Claude laquelle s’est ouverte, et si l’e-mail est bien arrivé.');
+};
+
+function render(){
+  const d=store.get('essai-dernier');
+  if(d){const o=JSON.parse(d);show($('#r4'),`Dernier fichier lu : <strong>${o.nom}</strong>, le ${fmt(o.quand)}. Si tu fermes et rouvres la page, cette ligne doit rester.`,true);log.essais.memoire_relue={nom:o.nom,quand:fmt(o.quand)};}
+  else show($('#r4'),'Rien en mémoire pour l’instant (normal à la première visite).');
+}
+render();
+
+function report(){return 'Rapport d’essai — '+new Date().toLocaleString('fr-FR')+'\n'+JSON.stringify(log,null,1);}
+$('#show').onclick=()=>{$('#rep').hidden=false;$('#rep').textContent=report();};
+$('#copy').onclick=async()=>{
+  const t=report();
+  try{await navigator.clipboard.writeText(t);$('#copy').textContent='Copié ✓';}
+  catch(e){$('#rep').hidden=false;$('#rep').textContent=t;const r=document.createRange();r.selectNodeContents($('#rep'));getSelection().removeAllRanges();getSelection().addRange(r);$('#copy').textContent='Sélectionné : copie-le';}
+};
+</script>
+</body>
+</html>
