@@ -276,7 +276,7 @@ body.mobile,html:has(body.mobile){overflow-x:hidden}
 #mAtt,#mNote{width:min(560px,94vw);max-height:92vh;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--fg);padding:1rem}
 #mAtt input,#mAtt select,#mNote textarea,#mNote input,#mNote select{display:block;width:100%;font:inherit;padding:.5rem;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);margin:.3rem 0}
 #mAtt textarea:focus,#mAtt input:focus,#mAtt select:focus,#mNote textarea:focus,#mNote input:focus,#mNote select:focus{outline:none;border-color:var(--accent)}
-#m button:focus:not(:focus-visible),#mNote button:focus:not(:focus-visible){outline:none}
+body.mobile button:focus{outline:none}   /* au doigt, pas de cadre de focus (orange dans l'appli), même pour le premier bouton d'une fenêtre qui s'ouvre */
 #mAtt label,#mNote label{display:block;font-size:.85rem;margin-top:.4rem}
 .tfile{font-weight:600;word-break:break-all;margin:.1rem 0 .3rem}
 #mAtt .ameta{margin:.3rem 0}
@@ -2161,7 +2161,7 @@ function mOpenNote(id,text){
   $('#nDel').classList.remove('sure');
   document.querySelectorAll('#mNote .ntabs button').forEach(b=>b.classList.remove('on'));$('#nTask').hidden=true;$('#nAttach').hidden=true;
   const d=$('#mNote');if(!d.open)d.showModal();
-  const t=$('#nText');if(n)t.blur();else{t.focus();t.setSelectionRange(t.value.length,t.value.length);}
+  const t=$('#nText');if(n){if(document.activeElement)document.activeElement.blur();}else{t.focus();t.setSelectionRange(t.value.length,t.value.length);}
 }
 let mNoteDone=false;
 /* la note en cours : enregistrée (n) ou en train d'être saisie (n = null) */
