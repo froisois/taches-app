@@ -411,6 +411,7 @@ aside.open{transform:none}
       <div id="aSubs"></div>
       <div class="arow" id="aNewRow"><input id="aNewSub" placeholder="Nouvelle sous-tâche" enterkeyhint="done"><button type="button" id="aAddSub">Ajouter</button></div>
       <div id="aLinks"></div>
+      <button type="button" class="mitem" id="aArch" hidden>Ranger dans l’historique</button>
       <p class="ameta" id="aMeta"></p>
       <div class="mrb"><button type="button" id="aDel" class="adel">Supprimer</button><span class="sp"></span><button type="submit" class="primary">Fermer</button></div>
     </form>
@@ -566,6 +567,11 @@ const ECHEANCE_JOURS=7;
 function daysTo(iso){return Math.round((new Date(iso+'T12:00')-new Date(todayISO()+'T12:00'))/864e5);}
 function dueSoon(it){return it.kind==='t'&&it.due&&!(it.level===0&&it.state==='fait')&&!it.checked&&daysTo(it.due)<=ECHEANCE_JOURS;}
 function isUrgent(it){return !!it.urgent||dueSoon(it);}
+/* ordre d'affichage : urgentes à la main, puis urgentes par échéance (la plus proche d'abord), puis le reste */
+function urgKey(it){return isUrgent(it)?(it.urgent?'0':'1'+(it.due||'')):'2';}
+/* en attente : relances dues (la plus ancienne d'abord), puis même ordre */
+function waitKey(it){return isLate(it)?'0'+(it.relance||''):'1'+urgKey(it);}
+function sortIdx(arr,key){return arr.map((i,k)=>[key(items[i]),k,i]).sort((a,b)=>a[0]<b[0]?-1:a[0]>b[0]?1:a[1]-b[1]).map(z=>z[2]);}
 function isLate(it){return it.level===0&&it.state==='attente'&&it.relance&&it.relance<=todayISO();}
 function idx(id){return items.findIndex(x=>x.id===id);}
 function isChild(c,p){if(p.kind==='h')return c.kind!=='h';return c.kind!=='h'&&c.level>p.level;}
@@ -922,6 +928,12 @@ function render(){
     if(it.level===0||!card){card=document.createElement('div');card.className='card'+(isLate(it)?' late':'')+(isUrgent(it)?' urgent':'');card.style.setProperty('--c',COLORS[it.color]||(cur_h&&COLORS[cur_h.color])||CARD_COLOR);card.dataset.id=it.id;(cells[it.state]||cells.afaire).append(card);}
     card.append(makeRow(it));
   }
+  /* en tête de chaque case : relances dues, puis urgentes (affichage seulement) */
+  list.querySelectorAll('.cell').forEach(c=>{
+    const cards=[...c.querySelectorAll(':scope>.card')],rk=x=>{const it=items[idx(x.dataset.id)];return it?(it.state==='attente'?waitKey(it):urgKey(it)):'9';};
+    const sorted=cards.map((x,k)=>[rk(x),k,x]).sort((a,b)=>a[0]<b[0]?-1:a[0]>b[0]?1:a[1]-b[1]).map(z=>z[2]);
+    if(sorted.some((x,k)=>x!==cards[k]))sorted.forEach(x=>c.append(x));
+  });
   {const ns=document.createElement('button');ns.className='newsec';ns.textContent='+ Nouvelle rubrique';ns.tabIndex=-1;list.append(ns);}
   list.querySelectorAll('.cell').forEach(c=>{
     if(c.dataset.state==='fait'){
@@ -1813,7 +1825,8 @@ function mCard(i,withSec){
   const h=headingOf(i);c.style.setProperty('--c',COLORS[it.color]||(h&&COLORS[h.color])||CARD_COLOR);
   const t=document.createElement('div');t.className='mct';
   if(AND){const k=document.createElement('button');k.className='mchk'+(it.state==='fait'?' on':'');k.title=it.state==='fait'?'Remettre à faire':'Marquer comme faite';
-    k.onclick=ev=>{ev.stopPropagation();const f=it.state==='fait';mEdit(it.id,x=>{x.state=f?'afaire':'fait';},f?'Remise dans « À faire »':'Faite');};t.append(k);}
+    k.onclick=ev=>{ev.stopPropagation();const f=it.state==='fait';mEdit(it.id,x=>{x.state=f?'afaire':'fait';},f?'Remise dans « À faire »':'Faite');
+      if(!f&&!mstore.get('taches-astuce-glisser'))setTimeout(()=>{const t=$('#toast');if(t.classList.contains('undo')&&t.classList.contains('show'))return;mstore.set('taches-astuce-glisser',1);toast('Astuce : glisse une tâche faite sur le côté pour la ranger dans l’historique');},2800);};t.append(k);}
   if(isUrgent(it)&&it.state!=='fait'){const b=document.createElement('span');b.className='mbang';b.textContent='!';t.append(b);}
   const tx=document.createElement('span');tx.className='t';decorate(tx,it.text);t.append(tx);
   c.append(t);
@@ -1839,7 +1852,8 @@ function mCard(i,withSec){
   const all=[it,...subs].flatMap(x=>x.links||[]);
   if(all.length){const f=all.some(mIsFile);ch.append(mChip((f?'📎':'🔗')+(all.length>1?' '+all.length:'')));}
   if(ch.children.length)c.append(ch);
-  c.onclick=()=>mOpenAct(it.id);
+  c.onclick=()=>{if(c.dataset.swiped)return;mOpenAct(it.id);};
+  if(AND&&it.state==='fait')mSwipe(c,it.id);
   return c;
 }
 function mHasData(){return AND?!!mName:!!mstore.get(MKEY);}
@@ -1889,7 +1903,7 @@ function mRender(){
     if(it.state==='afaire')cur.todo.push(i);else if(it.state==='fait')cur.done.push(i);
   });
   /* urgentes d'abord (affichage seulement : l'ordre du fichier ne change pas) */
-  const urgentFirst=arr=>[...arr.filter(i=>isUrgent(items[i])),...arr.filter(i=>!isUrgent(items[i]))];
+  const urgentFirst=arr=>sortIdx(arr,urgKey);
   let shown=0;
   for(const g of groups){
     g.todo=urgentFirst(g.todo);
@@ -1900,7 +1914,7 @@ function mRender(){
     }));
   }
   const w0=tops.filter(i=>items[i].state==='attente'&&matchFilter(i));
-  const wait=[...w0.filter(i=>isLate(items[i])),...urgentFirst(w0.filter(i=>!isLate(items[i])))];  /* à relancer, puis urgentes */
+  const wait=sortIdx(w0,waitKey);
   if(wait.length){
     shown+=wait.length;const late=wait.filter(i=>isLate(items[i])).length;
     list.append(mSection('#attente','⏳ En attente',wait.length,'#8a8f98',box=>{for(const i of wait)box.append(mCard(i,true));},'mwait',late?'dont '+late+' à relancer':''));
@@ -1929,6 +1943,27 @@ function mEdit(id,fn,undoMsg){
   snapshot();fn(items[i],i);normalize();changed();mRender();
   if(undoMsg)mUndoToast(undoMsg);
 }
+/* une étiquette faite part dans l'historique (glisser la carte, ou bouton de la fiche) */
+function mArchive(id){
+  const i=idx(id);if(i<0)return;
+  snapshot();archiveAt(i);normalize();changed();mRender();mUndoToast('Rangée dans l’historique');
+}
+function mSwipe(c,id){
+  let x0=null,y0=0,dx=0,mode=null;
+  c.addEventListener('touchstart',e=>{if(e.touches.length!==1)return;x0=e.touches[0].clientX;y0=e.touches[0].clientY;dx=0;mode=null;},{passive:true});
+  c.addEventListener('touchmove',e=>{
+    if(x0==null)return;const t=e.touches[0];dx=t.clientX-x0;const dy=t.clientY-y0;
+    if(!mode){if(Math.abs(dx)>12&&Math.abs(dx)>Math.abs(dy)*1.5)mode='h';else if(Math.abs(dy)>12)mode='v';}
+    if(mode!=='h')return;
+    c.style.transition='none';c.style.transform='translateX('+dx+'px)';c.style.opacity=String(Math.max(.15,1-Math.abs(dx)/c.offsetWidth));
+  },{passive:true});
+  c.addEventListener('touchend',()=>{
+    if(x0==null)return;x0=null;if(mode!=='h')return;
+    c.dataset.swiped='1';setTimeout(()=>{delete c.dataset.swiped;},400);
+    if(Math.abs(dx)>c.offsetWidth*.35){c.style.transition='transform .18s,opacity .18s';c.style.transform='translateX('+(dx>0?'':'-')+'110%)';c.style.opacity='0';setTimeout(()=>mArchive(id),170);}
+    else{c.style.transition='transform .18s,opacity .18s';c.style.transform='';c.style.opacity='';}
+  });
+}
 function mUndoToast(msg){
   toast(msg+' · toucher pour annuler');const t=$('#toast');t.classList.add('undo');
   t.onclick=()=>{t.onclick=null;t.classList.remove('undo','show');mUndo();};
@@ -1951,7 +1986,7 @@ function mFillAct(){
   const it=items[i],act=document.activeElement,setv=(el,v)=>{if(el!==act)el.value=v||'';};
   const ro=!AND;
   d.querySelectorAll('#aForm textarea,#aForm input,#aForm .aseg button,#aForm .aquick button,#aUrg,#aAddSub').forEach(el=>{el.disabled=ro;});
-  $('#aDel').hidden=ro;$('#aNewRow').hidden=ro;
+  $('#aDel').hidden=ro;$('#aNewRow').hidden=ro;$('#aArch').hidden=ro||items[i].state!=='fait';
   setv($('#aText'),it.text);
   [...$('#aState').children].forEach(b=>b.classList.toggle('on',b.dataset.k===it.state));
   $('#aWait').hidden=it.state!=='attente';
@@ -2007,6 +2042,7 @@ function mInitAct(){
   $('#aDel').onclick=()=>{const b=$('#aDel');
     if(!b.classList.contains('sure')){b.classList.add('sure');b.textContent='Confirmer la suppression';return;}
     const id=mActId;$('#mAct').close();mEdit(id,(it,i)=>{items.splice(i,blockEnd(i)-i);},'Supprimée');};
+  $('#aArch').onclick=()=>{const id=mActId;$('#mAct').close();mArchive(id);};
   $('#aForm').onsubmit=e=>{e.preventDefault();document.activeElement&&document.activeElement.blur();$('#mAct').close();};
   $('#mAct').addEventListener('close',()=>{mActId=null;});
 }
