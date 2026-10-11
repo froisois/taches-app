@@ -2093,7 +2093,17 @@ function mFillAct(){
     box.append(r);
   }
 }
+/* toucher la zone grisée autour d'une fenêtre la ferme, comme le bouton retour (rien n'est perdu : mêmes règles qu'à la fermeture) */
+function mBackdropClose(){
+  for(const id of ['mSheet','mAct','mAtt','mMenu','mNote']){
+    const d=document.getElementById(id);if(!d)continue;let out=false;
+    const dehors=e=>{if(e.target!==d)return false;const r=d.getBoundingClientRect();return e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom;};
+    d.addEventListener('pointerdown',e=>{out=dehors(e);});
+    d.addEventListener('click',e=>{if(out&&dehors(e))d.close();out=false;});
+  }
+}
 function mInitAct(){
+  mBackdropClose();
   const seg=$('#aState');
   for(const s of STATES){const b=document.createElement('button');b.type='button';b.dataset.k=s.k;b.textContent=s.k==='attente'?'En attente':s.l;
     b.onclick=()=>{const it=items[idx(mActId)];if(it&&it.state!==s.k)mEdit(mActId,x=>{x.state=s.k;});};seg.append(b);}
