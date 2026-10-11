@@ -13,6 +13,7 @@ html,body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 "Segoe UI"
 header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:.4rem;padding:.45rem 1rem}
 header h1{font-size:1rem;font-weight:600;margin:0}
 #status{flex:1;font-size:.8rem;color:var(--muted);margin-left:.6rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+*{-webkit-tap-highlight-color:transparent}
 button{font:inherit;font-size:.83rem;background:none;border:1px solid var(--line);color:var(--fg);border-radius:6px;padding:.18rem .6rem;cursor:pointer}
 @media (hover:hover){button:hover{background:var(--hover)}}
 button.primary{border-color:var(--accent);color:var(--accent)}
@@ -51,6 +52,10 @@ main{max-width:1240px;margin:0 auto;padding:1rem 1rem 30vh;min-height:60vh;curso
 body.dragging,body.dragging *{user-select:none!important;cursor:grabbing!important}
 .drag-src{opacity:.3!important}
 .fab{position:fixed;right:1.6rem;bottom:1.6rem;z-index:8;width:3.4rem;height:3.4rem;border-radius:50%;border:none;padding:0;background:var(--accent);color:var(--bg);font-size:2rem;line-height:3.3rem;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+#m .fab{width:3.9rem;height:3.9rem;font-size:2.3rem;line-height:3.75rem}
+.fab:active,.fab.pulse{background:var(--accent)}
+.fab.pulse{animation:fabPulse .32s ease-out}
+@keyframes fabPulse{0%{transform:scale(1)}35%{transform:scale(.93)}75%{transform:scale(1.03)}100%{transform:scale(1)}}
 .fab:hover{background:var(--accent);filter:brightness(1.1)}
 .cdate{flex:none;font-size:.72rem;color:var(--muted);line-height:1.55rem;margin-left:.25rem;white-space:nowrap;opacity:.85}
 .links{display:flex;flex-wrap:wrap;gap:.25rem;margin:.2rem 0 .1rem}
@@ -165,6 +170,8 @@ body.mobile>header,body.mobile #help,body.mobile #banner,body.mobile main,body.m
 .msub .bx{flex:none;color:var(--muted)}
 .msub.done .tx{text-decoration:line-through;color:var(--muted)}
 .msub.urgent .tx{color:#c4524a;font-weight:600}
+.mcard.urgent .mchk,.mcard.late .mchk{border-color:#c4524a}
+.mcard.urgent .mchk.on,.mcard.late .mchk.on{background:#c4524a}
 .mlinks{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.35rem}
 .mlinks .lnk{font-size:.8rem;padding:.15rem .6rem}
 .mlinks .off{opacity:.45;text-decoration:line-through;cursor:default}
@@ -229,8 +236,19 @@ body.mobile>header,body.mobile #help,body.mobile #banner,body.mobile main,body.m
 .mfab{position:fixed;right:1.6rem;z-index:8;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.2);font-weight:600}
 .mfab[hidden]{display:none}
 .mfab2{bottom:5.6rem;padding:.55rem 1rem;font-size:.95rem;background:var(--panel);color:var(--accent);border:1.5px solid var(--accent)}
-.ntool{display:flex;gap:.4rem;margin:.1rem 0 .2rem}
-.ntool button{font-size:.85rem;padding:.3rem .7rem;border-radius:999px}
+.ntool{display:flex;gap:.3rem;margin:.1rem 0 .2rem}
+button.ico{display:inline-flex;align-items:center;justify-content:center;width:2.6rem;height:2.6rem;padding:0;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--fg)}
+.ntool button.ico{width:2.3rem;height:2.3rem;font:1.05rem/1 Georgia,"Times New Roman",serif}
+.ntool button.ico svg{width:19px;height:19px}
+.nbar{display:flex;align-items:center;gap:.35rem;margin:.45rem 0 .1rem}
+.nbar .sp{flex:1}
+.nbar .ntabs{display:flex;gap:.35rem;margin:0}
+.nbar .ntabs button.ico.on{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+.nbar button.ok{width:3rem;height:3rem;background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.nbar button.adel{color:#c4524a}
+.nbar button.adel.sure{background:#c4524a;border-color:#c4524a;color:#fff}
+.nbar button[hidden]{display:none}
+input[type=checkbox]{accent-color:var(--accent)}
 .ndue{display:flex;gap:.5rem;align-items:center;font-size:.9rem;margin:.2rem 0 .5rem;padding:.45rem .6rem;border-radius:8px;background:color-mix(in srgb,var(--accent) 8%,var(--bg))}
 #mNote .ndue{display:flex}
 .ndue[hidden],#mNote .ndue[hidden]{display:none}
@@ -252,6 +270,8 @@ body.mobile,html:has(body.mobile){overflow-x:hidden}
 #mAct :disabled{opacity:.75}
 #mAtt,#mNote{width:min(560px,94vw);max-height:92vh;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--fg);padding:1rem}
 #mAtt input,#mAtt select,#mNote textarea,#mNote input,#mNote select{display:block;width:100%;font:inherit;padding:.5rem;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);margin:.3rem 0}
+#mAtt textarea:focus,#mAtt input:focus,#mAtt select:focus,#mNote textarea:focus,#mNote input:focus,#mNote select:focus{outline:none;border-color:var(--accent)}
+#m button:focus:not(:focus-visible),#mNote button:focus:not(:focus-visible){outline:none}
 #mAtt label,#mNote label{display:block;font-size:.85rem;margin-top:.4rem}
 .tfile{font-weight:600;word-break:break-all;margin:.1rem 0 .3rem}
 #mAtt .ameta{margin:.3rem 0}
@@ -453,11 +473,11 @@ aside.open{transform:none}
   <dialog id="mNote">
     <form method="dialog" id="nForm">
       <p class="ameta" id="nMeta"></p>
-      <div class="ntool"><button type="button" id="nBullet" title="Liste à puces">• Liste</button></div>
+      <div class="ntool"><button type="button" id="nBold" class="ico" title="Gras" aria-label="Gras"><b>B</b></button><button type="button" id="nItal" class="ico" title="Italique" aria-label="Italique"><i>I</i></button><button type="button" id="nBullet" class="ico" title="Liste à puces" aria-label="Liste à puces"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="7" r="1.2" fill="currentColor" stroke="none"/><circle cx="5" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="5" cy="17" r="1.2" fill="currentColor" stroke="none"/><path d="M9.5 7H20M9.5 12H20M9.5 17H20"/></svg></button></div>
       <textarea id="nText" rows="6" placeholder="Ce qu’on vient de te dire…"></textarea>
+      <div class="nbar"><button type="button" id="nDel" class="ico adel" title="Supprimer la note" aria-label="Supprimer la note"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v5.5M14 11v5.5"/></svg></button><button type="button" id="nCancel" class="ico" title="Annuler" aria-label="Annuler"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button><span class="sp"></span><span class="ntabs"><button type="button" class="ico" data-p="task" title="En faire une tâche" aria-label="En faire une tâche"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg></button><button type="button" class="ico" data-p="attach" title="Ajouter à une tâche" aria-label="Ajouter à une tâche"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h16v10H10l-4.5 3.5V15.5H4z"/><path d="M12 8v5M9.5 10.5h5"/></svg></button></span><button type="submit" class="ico ok" id="nOk" title="Enregistrer la note" aria-label="Enregistrer la note"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></div>
       <div id="nTriage">
-        <div class="ntabs"><button type="button" data-p="task">→ En faire une tâche</button><button type="button" data-p="attach">→ Ajouter à une tâche</button></div>
-        <div class="npanel" id="nTask" hidden>
+                <div class="npanel" id="nTask" hidden>
           <label>Rubrique<select id="nSec"></select></label>
           <div class="aseg" id="nState"><button type="button" data-k="afaire" class="on">À faire</button><button type="button" data-k="attente">En attente</button></div>
           <p class="nsubs" id="nSubs" hidden></p>
@@ -469,7 +489,7 @@ aside.open{transform:none}
           <div id="nPick"></div>
         </div>
       </div>
-      <div class="mrb"><button type="button" id="nDel" class="adel">Supprimer</button><span class="sp"></span><button type="button" id="nCancel">Annuler</button><button type="submit" class="primary" id="nOk">Enregistrer</button></div>
+      
     </form>
   </dialog>
 </div>
@@ -983,12 +1003,23 @@ function render(){
 }
 /* ---------- listes à puces et dates dans les notes ---------- */
 function bulletsView(t){return (t||'').replace(/^(\s*)[-*•] /gm,'$1• ');}
+/* gras **…** et italique *…* : affichés mis en forme, retirés des intitulés */
+const RX_B=/\*\*(?=\S)([^*\n]+?)\*\*/g,RX_I=/(^|[^*\w])\*(?=[^\s*])([^*\n]*?[^\s*])\*(?![*\w])/gm;
+function fmtView(t){const e=bulletsView(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));return e.replace(RX_B,'<strong>$1</strong>').replace(RX_I,'$1<em>$2</em>');}
+function plainFmt(s){return (s||'').replace(RX_B,'$1').replace(RX_I,'$1$2');}
+function wrapSel(ta,m){
+  const v=ta.value,a=ta.selectionStart,b=ta.selectionEnd,L=m.length;
+  if(a>=L&&v.slice(a-L,a)===m&&v.slice(b,b+L)===m&&!(L===1&&(v[a-2]==='*'||v[b+1]==='*'))){ta.setRangeText(v.slice(a,b),a-L,b+L,'select');}   /* déjà mis en forme : on retire */
+  else if(a===b){ta.setRangeText(m+m,a,a);ta.setSelectionRange(a+L,a+L);}
+  else{ta.setRangeText(m+v.slice(a,b)+m,a,b);ta.setSelectionRange(a+L,b+L);}
+  ta.focus();ta.dispatchEvent(new Event('input',{bubbles:true}));
+}
 const isBullet=l=>/^\s*[-*•]\s+/.test(l),unBullet=l=>l.replace(/^\s*[-*•]\s+/,'').trim();
 /* note → étiquette : 1re ligne = intitulé, lignes à puces = sous-tâches, le reste = commentaire */
 function noteSplit(text){
   const ls=(text||'').split('\n').map(l=>l.replace(/\s+$/,'')).filter(l=>l.trim());
   const rest=ls.slice(1);
-  return {title:unBullet(ls[0]||'').replace(/\s+/g,' '),subs:rest.filter(isBullet).map(unBullet).filter(Boolean),note:rest.filter(l=>!isBullet(l)).join('\n').trim()};
+  return {title:plainFmt(unBullet(ls[0]||'')).replace(/\s+/g,' '),subs:rest.filter(isBullet).map(l=>plainFmt(unBullet(l))).filter(Boolean),note:rest.filter(l=>!isBullet(l)).join('\n').trim()};
 }
 const JOURS=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
 const MOIS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
@@ -1039,13 +1070,13 @@ function renderInbox(){
   for(const n of sortedNotes()){
     const c=document.createElement('div');c.className='inote';c.draggable=true;c.dataset.id=n.id;
     const w=document.createElement('div');w.className='when';w.textContent=n.at?fmtStamp(n.at):'';
-    const t=document.createElement('div');t.className='tx';t.textContent=bulletsView(n.text);
+    const t=document.createElement('div');t.className='tx';t.innerHTML=fmtView(n.text);
     const x=document.createElement('button');x.className='x';x.textContent='×';x.title='Supprimer la note (Ctrl+Z pour annuler)';
     x.onclick=()=>{snapshot();notes=notes.filter(y=>y.id!==n.id);render();changed();toast('Note supprimée · Ctrl+Z pour annuler');};
     c.ondragstart=e=>{if(t.isContentEditable){e.preventDefault();return;}e.dataTransfer.setData('application/x-taches-note',n.id);e.dataTransfer.setData('text/plain',n.text);e.dataTransfer.effectAllowed='move';c.classList.add('dragging');};
     c.ondragend=()=>c.classList.remove('dragging');
     t.ondblclick=()=>{t.textContent=n.text;editable(t);c.draggable=false;t.focus();};
-    t.onblur=()=>{if(!t.isContentEditable)return;t.contentEditable='false';c.draggable=true;const v=t.textContent.replace(/\s+$/,'').replace(/^\s+/,'');t.textContent=bulletsView(v||n.text);
+    t.onblur=()=>{if(!t.isContentEditable)return;t.contentEditable='false';c.draggable=true;const v=t.textContent.replace(/\s+$/,'').replace(/^\s+/,'');t.innerHTML=fmtView(v||n.text);
       if(!v){snapshot();notes=notes.filter(y=>y.id!==n.id);render();changed();toast('Note vide supprimée · Ctrl+Z pour annuler');}
       else if(v!==n.text){snapshot();n.text=v;changed();}};
     t.onkeydown=e=>{if(e.key==='Escape'){t.textContent=n.text;t.blur();}e.stopPropagation();};
@@ -1868,7 +1899,7 @@ function mCard(i,withSec){
   if(isUrgent(it)&&it.state!=='fait'){const b=document.createElement('span');b.className='mbang';b.textContent='!';t.append(b);}
   const tx=document.createElement('span');tx.className='t';decorate(tx,it.text);t.append(tx);
   c.append(t);
-  if(it.note){const n=document.createElement('div');n.className='mnote';n.textContent=bulletsView(it.note);c.append(n);}
+  if(it.note){const n=document.createElement('div');n.className='mnote';n.innerHTML=fmtView(it.note);c.append(n);}
   if(subs.length){
     const box=document.createElement('div');box.className='msubs';
     const nDone=subs.filter(x=>x.checked).length;
@@ -1928,7 +1959,7 @@ function mRender(){
       for(const n of sortedNotes()){
         const c=document.createElement('div');c.className='mnotec';c.dataset.id=n.id;
         const w=document.createElement('div');w.className='when';w.textContent=mStampShort(n.at);
-        const t=document.createElement('div');t.className='tx';t.textContent=bulletsView(n.text);
+        const t=document.createElement('div');t.className='tx';t.innerHTML=fmtView(n.text);
         c.append(w,t);if(AND)c.onclick=()=>mOpenNote(n.id);box.append(c);
       }
     },'mnotes'));
@@ -2111,8 +2142,8 @@ function mOpenNote(id,text){
   $('#nText').value=n?n.text:(text||'');
   $('#nMeta').textContent=n?'Note du '+mStamp(n.at):'Nouvelle note';
   $('#nTriage').hidden=false;$('#nDel').hidden=!n;$('#nCancel').hidden=!!n;mNoteDone=!!n;  /* seule une note en cours de saisie est gardée à la fermeture */
-  $('#nOk').textContent=n?'Fermer':'Enregistrer la note';
-  const del=$('#nDel');del.classList.remove('sure');del.textContent='Supprimer';
+  $('#nOk').title=n?'Fermer':'Enregistrer la note';$('#nOk').setAttribute('aria-label',$('#nOk').title);
+  $('#nDel').classList.remove('sure');
   document.querySelectorAll('#mNote .ntabs button').forEach(b=>b.classList.remove('on'));$('#nTask').hidden=true;$('#nAttach').hidden=true;
   const d=$('#mNote');if(!d.open)d.showModal();
   const t=$('#nText');if(n)t.blur();else{t.focus();t.setSelectionRange(t.value.length,t.value.length);}
@@ -2177,12 +2208,13 @@ function mInitNotes(){
   $('#nMake').onclick=mNoteToTask;
   $('#nText').addEventListener('input',mTaskPreview);
   $('#nDueOn').onchange=()=>{mDueOff=$('#nDueOn').checked?'':$('#nDue').dataset.d;};
-  const nb=$('#nBullet');nb.onpointerdown=e=>e.preventDefault();nb.onmousedown=e=>e.preventDefault();nb.onclick=()=>toggleBullet($('#nText'));
+  for(const [id,f] of [['#nBullet',ta=>toggleBullet(ta)],['#nBold',ta=>wrapSel(ta,'**')],['#nItal',ta=>wrapSel(ta,'*')]]){
+    const b=$(id);b.onpointerdown=e=>e.preventDefault();b.onmousedown=e=>e.preventDefault();b.onclick=()=>f($('#nText'));}   /* le clavier reste ouvert */
   listKeys($('#nText'));listKeys($('#aNote'));listKeys($('#mMore'));
   $('#nQ').oninput=mPickList;
   $('#nCancel').onclick=()=>{mNoteDone=true;mNoteId=null;$('#mNote').close();};
   $('#nDel').onclick=()=>{const b=$('#nDel');
-    if(!b.classList.contains('sure')){b.classList.add('sure');b.textContent='Confirmer la suppression';return;}
+    if(!b.classList.contains('sure')){b.classList.add('sure');toast('Touche encore la corbeille pour supprimer');return;}
     const id=mNoteId;mNoteId=null;$('#mNote').close();snapshot();notes=notes.filter(x=>x.id!==id);changed();mRender();mUndoToast('Note supprimée');};
   $('#nForm').onsubmit=e=>{
     e.preventDefault();
@@ -2360,6 +2392,7 @@ function initMobile(){
   if(AND){$('#mMailRow').hidden=true;$('#mSecRow').hidden=false;$('#mOk').textContent='Ajouter';
     document.body.classList.add('app');}
   $('#mAdd').onclick=()=>{
+    const fb=$('#mAdd');fb.classList.remove('pulse');void fb.offsetWidth;fb.classList.add('pulse');
     if(AND){mOpenNote(null,'');return;}
     $('#mAdd').title='Nouvelle tâche par e-mail';
     const known=settings.email||mstore.get(MKEY+'-mail');
