@@ -52,6 +52,10 @@ public class MainActivity extends Activity {
     private final ExecutorService io = Executors.newSingleThreadExecutor();
     private volatile boolean pageAutorisee = false;
     private int choixEnCours = -1;
+    private static final String NOTE = "fr.froisois.taches.NOTE";
+    /** Note à ouvrir dans la page (raccourci ou partage), en attendant qu'elle soit chargée ; null = rien. */
+    private String noteEnAttente = null;
+    private boolean pageChargee = false;
 
     @Override
     protected void onCreate(Bundle b) {
@@ -69,6 +73,7 @@ public class MainActivity extends Activity {
         web.setWebChromeClient(new WebChromeClient());
         web.setWebViewClient(new Client());
         setContentView(web);
+        if (b == null) lireIntention(getIntent()); // pas après un changement de thème
         web.loadUrl(DEPART);
     }
 
@@ -91,6 +96,13 @@ public class MainActivity extends Activity {
         @Override
         public void onPageStarted(WebView v, String url, android.graphics.Bitmap f) {
             pageAutorisee = notre(Uri.parse(url));
+            pageChargee = false;
+        }
+
+        @Override
+        public void onPageFinished(WebView v, String url) {
+            pageChargee = notre(Uri.parse(url));
+            livrerNote();
         }
 
         /** La page elle-même : version en ligne si possible (gardée en copie), sinon dernière copie, sinon celle embarquée. */
@@ -288,6 +300,36 @@ public class MainActivity extends Activity {
             prefs.edit().putString("uri", u.toString()).putString("nom", nom).apply();
             repondre(id, true, nom);
         });
+    }
+
+    // ---------- raccourci « Nouvelle note » et menu Partager ----------
+
+    @Override
+    protected void onNewIntent(Intent i) {
+        super.onNewIntent(i);
+        setIntent(i);
+        lireIntention(i);
+        livrerNote();
+    }
+
+    private void lireIntention(Intent i) {
+        if (i == null) return;
+        if (NOTE.equals(i.getAction())) {
+            noteEnAttente = "";
+        } else if (Intent.ACTION_SEND.equals(i.getAction()) && "text/plain".equals(i.getType())) {
+            CharSequence t = i.getCharSequenceExtra(Intent.EXTRA_TEXT);
+            String sujet = i.getStringExtra(Intent.EXTRA_SUBJECT);
+            String texte = t == null ? "" : t.toString().trim();
+            if (sujet != null && !sujet.trim().isEmpty() && !texte.startsWith(sujet.trim())) texte = sujet.trim() + "\n" + texte;
+            noteEnAttente = texte;
+        }
+    }
+
+    private void livrerNote() {
+        if (noteEnAttente == null || !pageChargee || web == null) return;
+        String js = "window.tachesAndroidNewNote&&tachesAndroidNewNote(" + JSONObject.quote(noteEnAttente) + ")";
+        noteEnAttente = null;
+        web.evaluateJavascript(js, null);
     }
 
     // ---------- cycle de vie ----------

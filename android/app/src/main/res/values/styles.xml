@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.Taches" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar">
-        <item name="android:statusBarColor">#FBFAF7</item>
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="android:navigationBarColor">#FBFAF7</item>
-        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:statusBarColor">@color/fond</item>
+        <item name="android:windowLightStatusBar">@bool/clair</item>
+        <item name="android:navigationBarColor">@color/fond</item>
+        <item name="android:windowLightNavigationBar">@bool/clair</item>
         <item name="android:windowBackground">@color/fond</item>
     </style>
-    <color name="fond">#FBFAF7</color>
-    <color name="vert">#2F6F5E</color>
 </resources>

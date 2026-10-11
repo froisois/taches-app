@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="fond">#FBFAF7</color>
+    <color name="vert">#2F6F5E</color>
+    <bool name="clair">true</bool>
+</resources>

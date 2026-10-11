@@ -4,7 +4,7 @@ Ce dépôt public ne contient **que le programme**, jamais de données. Les tâc
 
 - **Sur ordinateur** (Edge) : tableau kanban complet, qui enregistre directement dans `taches.md`.
 - **Sur téléphone, dans un navigateur** : vue de consultation ; le bouton « + » prépare un e-mail pour ajouter une tâche.
-- **Dans l’appli Android « Tâches »** : même vue, modifiable, qui enregistre directement dans `taches.md` (fusion avec les modifications faites ailleurs). APK : https://github.com/froisois/taches-app/releases/download/android/taches.apk
+- **Dans l’appli Android « Tâches »** : même vue, modifiable, avec prise de notes rapide (bouton +, raccourci, menu Partager), qui enregistre directement dans `taches.md` (fusion avec les modifications faites ailleurs). APK : https://github.com/froisois/taches-app/releases/download/android/taches.apk
 
 Adresse : https://froisois.github.io/taches-app/
 
