@@ -191,9 +191,23 @@ body.mobile>header,body.mobile #help,body.mobile #banner,body.mobile main,body.m
 #mAct textarea,#mAct input{display:block;width:100%;font:inherit;padding:.5rem;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);margin:.3rem 0;resize:vertical}
 #mAct label{display:block;font-size:.85rem;margin-top:.4rem}
 #aText{font-weight:600}
-.aseg{display:flex;gap:.3rem;margin:.5rem 0}
-.aseg button{flex:1;font-size:.85rem;padding:.5rem .2rem;border-radius:8px;border:1px solid var(--line);background:none;color:var(--muted)}
-.aseg button.on{background:var(--fg);border-color:var(--fg);color:var(--bg);font-weight:600}
+.aseg{display:inline-flex;gap:2px;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--panel)}
+.aseg button{display:inline-flex;align-items:center;justify-content:center;width:2.75rem;height:2.15rem;padding:0;border:none;border-radius:999px;background:none;color:var(--muted)}
+.aseg button.on{background:var(--fg);color:var(--bg)}
+.arow1{display:flex;align-items:center;gap:.4rem;margin:.55rem 0}
+.arow1 .sp{flex:1}
+#mAct .arow1 input#aWho{flex:1;min-width:0;margin:0}
+button.ico.aurg{color:#c4524a;border-color:color-mix(in srgb,#c4524a 55%,transparent);font-weight:800;font-size:1.15rem}
+button.ico.aurg.on{background:#c4524a;border-color:#c4524a;color:#fff}
+.dpill{position:relative;display:inline-flex;align-items:center;flex:none;height:2.6rem;border:1px solid var(--line);border-radius:999px;background:var(--panel)}
+.dpill .dbtn{display:inline-flex;align-items:center;gap:.35rem;height:100%;min-width:2.6rem;justify-content:center;padding:0 .55rem;border:none;border-radius:999px;background:none;color:var(--fg)}
+.dpill .dv:empty{display:none}.dpill .dv{font-size:.88rem;font-weight:600}
+.dpill .dx{display:none;align-items:center;justify-content:center;width:1.6rem;height:1.6rem;margin-right:.35rem;padding:0;border:none;border-radius:50%;background:color-mix(in srgb,var(--accent) 12%,var(--panel));color:var(--accent)}
+.dpill.set{border-color:var(--accent)}.dpill.set .dbtn{color:var(--accent);padding-right:.3rem}.dpill.set .dx{display:inline-flex}
+.dhid{position:absolute!important;left:0;bottom:0;width:1px!important;height:1px!important;opacity:0;pointer-events:none;padding:0!important;border:0!important;margin:0!important}
+#mAct .ntool{margin:.4rem 0 0}#mAct .nwrap textarea{padding-right:2.6rem}
+.ccopy{position:absolute;top:.75rem;right:.45rem;width:2.1rem!important;height:2.1rem!important;border-color:transparent!important;background:var(--bg)!important;color:var(--muted)!important}
+.ccopy span{display:inline-flex}.ccopy .i2,.ccopy.done .i1{display:none}.ccopy.done .i2{display:inline-flex}.ccopy.done{color:var(--accent)!important}
 #aWait[hidden]{display:none}
 .arow{display:flex;gap:.5rem;align-items:center;margin:.4rem 0}
 .arow input{flex:1;margin:0!important}
@@ -248,11 +262,12 @@ button.ico{display:inline-flex;align-items:center;justify-content:center;width:2
 .nbar button.adel{color:#c4524a}
 .nbar button.adel.sure{background:#c4524a;border-color:#c4524a;color:#fff}
 .nbar button[hidden]{display:none}
+#mBulle{position:fixed;z-index:50;max-width:70vw;padding:.35rem .65rem;border-radius:8px;background:var(--fg);color:var(--bg);font-size:.85rem;pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+#mBulle[hidden]{display:none}
+body.mobile button{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 .nwrap{position:relative}
 #mNote .nwrap textarea{padding-right:2.6rem}
-#nCopy{position:absolute;top:.75rem;right:.45rem;width:2.1rem;height:2.1rem;border-color:transparent;background:var(--bg);color:var(--muted)}
-#nCopy .i2,#nCopy.done .i1{display:none}#nCopy.done .i2{display:inline-flex}#nCopy.done{color:var(--accent)}
-#nCopy span{display:inline-flex}
+
 input[type=checkbox]{accent-color:var(--accent)}
 .ndue{display:flex;gap:.5rem;align-items:center;font-size:.9rem;margin:.2rem 0 .5rem;padding:.45rem .6rem;border-radius:8px;background:color-mix(in srgb,var(--accent) 8%,var(--bg))}
 #mNote .ndue{display:flex}
@@ -429,23 +444,17 @@ aside.open{transform:none}
   </dialog>
   <dialog id="mAct">
     <form method="dialog" id="aForm">
+      <p class="ameta" id="aMeta"></p>
       <textarea id="aText" rows="2" placeholder="Intitulé"></textarea>
-      <div class="aseg" id="aState"></div>
-      <div id="aWait">
-        <label>Personne attendue<input id="aWho" list="aPeople" placeholder="personne ou service"></label><datalist id="aPeople"></datalist>
-        <label>Relance le<input id="aRel" type="date"></label>
-        <div class="aquick" data-for="aRel"></div>
-      </div>
-      <div class="arow"><button type="button" id="aUrg">! Urgente</button><label class="adue">Échéance<input id="aDue" type="date"></label></div>
-      <div class="aquick" data-for="aDue"></div>
-      <label>Commentaire<textarea id="aNote" rows="3" placeholder="Commentaire"></textarea></label>
-      <div class="ahd" id="aSubsHd">Sous-tâches</div>
+      <div class="arow1"><div class="aseg" id="aState"></div><span class="sp"></span><button type="button" id="aUrg" class="ico aurg" title="Urgente" aria-label="Urgente">!</button><span class="dpill" id="aDueP"><button type="button" class="dbtn" id="aDueB" title="Échéance" aria-label="Échéance"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span class="dv"></span></button><button type="button" class="dx" id="aDueX" title="Retirer la date" aria-label="Retirer la date"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button><input id="aDue" type="date" class="dhid" tabindex="-1"></span></div>
+      <div id="aWait" class="arow1"><input id="aWho" list="aPeople" placeholder="Attendu de…"><datalist id="aPeople"></datalist><span class="dpill" id="aRelP"><button type="button" class="dbtn" id="aRelB" title="Relance" aria-label="Relance"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><span class="dv"></span></button><button type="button" class="dx" id="aRelX" title="Retirer la date" aria-label="Retirer la date"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button><input id="aRel" type="date" class="dhid" tabindex="-1"></span></div>
+      <div class="ntool" id="aTool"><button type="button" id="aBold" class="ico" title="Gras" aria-label="Gras"><b>B</b></button><button type="button" id="aItal" class="ico" title="Italique" aria-label="Italique"><i>I</i></button><button type="button" id="aBullet" class="ico" title="Liste à puces" aria-label="Liste à puces"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="7" r="1.2" fill="currentColor" stroke="none"/><circle cx="5" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="5" cy="17" r="1.2" fill="currentColor" stroke="none"/><path d="M9.5 7H20M9.5 12H20M9.5 17H20"/></svg></button></div>
+      <div class="nwrap"><textarea id="aNote" rows="3" placeholder="Commentaire"></textarea><button type="button" id="aCopy" class="ico ccopy" title="Copier le commentaire" aria-label="Copier le commentaire"><span class="i1"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2.2"/><path d="M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5"/></svg></span><span class="i2"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></button></div>
       <div id="aSubs"></div>
-      <div class="arow" id="aNewRow"><input id="aNewSub" placeholder="Nouvelle sous-tâche" enterkeyhint="done"><button type="button" id="aAddSub">Ajouter</button></div>
+      <div class="arow" id="aNewRow"><input id="aNewSub" placeholder="+ Sous-tâche" enterkeyhint="done"></div>
       <div id="aLinks"></div>
       <button type="button" class="mitem" id="aArch" hidden>Ranger dans l’historique</button>
-      <p class="ameta" id="aMeta"></p>
-      <div class="mrb"><button type="button" id="aDel" class="adel">Supprimer</button><span class="sp"></span><button type="submit" class="primary">Fermer</button></div>
+      <div class="nbar"><button type="button" id="aDel" class="ico adel" title="Supprimer la tâche" aria-label="Supprimer la tâche"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v5.5M14 11v5.5"/></svg></button><span class="sp"></span><button type="submit" class="ico ok" id="aOk" title="Fermer" aria-label="Fermer"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></div>
     </form>
   </dialog>
   <dialog id="mAtt">
@@ -479,7 +488,7 @@ aside.open{transform:none}
     <form method="dialog" id="nForm">
       <p class="ameta" id="nMeta"></p>
       <div class="ntool"><button type="button" id="nBold" class="ico" title="Gras" aria-label="Gras"><b>B</b></button><button type="button" id="nItal" class="ico" title="Italique" aria-label="Italique"><i>I</i></button><button type="button" id="nBullet" class="ico" title="Liste à puces" aria-label="Liste à puces"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="7" r="1.2" fill="currentColor" stroke="none"/><circle cx="5" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="5" cy="17" r="1.2" fill="currentColor" stroke="none"/><path d="M9.5 7H20M9.5 12H20M9.5 17H20"/></svg></button></div>
-      <div class="nwrap"><textarea id="nText" rows="6" placeholder="Ce qu’on vient de te dire…"></textarea><button type="button" id="nCopy" class="ico" title="Copier la note" aria-label="Copier la note"><span class="i1"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2.2"/><path d="M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5"/></svg></span><span class="i2"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></button></div>
+      <div class="nwrap"><textarea id="nText" rows="6" placeholder="Ce qu’on vient de te dire…"></textarea><button type="button" id="nCopy" class="ico ccopy" title="Copier la note" aria-label="Copier la note"><span class="i1"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2.2"/><path d="M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5"/></svg></span><span class="i2"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></button></div>
       <div class="nbar"><button type="button" id="nDel" class="ico adel" title="Supprimer la note" aria-label="Supprimer la note"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v5.5M14 11v5.5"/></svg></button><button type="button" id="nCancel" class="ico" title="Annuler" aria-label="Annuler"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button><span class="sp"></span><span class="ntabs"><button type="button" class="ico" data-p="task" title="En faire une tâche" aria-label="En faire une tâche"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg></button><button type="button" class="ico" data-p="attach" title="Ajouter à une tâche" aria-label="Ajouter à une tâche"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h16v10H10l-4.5 3.5V15.5H4z"/><path d="M12 8v5M9.5 10.5h5"/></svg></button></span><button type="submit" class="ico ok" id="nOk" title="Enregistrer la note" aria-label="Enregistrer la note"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></div>
       <div id="nTriage">
                 <div class="npanel" id="nTask" hidden>
@@ -622,7 +631,7 @@ function addDays(iso,n){const d=new Date(iso+'T12:00');d.setDate(d.getDate()+n);
 const ECHEANCE_JOURS=7;
 function daysTo(iso){return Math.round((new Date(iso+'T12:00')-new Date(todayISO()+'T12:00'))/864e5);}
 function dueSoon(it){return it.kind==='t'&&it.due&&!(it.level===0&&it.state==='fait')&&!it.checked&&daysTo(it.due)<=ECHEANCE_JOURS;}
-function isUrgent(it){return !!it.urgent||dueSoon(it);}
+function isUrgent(it){return !!it.urgent||!!dueSoon(it);}
 /* ordre d'affichage : urgentes à la main, puis urgentes par échéance (la plus proche d'abord), puis le reste */
 function urgKey(it){return isUrgent(it)?(it.urgent?'0':'1'+(it.due||'')):'2';}
 /* en attente : relances dues (la plus ancienne d'abord), puis même ordre */
@@ -661,6 +670,8 @@ function sortedNotes(){return [...notes].sort((a,b)=>(b.at||'').localeCompare(a.
 function nowStamp(){const d=new Date();return todayISO()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
 function sortedDone(){return [...done].sort((a,b)=>b.date.localeCompare(a.date));}
 function toast(msg){const t=$('#toast');t.classList.remove('undo');t.onclick=null;t.textContent=msg;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),2600);}
+/* commentaires : on garde **gras** et *italique* (mis en forme à l'affichage) */
+function cleanNote(s){return s.replace(/\\([\\`_{}\[\]()#+\-.!>~|])/g,'$1').trim();}
 function clean(s){return s.replace(/\\([\\`*_{}\[\]()#+\-.!>~|])/g,'$1').replace(/\*\*(.*?)\*\*/g,'$1').replace(/__(.*?)__/g,'$1').trim();}
 function sectionColors(){const m={};for(const it of items)if(it.kind==='h'){m[it.text]=COLORS[it.color]||CARD_COLOR;m['#'+it.id]=COLORS[it.color]||CARD_COLOR;}return m;}
 function headingOf(i){for(let k=i;k>=0;k--)if(items[k].kind==='h')return items[k];return null;}
@@ -726,7 +737,7 @@ function parse(md){
     if(nm){
       const arr=mode==='h'?(cur?cur.items:[]):its;
       const last=arr.length?arr[arr.length-1]:null;
-      if(last&&last.kind!=='h'){last.note=(last.note?last.note+'\n':'')+clean(nm[1]);continue;}
+      if(last&&last.kind!=='h'){last.note=(last.note?last.note+'\n':'')+cleanNote(nm[1]);continue;}
     }
     let indent=0,body;
     const bm=/^([ \t]*)(?:[-*+•]|\d+[.)])\s+(.*)$/.exec(raw);
@@ -2055,29 +2066,32 @@ function mUndo(){
 function nextMonday(){const d=new Date(todayISO()+'T12:00');const k=(8-d.getDay())%7||7;return addDays(todayISO(),k);}
 const QUICK=[['Demain',()=>addDays(todayISO(),1)],['Lundi',nextMonday],['+1 sem.',()=>addDays(todayISO(),7)],['+2 sem.',()=>addDays(todayISO(),14)]];
 function mOpenAct(id){
-  mActId=id;mSubSig='';const del=$('#aDel');del.classList.remove('sure');del.textContent='Supprimer';
+  mActId=id;mSubSig='';$('#aDel').classList.remove('sure');
   mFillAct();const d=$('#mAct');if(!d.open){d.showModal();if(document.activeElement)document.activeElement.blur();}
+}
+function mDatePill(f,v){
+  const inp=$('#'+f),P=$('#'+f+'P');if(inp!==document.activeElement)inp.value=v||'';
+  P.classList.toggle('set',!!v);P.querySelector('.dv').textContent=v?shortDate(v):'';
 }
 function mFillAct(){
   const i=idx(mActId),d=$('#mAct');
   if(i<0||items[i].kind!=='t'){if(d.open)d.close();return;}
   const it=items[i],act=document.activeElement,setv=(el,v)=>{if(el!==act)el.value=v||'';};
   const ro=!AND;
-  d.querySelectorAll('#aForm textarea,#aForm input,#aForm .aseg button,#aForm .aquick button,#aUrg,#aAddSub').forEach(el=>{el.disabled=ro;});
-  $('#aDel').hidden=ro;$('#aNewRow').hidden=ro;$('#aArch').hidden=ro||items[i].state!=='fait';
+  d.querySelectorAll('#aForm textarea,#aForm input,#aForm .aseg button,#aForm .dpill button,#aUrg,#aTool button').forEach(el=>{el.disabled=ro;});
+  $('#aDel').hidden=ro;$('#aNewRow').hidden=ro;$('#aTool').hidden=ro;$('#aArch').hidden=ro||items[i].state!=='fait';
   setv($('#aText'),it.text);
   [...$('#aState').children].forEach(b=>b.classList.toggle('on',b.dataset.k===it.state));
   $('#aWait').hidden=it.state!=='attente';
-  setv($('#aWho'),it.waitFor);setv($('#aRel'),it.relance);
+  setv($('#aWho'),it.waitFor);mDatePill('aRel',it.relance);
   const dl=$('#aPeople');dl.innerHTML='';for(const n of peopleNames()){const o=document.createElement('option');o.value=n;dl.append(o);}
-  $('#aUrg').classList.toggle('on',isUrgent(it));
-  setv($('#aDue'),it.due);setv($('#aNote'),it.note);
+  $('#aUrg').classList.toggle('on',!!isUrgent(it));
+  mDatePill('aDue',it.due);setv($('#aNote'),it.note);
   if(ro)$('#aNote').hidden=!it.note;else $('#aNote').hidden=false;
   const subs=items.slice(i+1,blockEnd(i));
-  $('#aSubsHd').hidden=ro&&!subs.length;
   /* liens de l'étiquette et de ses sous-tâches, cliquables */
   const lk=$('#aLinks');lk.innerHTML='';const all=[it,...subs].flatMap(x=>x.links||[]);if(all.length)lk.append(mLinks(all));
-  $('#aMeta').textContent=it.created?'Créée le '+fmtDate(it.created)+'.':'';
+  $('#aMeta').textContent=[it.created?'Créée le '+shortDate(it.created):'',it.state==='fait'?(it.doneDate?'faite le '+shortDate(it.doneDate):'faite'):''].filter(Boolean).join(' · ');
   const sig=JSON.stringify([ro,subs.map(x=>[x.id,x.text,x.level,!!x.checked])]);
   if(sig===mSubSig)return;mSubSig=sig;
   const box=$('#aSubs');box.innerHTML='';
@@ -2094,6 +2108,28 @@ function mFillAct(){
   }
 }
 /* toucher la zone grisée autour d'une fenêtre la ferme, comme le bouton retour (rien n'est perdu : mêmes règles qu'à la fermeture) */
+/* appui long sur un bouton à pictogramme : une bulle donne son nom (convention Android), sans déclencher le bouton */
+function mLongPressHints(){
+  let tm=null,el=null,shown=false,x0=0,y0=0;const bub=document.createElement('div');bub.id='mBulle';bub.hidden=true;document.body.append(bub);
+  const label=e=>e&&(e.getAttribute('aria-label')||e.title);
+  const stop=()=>{clearTimeout(tm);tm=null;};
+  document.addEventListener('pointerdown',e=>{
+    if(!document.body.classList.contains('mobile'))return;
+    const b=e.target.closest('button,.dbtn');if(!b||!label(b))return;el=b;shown=false;x0=e.clientX;y0=e.clientY;stop();
+    tm=setTimeout(()=>{tm=null;shown=true;bub.textContent=label(b);bub.hidden=false;
+      const host=b.closest('dialog[open]')||document.body;host.append(bub);   /* au-dessus d'une fenêtre ouverte */
+      const r=b.getBoundingClientRect(),w=bub.offsetWidth,h=bub.offsetHeight;
+      bub.style.left=Math.max(8,Math.min(innerWidth-w-8,r.left+r.width/2-w/2))+'px';
+      bub.style.top=(r.top-h-8>8?r.top-h-8:r.bottom+8)+'px';
+      if(navigator.vibrate)try{navigator.vibrate(8);}catch(_){}
+    },480);
+  },true);
+  document.addEventListener('pointermove',e=>{if(tm&&Math.hypot(e.clientX-x0,e.clientY-y0)>10)stop();},true);
+  const end=()=>{stop();if(shown)setTimeout(()=>{bub.hidden=true;},900);};
+  document.addEventListener('pointerup',end,true);document.addEventListener('pointercancel',end,true);
+  document.addEventListener('click',e=>{if(shown&&el&&el.contains(e.target)){e.preventDefault();e.stopImmediatePropagation();shown=false;}},true);
+  document.addEventListener('contextmenu',e=>{if(e.target.closest&&e.target.closest('button'))e.preventDefault();},true);
+}
 function mBackdropClose(){
   for(const id of ['mSheet','mAct','mAtt','mMenu','mNote']){
     const d=document.getElementById(id);if(!d)continue;let out=false;
@@ -2103,17 +2139,20 @@ function mBackdropClose(){
   }
 }
 function mInitAct(){
-  mBackdropClose();
+  mBackdropClose();mLongPressHints();
   const seg=$('#aState');
-  for(const s of STATES){const b=document.createElement('button');b.type='button';b.dataset.k=s.k;b.textContent=s.k==='attente'?'En attente':s.l;
-    b.onclick=()=>{const it=items[idx(mActId)];if(it&&it.state!==s.k)mEdit(mActId,x=>{x.state=s.k;});};seg.append(b);}
-  for(const q of document.querySelectorAll('#mAct .aquick')){
-    const f=q.dataset.for,set=v=>{const it=items[idx(mActId)];if(!it)return;
-      if(f==='aDue'){if(v!==(it.due||''))mEdit(it.id,x=>{if(v)x.due=v;else delete x.due;});}
-      else if(v&&v!==it.relance)mEdit(it.id,x=>{x.relance=v;});};
-    for(const [l,fn] of QUICK){const b=document.createElement('button');b.type='button';b.textContent=l;b.onclick=()=>set(fn());q.append(b);}
-    if(f==='aDue'){const b=document.createElement('button');b.type='button';b.textContent='Aucune';b.onclick=()=>set('');q.append(b);}
+  for(const [k,l,ico] of [['afaire','À faire','<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3.5"/><path d="M8.2 12.3l2.6 2.6 5-5.2"/></svg>'],['attente','En attente','<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="2.2" rx="1" fill="currentColor" stroke="none"/><rect x="5" y="19.3" width="14" height="2.2" rx="1" fill="currentColor" stroke="none"/><path d="M7.5 4.7c0 3.5 3 5 3.6 7.3-.6 2.3-3.6 3.8-3.6 7.3M16.5 4.7c0 3.5-3 5-3.6 7.3.6 2.3 3.6 3.8 3.6 7.3"/><path d="M9 18.6c.8-1.6 2.2-2.3 3-2.3s2.2.7 3 2.3z" fill="currentColor" stroke="none"/></svg>']]){const b=document.createElement('button');b.type='button';b.dataset.k=k;b.title=l;b.setAttribute('aria-label',l);b.innerHTML=ico;
+    b.onclick=()=>{const it=items[idx(mActId)];if(it&&it.state!==k)mEdit(mActId,x=>{x.state=k;});};seg.append(b);}
+  /* dates : le rond ouvre le calendrier d'Android ; une fois choisie, pastille « 6 nov. » avec ✕ pour la retirer */
+  for(const f of ['aDue','aRel']){
+    const inp=$('#'+f);
+    $('#'+f+'B').onclick=()=>{if(inp.disabled)return;try{inp.showPicker();}catch(e){inp.focus();inp.click();}};
+    $('#'+f+'X').onclick=()=>{const it=items[idx(mActId)];if(!it)return;inp.value='';
+      if(f==='aDue'){if(it.due)mEdit(it.id,x=>{delete x.due;});}else if(it.relance)mEdit(it.id,x=>{delete x.relance;});};
   }
+  for(const [id,fn] of [['#aBullet',ta=>toggleBullet(ta)],['#aBold',ta=>wrapSel(ta,'**')],['#aItal',ta=>wrapSel(ta,'*')]]){
+    const b=$(id);b.onpointerdown=e=>e.preventDefault();b.onmousedown=e=>e.preventDefault();b.onclick=()=>{const ta=$('#aNote');fn(ta);};}
+  {const b=$('#aCopy');b.onpointerdown=e=>e.preventDefault();b.onmousedown=e=>e.preventDefault();b.onclick=()=>mCopyText($('#aNote').value.trim(),b);}
   const field=(sel,fn)=>{$(sel).onchange=()=>{const it=items[idx(mActId)];if(it)fn(it,$(sel).value);};};
   field('#aText',(it,v)=>{v=v.replace(/\s+/g,' ').trim();if(v&&v!==it.text)mEdit(it.id,x=>{x.text=v;});});
   field('#aWho',(it,v)=>{v=v.trim();if(v!==(it.waitFor||''))mEdit(it.id,x=>{if(v)x.waitFor=v;else delete x.waitFor;});});
@@ -2125,10 +2164,9 @@ function mInitAct(){
     mEdit(it.id,x=>{if(x.urgent)delete x.urgent;else x.urgent=true;});};
   const addSub=()=>{const v=$('#aNewSub').value.replace(/\s+/g,' ').trim();if(!v)return;$('#aNewSub').value='';
     mEdit(mActId,(it,i)=>{items.splice(blockEnd(i),0,{id:uid(),kind:'t',text:v,level:1,created:todayISO()});});};
-  $('#aAddSub').onclick=addSub;
   $('#aNewSub').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();addSub();}};
   $('#aDel').onclick=()=>{const b=$('#aDel');
-    if(!b.classList.contains('sure')){b.classList.add('sure');b.textContent='Confirmer la suppression';return;}
+    if(!b.classList.contains('sure')){b.classList.add('sure');toast('Touche encore la corbeille pour supprimer');return;}
     const id=mActId;$('#mAct').close();mEdit(id,(it,i)=>{items.splice(i,blockEnd(i)-i);},'Supprimée');};
   $('#aArch').onclick=()=>{const id=mActId;$('#mAct').close();mArchive(id);};
   $('#aForm').onsubmit=e=>{e.preventDefault();document.activeElement&&document.activeElement.blur();$('#mAct').close();};
@@ -2167,8 +2205,9 @@ let mNoteDone=false;
 /* la note en cours : enregistrée (n) ou en train d'être saisie (n = null) */
 function mNoteSrc(){const n=mNoteId?notes.find(x=>x.id===mNoteId):null;if(mNoteId&&!n)return null;return {n,v:mNoteText()||(n?n.text:''),at:n?n.at:nowStamp()};}
 /* copier toute la note : l'appli met texte brut + mise en forme dans le presse-papiers ; sinon le navigateur */
-async function mCopyNote(){
-  const v=mNoteText(),b=$('#nCopy');if(!v){toast('Rien à copier');return;}
+function mCopyNote(){return mCopyText(mNoteText(),$('#nCopy'));}
+async function mCopyText(v,b){
+  if(!v){toast('Rien à copier');return;}
   const text=plainFmt(bulletsView(v)),html=fmtView(v).replace(/\n/g,'<br>');
   let sys=false,ok=false;
   if(AND){try{sys=(await andCall('copy',JSON.stringify({text,html})))==='systeme';ok=true;}catch(e){}}
