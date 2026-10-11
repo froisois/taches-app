@@ -261,7 +261,12 @@ body.mobile.app #m{padding-bottom:10rem}
 .mnotec{margin:0 1rem .55rem;padding:.55rem .75rem;border:1px solid var(--line);border-left:4px solid #b59a3a;border-radius:8px;background:color-mix(in srgb,#b59a3a 9%,var(--bg));cursor:pointer}
 .mnotec .when{font-size:.74rem;color:var(--muted)}
 .mnotec .tx{white-space:pre-wrap;word-break:break-word;margin-top:.15rem;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
-.mtabs button{font-size:.78rem}
+.mtabs:empty{display:none}
+.msech .al{color:#c4524a;font-size:.78rem;font-weight:600;margin-left:.4rem}
+.msec .mnotec{margin:0}
+.mcard.fait{opacity:.55;filter:saturate(.3)}
+.mcard.fait .mct .t{text-decoration:line-through;color:var(--muted);font-weight:500}
+.mchip.sec{border-color:var(--c);color:var(--c);font-weight:600}
 #inbox{margin:0 0 1.2rem;padding:.55rem .8rem .7rem;border:1px dashed color-mix(in srgb,#b59a3a 70%,transparent);border-radius:10px;background:color-mix(in srgb,#b59a3a 6%,var(--bg))}
 #inbox[hidden]{display:none}
 #inbox .ihd{font-size:.82rem;color:var(--muted);margin:0 0 .5rem}
@@ -1801,7 +1806,7 @@ function mLinks(links){
   }
   return d;
 }
-function mCard(i){
+function mCard(i,withSec){
   const it=items[i],e=blockEnd(i),subs=items.slice(i+1,e);
   const c=document.createElement('div');c.className='mcard'+(isUrgent(it)?' urgent':'')+(isLate(it)?' late':'')+(it.state==='fait'?' fait':'');
   c.dataset.id=it.id;
@@ -1826,6 +1831,7 @@ function mCard(i){
     c.append(box);
   }
   const ch=document.createElement('div');ch.className='mchips';
+  if(withSec)ch.append(mChip(h?h.text:'Hors rubrique','sec'));
   if(it.state==='attente'&&it.waitFor)ch.append(mChip('⏳ '+it.waitFor,'who'));
   if(it.state==='attente'&&it.relance){const late=isLate(it);ch.append(mChip(late?'⏰ à relancer depuis le '+shortDate(it.relance):'⏰ relance le '+shortDate(it.relance),late?'redf':''));}
   if(it.due&&it.state!=='fait')ch.append(mDue(it));
@@ -1849,12 +1855,11 @@ function mRender(){
     if(AND&&$('#mAct').open)mFillAct();
     return;
   }
-  const notesTab=mState.tab==='notes';
-  /* filtres (mêmes règles que sur le PC) */
+  /* filtres (mêmes règles que sur le PC), masqués par défaut */
+  if(!mState.filters)filter=null;
   const tops=items.map((x,i)=>i).filter(i=>items[i].kind==='t'&&items[i].level===0);
   const fb=$('#mFilters');fb.innerHTML='';
-  if(!mState.filters)filter=null;
-  if(!notesTab&&mState.filters){
+  if(mState.filters){
     const chips=[{t:'urgent',l:'! Urgentes'},{t:'late',l:'⏰ À relancer'}];
     for(const n of [...new Set(tops.filter(i=>items[i].state==='attente'&&items[i].waitFor).map(i=>items[i].waitFor))].sort((a,b)=>a.localeCompare(b,'fr')))chips.push({t:'who',v:n,l:'⏳ '+n});
     for(const ch of chips){
@@ -1863,52 +1868,58 @@ function mRender(){
       b.onclick=()=>{filter=on?null:{t:ch.t,v:ch.v};mRender();};fb.append(b);
     }
   }
-  /* onglets */
-  const vis=tops.filter(i=>matchFilter(i));
-  const tb=$('#mTabs');tb.innerHTML='';
-  const tabs=[...STATES.map(s=>({k:s.k,l:s.k==='attente'?'En attente':s.l,n:vis.filter(i=>items[i].state===s.k).length})),{k:'notes',l:'Notes',n:notes.length}];
-  for(const s of tabs){
-    const b=document.createElement('button');b.className=mState.tab===s.k?'on':'';
-    b.append(document.createTextNode(s.l));const bb=document.createElement('b');bb.textContent=s.n;b.append(bb);
-    b.onclick=()=>{mState.tab=s.k;mstore.set(MKEY+'-ui',mState);mRender();scrollTo(0,0);};tb.append(b);
+  $('#mTabs').innerHTML='';
+  /* tout sur un seul écran : notes, puis rubriques (à faire, puis faites en grisé), puis « En attente » */
+  if(notes.length&&!filter){
+    list.append(mSection('#notes','📝 Notes',notes.length,'#b59a3a',box=>{
+      for(const n of sortedNotes()){
+        const c=document.createElement('div');c.className='mnotec';c.dataset.id=n.id;
+        const w=document.createElement('div');w.className='when';w.textContent=mStamp(n.at);
+        const t=document.createElement('div');t.className='tx';t.textContent=bulletsView(n.text);
+        c.append(w,t);if(AND)c.onclick=()=>mOpenNote(n.id);box.append(c);
+      }
+    },'mnotes'));
   }
-  if(notesTab){mRenderNotes(list);if(AND&&$('#mAct').open)mFillAct();return;}
-  /* rubriques ; dans l'appli, toutes (pour pouvoir y ajouter), sauf filtre ou colonne « Fait » */
-  const showEmpty=false;
   const groups=[];let cur=null;
   items.forEach((it,i)=>{
-    if(it.kind==='h'){cur={h:it,cards:[]};groups.push(cur);return;}
+    if(it.kind==='h'){cur={h:it,todo:[],done:[]};groups.push(cur);return;}
     if(it.level!==0)return;
-    if(!cur){cur={h:null,cards:[]};groups.push(cur);}
-    if(it.state===mState.tab&&matchFilter(i))cur.cards.push(i);
+    if(!cur){cur={h:null,todo:[],done:[]};groups.push(cur);}
+    if(!matchFilter(i))return;
+    if(it.state==='afaire')cur.todo.push(i);else if(it.state==='fait')cur.done.push(i);
   });
+  /* urgentes d'abord (affichage seulement : l'ordre du fichier ne change pas) */
+  const urgentFirst=arr=>[...arr.filter(i=>isUrgent(items[i])),...arr.filter(i=>!isUrgent(items[i]))];
   let shown=0;
   for(const g of groups){
-    if(!g.cards.length&&!(showEmpty&&g.h))continue;shown+=g.cards.length;
-    const key=g.h?g.h.text:'';
-    const sec=document.createElement('section');sec.className='msec'+(mState.closed[key]&&g.cards.length?' closed':'')+(g.cards.length?'':' empty');
-    sec.style.setProperty('--c',(g.h&&COLORS[g.h.color])||CARD_COLOR);
-    const hw=document.createElement('div');hw.className='msechw';
-    const hb=document.createElement('button');hb.className='msech';
-    hb.innerHTML='<span class="dot"></span><span class="nm"></span><span class="n"></span><span class="car">▾</span>';
-    hb.querySelector('.nm').textContent=g.h?g.h.text:'Hors rubrique';hb.querySelector('.n').textContent=g.cards.length||'';
-    hb.onclick=()=>{mState.closed[key]=!mState.closed[key];mstore.set(MKEY+'-ui',mState);mRender();};
-    hw.append(hb);
-    const cards=document.createElement('div');cards.className='mcards';
-    for(const i of g.cards)cards.append(mCard(i));
-    sec.append(hw,cards);list.append(sec);
+    g.todo=urgentFirst(g.todo);
+    const n=g.todo.length+g.done.length;if(!n)continue;shown+=n;
+    list.append(mSection(g.h?g.h.text:'',g.h?g.h.text:'Hors rubrique',g.todo.length||'',(g.h&&COLORS[g.h.color])||CARD_COLOR,box=>{
+      for(const i of g.todo)box.append(mCard(i));
+      for(const i of g.done)box.append(mCard(i));
+    }));
   }
-  if(!shown&&!showEmpty){const e=document.createElement('div');e.className='mempty';e.textContent=filter?'Aucune étiquette pour ce filtre dans cette colonne.':'Rien dans cette colonne.';list.append(e);}
+  const w0=tops.filter(i=>items[i].state==='attente'&&matchFilter(i));
+  const wait=[...w0.filter(i=>isLate(items[i])),...urgentFirst(w0.filter(i=>!isLate(items[i])))];  /* à relancer, puis urgentes */
+  if(wait.length){
+    shown+=wait.length;const late=wait.filter(i=>isLate(items[i])).length;
+    list.append(mSection('#attente','⏳ En attente',wait.length,'#8a8f98',box=>{for(const i of wait)box.append(mCard(i,true));},'mwait',late?'dont '+late+' à relancer':''));
+  }
+  if(!shown&&!(notes.length&&!filter)){const e=document.createElement('div');e.className='mempty';e.textContent=filter?'Aucune étiquette pour ce filtre.':'Rien pour l’instant.';list.append(e);}
   if(AND&&$('#mAct').open)mFillAct();
 }
-function mRenderNotes(list){
-  if(!notes.length){const e=document.createElement('div');e.className='mempty';e.textContent=AND?'Aucune note. Le bouton + en prend une ; tu la trieras plus tard.':'Aucune note.';list.append(e);return;}
-  for(const n of sortedNotes()){
-    const c=document.createElement('div');c.className='mnotec';c.dataset.id=n.id;
-    const w=document.createElement('div');w.className='when';w.textContent=mStamp(n.at);
-    const t=document.createElement('div');t.className='tx';t.textContent=bulletsView(n.text);
-    c.append(w,t);if(AND)c.onclick=()=>mOpenNote(n.id);list.append(c);
-  }
+/* une section repliable : titre, compteur, alerte éventuelle */
+function mSection(key,title,count,color,fill,cls,alert){
+  const sec=document.createElement('section');sec.className='msec'+(cls?' '+cls:'')+(mState.closed[key]?' closed':'');
+  sec.style.setProperty('--c',color);
+  const hw=document.createElement('div');hw.className='msechw';
+  const hb=document.createElement('button');hb.className='msech';
+  hb.innerHTML='<span class="dot"></span><span class="nm"></span><span class="al"></span><span class="n"></span><span class="car">▾</span>';
+  hb.querySelector('.nm').textContent=title;hb.querySelector('.n').textContent=count;hb.querySelector('.al').textContent=alert||'';
+  hb.onclick=()=>{mState.closed[key]=!mState.closed[key];mstore.set(MKEY+'-ui',mState);mRender();};
+  hw.append(hb);
+  const box=document.createElement('div');box.className='mcards';fill(box);
+  sec.append(hw,box);return sec;
 }
 function mMailto(to,task,more){return 'mailto:'+encodeURIComponent(to).replace(/%40/g,'@')+'?subject='+encodeURIComponent(task)+(more?'&body='+encodeURIComponent(more):'');}
 
@@ -2006,14 +2017,13 @@ function mNewTask(secId){
   const opt=(v,t)=>{const o=document.createElement('option');o.value=v;o.textContent=t;sel.append(o);};
   opt('','Hors rubrique');for(const h of items.filter(x=>x.kind==='h'))opt(h.id,h.text);
   sel.value=secId!=null&&(secId===''||idx(secId)>=0)?secId:'';
-  $('#mHint').textContent='Ajoutée dans « '+(mState.tab==='attente'?'En attente':'À faire')+' ». Le reste se règle ensuite dans sa fiche.';
+  $('#mHint').textContent='Ajoutée dans « À faire ». Le reste (colonne, échéance…) se règle ensuite dans sa fiche.';
   $('#mTask').value='';$('#mMore').value='';$('#mSheet').showModal();setTimeout(()=>$('#mTask').focus(),50);
 }
 function mAddTask(task,more,secId,state,created){
-  state=state||(mState.tab==='attente'?'attente':'afaire');
+  state=state||'afaire';
   const n={id:uid(),kind:'t',text:task,level:0,state,created:created||todayISO()};if(more)n.note=more;
   items.splice(laneEndOf(secId||null),0,n);normalize();changed();
-  mState.tab=state;
   const h=secId?items[idx(secId)]:null;delete mState.closed[h?h.text:''];mstore.set(MKEY+'-ui',mState);
   mRender();return n;
 }
@@ -2184,7 +2194,6 @@ async function mStartApp(){
 function initMobile(){
   document.body.classList.add('mobile');$('#m').hidden=false;
   const ui=mstore.get(MKEY+'-ui');if(ui)mState={...mState,...ui,closed:ui.closed||{}};
-  if(!AND&&mState.tab==='notes')mState.tab='afaire';
   mInitAct();
   $('#mMenuBtn').onclick=()=>{
     $('#oFilters').checked=!!mState.filters;$('#oUpdate').hidden=!AND;$('#oFile').hidden=!AND||!mName;
