@@ -7,6 +7,10 @@ et mettre la couleur de fond correspondante dans `app/src/main/res/values/colors
 |---|---|---|
 | `ic_avant_A_verte_initiale.xml` | `#2F6F5E` | première icône : trois barres blanches, coche verte (jusqu’à la version 1.22) |
 | `ic_avant_F_verte_cercles.xml` | `#2F6F5E` | piste F : fond vert, barres blanches, cercles des cartes, recentrée |
+| `ic_avant_G4_verte.xml` | `#2F6F5E` | piste G4 : fond vert, cartes blanches — note, tâche à faire, tâche faite pâlie (version 1.25) |
 | `ic_avant_D_creme.xml` | `#FBFAF7` | piste D : fond crème, une note ocre, une urgente rouge, une tâche cochée (version 1.24 ; trop peu contrastée sur l'écran d'accueil) |
+| `ic_avant_I_rouge_adouci.xml` | `#FFFFFF` | icône inversée, carte « à faire » rouge adouci `#DB6B63` |
+| `ic_avant_I_rouge_pale.xml` | `#FFFFFF` | icône inversée, carte « à faire » rouge pâle `#E9928B` |
+| `ic_avant_I_rouge_tres_pale.xml` | `#FFFFFF` | icône inversée, carte « à faire » rose très pâle `#F6D3CF`, cercle et trait rouges `#C4524A` (coup de cœur de François) |
 
-Icône en service depuis la version 1.25 : **G4** (fond vert, note, tâche à faire, tâche faite pâlie).
+Icône en service depuis la version 1.26 : **G4 inversée** (fond blanc `#FFFFFF`, cartes vert sapin), choisie pour mieux s'accorder aux autres icônes de l'écran d'accueil.
