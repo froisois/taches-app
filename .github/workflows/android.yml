@@ -1,0 +1,49 @@
+name: Appli Android
+
+on:
+  push:
+    paths: ['android/**', 'index.html', '.github/workflows/android.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
+      - name: Copie de la page (version hors ligne embarquée)
+        run: mkdir -p android/app/src/main/assets && cp index.html android/app/src/main/assets/index.html
+      - name: Clé de signature
+        env:
+          KEYSTORE_B64: ${{ secrets.KEYSTORE_B64 }}
+        run: |
+          if [ -n "$KEYSTORE_B64" ]; then
+            echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/taches.jks"
+            echo "KEYSTORE_FILE=$RUNNER_TEMP/taches.jks" >> "$GITHUB_ENV"
+            echo "SIGNATURE=clé fixe" >> "$GITHUB_ENV"
+          else
+            echo "SIGNATURE=clé temporaire (secrets KEYSTORE_B64 et KEYSTORE_PASS absents : désinstaller avant chaque mise à jour)" >> "$GITHUB_ENV"
+          fi
+      - name: Compilation
+        env:
+          KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
+        run: gradle -p android assembleRelease --no-daemon
+      - name: Publication
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp android/app/build/outputs/apk/release/app-release.apk taches.apk
+          gh release delete android --yes --cleanup-tag || true
+          gh release create android taches.apk \
+            --title "Appli Android « Tâches »" \
+            --notes "Version 1.${GITHUB_RUN_NUMBER}, compilée automatiquement (commit ${GITHUB_SHA::7}). Signature : ${SIGNATURE}." \
+            --target "$GITHUB_SHA"

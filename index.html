@@ -174,9 +174,36 @@ body.mobile>header,body.mobile #help,body.mobile #banner,body.mobile main,body.m
 #mSheet h3{margin:0 0 .5rem;font-size:1.05rem}
 #mSheet textarea,#mSheet input{display:block;width:100%;font:inherit;padding:.5rem;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);margin:.3rem 0;resize:vertical}
 #mSheet label{display:block;font-size:.85rem;margin-top:.4rem}
+#mSheet label[hidden]{display:none}
 .mhint{font-size:.8rem;color:var(--muted);margin:.5rem 0}
 .mrb{display:flex;gap:.5rem;justify-content:flex-end}
 .mrb button{font-size:.95rem;padding:.45rem .9rem}
+#mSheet select,#mAct select{display:block;width:100%;font:inherit;padding:.5rem;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);margin:.3rem 0}
+#mAct{width:min(560px,94vw);max-height:92vh;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--fg);padding:1rem}
+#mAct textarea,#mAct input{display:block;width:100%;font:inherit;padding:.5rem;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);margin:.3rem 0;resize:vertical}
+#mAct label{display:block;font-size:.85rem;margin-top:.4rem}
+#aText{font-weight:600}
+.aseg{display:flex;gap:.3rem;margin:.5rem 0}
+.aseg button{flex:1;font-size:.85rem;padding:.5rem .2rem;border-radius:8px;border:1px solid var(--line);background:none;color:var(--muted)}
+.aseg button.on{background:var(--fg);border-color:var(--fg);color:var(--bg);font-weight:600}
+#aWait[hidden]{display:none}
+.arow{display:flex;gap:.5rem;align-items:center;margin:.4rem 0}
+.arow input{flex:1;margin:0!important}
+.arow .adue{flex:1;margin:0;display:flex;align-items:center;gap:.4rem}
+.arow button{flex:none;font-size:.9rem;padding:.45rem .8rem}
+#aUrg.on{background:#c4524a;border-color:#c4524a;color:#fff;font-weight:700}
+.ahd{font-size:.85rem;margin-top:.6rem}
+.asub{display:flex;align-items:center;gap:.5rem;padding:.3rem 0;padding-left:calc(var(--lv) * 1.1rem);border-bottom:1px solid var(--line)}
+.asub .bx{flex:none;font-size:1.15rem;border:none;background:none;padding:0 .1rem;color:var(--fg)}
+.asub .tx{flex:1;min-width:0;word-break:break-word}
+.asub.done .tx{text-decoration:line-through;color:var(--muted)}
+.asub .x{flex:none;border:none;background:none;color:var(--muted);font-size:1.1rem;padding:0 .3rem}
+.mrb .sp{flex:1}
+.adel{color:#c4524a;border-color:color-mix(in srgb,#c4524a 50%,transparent)}
+.adel.sure{background:#c4524a;color:#fff}
+.mct .medit{flex:none;border:none;background:none;color:var(--muted);font-size:1.2rem;line-height:1;padding:0 .2rem;margin:-.1rem -.3rem 0 0}
+.msub .bx.tap{cursor:pointer;font-size:1.05rem;margin-top:-.1rem}
+#toast.undo{cursor:pointer;pointer-events:auto}
 .lanelabel{font-size:.8rem;color:var(--muted);padding-left:.3rem}
 .drag-ghost{position:fixed;z-index:30;pointer-events:none;opacity:.92;transform:rotate(1.2deg);box-shadow:0 8px 24px rgba(0,0,0,.18);margin:0}
 .card{background:color-mix(in srgb,var(--c) 13%,var(--bg));border:1px solid color-mix(in srgb,var(--c) 28%,transparent);border-left:4px solid var(--c);border-radius:8px;padding:.4rem .6rem .45rem .25rem;transition:opacity .3s,transform .3s}
@@ -271,7 +298,7 @@ aside.open{transform:none}
 <div id="m" hidden>
   <div class="mh">
     <div class="mtitle"><strong>Tâches</strong><span id="mInfo"></span></div>
-    <label class="mbtn" for="mFile">⟳ Relire</label><input type="file" id="mFile" hidden>
+    <button class="mbtn" id="mReload">⟳ Relire</button><input type="file" id="mFile" hidden>
   </div>
   <div id="mFilters"></div>
   <nav class="mtabs" id="mTabs"></nav>
@@ -283,8 +310,25 @@ aside.open{transform:none}
       <textarea id="mTask" rows="2" placeholder="Ce qu’il faut faire…" required></textarea>
       <textarea id="mMore" rows="2" placeholder="Précisions (facultatif)"></textarea>
       <label id="mMailRow">Envoyer à<input id="mMail" type="email" placeholder="ton adresse pro"></label>
-      <p class="mhint">Ta messagerie s’ouvre avec l’e-mail prêt : il ne reste qu’à l’envoyer. Au bureau, glisse-le sur le tableau.</p>
-      <div class="mrb"><button type="button" id="mCancel">Annuler</button><button type="submit" class="primary">Préparer l’e-mail</button></div>
+      <label id="mSecRow" hidden>Rubrique<select id="mSec"></select></label>
+      <p class="mhint" id="mHint">Ta messagerie s’ouvre avec l’e-mail prêt : il ne reste qu’à l’envoyer. Au bureau, glisse-le sur le tableau.</p>
+      <div class="mrb"><button type="button" id="mCancel">Annuler</button><button type="submit" class="primary" id="mOk">Préparer l’e-mail</button></div>
+    </form>
+  </dialog>
+  <dialog id="mAct">
+    <form method="dialog" id="aForm">
+      <textarea id="aText" rows="2" placeholder="Intitulé"></textarea>
+      <div class="aseg" id="aState"></div>
+      <div id="aWait">
+        <label>Personne attendue<input id="aWho" list="aPeople" placeholder="personne ou service"></label><datalist id="aPeople"></datalist>
+        <label>Relance le<input id="aRel" type="date"></label>
+      </div>
+      <div class="arow"><button type="button" id="aUrg">! Urgente</button><label class="adue">Échéance<input id="aDue" type="date"></label></div>
+      <label>Commentaire<textarea id="aNote" rows="2" placeholder="Commentaire"></textarea></label>
+      <div class="ahd">Sous-tâches</div>
+      <div id="aSubs"></div>
+      <div class="arow"><input id="aNewSub" placeholder="Nouvelle sous-tâche" enterkeyhint="done"><button type="button" id="aAddSub">Ajouter</button></div>
+      <div class="mrb"><button type="button" id="aDel" class="adel">Supprimer</button><span class="sp"></span><button type="submit" class="primary">Fermer</button></div>
     </form>
   </dialog>
 </div>
@@ -300,7 +344,9 @@ aside.open{transform:none}
 const $=s=>document.querySelector(s);
 const LS='taches-v1';
 const hasFS='showOpenFilePicker' in window;
-const uid=()=>Math.random().toString(36).slice(2,10);
+const uid=()=>'k'+Math.random().toString(36).slice(2,6);
+/* identifiant déterministe pour une ligne sans {id} : même fichier relu => mêmes identifiants (indispensable à la fusion) */
+function hashId(str){let h=0x811c9dc5;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,0x01000193);}return 'z'+(h>>>0).toString(36).padStart(7,'0').slice(-5);}
 const NOSEC='(sans rubrique)';
 const COLORS={bleu:'#5b8fd6',vert:'#3a9363',orange:'#d17636',violet:'#8762bd',jaune:'#c49a1c',rose:'#c45b8d',rouge:'#c4524a',turquoise:'#2f9ba0',gris:'#8a877f'};
 const AUTO=['bleu','vert','orange','violet','jaune','rose','turquoise','rouge'];
@@ -419,9 +465,10 @@ function migrateNotes(arr){
 }
 function normalize(){
   migrateNotes(items);for(const e of done)migrateNotes(e.items);
-  let maxNext=0;
+  let maxNext=0;const seen=new Set();
   for(const it of items){
-    if(!it.id)it.id=uid();
+    if(!it.id||seen.has(it.id)){let n;do n=uid();while(seen.has(n));it.id=n;}
+    seen.add(it.id);
     if(it.kind==='h'){it.level=0;maxNext=0;continue;}
     it.level=Math.max(0,Math.min(it.level|0,maxNext,5));
     if(it.level===0){
@@ -433,7 +480,7 @@ function normalize(){
   }
 }
 function sortedDone(){return [...done].sort((a,b)=>b.date.localeCompare(a.date));}
-function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),2600);}
+function toast(msg){const t=$('#toast');t.classList.remove('undo');t.onclick=null;t.textContent=msg;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),2600);}
 function clean(s){return s.replace(/\\([\\`*_{}\[\]()#+\-.!>~|])/g,'$1').replace(/\*\*(.*?)\*\*/g,'$1').replace(/__(.*?)__/g,'$1').trim();}
 function sectionColors(){const m={};for(const it of items)if(it.kind==='h'){m[it.text]=COLORS[it.color]||CARD_COLOR;m['#'+it.id]=COLORS[it.color]||CARD_COLOR;}return m;}
 function headingOf(i){for(let k=i;k>=0;k--)if(items[k].kind==='h')return items[k];return null;}
@@ -465,11 +512,18 @@ function parse(md){
       continue;
     }
     if(hm){
-      const lvl=hm[1].length;let txt=clean(hm[2]),color;
-      const cm=/^(.*?)\s*\{(?:couleur\s+)?([a-zà-ÿ]+)\}$/i.exec(txt);if(cm&&COLORS[cm[2].toLowerCase()]){txt=cm[1];color=cm[2].toLowerCase();}
+      const lvl=hm[1].length;let txt=clean(hm[2]),color,hid;
+      for(;;){
+        const tm=/^(.*?)\s*\{([^{}]+)\}$/.exec(txt);if(!tm)break;
+        const inner=tm[2].trim();let m;
+        if((m=/^id\s+([a-z0-9]+)$/i.exec(inner)))hid=m[1];
+        else if((m=/^(?:couleur\s+)?([a-zà-ÿ]+)$/i.exec(inner))&&COLORS[m[1].toLowerCase()])color=m[1].toLowerCase();
+        else break;
+        txt=tm[1];
+      }
       if(/^(✓\s*)?(historique|fait|faites?|terminée?s?)$/i.test(txt)){mode='h';stack=[];cur=null;continue;}
       if(mode==='h'){if(/^\d{4}-\d{2}-\d{2}$/.test(txt)){date=txt;stack=[];cur=null;continue;}if(lvl>1)continue;mode='a';}
-      section=txt;const h={id:uid(),kind:'h',text:txt,level:0};if(color)h.color=color;its.push(h);stack=[];continue;
+      section=txt;const h={id:hid||null,kind:'h',text:txt,level:0};if(color)h.color=color;its.push(h);stack=[];continue;
     }
     const lk=/^[ \t]*🔗\s*\[(.*?)\]\(<?(.*?)>?\)\s*$/.exec(raw);
     if(lk){
@@ -496,11 +550,12 @@ function parse(md){
     let cSec=null,cPath=[];
     const xm=/^(.*?)\s*⟨(.*)⟩\s*$/.exec(body);
     if(xm){body=xm[1];const segs=xm[2].split(' › ');cSec=segs[0]===NOSEC?'':segs[0];cPath=segs.slice(1);}
-    let state,doneDate,created,relance,due,color,waitFor,urgent=false;
+    let state,doneDate,created,relance,due,color,waitFor,tid,urgent=false;
     for(;;){
       const tm=/^(.*?)\s*\{([^{}]+)\}\s*$/.exec(body);if(!tm)break;
       const inner=tm[2].trim();let m;
       if(/^urgente?$/i.test(inner))urgent=true;
+      else if((m=/^id\s+([a-z0-9]+)$/i.exec(inner)))tid=m[1];
       else if((m=/^attend\s+(.+)$/i.exec(inner)))waitFor=m[1].trim();
       else if((m=/^couleur\s+([a-z]+)$/i.exec(inner))&&COLORS[m[1].toLowerCase()])color=m[1].toLowerCase();
       else if((m=/^[ée]ch[ée]ance\s+(\d{4}-\d{2}-\d{2})$/i.exec(inner)))due=m[1];
@@ -516,18 +571,27 @@ function parse(md){
       else cur.items.push({kind:'t',text:body,checked,created,level:Math.max(1,Math.min(level,cur.items[cur.items.length-1].level+1))});
     }else if(checked&&level===0){
       cur=null;dn.push({id:uid(),date:todayISO(),section,path:[],items:[{kind:'t',text:body,level:0,checked:true,created}]});
-    }else{const o={id:uid(),kind:'t',text:body,level,checked};if(state)o.state=state;if(doneDate)o.doneDate=doneDate;if(relance)o.relance=relance;if(created)o.created=created;if(urgent)o.urgent=true;if(due)o.due=due;if(color&&level===0)o.color=color;if(waitFor&&level===0)o.waitFor=waitFor;its.push(o);}
+    }else{const o={id:tid||null,kind:'t',text:body,level,checked};if(state)o.state=state;if(doneDate)o.doneDate=doneDate;if(relance)o.relance=relance;if(created)o.created=created;if(urgent)o.urgent=true;if(due)o.due=due;if(color&&level===0)o.color=color;if(waitFor&&level===0)o.waitFor=waitFor;its.push(o);}
   }
+  /* lignes sans {id} : identifiant déduit du contenu (rubrique, parents, texte, date de création, rang en cas de doublon) */
+  {const occ={},path=[];let sec='';
+   for(const it of its){
+     if(it.kind==='h'){sec=it.text;path.length=0;}
+     else{path.length=it.level;path[it.level]=it.text;}
+     if(it.id)continue;
+     const key=it.kind+'|'+sec+'|'+path.slice(0,it.kind==='h'?0:it.level+1).join('›')+'|'+(it.created||'');
+     occ[key]=(occ[key]||0)+1;it.id=hashId(key+'|'+occ[key]);
+   }}
   return {items:its,done:dn,settings:st};
 }
-function tokens(x){return (x.level===0&&x.state&&x.state!=='afaire'?' {'+x.state+(x.state==='fait'&&x.doneDate?' '+x.doneDate:'')+(x.state==='attente'&&x.relance?' '+x.relance:'')+'}':'')+(x.level===0&&x.waitFor?' {attend '+x.waitFor+'}':'')+(x.level===0&&x.color?' {couleur '+x.color+'}':'')+(x.urgent?' {urgent}':'')+(x.due?' {échéance '+x.due+'}':'')+(x.created?' {créé '+x.created+'}':'');}
+function tokens(x){return (x.level===0&&x.state&&x.state!=='afaire'?' {'+x.state+(x.state==='fait'&&x.doneDate?' '+x.doneDate:'')+(x.state==='attente'&&x.relance?' '+x.relance:'')+'}':'')+(x.level===0&&x.waitFor?' {attend '+x.waitFor+'}':'')+(x.level===0&&x.color?' {couleur '+x.color+'}':'')+(x.urgent?' {urgent}':'')+(x.due?' {échéance '+x.due+'}':'')+(x.created?' {créé '+x.created+'}':'')+(x.id&&x.kind!=='hist'?' {id '+x.id+'}':'');}
 function lineOf(x){return '  '.repeat(x.level)+'- ['+(x.checked?'x':' ')+'] '+x.text+tokens(x);}
 function linkLines(x,L,lvl){for(const l of x.links||[])L.push('  '.repeat(lvl+1)+'🔗 ['+(l.label||labelOf(l.url)).replace(/[\[\]]/g,'')+'](<'+l.url+'>)');}
 function noteLines(x,L,lvl){if(x.note&&x.note.trim())for(const l of x.note.replace(/\s+$/,'').split('\n'))L.push('  '.repeat(lvl+1)+'> '+l);}
 function serialize(){
   const L=[];
   for(const it of items){
-    if(it.kind==='h'){if(L.length)L.push('');L.push('# '+it.text+(it.color?' {couleur '+it.color+'}':''));}
+    if(it.kind==='h'){if(L.length)L.push('');L.push('# '+it.text+(it.color?' {couleur '+it.color+'}':'')+' {id '+it.id+'}');}
     else if(it.text.trim()){L.push(lineOf(it));noteLines(it,L,it.level);linkLines(it,L,it.level);}
   }
   if(done.length){
@@ -548,6 +612,76 @@ function serialize(){
     for(const m of settings.onedrive||[])L.push('- onedrive : '+m.local+' = '+m.web);
   }
   return L.join('\n')+'\n';
+}
+
+/* ---------- fusion à trois voies ----------
+   base = dernière version lue ou écrite ; mine = l'état en mémoire ; theirs = le fichier tel qu'il est maintenant.
+   Par identifiant : champs fusionnés un à un, position (parent + précédent) prise du côté qui l'a changée.
+   Conflit (même champ changé des deux côtés) : la version de cet appareil l'emporte, et le conflit est compté. */
+const MFIELDS=['kind','text','checked','state','doneDate','relance','created','urgent','due','color','waitFor','note','links'];
+function mval(o,f){const v=o?o[f]:undefined;if(f==='links')return v&&v.length?JSON.stringify(v):'';if(f==='checked'||f==='urgent')return !!v;return v==null?'':v;}
+function mindex(list){
+  const m=new Map();let head='',lastHeadId=null;const stack=[];const lastChild={};
+  for(const it of list){
+    let parent;
+    if(it.kind==='h'){parent='ROOT';head=it.id;stack.length=0;}
+    else{stack.length=it.level;parent=it.level===0?head:(stack[it.level-1]||head);stack[it.level]=it.id;}
+    const prev=lastChild[parent]===undefined?null:lastChild[parent];lastChild[parent]=it.id;
+    m.set(it.id,{it,parent,prev});
+  }
+  return m;
+}
+function merge3(B,M,T){
+  const iB=mindex(B.items),iM=mindex(M.items),iT=mindex(T.items);
+  let conflicts=0;const kept=new Map(),order=[];
+  const same=(a,b)=>MFIELDS.every(f=>mval(a,f)===mval(b,f));
+  for(const id of [...iM.keys(),...[...iT.keys()].filter(k=>!iM.has(k))]){
+    const b=iB.get(id),m=iM.get(id),t=iT.get(id);let it,pos;
+    if(m&&t){
+      it={...m.it};
+      for(const f of MFIELDS){const mv=mval(m.it,f),tv=mval(t.it,f);if(mv===tv)continue;const bv=b?mval(b.it,f):undefined;
+        if(b&&mv===bv)it[f]=t.it[f];else if(b&&tv===bv){}else conflicts++;}
+      const mMoved=!b||m.parent!==b.parent||m.prev!==b.prev;
+      pos=mMoved?{parent:m.parent,prev:m.prev,from:'m'}:{parent:t.parent,prev:t.prev,from:'t'};
+    }else if(m){
+      if(b){if(same(m.it,b.it))continue;conflicts++;}
+      it={...m.it};pos={parent:m.parent,prev:m.prev,from:'m'};
+    }else{
+      if(b){if(same(t.it,b.it))continue;conflicts++;}
+      it={...t.it};pos={parent:t.parent,prev:t.prev,from:'t'};
+    }
+    kept.set(id,{it,pos});order.push(id);
+  }
+  /* parents disparus : on remonte au plus proche ancêtre conservé */
+  const anc=id=>{for(const ix of [iM,iT,iB]){const e=ix.get(id);if(e)return e.parent;}return '';};
+  for(const [id,k] of kept){
+    let p=k.pos.parent,guard=0;
+    while(p&&p!=='ROOT'&&!kept.has(p)&&guard++<50)p=anc(p);
+    if(k.it.kind==='h')p='ROOT';else if(p==='ROOT'||p==null)p='';
+    if(p!==k.pos.parent){k.pos={parent:p,prev:null,from:'t'};}
+  }
+  /* listes d'enfants : d'abord l'ordre de cet appareil, puis les placements venus de l'autre côté */
+  const kids={};const put=(p,id,after)=>{const L=kids[p]||(kids[p]=[]);const i=L.indexOf(id);if(i>=0)L.splice(i,1);
+    if(after===undefined){L.push(id);return;}if(after===null){L.unshift(id);return;}const j=L.indexOf(after);if(j<0)L.push(id);else L.splice(j+1,0,id);};
+  for(const id of iM.keys())if(kept.has(id)&&kept.get(id).pos.from==='m')put(kept.get(id).pos.parent,id);
+  for(const id of iT.keys())if(kept.has(id)&&kept.get(id).pos.from==='t'){const k=kept.get(id);put(k.pos.parent,id,k.pos.prev);}
+  /* aplatissement */
+  const out=[],emitted=new Set();
+  const dfs=(id,lv)=>{if(emitted.has(id))return;emitted.add(id);const k=kept.get(id);const it={...k.it};if(it.kind==='h')it.level=0;else it.level=lv;out.push(it);
+    for(const c of kids[id]||[])dfs(c,it.kind==='h'?0:lv+1);};
+  for(const c of kids['']||[])dfs(c,0);
+  for(const h of kids['ROOT']||[])dfs(h,0);
+  for(const id of order)if(!emitted.has(id)){const k=kept.get(id);if(k.it.kind==='h')dfs(id,0);else{out.splice(0,0,{...k.it,level:0});emitted.add(id);}}
+  /* historique : entrées identifiées par date + rubrique + texte */
+  const hk=e=>e.date+'|'+e.section+'|'+(e.items[0]?e.items[0].text:'');
+  const BK=new Set(B.done.map(hk)),MK=new Set(M.done.map(hk)),TK=new Set(T.done.map(hk));
+  const keepK=k=>!(BK.has(k)&&(!MK.has(k)||!TK.has(k)));
+  const hist=[...M.done.filter(e=>keepK(hk(e))),...T.done.filter(e=>!MK.has(hk(e))&&keepK(hk(e)))];
+  /* réglages */
+  const st={};const bs=B.settings||{},ms=M.settings||{},ts=T.settings||{};
+  for(const f of ['email','onedrive']){const j=x=>x==null?'':JSON.stringify(x);const mv=j(ms[f]),tv=j(ts[f]),bv=j(bs[f]);
+    const v=mv===tv?ms[f]:(mv===bv?ts[f]:(tv===bv?ms[f]:(conflicts++,ms[f])));if(v!=null&&v!=='')st[f]=v;}
+  return {items:out,done:hist,settings:st,conflicts};
 }
 
 /* ---------- affichage ---------- */
@@ -1269,9 +1403,48 @@ $('#helpBtn').onclick=()=>{$('#help').hidden=!$('#help').hidden;};
 function idb(){return new Promise((res,rej)=>{const r=indexedDB.open('taches',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
 async function idbGet(k){const db=await idb();return new Promise((res,rej)=>{const q=db.transaction('kv').objectStore('kv').get(k);q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error);});}
 async function idbSet(k,v){const db=await idb();return new Promise((res,rej)=>{const tx=db.transaction('kv','readwrite');tx.objectStore('kv').put(v,k);tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error);});}
-function backup(){try{localStorage.setItem(LS,JSON.stringify({items,done,settings,dirty}));}catch(e){}}
-function changed(){dirty=true;backup();clearTimeout(saveTimer);saveTimer=setTimeout(saveFile,700);setStatus();}
+/* ---------- enregistrement fusionné ----------
+   backend = accès au fichier ({read, write}) : File System Access sur le PC, pont de l'appli sur Android.
+   baseText = dernière version lue ou écrite ; si le fichier a changé depuis, on fusionne avant d'écrire. */
+let baseText=null,backend=null,saving=false,saveAgain=false,rev=0,savedAt=0,saveErr=null;
+function backup(){try{localStorage.setItem(LS,JSON.stringify({items,done,settings,dirty,base:baseText}));}catch(e){}}
+function changed(){dirty=true;rev++;backup();clearTimeout(saveTimer);saveTimer=setTimeout(saveFile,700);setStatus();}
+function editing(){const a=document.activeElement;return !!(a&&a.matches&&a.matches('.txt,.cmt,input,textarea'));}
+function applyModel(r){
+  const a=activeInfo();items=r.items;done=r.done;settings=r.settings||{};normalize();
+  if(MOBILE){if(typeof mRender==='function')mRender();}else{render();if(a&&idx(a.id)>=0)focusItem(a.id,a.off);}
+}
+async function syncSave(){
+  if(!backend)return;
+  if(saving){saveAgain=true;return;}
+  saving=true;
+  try{
+    const cur=await backend.read();
+    if(baseText!=null&&cur!==baseText&&cur.trim()){
+      const r=merge3(parse(baseText),{items,done,settings},parse(cur));
+      applyModel(r);
+      toast(r.conflicts?'Fusionné avec des modifications faites ailleurs · '+r.conflicts+' conflit'+(r.conflicts>1?'s':'')+' : la version de cet appareil a été gardée':'Fusionné avec des modifications faites ailleurs');
+    }
+    const at=rev,out=serialize();
+    if(out!==cur)await backend.write(out);
+    baseText=out;if(rev===at)dirty=false;backup();savedAt=Date.now();saveErr=null;
+  }catch(err){saveErr=err.message||String(err);toast('Échec de l’enregistrement : '+saveErr);}
+  saving=false;setStatus();
+  if(saveAgain){saveAgain=false;if(dirty)syncSave();}
+}
+async function checkExternal(force){
+  if(!backend||saving||dirty||(!force&&editing()))return;
+  try{
+    if(backend.changedSince&&!(await backend.changedSince()))return;
+    const cur=await backend.read();
+    if(cur===baseText||!cur.trim())return;
+    if(baseText==null&&cur===serialize()){baseText=cur;backup();return;}
+    if(dirty||(!force&&editing()))return;
+    applyModel(parse(cur));baseText=cur;backup();toast('Mis à jour : le fichier a été modifié ailleurs');
+  }catch(e){}
+}
 function setStatus(){
+  if(MOBILE){if(typeof mInfo==='function')mInfo();return;}
   let s;
   if(!hasFS)s='Gardé dans ce navigateur uniquement';
   else if(!fileHandle)s='Aucun fichier choisi';
@@ -1279,17 +1452,19 @@ function setStatus(){
   else s=(dirty?'Enregistrement… ':'Enregistré · ')+fileHandle.name;
   $('#status').textContent=s;document.title='Tâches'+(fileHandle?' — '+fileHandle.name:'');
 }
+const pcBackend={
+  async read(){const f=await fileHandle.getFile();lastFileMod=f.lastModified;return await f.text();},
+  async write(t){const w=await fileHandle.createWritable();await w.write(t);await w.close();lastFileMod=(await fileHandle.getFile()).lastModified;},
+  async changedSince(){const f=await fileHandle.getFile();return f.lastModified!==lastFileMod;}
+};
 async function saveFile(){
+  if(MOBILE){if(backend)await syncSave();return;}
   if(!fileHandle||!permOK){setStatus();return;}
-  try{
-    const w=await fileHandle.createWritable();await w.write(serialize());await w.close();
-    lastFileMod=(await fileHandle.getFile()).lastModified;dirty=false;backup();
-  }catch(err){toast('Échec de l’enregistrement : '+err.message);}
-  setStatus();
+  backend=pcBackend;await syncSave();
 }
 async function loadFile(){
-  const f=await fileHandle.getFile();const p=parse(await f.text());
-  items=p.items;done=p.done;settings=p.settings||{};normalize();lastFileMod=f.lastModified;dirty=false;backup();render();setStatus();
+  backend=pcBackend;const t=await pcBackend.read();const p=parse(t);
+  items=p.items;done=p.done;settings=p.settings||{};normalize();baseText=t;dirty=false;backup();render();setStatus();
 }
 async function askPerm(){permOK=(await fileHandle.requestPermission({mode:'readwrite'}))==='granted';return permOK;}
 async function resume(){
@@ -1304,7 +1479,7 @@ const TYPES=[{description:'Liste Markdown',accept:{'text/markdown':['.md','.txt'
 async function openFile(){
   try{
     const [h]=await showOpenFilePicker({types:TYPES});
-    fileHandle=h;await idbSet('handle',h);snapshot();
+    fileHandle=h;await idbSet('handle',h);snapshot();baseText=null;
     if(await askPerm()){hideBanner();await loadFile();toast('Ouvert : '+h.name+' · Ctrl+Z pour revenir à la liste précédente');}
   }catch(e){if(e.name!=='AbortError')toast(e.message);}
   setStatus();
@@ -1312,7 +1487,7 @@ async function openFile(){
 async function newFile(){
   try{
     const h=await showSaveFilePicker({suggestedName:'taches.md',types:TYPES});
-    fileHandle=h;await idbSet('handle',h);permOK=true;hideBanner();await saveFile();toast('Liste enregistrée dans '+h.name);
+    fileHandle=h;await idbSet('handle',h);permOK=true;baseText=null;hideBanner();await saveFile();toast('Liste enregistrée dans '+h.name);
   }catch(e){if(e.name!=='AbortError')toast(e.message);}
   setStatus();
 }
@@ -1328,17 +1503,27 @@ function showBanner(kind){
 }
 $('#openBtn').onclick=()=>hasFS?openFile():toast('Ouvre cette page avec Edge ou Chrome');
 $('#newBtn').onclick=()=>hasFS?newFile():exportMd();
-window.addEventListener('focus',async()=>{
-  if(!fileHandle||!permOK||dirty)return;
-  try{const f=await fileHandle.getFile();if(f.lastModified>lastFileMod){const a=activeInfo();await loadFile();if(a&&idx(a.id)>=0)focusItem(a.id,a.off);toast('Rechargé : le fichier a été modifié ailleurs');}}catch(e){}
-});
+window.addEventListener('focus',()=>checkExternal());
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkExternal();});
+setInterval(()=>{if(document.hidden)return;if(dirty&&backend&&!saving)saveFile();else checkExternal();},30000);
 
-/* ---------- vue téléphone (lecture seule, saisie par e-mail) ---------- */
+/* ---------- vue téléphone ----------
+   Dans un navigateur : lecture seule, saisie par e-mail préparé.
+   Dans l'appli Android (pont TachesAndroid) : modifiable, enregistré directement dans le fichier, avec fusion. */
 const MKEY='taches-mobile';
 /* Vue téléphone : écran tactile ET (pas d'accès aux fichiers, ou écran étroit). Une fenêtre Edge étroite au bureau reste en vue PC. */
 const MOBILE=/[?&]vue=mobile\b/.test(location.search)||(!/[?&]vue=pc\b/.test(location.search)&&matchMedia('(pointer: coarse)').matches&&(!hasFS||matchMedia('(max-width: 760px)').matches));
+const AND=(MOBILE&&window.TachesAndroid)||null;
 const mstore={get(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
-let mState={tab:'afaire',closed:{},open:{}};
+let mState={tab:'afaire',closed:{},open:{}},mName=null,mActId=null,mSubSig='';
+/* pont Android : chaque appel renvoie une promesse ; l'appli répond par tachesAndroidReply(id, ok, valeur) */
+const andCalls={};let andSeq=0;
+function andCall(m,arg){return new Promise((res,rej)=>{const id=++andSeq;andCalls[id]={res,rej};try{AND.request(id,m,arg==null?'':String(arg));}catch(e){delete andCalls[id];rej(e);}});}
+window.tachesAndroidReply=(id,ok,val)=>{const c=andCalls[id];if(!c)return;delete andCalls[id];if(ok)c.res(val);else c.rej(new Error(val||'erreur'));};
+const andBackend={read:()=>andCall('read'),write:t=>andCall('write',t)};
+window.tachesAndroidResume=()=>{if(!backend||saving)return;if(dirty)syncSave();else checkExternal();};
+window.tachesAndroidPause=()=>{if(dirty&&backend){clearTimeout(saveTimer);syncSave();}};
+window.tachesAndroidBack=()=>{const d=document.querySelector('dialog[open]');if(d){d.close();return true;}return false;};
 function mobileHref(u){
   if(isPath(u))return oneDriveURL(u);
   return u;
@@ -1351,7 +1536,13 @@ function mLoad(text,meta){
   mRender();
 }
 function mInfo(){
-  const c=mstore.get(MKEY),el=$('#mInfo');
+  const el=$('#mInfo');
+  if(AND){
+    if(!mName){el.textContent='aucun fichier choisi';el.className='';return;}
+    el.textContent=mName+' · '+(saveErr?'non enregistré : '+saveErr:(saving||dirty)?'enregistrement…':savedAt?'à jour '+mAgo(savedAt):'');
+    el.className=saveErr?'stale':'';return;
+  }
+  const c=mstore.get(MKEY);
   if(!c){el.textContent='aucun fichier lu';el.className='';return;}
   el.textContent=c.name+' · modifié le '+mWhen(c.modified)+' · lu '+mAgo(c.readAt);
   el.className=Date.now()-c.readAt>12*3600e3?'stale':'';
@@ -1372,10 +1563,13 @@ function mLinks(links){
 function mCard(i){
   const it=items[i],e=blockEnd(i),subs=items.slice(i+1,e);
   const c=document.createElement('div');c.className='mcard'+(isUrgent(it)?' urgent':'')+(isLate(it)?' late':'')+(it.state==='fait'?' fait':'');
+  c.dataset.id=it.id;
   const h=headingOf(i);c.style.setProperty('--c',COLORS[it.color]||(h&&COLORS[h.color])||CARD_COLOR);
   const t=document.createElement('div');t.className='mct';
   if(isUrgent(it)&&it.state!=='fait'){const b=document.createElement('span');b.className='mbang';b.textContent='!';t.append(b);}
-  const tx=document.createElement('span');tx.className='t';decorate(tx,it.text);t.append(tx);c.append(t);
+  const tx=document.createElement('span');tx.className='t';decorate(tx,it.text);t.append(tx);
+  if(AND){const m=document.createElement('button');m.className='medit';m.textContent='⋯';m.title='Modifier';m.onclick=ev=>{ev.stopPropagation();mOpenAct(it.id);};t.append(m);}
+  c.append(t);
   const ch=document.createElement('div');ch.className='mchips';
   if(it.state==='attente'&&it.waitFor)ch.append(mChip('⏳ '+it.waitFor,'who'));
   if(it.state==='attente'&&it.relance){const late=isLate(it);ch.append(mChip(late?'⏰ à relancer depuis le '+shortDate(it.relance):'⏰ relance le '+shortDate(it.relance),late?'redf':''));}
@@ -1387,7 +1581,7 @@ function mCard(i){
   const hasDet=it.note||nSub||nLinks;
   if(hasDet){
     const parts=[];if(nSub)parts.push(nDone+'/'+nSub+' sous-tâche'+(nSub>1?'s':''));if(it.note)parts.push('commentaire');if(nLinks)parts.push(nLinks+' lien'+(nLinks>1?'s':''));
-    const open=!!mState.open[it.text+'|'+(it.created||'')];
+    const open=!!mState.open[it.id];
     const mo=document.createElement('div');mo.className='mmore';mo.textContent=(open?'▾ ':'▸ ')+parts.join(' · ');c.append(mo);
     const det=document.createElement('div');det.className='mdet';det.hidden=!open;
     if(it.note){const n=document.createElement('div');n.className='mnote';n.textContent=it.note;det.append(n);}
@@ -1395,6 +1589,7 @@ function mCard(i){
     for(const x of subs){
       const r=document.createElement('div');r.className='msub'+(x.checked?' done':'')+(isUrgent(x)?' urgent':'');r.style.setProperty('--lv',x.level-1);
       const bx=document.createElement('span');bx.className='bx';bx.textContent=x.checked?'☑':'☐';
+      if(AND){bx.classList.add('tap');bx.onclick=ev=>{ev.stopPropagation();mEdit(x.id,y=>{y.checked=!y.checked;});};}
       const w=document.createElement('div');const tt=document.createElement('span');tt.className='tx';tt.textContent=x.text;w.append(tt);
       if(x.due&&!x.checked){const cc=document.createElement('div');cc.className='mchips';cc.append(mDue(x));w.append(cc);}
       if(x.note){const n=document.createElement('div');n.className='mnote';n.textContent=x.note;w.append(n);}
@@ -1402,17 +1597,20 @@ function mCard(i){
       r.append(bx,w);det.append(r);
     }
     c.append(det);
-    c.onclick=ev=>{if(ev.target.closest('a'))return;const k=it.text+'|'+(it.created||'');mState.open[k]=!mState.open[k];mstore.set(MKEY+'-ui',mState);mRender();};
-  }
+    c.onclick=ev=>{if(ev.target.closest('a'))return;mState.open[it.id]=!mState.open[it.id];mstore.set(MKEY+'-ui',mState);mRender();};
+  }else if(AND)c.onclick=ev=>{if(ev.target.closest('a'))return;mOpenAct(it.id);};
   return c;
 }
+function mHasData(){return AND?!!mName:!!mstore.get(MKEY);}
 function mRender(){
   mInfo();
   const list=$('#mList');list.innerHTML='';
-  const c=mstore.get(MKEY);
-  if(!c){
+  if(!mHasData()){
     $('#mTabs').innerHTML='';$('#mFilters').innerHTML='';
-    list.innerHTML='<div class="mempty"><p>Pour afficher ton tableau, ouvre ton fichier <strong>taches.md</strong> depuis OneDrive.</p><p>Le fichier est lu sur ce téléphone : rien n’est envoyé nulle part.</p><label class="mbtn" for="mFile">Ouvrir taches.md</label></div>';
+    if(AND){
+      list.innerHTML='<div class="mempty"><p>Choisis ton fichier <strong>taches.md</strong> dans OneDrive.</p><p>L’appli s’en souviendra et y enregistrera chaque modification. Rien n’est envoyé ailleurs.</p><button class="mbtn" id="mPickBtn">Choisir taches.md</button></div>';
+      $('#mPickBtn').onclick=mPick;
+    }else list.innerHTML='<div class="mempty"><p>Pour afficher ton tableau, ouvre ton fichier <strong>taches.md</strong> depuis OneDrive.</p><p>Le fichier est lu sur ce téléphone : rien n’est envoyé nulle part.</p><label class="mbtn" for="mFile">Ouvrir taches.md</label></div>';
     return;
   }
   /* filtres (mêmes règles que sur le PC) */
@@ -1457,14 +1655,135 @@ function mRender(){
     sec.append(hb,cards);list.append(sec);
   }
   if(!shown){const e=document.createElement('div');e.className='mempty';e.textContent=filter?'Aucune étiquette pour ce filtre dans cette colonne.':'Rien dans cette colonne.';list.append(e);}
+  if(AND&&$('#mAct').open)mFillAct();
 }
 function mMailto(to,task,more){return 'mailto:'+encodeURIComponent(to).replace(/%40/g,'@')+'?subject='+encodeURIComponent(task)+(more?'&body='+encodeURIComponent(more):'');}
+
+/* ---------- modification depuis l'appli ---------- */
+function mEdit(id,fn,undoMsg){
+  const i=idx(id);if(i<0)return;
+  snapshot();fn(items[i],i);normalize();changed();mRender();
+  if(undoMsg)mUndoToast(undoMsg);
+}
+function mUndoToast(msg){
+  toast(msg+' · toucher pour annuler');const t=$('#toast');t.classList.add('undo');
+  t.onclick=()=>{t.onclick=null;t.classList.remove('undo','show');mUndo();};
+}
+function mUndo(){
+  if(!undoStack.length)return;
+  const s=JSON.parse(undoStack.pop());items=s.items;done=s.done;settings=s.settings||{};
+  normalize();changed();mRender();toast('Annulé');
+}
+function mOpenAct(id){
+  mActId=id;mSubSig='';const del=$('#aDel');del.classList.remove('sure');del.textContent='Supprimer';
+  mFillAct();const d=$('#mAct');if(!d.open)d.showModal();
+}
+function mFillAct(){
+  const i=idx(mActId),d=$('#mAct');
+  if(i<0||items[i].kind!=='t'){if(d.open)d.close();return;}
+  const it=items[i],act=document.activeElement,setv=(el,v)=>{if(el!==act)el.value=v||'';};
+  setv($('#aText'),it.text);
+  [...$('#aState').children].forEach(b=>b.classList.toggle('on',b.dataset.k===it.state));
+  $('#aWait').hidden=it.state!=='attente';
+  setv($('#aWho'),it.waitFor);setv($('#aRel'),it.relance);
+  const dl=$('#aPeople');dl.innerHTML='';for(const n of peopleNames()){const o=document.createElement('option');o.value=n;dl.append(o);}
+  $('#aUrg').classList.toggle('on',isUrgent(it));
+  setv($('#aDue'),it.due);setv($('#aNote'),it.note);
+  const subs=items.slice(i+1,blockEnd(i)),sig=JSON.stringify(subs.map(x=>[x.id,x.text,x.level,!!x.checked]));
+  if(sig===mSubSig)return;mSubSig=sig;
+  const box=$('#aSubs');box.innerHTML='';
+  for(const x of subs){
+    const r=document.createElement('div');r.className='asub'+(x.checked?' done':'');r.style.setProperty('--lv',x.level-1);
+    const bx=document.createElement('button');bx.type='button';bx.className='bx';bx.textContent=x.checked?'☑':'☐';
+    bx.onclick=()=>mEdit(x.id,y=>{y.checked=!y.checked;});
+    const tx=document.createElement('input');tx.className='tx';tx.value=x.text;
+    tx.onchange=()=>{const v=tx.value.replace(/\s+/g,' ').trim();if(v&&v!==x.text)mEdit(x.id,y=>{y.text=v;});};
+    const del=document.createElement('button');del.type='button';del.className='x';del.textContent='×';del.title='Supprimer la sous-tâche';
+    del.onclick=()=>mEdit(x.id,(y,k)=>{items.splice(k,blockEnd(k)-k);},'Sous-tâche supprimée');
+    r.append(bx,tx,del);box.append(r);
+  }
+}
+function mInitAct(){
+  const seg=$('#aState');
+  for(const s of STATES){const b=document.createElement('button');b.type='button';b.dataset.k=s.k;b.textContent=s.k==='attente'?'En attente':s.l;
+    b.onclick=()=>{const it=items[idx(mActId)];if(it&&it.state!==s.k)mEdit(mActId,x=>{x.state=s.k;});};seg.append(b);}
+  const field=(sel,fn)=>{$(sel).onchange=()=>{const it=items[idx(mActId)];if(it)fn(it,$(sel).value);};};
+  field('#aText',(it,v)=>{v=v.replace(/\s+/g,' ').trim();if(v&&v!==it.text)mEdit(it.id,x=>{x.text=v;});});
+  field('#aWho',(it,v)=>{v=v.trim();if(v!==(it.waitFor||''))mEdit(it.id,x=>{if(v)x.waitFor=v;else delete x.waitFor;});});
+  field('#aRel',(it,v)=>{if(v&&v!==it.relance)mEdit(it.id,x=>{x.relance=v;});});
+  field('#aDue',(it,v)=>{if(v!==(it.due||''))mEdit(it.id,x=>{if(v)x.due=v;else delete x.due;});});
+  field('#aNote',(it,v)=>{v=v.replace(/\s+$/,'');if(v!==(it.note||''))mEdit(it.id,x=>{if(v)x.note=v;else delete x.note;});});
+  $('#aUrg').onclick=()=>{const it=items[idx(mActId)];if(!it)return;
+    if(!it.urgent&&dueSoon(it)){toast('Urgente à cause de l’échéance proche : change ou retire l’échéance pour l’enlever');return;}
+    mEdit(it.id,x=>{if(x.urgent)delete x.urgent;else x.urgent=true;});};
+  const addSub=()=>{const v=$('#aNewSub').value.replace(/\s+/g,' ').trim();if(!v)return;$('#aNewSub').value='';
+    mEdit(mActId,(it,i)=>{items.splice(blockEnd(i),0,{id:uid(),kind:'t',text:v,level:1,created:todayISO()});});};
+  $('#aAddSub').onclick=addSub;
+  $('#aNewSub').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();addSub();}};
+  $('#aDel').onclick=()=>{const b=$('#aDel');
+    if(!b.classList.contains('sure')){b.classList.add('sure');b.textContent='Confirmer la suppression';return;}
+    const id=mActId;$('#mAct').close();mEdit(id,(it,i)=>{items.splice(i,blockEnd(i)-i);},'Supprimée');};
+  $('#aForm').onsubmit=e=>{e.preventDefault();document.activeElement&&document.activeElement.blur();$('#mAct').close();};
+  $('#mAct').addEventListener('close',()=>{mActId=null;});
+}
+function mAddTask(task,more,secId){
+  const state=mState.tab==='attente'?'attente':'afaire';
+  snapshot();
+  const n={id:uid(),kind:'t',text:task,level:0,state,created:todayISO()};if(more)n.note=more;
+  items.splice(laneEndOf(secId||null),0,n);normalize();changed();
+  if(mState.tab!==state)mState.tab=state;
+  const h=secId?items[idx(secId)]:null;delete mState.closed[h?h.text:''];mState.sec=secId||'';mstore.set(MKEY+'-ui',mState);
+  mRender();toast('Ajoutée');
+}
+async function mOpenFrom(name){
+  mName=name;mstore.set('taches-app-name',name);backend=andBackend;
+  const cur=await backend.read();
+  const p=parse(cur);items=p.items;done=p.done;settings=p.settings||{};normalize();
+  baseText=cur;dirty=false;savedAt=Date.now();saveErr=null;backup();mRender();
+}
+async function mPick(){
+  try{const name=await andCall('pick');await mOpenFrom(name);toast('Ouvert : '+name);}
+  catch(e){if(!/annul/i.test(e.message))toast('Impossible d’ouvrir le fichier : '+e.message);}
+}
+async function mSync(){
+  if(!backend){mPick();return;}
+  if(saving)return;
+  if(dirty){await syncSave();mInfo();return;}
+  try{
+    const cur=await backend.read();
+    if(cur===baseText)toast('Déjà à jour');
+    else if(!cur.trim())toast('Le fichier est vide : rien n’a été remplacé');
+    else{applyModel(parse(cur));baseText=cur;backup();toast('Tableau relu');}
+    savedAt=Date.now();saveErr=null;
+  }catch(e){toast('Lecture impossible : '+e.message);}
+  mInfo();
+}
+async function mStartApp(){
+  let b=null;try{b=JSON.parse(localStorage.getItem(LS));}catch(e){}
+  if(b&&Array.isArray(b.items)){items=b.items;done=b.done||[];settings=b.settings||{};dirty=!!b.dirty;baseText=b.base==null?null:b.base;normalize();}
+  mName=mstore.get('taches-app-name');
+  mRender();
+  let n='';try{n=await andCall('name');}catch(e){}
+  if(!n){mName=null;mRender();return;}
+  mName=n;mstore.set('taches-app-name',n);backend=andBackend;
+  if(dirty){await syncSave();mRender();return;}
+  try{
+    const cur=await backend.read();
+    if(cur!==baseText){const p=parse(cur);items=p.items;done=p.done;settings=p.settings||{};normalize();baseText=cur;backup();}
+    savedAt=Date.now();saveErr=null;
+  }catch(e){saveErr=e.message;toast('Lecture impossible : '+e.message+' · dernière version connue affichée');}
+  mRender();
+}
 function initMobile(){
   document.body.classList.add('mobile');$('#m').hidden=false;
   const ui=mstore.get(MKEY+'-ui');if(ui)mState={...mState,...ui,open:ui.open||{},closed:ui.closed||{}};
-  const c=mstore.get(MKEY);
-  if(c&&c.text){const p=parse(c.text);items=p.items;done=p.done;settings=p.settings||{};normalize();}
-  mRender();
+  if(AND){mInitAct();mStartApp();$('#mInfo').onclick=()=>{if(mName&&confirm('Choisir un autre fichier que '+mName+' ?'))mPick();};}
+  else{
+    const c=mstore.get(MKEY);
+    if(c&&c.text){const p=parse(c.text);items=p.items;done=p.done;settings=p.settings||{};normalize();}
+    mRender();
+  }
+  $('#mReload').onclick=()=>{if(AND)mSync();else $('#mFile').click();};
   $('#mFile').onchange=async e=>{
     const f=e.target.files&&e.target.files[0];e.target.value='';if(!f)return;
     let txt='';try{txt=await f.text();}catch(err){toast('Lecture impossible : '+err.message);return;}
@@ -1472,20 +1791,32 @@ function initMobile(){
     mLoad(txt,{name:f.name,modified:f.lastModified||Date.now(),readAt:Date.now()});toast('Tableau mis à jour');
   };
   setInterval(mInfo,60000);
-  /* saisie : e-mail préparé */
+  /* saisie : directe dans l'appli, par e-mail préparé dans un navigateur */
   const sheet=$('#mSheet');
+  if(AND){$('#mMailRow').hidden=true;$('#mSecRow').hidden=false;$('#mOk').textContent='Ajouter';}
   $('#mAdd').onclick=()=>{
-    const known=settings.email||mstore.get(MKEY+'-mail');
-    $('#mMailRow').hidden=!!settings.email;$('#mMail').value=known||'';
+    if(AND){
+      if(!backend){mPick();return;}
+      const sel=$('#mSec');sel.innerHTML='';
+      const opt=(v,t)=>{const o=document.createElement('option');o.value=v;o.textContent=t;sel.append(o);};
+      opt('','Hors rubrique');for(const h of items.filter(x=>x.kind==='h'))opt(h.id,h.text);
+      sel.value=idx(mState.sec)>=0?mState.sec:'';
+      $('#mHint').textContent='Ajoutée dans « '+(mState.tab==='attente'?'En attente':'À faire')+' ». Les autres réglages se font ensuite par ⋯.';
+    }else{
+      const known=settings.email||mstore.get(MKEY+'-mail');
+      $('#mMailRow').hidden=!!settings.email;$('#mMail').value=known||'';
+    }
     $('#mTask').value='';$('#mMore').value='';sheet.showModal();setTimeout(()=>$('#mTask').focus(),50);
   };
   $('#mCancel').onclick=()=>sheet.close();
   $('#mForm').onsubmit=ev=>{
     ev.preventDefault();
-    const task=$('#mTask').value.replace(/\s+/g,' ').trim(),to=(settings.email||$('#mMail').value).trim();
-    if(!task)return;if(!to){$('#mMail').focus();return;}
+    const task=$('#mTask').value.replace(/\s+/g,' ').trim(),more=$('#mMore').value.trim();
+    if(!task)return;
+    if(AND){sheet.close();mAddTask(task,more,$('#mSec').value);return;}
+    const to=(settings.email||$('#mMail').value).trim();
+    if(!to){$('#mMail').focus();return;}
     if(!settings.email)mstore.set(MKEY+'-mail',to);
-    const more=$('#mMore').value.trim();
     sheet.close();
     location.href=mMailto(to,task,more);
   };
@@ -1495,13 +1826,13 @@ function initMobile(){
 (async()=>{
   if(MOBILE){initMobile();return;}
   let b=null;try{b=JSON.parse(localStorage.getItem(LS));}catch(e){}
-  if(b&&Array.isArray(b.items)){items=b.items;done=b.done||[];settings=b.settings||{};dirty=!!b.dirty;}
+  if(b&&Array.isArray(b.items)){items=b.items;done=b.done||[];settings=b.settings||{};dirty=!!b.dirty;baseText=b.base==null?null:b.base;}
   else{const p=parse(SEED);items=p.items;done=p.done;settings=p.settings||{};dirty=true;}
   normalize();render();setStatus();
   if(!hasFS){showBanner('nofs');return;}
   let h=null;try{h=await idbGet('handle');}catch(e){}
   if(h){fileHandle=h;let perm='prompt';try{perm=await h.queryPermission({mode:'readwrite'});}catch(e){}
-    if(perm==='granted'){permOK=true;if(dirty)await saveFile();else await loadFile().catch(()=>{});}
+    if(perm==='granted'){permOK=true;backend=pcBackend;if(dirty)await saveFile();else await loadFile().catch(()=>{});}
     else showBanner('resume');}
   else showBanner('choose');
   setStatus();
