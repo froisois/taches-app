@@ -27,7 +27,7 @@ jobs:
           KEYSTORE_B64: ${{ secrets.KEYSTORE_B64 }}
         run: |
           if [ -n "$KEYSTORE_B64" ]; then
-            echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/taches.jks"
+            printf '%s' "$KEYSTORE_B64" | tr -d ' \t\r\n' | base64 -d > "$RUNNER_TEMP/taches.jks"
             echo "KEYSTORE_FILE=$RUNNER_TEMP/taches.jks" >> "$GITHUB_ENV"
             echo "SIGNATURE=clé fixe" >> "$GITHUB_ENV"
           else
@@ -36,7 +36,9 @@ jobs:
       - name: Compilation
         env:
           KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
-        run: gradle -p android assembleRelease --no-daemon
+        run: |
+          export KEYSTORE_PASS="$(printf '%s' "$KEYSTORE_PASS" | tr -d ' \t\r\n')"
+          gradle -p android assembleRelease --no-daemon
       - name: Publication
         env:
           GH_TOKEN: ${{ github.token }}
