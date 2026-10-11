@@ -2,6 +2,8 @@ package fr.froisois.taches;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.UriPermission;
@@ -252,6 +254,17 @@ public class MainActivity extends Activity {
                     break;
                 case "update":
                     runOnUiThread(() -> mettreAJour(id));
+                    break;
+                case "copy":
+                    // presse-papiers : texte brut + version mise en forme (gras, italique) pour les applis qui la comprennent
+                    runOnUiThread(() -> {
+                        try {
+                            JSONObject o = new JSONObject(arg);
+                            ClipboardManager cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                            cm.setPrimaryClip(ClipData.newHtmlText("Note", o.optString("text"), o.optString("html")));
+                            repondre(id, true, Build.VERSION.SDK_INT >= 33 ? "systeme" : "");
+                        } catch (Exception e) { repondre(id, false, message(e)); }
+                    });
                     break;
                 default:
                     repondre(id, false, "méthode inconnue : " + methode);
