@@ -13,3 +13,4 @@ Le développement, la documentation et l’historique des décisions vivent dans
 |---|---|
 | `index.html` | l’application |
 | `essai.html` | page d’essai sur téléphone (lecture d’un fichier OneDrive, e-mail préparé, partage vers OneDrive, mémoire locale) |
+| `android-essai/` | appli Android d’essai (écriture dans OneDrive), compilée par GitHub Actions et publiée dans la version « essai-android » |
