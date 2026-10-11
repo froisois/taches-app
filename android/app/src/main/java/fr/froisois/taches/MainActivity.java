@@ -82,6 +82,7 @@ public class MainActivity extends Activity {
         web.setWebViewClient(new Client());
         setContentView(web);
         if (b == null) lireIntention(getIntent()); // pas après un changement de thème
+        try { ((android.app.NotificationManager) getSystemService(NOTIFICATION_SERVICE)).cancel(MajRecue.NOTIF); } catch (Exception ignored) { }
         finInstallation(getIntent());
         web.loadUrl(DEPART);
     }
@@ -361,8 +362,28 @@ public class MainActivity extends Activity {
         }
     }
 
+    private int majApresPermission = -1;
+
+    /** Avant la première mise à jour : demander le droit d'afficher une notification (Android 13 et plus), puis continuer. */
     private void mettreAJour(int id) {
         if (majEnCours != -1) { repondre(id, false, "mise à jour déjà en cours"); return; }
+        if (Build.VERSION.SDK_INT >= 33 && checkSelfPermission("android.permission.POST_NOTIFICATIONS") != android.content.pm.PackageManager.PERMISSION_GRANTED
+                && !prefs.getBoolean("notifDemandee", false)) {
+            prefs.edit().putBoolean("notifDemandee", true).apply();
+            majApresPermission = id;
+            requestPermissions(new String[]{"android.permission.POST_NOTIFICATIONS"}, 3);
+            return;
+        }
+        installer(id);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int code, String[] perms, int[] res) {
+        super.onRequestPermissionsResult(code, perms, res);
+        if (code == 3 && majApresPermission != -1) { int id = majApresPermission; majApresPermission = -1; installer(id); }
+    }
+
+    private void installer(int id) {
         if (Build.VERSION.SDK_INT >= 26 && !getPackageManager().canRequestPackageInstalls()) {
             try {
                 startActivity(new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:" + getPackageName())));
@@ -371,6 +392,7 @@ public class MainActivity extends Activity {
             return;
         }
         majEnCours = id;
+        prefs.edit().putBoolean("majDemandee", true).commit();
         reseau.execute(() -> {
             try {
                 byte[] apk = telecharger(DEPOT + "taches.apk", 30 * 1024 * 1024);
@@ -393,6 +415,7 @@ public class MainActivity extends Activity {
             } catch (Exception e) {
                 int i = majEnCours;
                 majEnCours = -1;
+                prefs.edit().putBoolean("majDemandee", false).apply();
                 repondre(i, false, message(e));
             }
         });
@@ -412,6 +435,7 @@ public class MainActivity extends Activity {
         }
         int id = majEnCours;
         majEnCours = -1;
+        if (statut != PackageInstaller.STATUS_SUCCESS) prefs.edit().putBoolean("majDemandee", false).apply();
         if (statut == PackageInstaller.STATUS_SUCCESS) { if (id != -1) repondre(id, true, ""); }
         else {
             String m = i.getStringExtra(PackageInstaller.EXTRA_STATUS_MESSAGE);
