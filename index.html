@@ -205,7 +205,9 @@ body.mobile>header,body.mobile #help,body.mobile #banner,body.mobile main,body.m
 .msub .bx.tap{cursor:pointer;font-size:1.05rem;margin-top:-.1rem}
 #toast.undo{cursor:pointer;pointer-events:auto}
 .mupd{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:600}
-.mupd[hidden]{display:none}
+.mupd[hidden],.mver[hidden]{display:none}
+.mver{flex:none;font-size:.74rem;padding:.2rem .55rem;border-radius:999px;border:1px solid var(--line);background:none;color:var(--muted);white-space:nowrap}
+.mver.ok{border-color:color-mix(in srgb,var(--accent) 45%,transparent);color:var(--accent)}
 .msechw{display:flex;align-items:center;gap:.3rem}
 .msechw .msech{flex:1;min-width:0}
 .madd{flex:none;border:1px solid color-mix(in srgb,var(--c) 45%,transparent);background:none;color:var(--c);border-radius:8px;width:2rem;height:2rem;font-size:1.2rem;line-height:1;padding:0}
@@ -342,6 +344,7 @@ aside.open{transform:none}
 <div id="m" hidden>
   <div class="mh">
     <div class="mtitle"><strong>Tâches</strong><span id="mInfo"></span></div>
+    <button class="mver" id="mVer" hidden></button>
     <button class="mbtn mupd" id="mUpd" hidden>Mettre à jour l’appli</button>
     <button class="mbtn" id="mReload">⟳ Relire</button><input type="file" id="mFile" hidden>
   </div>
@@ -2011,13 +2014,20 @@ async function mPick(){
 }
 /* mise à jour de l'appli elle-même : au démarrage puis au plus toutes les 6 h ; les anciennes versions ignorent ces appels */
 let mUpdChecked=0;
-async function mCheckUpdate(){
-  if(!AND||Date.now()-mUpdChecked<6*3600e3)return;mUpdChecked=Date.now();
-  try{
-    const [mine,last]=await Promise.all([andCall('version'),andCall('checkUpdate')]);
-    const a=parseInt(mine,10),b=parseInt(last,10);
-    const btn=$('#mUpd');btn.hidden=!(a&&b&&b>a);btn.title='Version 1.'+b+' disponible (installée : 1.'+a+')';
-  }catch(e){}
+async function mCheckUpdate(force){
+  if(!AND||(!force&&Date.now()-mUpdChecked<6*3600e3))return;mUpdChecked=Date.now();
+  const chip=$('#mVer'),btn=$('#mUpd');
+  let a=0,b=0;
+  try{a=parseInt(await andCall('version'),10)||0;}catch(e){return;}   /* appli trop ancienne : rien à afficher */
+  /* juste après une mise à jour : le dire une fois */
+  const prev=mstore.get('taches-app-version');mstore.set('taches-app-version',a);
+  if(prev&&a>prev)toast('Appli mise à jour : version 1.'+a);
+  try{b=parseInt(await andCall('checkUpdate'),10)||0;}catch(e){}
+  btn.hidden=!(b>a);btn.title=b>a?'Version 1.'+b+' disponible (installée : 1.'+a+')':'';
+  chip.hidden=b>a;chip.className='mver'+(b&&b<=a?' ok':'');
+  chip.textContent='Appli 1.'+a+(b&&b<=a?' · à jour ✓':b?'':' · vérification impossible');
+  chip.title='Toucher pour vérifier à nouveau';
+  if(force)toast(b>a?'Version 1.'+b+' disponible':b?'L’appli est à jour (1.'+a+')':'Vérification impossible : pas de réseau ?');
 }
 async function mUpdate(){
   const btn=$('#mUpd');if(btn.disabled)return;btn.disabled=true;const was=btn.textContent;btn.textContent='Téléchargement…';
@@ -2048,7 +2058,7 @@ function initMobile(){
   if(!AND&&mState.tab==='notes')mState.tab='afaire';
   mInitAct();
   if(AND){
-    mInitNotes();mStartApp();$('#mReload').hidden=true;$('#mUpd').onclick=mUpdate;setTimeout(mCheckUpdate,1500);
+    mInitNotes();mStartApp();$('#mReload').hidden=true;$('#mUpd').onclick=mUpdate;$('#mVer').onclick=()=>mCheckUpdate(true);setTimeout(mCheckUpdate,1500);
     $('#mInfo').onclick=()=>{if(mName&&confirm('Choisir un autre fichier que '+mName+' ?'))mPick();};
   }else{
     const c=mstore.get(MKEY);
