@@ -44,8 +44,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           cp android/app/build/outputs/apk/release/app-release.apk taches.apk
+          echo "$GITHUB_RUN_NUMBER" > version.txt
           gh release delete android --yes --cleanup-tag || true
-          gh release create android taches.apk \
+          gh release create android taches.apk version.txt \
             --title "Appli Android « Tâches »" \
             --notes "Version 1.${GITHUB_RUN_NUMBER}, compilée automatiquement (commit ${GITHUB_SHA::7}). Signature : ${SIGNATURE}." \
             --target "$GITHUB_SHA"

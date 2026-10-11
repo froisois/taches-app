@@ -204,6 +204,8 @@ body.mobile>header,body.mobile #help,body.mobile #banner,body.mobile main,body.m
 .mct .medit{flex:none;border:none;background:none;color:var(--muted);font-size:1.2rem;line-height:1;padding:0 .2rem;margin:-.1rem -.3rem 0 0}
 .msub .bx.tap{cursor:pointer;font-size:1.05rem;margin-top:-.1rem}
 #toast.undo{cursor:pointer;pointer-events:auto}
+.mupd{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:600}
+.mupd[hidden]{display:none}
 .msechw{display:flex;align-items:center;gap:.3rem}
 .msechw .msech{flex:1;min-width:0}
 .madd{flex:none;border:1px solid color-mix(in srgb,var(--c) 45%,transparent);background:none;color:var(--c);border-radius:8px;width:2rem;height:2rem;font-size:1.2rem;line-height:1;padding:0}
@@ -340,6 +342,7 @@ aside.open{transform:none}
 <div id="m" hidden>
   <div class="mh">
     <div class="mtitle"><strong>Tâches</strong><span id="mInfo"></span></div>
+    <button class="mbtn mupd" id="mUpd" hidden>Mettre à jour l’appli</button>
     <button class="mbtn" id="mReload">⟳ Relire</button><input type="file" id="mFile" hidden>
   </div>
   <div id="mFilters"></div>
@@ -1656,7 +1659,7 @@ const andCalls={};let andSeq=0;
 function andCall(m,arg){return new Promise((res,rej)=>{const id=++andSeq;andCalls[id]={res,rej};try{AND.request(id,m,arg==null?'':String(arg));}catch(e){delete andCalls[id];rej(e);}});}
 window.tachesAndroidReply=(id,ok,val)=>{const c=andCalls[id];if(!c)return;delete andCalls[id];if(ok)c.res(val);else c.rej(new Error(val||'erreur'));};
 const andBackend={read:()=>andCall('read'),write:t=>andCall('write',t)};
-window.tachesAndroidResume=()=>{if(!backend||saving)return;if(dirty)syncSave();else checkExternal();};
+window.tachesAndroidResume=()=>{mCheckUpdate();if(!backend||saving)return;if(dirty)syncSave();else checkExternal();};
 window.tachesAndroidPause=()=>{if(dirty&&backend){clearTimeout(saveTimer);syncSave();}};
 window.tachesAndroidBack=()=>{const d=document.querySelector('dialog[open]');if(d){d.close();return true;}return false;};
 /* raccourci « Nouvelle note » et menu Partager d'Android */
@@ -1997,6 +2000,23 @@ async function mPick(){
   try{const name=await andCall('pick');baseText=null;await mOpenFrom(name);toast('Ouvert : '+name);}
   catch(e){if(!/annul/i.test(e.message))toast('Impossible d’ouvrir le fichier : '+e.message);}
 }
+/* mise à jour de l'appli elle-même : au démarrage puis au plus toutes les 6 h ; les anciennes versions ignorent ces appels */
+let mUpdChecked=0;
+async function mCheckUpdate(){
+  if(!AND||Date.now()-mUpdChecked<6*3600e3)return;mUpdChecked=Date.now();
+  try{
+    const [mine,last]=await Promise.all([andCall('version'),andCall('checkUpdate')]);
+    const a=parseInt(mine,10),b=parseInt(last,10);
+    const btn=$('#mUpd');btn.hidden=!(a&&b&&b>a);btn.title='Version 1.'+b+' disponible (installée : 1.'+a+')';
+  }catch(e){}
+}
+async function mUpdate(){
+  const btn=$('#mUpd');if(btn.disabled)return;btn.disabled=true;const was=btn.textContent;btn.textContent='Téléchargement…';
+  if(dirty&&backend){try{clearTimeout(saveTimer);await syncSave();}catch(e){}}
+  try{await andCall('update');}
+  catch(e){if(!/annul/i.test(e.message))toast('Mise à jour : '+e.message);}
+  btn.disabled=false;btn.textContent=was;
+}
 async function mStartApp(){
   let b=null;try{b=JSON.parse(localStorage.getItem(LS));}catch(e){}
   if(b&&Array.isArray(b.items)){items=b.items;done=b.done||[];settings=b.settings||{};notes=b.notes||[];dirty=!!b.dirty;baseText=b.base==null?null:b.base;normalize();}
@@ -2019,7 +2039,7 @@ function initMobile(){
   if(!AND&&mState.tab==='notes')mState.tab='afaire';
   mInitAct();
   if(AND){
-    mInitNotes();mStartApp();$('#mReload').hidden=true;
+    mInitNotes();mStartApp();$('#mReload').hidden=true;$('#mUpd').onclick=mUpdate;setTimeout(mCheckUpdate,1500);
     $('#mInfo').onclick=()=>{if(mName&&confirm('Choisir un autre fichier que '+mName+' ?'))mPick();};
   }else{
     const c=mstore.get(MKEY);

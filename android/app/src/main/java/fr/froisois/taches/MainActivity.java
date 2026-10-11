@@ -5,6 +5,10 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.UriPermission;
+import android.app.PendingIntent;
+import android.content.pm.PackageInstaller;
+import android.os.Build;
+import android.provider.Settings;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -50,6 +54,10 @@ public class MainActivity extends Activity {
     private WebView web;
     private SharedPreferences prefs;
     private final ExecutorService io = Executors.newSingleThreadExecutor();
+    private final ExecutorService reseau = Executors.newSingleThreadExecutor();
+    private static final String DEPOT = "https://github.com/froisois/taches-app/releases/download/android/";
+    private static final String FIN_INSTALLATION = "fr.froisois.taches.INSTALLATION";
+    private int majEnCours = -1;
     private volatile boolean pageAutorisee = false;
     private int choixEnCours = -1;
     private static final String NOTE = "fr.froisois.taches.NOTE";
@@ -74,6 +82,7 @@ public class MainActivity extends Activity {
         web.setWebViewClient(new Client());
         setContentView(web);
         if (b == null) lireIntention(getIntent()); // pas après un changement de thème
+        finInstallation(getIntent());
         web.loadUrl(DEPART);
     }
 
@@ -200,6 +209,18 @@ public class MainActivity extends Activity {
                         catch (Exception e) { repondre(id, false, message(e)); }
                     });
                     break;
+                case "version":
+                    repondre(id, true, String.valueOf(versionInstallee()));
+                    break;
+                case "checkUpdate":
+                    reseau.execute(() -> {
+                        try { repondre(id, true, new String(telecharger(DEPOT + "version.txt", 100), StandardCharsets.UTF_8).trim()); }
+                        catch (Exception e) { repondre(id, false, message(e)); }
+                    });
+                    break;
+                case "update":
+                    runOnUiThread(() -> mettreAJour(id));
+                    break;
                 default:
                     repondre(id, false, "méthode inconnue : " + methode);
             }
@@ -302,11 +323,96 @@ public class MainActivity extends Activity {
         });
     }
 
+    // ---------- mise à jour de l'appli depuis la version publiée sur GitHub ----------
+
+    private long versionInstallee() {
+        try {
+            android.content.pm.PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+            return Build.VERSION.SDK_INT >= 28 ? pi.getLongVersionCode() : pi.versionCode;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    private static byte[] telecharger(String adresse, int max) throws Exception {
+        HttpURLConnection c = (HttpURLConnection) new URL(adresse).openConnection();
+        c.setConnectTimeout(6000);
+        c.setReadTimeout(20000);
+        c.setUseCaches(false);
+        c.setInstanceFollowRedirects(true);
+        if (c.getResponseCode() != 200) throw new Exception("réponse " + c.getResponseCode() + " de GitHub");
+        try (InputStream in = c.getInputStream()) {
+            byte[] b = tout(in);
+            if (b.length > max) throw new Exception("fichier trop gros");
+            return b;
+        }
+    }
+
+    private void mettreAJour(int id) {
+        if (majEnCours != -1) { repondre(id, false, "mise à jour déjà en cours"); return; }
+        if (Build.VERSION.SDK_INT >= 26 && !getPackageManager().canRequestPackageInstalls()) {
+            try {
+                startActivity(new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:" + getPackageName())));
+            } catch (Exception ignored) { }
+            repondre(id, false, "autorise d'abord « Tâches » à installer des applis, puis touche à nouveau « Installer »");
+            return;
+        }
+        majEnCours = id;
+        reseau.execute(() -> {
+            try {
+                byte[] apk = telecharger(DEPOT + "taches.apk", 30 * 1024 * 1024);
+                if (apk.length < 4 || apk[0] != 'P' || apk[1] != 'K') throw new Exception("fichier téléchargé invalide");
+                PackageInstaller pi = getPackageManager().getPackageInstaller();
+                PackageInstaller.SessionParams sp = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
+                sp.setAppPackageName(getPackageName());
+                if (Build.VERSION.SDK_INT >= 31) sp.setRequireUserAction(PackageInstaller.SessionParams.USER_ACTION_NOT_REQUIRED);
+                int sid = pi.createSession(sp);
+                try (PackageInstaller.Session s = pi.openSession(sid)) {
+                    try (OutputStream o = s.openWrite("taches.apk", 0, apk.length)) {
+                        o.write(apk);
+                        s.fsync(o);
+                    }
+                    Intent retour = new Intent(this, MainActivity.class).setAction(FIN_INSTALLATION);
+                    int drap = PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT >= 31 ? PendingIntent.FLAG_MUTABLE : 0);
+                    PendingIntent pe = PendingIntent.getActivity(this, 7, retour, drap);
+                    s.commit(pe.getIntentSender());
+                }
+            } catch (Exception e) {
+                int i = majEnCours;
+                majEnCours = -1;
+                repondre(i, false, message(e));
+            }
+        });
+    }
+
+    /** Résultat de l'installation, renvoyé par Android. */
+    private boolean finInstallation(Intent i) {
+        if (i == null || !FIN_INSTALLATION.equals(i.getAction())) return false;
+        int statut = i.getIntExtra(PackageInstaller.EXTRA_STATUS, PackageInstaller.STATUS_FAILURE);
+        if (statut == PackageInstaller.STATUS_PENDING_USER_ACTION) {
+            Intent confirmer = i.getParcelableExtra(Intent.EXTRA_INTENT);
+            if (confirmer != null) {
+                confirmer.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                try { startActivity(confirmer); } catch (Exception ignored) { }
+            }
+            return true;
+        }
+        int id = majEnCours;
+        majEnCours = -1;
+        if (statut == PackageInstaller.STATUS_SUCCESS) { if (id != -1) repondre(id, true, ""); }
+        else {
+            String m = i.getStringExtra(PackageInstaller.EXTRA_STATUS_MESSAGE);
+            if (id != -1) repondre(id, false, statut == PackageInstaller.STATUS_FAILURE_ABORTED ? "annulé" : (m == null ? "échec de l'installation" : m));
+        }
+        return true;
+    }
+
     // ---------- raccourci « Nouvelle note » et menu Partager ----------
 
     @Override
     protected void onNewIntent(Intent i) {
         super.onNewIntent(i);
+        if (finInstallation(i)) return;
         setIntent(i);
         lireIntention(i);
         livrerNote();
