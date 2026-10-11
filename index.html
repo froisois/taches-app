@@ -6,8 +6,8 @@
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48Y2lyY2xlIGN4PSIzOCIgY3k9IjU0IiByPSI0LjEiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxjaXJjbGUgY3g9IjM4IiBjeT0iNzAiIHI9IjQuNiIgZmlsbD0iIzJGNkY1RSIvPjxwYXRoIGQ9Ik0zNS45IDcwbDEuNSAxLjYgMi45LTMuMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjEuNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHJlY3QgeD0iNDYiIHk9IjY4LjgiIHdpZHRoPSIxOCIgaGVpZ2h0PSIyLjQiIHJ4PSIxLjIiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PC9nPjwvc3ZnPg==">
 <style>
-:root{--bg:#fbfaf7;--fg:#1d1d1b;--muted:#7f7c75;--line:#e4e1da;--accent:#2f6f5e;--hover:#f0eee8;--panel:#ffffff}
-@media (prefers-color-scheme:dark){:root{--bg:#1b1b1a;--fg:#e8e6e1;--muted:#9a978f;--line:#2f2e2c;--accent:#7fbfa8;--hover:#262624;--panel:#222220}}
+:root{--note-bg:#f0eee9;--note-bar:#b9b4aa;--note-dot:#9a958c;--bg:#fbfaf7;--fg:#1d1d1b;--muted:#7f7c75;--line:#e4e1da;--accent:#2f6f5e;--hover:#f0eee8;--panel:#ffffff}
+@media (prefers-color-scheme:dark){:root{--note-bg:#2a2a28;--note-bar:#5e5b55;--note-dot:#7a766f;--bg:#1b1b1a;--fg:#e8e6e1;--muted:#9a978f;--line:#2f2e2c;--accent:#7fbfa8;--hover:#262624;--panel:#222220}}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 "Segoe UI",system-ui,sans-serif}
 header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:.4rem;padding:.45rem 1rem}
@@ -264,7 +264,7 @@ body.mobile,html:has(body.mobile){overflow-x:hidden}
 #nPick,#tPick{max-height:40vh;overflow:auto;margin-bottom:.5rem}
 #tPick button,#nPick button{display:block;width:100%;text-align:left;border:none;border-bottom:1px solid var(--line);border-radius:0;background:none;padding:.55rem .3rem;font-size:.92rem;color:var(--fg)}
 #tPick small,#nPick small{display:block;color:var(--muted);font-size:.75rem}
-.mnotec{margin:0 1rem .55rem;padding:.55rem .75rem;border:1px solid var(--line);border-left:4px solid #b59a3a;border-radius:8px;background:color-mix(in srgb,#b59a3a 9%,var(--bg));cursor:pointer}
+.mnotec{margin:0 1rem .55rem;padding:.55rem .75rem;border:1px solid var(--line);border-left:4px solid var(--note-bar);border-radius:8px;background:var(--note-bg);cursor:pointer}
 .mnotec .when{font-size:.74rem;color:var(--muted)}
 .mnotec .tx{white-space:pre-wrap;word-break:break-word;margin-top:.15rem;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
 .mtabs:empty{display:none}
@@ -275,12 +275,12 @@ body.mobile,html:has(body.mobile){overflow-x:hidden}
 .msecname{font-size:.74rem;color:var(--muted);align-self:center}
 .msubdone{font-size:.76rem;color:var(--muted);padding:.1rem 0 0 1.5rem}
 #mInfo:empty{display:none}
-#inbox{margin:0 0 1.2rem;padding:.55rem .8rem .7rem;border:1px dashed color-mix(in srgb,#b59a3a 70%,transparent);border-radius:10px;background:color-mix(in srgb,#b59a3a 6%,var(--bg))}
+#inbox{margin:0 0 1.2rem;padding:.55rem .8rem .7rem;border:1px dashed var(--note-bar);border-radius:10px;background:color-mix(in srgb,var(--note-bg) 45%,var(--bg))}
 #inbox[hidden]{display:none}
 #inbox .ihd{font-size:.82rem;color:var(--muted);margin:0 0 .5rem}
 #inbox .ihd strong{color:var(--fg);margin-right:.4rem}
 .inotes{display:flex;flex-wrap:wrap;gap:.5rem}
-.inote{position:relative;width:16rem;padding:.35rem 1.4rem .45rem .6rem;border:1px solid var(--line);border-left:4px solid #b59a3a;border-radius:8px;background:var(--panel);cursor:grab}
+.inote{position:relative;width:16rem;padding:.35rem 1.4rem .45rem .6rem;border:1px solid var(--line);border-left:4px solid var(--note-bar);border-radius:8px;background:var(--note-bg);cursor:grab}
 .inote.dragging{opacity:.4}
 .inote .when{font-size:.72rem;color:var(--muted)}
 .inote .tx{white-space:pre-wrap;word-break:break-word;font-size:.9rem;outline:none;line-height:1.35}
@@ -1924,7 +1924,7 @@ function mRender(){
   $('#mTabs').innerHTML='';
   /* tout sur un seul écran : notes, puis rubriques (à faire, puis faites en grisé), puis « En attente » */
   if(notes.length&&!filter){
-    list.append(mSection('#notes','Notes',notes.length,'#b59a3a',box=>{
+    list.append(mSection('#notes','Notes',notes.length,'var(--note-dot)',box=>{
       for(const n of sortedNotes()){
         const c=document.createElement('div');c.className='mnotec';c.dataset.id=n.id;
         const w=document.createElement('div');w.className='when';w.textContent=mStampShort(n.at);
