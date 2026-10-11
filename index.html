@@ -228,7 +228,6 @@ body.mobile>header,body.mobile #help,body.mobile #banner,body.mobile main,body.m
 .mfab{position:fixed;right:1.6rem;z-index:8;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.2);font-weight:600}
 .mfab[hidden]{display:none}
 .mfab2{bottom:5.6rem;padding:.55rem 1rem;font-size:.95rem;background:var(--panel);color:var(--accent);border:1.5px solid var(--accent)}
-body.mobile.app #mAdd{width:auto;height:3.4rem;border-radius:999px;padding:0 1.3rem;font-size:1.05rem;line-height:3.4rem;font-weight:600}
 .ntool{display:flex;gap:.4rem;margin:.1rem 0 .2rem}
 .ntool button{font-size:.85rem;padding:.3rem .7rem;border-radius:999px}
 .ndue{display:flex;gap:.5rem;align-items:center;font-size:.9rem;margin:.2rem 0 .5rem;padding:.45rem .6rem;border-radius:8px;background:color-mix(in srgb,var(--accent) 8%,var(--bg))}
@@ -272,7 +271,9 @@ body.mobile,html:has(body.mobile){overflow-x:hidden}
 .msec .mnotec{margin:0}
 .mcard.fait{opacity:.55;filter:saturate(.3)}
 .mcard.fait .mct .t{text-decoration:line-through;color:var(--muted);font-weight:500}
-.mchip.sec{border-color:var(--c);color:var(--c);font-weight:600}
+.msecname{font-size:.74rem;color:var(--muted);align-self:center}
+.msubdone{font-size:.76rem;color:var(--muted);padding:.1rem 0 0 1.5rem}
+#mInfo:empty{display:none}
 #inbox{margin:0 0 1.2rem;padding:.55rem .8rem .7rem;border:1px dashed color-mix(in srgb,#b59a3a 70%,transparent);border-radius:10px;background:color-mix(in srgb,#b59a3a 6%,var(--bg))}
 #inbox[hidden]{display:none}
 #inbox .ihd{font-size:.82rem;color:var(--muted);margin:0 0 .5rem}
@@ -1819,6 +1820,7 @@ function mobileHref(u){
 }
 function mAgo(ms){const m=Math.round((Date.now()-ms)/60000);if(m<1)return 'à l’instant';if(m<60)return 'il y a '+m+' min';const h=Math.round(m/60);if(h<24)return 'il y a '+h+' h';const d=Math.round(h/24);return 'il y a '+d+' j';}
 function mWhen(ms){const d=new Date(ms);return d.toLocaleDateString('fr-FR',{day:'numeric',month:'short'})+' à '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}).replace(':',' h ');}
+function mStampShort(at){if(!at)return '';const [d,t]=at.split(' ');if(d===todayISO())return t?t.replace(':',' h '):'aujourd’hui';if(d===addDays(todayISO(),-1))return 'hier';return shortDate(d);}
 function mStamp(at){if(!at)return '';const [d,t]=at.split(' ');const s=new Date(d+'T12:00').toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'});return s+(t?', '+t.replace(':',' h '):'');}
 function mLoad(text,meta){
   const p=parse(text);items=p.items;done=p.done;settings=p.settings||{};notes=p.notes||[];normalize();
@@ -1829,8 +1831,8 @@ function mInfo(){
   const el=$('#mInfo');
   if(AND){
     if(!mName){el.textContent='aucun fichier choisi';el.className='';return;}
-    el.textContent=mName+' · '+(saveErr?'non enregistré : '+saveErr:(saving||dirty)?'enregistrement…':savedAt?'à jour '+mAgo(savedAt):'');
-    el.className=saveErr?'stale':'';return;
+    el.textContent=saveErr?'⚠ non enregistré':(saving||dirty)?'↻':'';
+    el.className=saveErr?'stale':'';el.title=saveErr||'';return;
   }
   const c=mstore.get(MKEY);
   if(!c){el.textContent='aucun fichier lu';el.className='';return;}
@@ -1838,7 +1840,7 @@ function mInfo(){
   el.className=Date.now()-c.readAt>12*3600e3?'stale':'';
 }
 function mChip(txt,cls){const s=document.createElement('span');s.className='mchip'+(cls?' '+cls:'');s.textContent=txt;return s;}
-function mDue(it){const n=daysTo(it.due),soon=dueSoon(it);return mChip('📅 '+(n<0?'dépassée ('+shortDate(it.due)+')':n===0?'aujourd’hui':n===1?'demain':shortDate(it.due)+(n<=ECHEANCE_JOURS?' · J-'+n:'')),soon?(n<0?'redf':'red'):'');}
+function mDue(it){const n=daysTo(it.due),soon=dueSoon(it);return mChip('📅 '+(n<0?shortDate(it.due):n===0?'aujourd’hui':n===1?'demain':n<=ECHEANCE_JOURS?'J-'+n:shortDate(it.due)),soon?(n<0?'redf':'red'):'');}
 function mIsFile(l){return isRel(l.url)||isPath(l.url)||/sharepoint\.com|onedrive|^ms-/i.test(l.url)||(/deeplink\/read\//.test(l.url)&&/\.[a-z0-9]{2,5}$/i.test(l.label||''));}
 function mLinks(links){
   const d=document.createElement('div');d.className='mlinks';
@@ -1868,7 +1870,8 @@ function mCard(i,withSec){
   if(it.note){const n=document.createElement('div');n.className='mnote';n.textContent=bulletsView(it.note);c.append(n);}
   if(subs.length){
     const box=document.createElement('div');box.className='msubs';
-    for(const x of subs){
+    const nDone=subs.filter(x=>x.checked).length;
+    for(const x of subs.filter(x=>!x.checked)){
       const r=document.createElement('div');r.className='msub'+(x.checked?' done':'')+(isUrgent(x)?' urgent':'');r.style.setProperty('--lv',x.level-1);
       const bx=document.createElement('span');bx.className='bx';bx.textContent=x.checked?'☑':'☐';
       if(AND){bx.classList.add('tap');bx.onclick=ev=>{ev.stopPropagation();mEdit(x.id,y=>{y.checked=!y.checked;});};}
@@ -1876,14 +1879,14 @@ function mCard(i,withSec){
       if(x.due&&!x.checked){const cc=document.createElement('div');cc.className='mchips';cc.append(mDue(x));w.append(cc);}
       r.append(bx,w);box.append(r);
     }
+    if(nDone){const m=document.createElement('div');m.className='msubdone';m.textContent='+\u00a0'+nDone+(nDone>1?' faites':' faite');box.append(m);}
     c.append(box);
   }
   const ch=document.createElement('div');ch.className='mchips';
-  if(withSec)ch.append(mChip(h?h.text:'Hors rubrique','sec'));
+  if(withSec&&h){const sn=document.createElement('span');sn.className='msecname';sn.textContent=h.text;ch.append(sn);}
   if(it.state==='attente'&&it.waitFor)ch.append(mChip('⏳ '+it.waitFor,'who'));
-  if(it.state==='attente'&&it.relance){const late=isLate(it);ch.append(mChip(late?'⏰ à relancer depuis le '+shortDate(it.relance):'⏰ relance le '+shortDate(it.relance),late?'redf':''));}
+  if(it.state==='attente'&&it.relance){const late=isLate(it);ch.append(mChip('⏰ '+shortDate(it.relance),late?'redf':''));}
   if(it.due&&it.state!=='fait')ch.append(mDue(it));
-  if(it.state==='fait'&&it.doneDate)ch.append(mChip('✓ '+shortDate(it.doneDate)));
   const all=[it,...subs].flatMap(x=>x.links||[]);
   if(all.length){const f=all.some(mIsFile);ch.append(mChip((f?'📎':'🔗')+(all.length>1?' '+all.length:'')));}
   if(ch.children.length)c.append(ch);
@@ -1920,10 +1923,10 @@ function mRender(){
   $('#mTabs').innerHTML='';
   /* tout sur un seul écran : notes, puis rubriques (à faire, puis faites en grisé), puis « En attente » */
   if(notes.length&&!filter){
-    list.append(mSection('#notes','📝 Notes',notes.length,'#b59a3a',box=>{
+    list.append(mSection('#notes','Notes',notes.length,'#b59a3a',box=>{
       for(const n of sortedNotes()){
         const c=document.createElement('div');c.className='mnotec';c.dataset.id=n.id;
-        const w=document.createElement('div');w.className='when';w.textContent=mStamp(n.at);
+        const w=document.createElement('div');w.className='when';w.textContent=mStampShort(n.at);
         const t=document.createElement('div');t.className='tx';t.textContent=bulletsView(n.text);
         c.append(w,t);if(AND)c.onclick=()=>mOpenNote(n.id);box.append(c);
       }
@@ -1942,7 +1945,7 @@ function mRender(){
   /* urgentes : une section à part, avant les rubriques (rubrique d'origine en puce) */
   const urg=urgentFirst(groups.flatMap(g=>g.todo.filter(i=>isUrgent(items[i]))));
   let shown=urg.length;
-  if(urg.length)list.append(mSection('#urgent','! Urgentes',urg.length,'#c4524a',box=>{for(const i of urg)box.append(mCard(i,true));},'murg'));
+  if(urg.length)list.append(mSection('#urgent','Urgentes',urg.length,'#c4524a',box=>{for(const i of urg)box.append(mCard(i,true));},'murg'));
   for(const g of groups){
     g.todo=g.todo.filter(i=>!isUrgent(items[i]));
     const n=g.todo.length+g.done.length;if(!n)continue;shown+=n;
@@ -1955,7 +1958,7 @@ function mRender(){
   const wait=sortIdx(w0,waitKey);
   if(wait.length){
     shown+=wait.length;const late=wait.filter(i=>isLate(items[i])).length;
-    list.append(mSection('#attente','⏳ En attente',wait.length,'#8a8f98',box=>{for(const i of wait)box.append(mCard(i,true));},'mwait',late?'dont '+late+' à relancer':''));
+    list.append(mSection('#attente','En attente',wait.length,'#8a8f98',box=>{for(const i of wait)box.append(mCard(i,true));},'mwait',late?'dont '+late+' à relancer':''));
   }
   if(!shown&&!(notes.length&&!filter)){const e=document.createElement('div');e.className='mempty';e.textContent=filter?'Aucune étiquette pour ce filtre.':'Rien pour l’instant.';list.append(e);}
   if(AND&&$('#mAct').open)mFillAct();
@@ -1966,8 +1969,8 @@ function mSection(key,title,count,color,fill,cls,alert){
   sec.style.setProperty('--c',color);
   const hw=document.createElement('div');hw.className='msechw';
   const hb=document.createElement('button');hb.className='msech';
-  hb.innerHTML='<span class="dot"></span><span class="nm"></span><span class="al"></span><span class="n"></span><span class="car">▾</span>';
-  hb.querySelector('.nm').textContent=title;hb.querySelector('.n').textContent=count;hb.querySelector('.al').textContent=alert||'';
+  hb.innerHTML='<span class="dot"></span><span class="nm"></span><span class="al"></span><span class="n"></span><span class="car"></span>';
+  hb.querySelector('.nm').textContent=title;hb.querySelector('.n').textContent=count;hb.querySelector('.al').textContent=alert||'';hb.querySelector('.car').textContent=mState.closed[key]?'▸':'';
   hb.onclick=()=>{mState.closed[key]=!mState.closed[key];mstore.set(MKEY+'-ui',mState);mRender();};
   hw.append(hb);
   const box=document.createElement('div');box.className='mcards';fill(box);
@@ -2283,7 +2286,7 @@ async function mPick(){
   catch(e){if(!/annul/i.test(e.message))toast('Impossible d’ouvrir le fichier : '+e.message);}
 }
 /* mise à jour de l'appli elle-même : au démarrage puis au plus toutes les 6 h ; les anciennes versions ignorent ces appels */
-let mUpdChecked=0;
+let mUpdChecked=0,mVerTxt='';
 async function mCheckUpdate(force){
   if(!AND||(!force&&Date.now()-mUpdChecked<6*3600e3))return;mUpdChecked=Date.now();
   const chip=$('#mVer'),btn=$('#mUpd');
@@ -2294,8 +2297,7 @@ async function mCheckUpdate(force){
   if(prev&&a>prev)toast('Appli mise à jour : version 1.'+a);
   try{b=parseInt(await andCall('checkUpdate'),10)||0;}catch(e){}
   btn.hidden=!(b>a);btn.title=b>a?'Version 1.'+b+' disponible (installée : 1.'+a+')':'';
-  chip.hidden=b>a;chip.className='mver'+(b&&b<=a?' ok':'');
-  chip.textContent='Appli 1.'+a+(b&&b<=a?' · à jour ✓':b?'':' · vérification impossible');
+  chip.hidden=true;mVerTxt='Appli 1.'+a+(b&&b<=a?' · à jour':b>a?' · version 1.'+b+' disponible':'');
   chip.title='Toucher pour vérifier à nouveau';
   if(force)toast(b>a?'Version 1.'+b+' disponible':b?'L’appli est à jour (1.'+a+')':'Vérification impossible : pas de réseau ?');
 }
@@ -2328,14 +2330,14 @@ function initMobile(){
   mInitAct();
   $('#mMenuBtn').onclick=()=>{
     $('#oFilters').checked=!!mState.filters;$('#oUpdate').hidden=!AND;$('#oFile').hidden=!AND||!mName;
-    $('#oInfo').textContent=AND&&mName?'Fichier : '+mName:'';$('#mMenu').showModal();if(document.activeElement)document.activeElement.blur();
+    $('#oInfo').textContent=AND?[mName?'Fichier\u00a0: '+mName:'',savedAt&&!saveErr?'enregistré '+mAgo(savedAt):'',saveErr?'non enregistré\u00a0: '+saveErr:'',mVerTxt].filter(Boolean).join(' · '):'';$('#mMenu').showModal();if(document.activeElement)document.activeElement.blur();
   };
   $('#oFilters').onchange=()=>{mState.filters=$('#oFilters').checked;mstore.set(MKEY+'-ui',mState);mRender();};
   $('#oUpdate').onclick=()=>{$('#mMenu').close();mCheckUpdate(true);};
   $('#oFile').onclick=()=>{$('#mMenu').close();mPick();};
   if(AND){
     mInitNotes();mInitAtt();mStartApp();$('#mReload').hidden=true;$('#mUpd').onclick=mUpdate;$('#mVer').onclick=()=>mCheckUpdate(true);mInitPull();setTimeout(mCheckUpdate,1500);
-    $('#mInfo').onclick=()=>{if(mName&&confirm('Choisir un autre fichier que '+mName+' ?'))mPick();};
+    $('#mInfo').onclick=()=>{if(saveErr)toast('Non enregistré\u202f: '+saveErr+' · nouvel essai dans 30\u00a0s, ou tire l’écran vers le bas');};
   }else{
     const c=mstore.get(MKEY);
     if(c&&c.text){const p=parse(c.text);items=p.items;done=p.done;settings=p.settings||{};notes=p.notes||[];normalize();}
@@ -2352,7 +2354,7 @@ function initMobile(){
   /* saisie : note dans l'appli, e-mail préparé dans un navigateur */
   const sheet=$('#mSheet');
   if(AND){$('#mMailRow').hidden=true;$('#mSecRow').hidden=false;$('#mOk').textContent='Ajouter';
-    document.body.classList.add('app');$('#mAdd').textContent='+ Note';}
+    document.body.classList.add('app');}
   $('#mAdd').onclick=()=>{
     if(AND){mOpenNote(null,'');return;}
     $('#mAdd').title='Nouvelle tâche par e-mail';
