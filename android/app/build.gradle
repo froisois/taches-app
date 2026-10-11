@@ -18,6 +18,7 @@ android {
         if (cle) {
             fixe {
                 storeFile file(cle)
+                storeType 'pkcs12'
                 storePassword System.getenv('KEYSTORE_PASS')
                 keyAlias 'taches'
                 keyPassword System.getenv('KEYSTORE_PASS')
