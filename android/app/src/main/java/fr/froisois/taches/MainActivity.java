@@ -231,6 +231,9 @@ public class MainActivity extends Activity {
                 case "saveAttachmentAs":
                     rangerSous(id, arg);
                     break;
+                case "sendToOneDrive":
+                    envoyerOneDrive(id, arg);
+                    break;
                 case "openAttachment":
                     ouvrirPieceJointe(id, arg);
                     break;
@@ -662,6 +665,39 @@ public class MainActivity extends Activity {
                 if (doc == null) throw new Exception("création du fichier refusée");
                 copierVers(doc);
                 repondre(id, true, PJ + "/" + nomDocument(doc, n));
+            } catch (Exception e) {
+                repondre(id, false, message(e));
+            }
+        });
+    }
+
+    /**
+     * OneDrive refuse aux autres applis l'accès à ses dossiers : on lui confie le fichier par le menu Partager,
+     * et c'est lui qui l'enregistre (l'utilisateur choisit le dossier « Pièces jointes »).
+     */
+    private void envoyerOneDrive(int id, String nom) {
+        if (partage == null) { repondre(id, false, "aucun fichier reçu"); return; }
+        io.execute(() -> {
+            try {
+                File dir = new File(getCacheDir(), "envoi");
+                dir.mkdirs();
+                File[] vieux = dir.listFiles();
+                if (vieux != null) for (File f : vieux) f.delete();
+                File f = new File(dir, propre(nom));
+                try (InputStream in = new java.io.FileInputStream(partage); OutputStream o = new FileOutputStream(f)) {
+                    byte[] buf = new byte[65536]; int k;
+                    while ((k = in.read(buf)) > 0) o.write(buf, 0, k);
+                }
+                final Uri u = new Uri.Builder().scheme("content").authority(getPackageName() + ".partage").path(f.getName()).build();
+                runOnUiThread(() -> {
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType(partageType);
+                    i.putExtra(Intent.EXTRA_STREAM, u);
+                    i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    i.setPackage("com.microsoft.skydrive");
+                    try { startActivity(i); repondre(id, true, PJ + "/" + f.getName()); }
+                    catch (ActivityNotFoundException e) { repondre(id, false, "l'appli OneDrive n'est pas installée"); }
+                });
             } catch (Exception e) {
                 repondre(id, false, message(e));
             }

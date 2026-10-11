@@ -3,6 +3,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- pour savoir si l'appli OneDrive est installée (Android 11 et plus) -->
+    <queries><package android:name="com.microsoft.skydrive" /></queries>
     <application
         android:label="Tâches"
         android:icon="@mipmap/ic_launcher"
@@ -31,6 +33,8 @@
             </intent-filter>
             <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
         </activity>
+        <provider android:name=".Partage" android:authorities="fr.froisois.tachesapp.partage"
+            android:exported="false" android:grantUriPermissions="true" />
         <receiver android:name=".MajRecue" android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
