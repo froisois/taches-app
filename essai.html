@@ -46,6 +46,12 @@ pre{white-space:pre-wrap;word-break:break-word;font-size:.78rem;background:color
 <button id="send">Ouvrir l’e-mail</button>
 <div class="res" id="r3"></div>
 
+<h2>5. Écrire dans OneDrive par le partage</h2>
+<p>Le bouton crée un petit fichier texte et ouvre le menu <strong>Partager</strong> d’Android. Choisis <strong>OneDrive</strong>, ton compte pro, puis le dossier où tu as mis <code>taches.md</code>, et valide l’envoi.</p>
+<p class="muted">Ensuite, vérifie dans l’appli OneDrive (ou sur le PC) que le fichier <code>a-trier-essai.txt</code> est bien arrivé dans ce dossier.</p>
+<button id="share">Partager un fichier d’essai</button>
+<div class="res" id="r5"></div>
+
 <h2>4. Mémoire de la page</h2>
 <div class="res" id="r4"></div>
 
@@ -87,6 +93,15 @@ $('#send').onclick=()=>{
   show($('#r3'),'Ta messagerie devrait s’ouvrir avec l’e-mail prérempli. Dis à Claude laquelle s’est ouverte, et si l’e-mail est bien arrivé.');
 };
 
+$('#share').onclick=async()=>{
+  const txt='Tâche d’essai envoyée depuis le téléphone le '+new Date().toLocaleString('fr-FR')+'\n';
+  const f=new File([txt],'a-trier-essai.txt',{type:'text/plain'});
+  const r={api:!!navigator.share,fichiers:!!(navigator.canShare&&navigator.canShare({files:[f]}))};
+  log.essais.partage=r;
+  if(!r.fichiers){show($('#r5'),'Ce navigateur ne sait pas partager de fichier.',false);return;}
+  try{await navigator.share({files:[f],title:'a-trier-essai.txt'});r.envoye=true;show($('#r5'),'Partage effectué côté téléphone. Vérifie maintenant dans OneDrive que le fichier est arrivé, et dans quel dossier.',true);}
+  catch(e){r.erreur=e.name+' : '+e.message;show($('#r5'),'Partage interrompu ou refusé : '+e.name,false);}
+};
 function render(){
   const d=store.get('essai-dernier');
   if(d){const o=JSON.parse(d);show($('#r4'),`Dernier fichier lu : <strong>${o.nom}</strong>, le ${fmt(o.quand)}. Si tu fermes et rouvres la page, cette ligne doit rester.`,true);log.essais.memoire_relue={nom:o.nom,quand:fmt(o.quand)};}
