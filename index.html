@@ -13,7 +13,7 @@ header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px so
 header h1{font-size:1rem;font-weight:600;margin:0}
 #status{flex:1;font-size:.8rem;color:var(--muted);margin-left:.6rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 button{font:inherit;font-size:.83rem;background:none;border:1px solid var(--line);color:var(--fg);border-radius:6px;padding:.18rem .6rem;cursor:pointer}
-button:hover{background:var(--hover)}
+@media (hover:hover){button:hover{background:var(--hover)}}
 button.primary{border-color:var(--accent);color:var(--accent)}
 .banner,#help{max-width:1240px;margin:.8rem auto 0;border:1px solid var(--line);border-radius:8px;font-size:.88rem}
 .banner{padding:.55rem .8rem;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
@@ -218,7 +218,8 @@ body.mobile>header,body.mobile #help,body.mobile #banner,body.mobile main,body.m
 .mchk::before{content:"";position:absolute;inset:-.55rem}
 .mchk.on{background:var(--c);border-color:var(--c)}
 .mchk.on::after{content:"";position:absolute;left:.36rem;top:.14rem;width:.28rem;height:.58rem;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
-.mupd{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:600}
+.mupd,.mupd:hover,.mupd:disabled{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:600}
+.mupd:disabled{opacity:.7;cursor:progress}
 .mupd[hidden],.mver[hidden]{display:none}
 .mver{flex:none;font-size:.74rem;padding:.2rem .55rem;border-radius:999px;border:1px solid var(--line);background:none;color:var(--muted);white-space:nowrap}
 .mver.ok{border-color:color-mix(in srgb,var(--accent) 45%,transparent);color:var(--accent)}
