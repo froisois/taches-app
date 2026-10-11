@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Tâches</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNGQkZBRjciLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSBzY2FsZSgxKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iI0YzRUVERCIvPjxyZWN0IHg9IjMxIiB5PSIzMS41IiB3aWR0aD0iNCIgaGVpZ2h0PSIxMyIgcng9IjIiIGZpbGw9IiNCNTlBM0EiLz48cmVjdCB4PSIzOSIgeT0iMzYiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyLjIiIHJ4PSIxLjEiIGZpbGw9IiNCNTlBM0EiIGZpbGwtb3BhY2l0eT0iLjYiLz48cmVjdCB4PSIzOSIgeT0iNDAiIHdpZHRoPSIxMyIgaGVpZ2h0PSIyLjIiIHJ4PSIxLjEiIGZpbGw9IiNCNTlBM0EiIGZpbGwtb3BhY2l0eT0iLjQ1Ii8+PHJlY3QgeD0iMzEiIHk9IjQ3LjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iI0Y0RTFERiIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNCIgaGVpZ2h0PSIxMyIgcng9IjIiIGZpbGw9IiNDNDUyNEEiLz48Y2lyY2xlIGN4PSI0MS41IiBjeT0iNTQiIHI9IjQuMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjQzQ1MjRBIiBzdHJva2Utd2lkdGg9IjEuNiIvPjxyZWN0IHg9IjMxIiB5PSI2My41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiNFMEVDRTciLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQiIGhlaWdodD0iMTMiIHJ4PSIyIiBmaWxsPSIjMkY2RjVFIi8+PGNpcmNsZSBjeD0iNDEuNSIgY3k9IjcwIiByPSI0LjIiIGZpbGw9IiMyRjZGNUUiIHN0cm9rZT0iIzJGNkY1RSIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48cGF0aCBkPSJNMzkuNSA3MGwxLjQgMS41IDIuNy0zIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48L2c+PC9zdmc+">
 <style>
 :root{--bg:#fbfaf7;--fg:#1d1d1b;--muted:#7f7c75;--line:#e4e1da;--accent:#2f6f5e;--hover:#f0eee8;--panel:#ffffff}
 @media (prefers-color-scheme:dark){:root{--bg:#1b1b1a;--fg:#e8e6e1;--muted:#9a978f;--line:#2f2e2c;--accent:#7fbfa8;--hover:#262624;--panel:#222220}}
@@ -121,7 +122,7 @@ body.filtering .ghost,body.filtering .vider,body.filtering .newsec{display:none!
 #settings .rb{display:flex;gap:.5rem;justify-content:flex-end;margin-top:.6rem}
 /* ---------- vue téléphone ---------- */
 body.mobile>header,body.mobile #help,body.mobile #banner,body.mobile main,body.mobile aside,body.mobile #fab{display:none!important}
-#m{max-width:640px;margin:0 auto;padding:0 0 6rem;--c:#5b8fd6}
+#m{max-width:640px;margin:0 auto;padding:0 0 6rem;--c:#2f6f5e}
 #m[hidden]{display:none}
 .mh{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:.6rem;padding:.6rem 1rem;background:var(--bg);border-bottom:1px solid var(--line)}
 .mtitle{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.25}
@@ -488,10 +489,10 @@ const uid=()=>'k'+Math.random().toString(36).slice(2,6);
 /* identifiant déterministe pour une ligne sans {id} : même fichier relu => mêmes identifiants (indispensable à la fusion) */
 function hashId(str){let h=0x811c9dc5;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,0x01000193);}return 'z'+(h>>>0).toString(36).padStart(7,'0').slice(-5);}
 const NOSEC='(sans rubrique)';
-const COLORS={bleu:'#5b8fd6',vert:'#3a9363',orange:'#d17636',violet:'#8762bd',jaune:'#c49a1c',rose:'#c45b8d',rouge:'#c4524a',turquoise:'#2f9ba0',gris:'#8a877f'};
+const COLORS={bleu:'#5b8fd6',vert:'#7a8f2e',orange:'#d17636',violet:'#8762bd',jaune:'#c49a1c',rose:'#c45b8d',rouge:'#c4524a',turquoise:'#2f9ba0',gris:'#8a877f'};
 const AUTO=['bleu','vert','orange','violet','jaune','rose','turquoise','rouge'];
 const CYCLE=Object.keys(COLORS);
-const CARD_COLOR=COLORS.bleu; /* couleur commune des étiquettes, quelle que soit la rubrique */
+const CARD_COLOR='#2f6f5e';  /* vert sapin, celui des boutons et de l'icône */ /* couleur commune des étiquettes, quelle que soit la rubrique */
 const STATES=[{k:'afaire',l:'À faire'},{k:'attente',l:'En attente / à relancer'},{k:'fait',l:'Fait'}];
 const SKEYS=STATES.map(s=>s.k);
 document.documentElement.style.setProperty('--ncol',STATES.length);
@@ -1276,8 +1277,8 @@ function openPalette(anchor,id){
   document.querySelectorAll('.palette').forEach(p=>p.remove());
   const it=items[idx(id)];if(!it)return;
   const pal=document.createElement('div');pal.className='palette';
-  const i0=idx(id),def=it.kind==='h'?[CARD_COLOR,'Bleu par défaut']:[laneColor(i0),'Couleur de la rubrique'];
-  const opts=[['',def[0],def[1]],...Object.entries(COLORS).filter(([k])=>it.kind==='h'?k!=='bleu':true).map(([k,v])=>[k,v,k.charAt(0).toUpperCase()+k.slice(1)])];
+  const i0=idx(id),def=it.kind==='h'?[CARD_COLOR,'Vert sapin par défaut']:[laneColor(i0),'Couleur de la rubrique'];
+  const opts=[['',def[0],def[1]],...Object.entries(COLORS).map(([k,v])=>[k,v,k==='vert'?'Vert olive':k.charAt(0).toUpperCase()+k.slice(1)])];
   for(const [k,v,t] of opts){const b=document.createElement('button');b.style.background=v;b.title=t;if((it.color||'')===k)b.className='cur';
     b.onclick=ev=>{ev.stopPropagation();pal.remove();snapshot();if(k)it.color=k;else delete it.color;render();changed();};pal.append(b);}
   const r=anchor.getBoundingClientRect();pal.style.left=Math.min(r.left,innerWidth-260)+'px';pal.style.top=(r.bottom+4)+'px';

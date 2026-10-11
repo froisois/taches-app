@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Piste F : fond vert sapin (#2F6F5E), trois étiquettes blanches avec les cercles des cartes, la première cochée. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+    <path android:fillColor="#FFFFFF" android:pathData="M34.5,31.5h39a3.5,3.5 0 0 1 3.5,3.5v6a3.5,3.5 0 0 1 -3.5,3.5h-39a3.5,3.5 0 0 1 -3.5,-3.5v-6a3.5,3.5 0 0 1 3.5,-3.5z" />
+    <path android:fillColor="#FFFFFF" android:fillAlpha="0.8" android:pathData="M34.5,47.5h39a3.5,3.5 0 0 1 3.5,3.5v6a3.5,3.5 0 0 1 -3.5,3.5h-39a3.5,3.5 0 0 1 -3.5,-3.5v-6a3.5,3.5 0 0 1 3.5,-3.5z" />
+    <path android:fillColor="#FFFFFF" android:fillAlpha="0.55" android:pathData="M34.5,63.5h25a3.5,3.5 0 0 1 3.5,3.5v6a3.5,3.5 0 0 1 -3.5,3.5h-25a3.5,3.5 0 0 1 -3.5,-3.5v-6a3.5,3.5 0 0 1 3.5,-3.5z" />
+    <path android:fillColor="#2F6F5E" android:pathData="M37.5,38m-4.2,0a4.2,4.2 0 1 1 8.4,0a4.2,4.2 0 1 1 -8.4,0" />
+    <path android:strokeColor="#FFFFFF" android:strokeWidth="1.5" android:strokeLineCap="round" android:strokeLineJoin="round" android:pathData="M35.5,38l1.4,1.5l2.7,-3" />
+    <path android:strokeColor="#2F6F5E" android:strokeWidth="1.6" android:pathData="M37.5,54m-4.2,0a4.2,4.2 0 1 1 8.4,0a4.2,4.2 0 1 1 -8.4,0" />
+    <path android:strokeColor="#2F6F5E" android:strokeWidth="1.6" android:pathData="M37.5,70m-4.2,0a4.2,4.2 0 1 1 8.4,0a4.2,4.2 0 1 1 -8.4,0" />
+</vector>
