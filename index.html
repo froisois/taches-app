@@ -208,6 +208,16 @@ body.mobile>header,body.mobile #help,body.mobile #banner,body.mobile main,body.m
 .mpull.ready{background:var(--accent);color:var(--bg)}
 .mpull.spin{opacity:1!important;animation:mspin .9s linear infinite}
 @keyframes mspin{from{transform:translateY(46px) rotate(0)}to{transform:translateY(46px) rotate(360deg)}}
+.mmenu{flex:none;border:none;background:none;color:var(--muted);font-size:1.4rem;line-height:1;padding:.2rem .3rem;margin-right:-.4rem}
+#mMenu{width:min(420px,90vw);border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--fg);padding:1rem}
+.mopt{display:flex;gap:.6rem;align-items:flex-start;font-size:.95rem;padding:.4rem 0 .7rem;border-bottom:1px solid var(--line)}
+.mopt input{width:1.2rem;height:1.2rem;margin-top:.1rem;flex:none}
+.mitem{display:block;width:100%;text-align:left;border:none;border-bottom:1px solid var(--line);border-radius:0;background:none;padding:.75rem 0;font-size:.95rem;color:var(--fg)}
+.mitem[hidden]{display:none}
+.mchk{flex:none;position:relative;width:1.35rem;height:1.35rem;margin:.02rem .1rem 0 -.1rem;padding:0;border:2px solid color-mix(in srgb,var(--c) 75%,var(--muted));border-radius:50%;background:var(--bg)}
+.mchk::before{content:"";position:absolute;inset:-.55rem}
+.mchk.on{background:var(--c);border-color:var(--c)}
+.mchk.on::after{content:"";position:absolute;left:.36rem;top:.14rem;width:.28rem;height:.58rem;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
 .mupd{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:600}
 .mupd[hidden],.mver[hidden]{display:none}
 .mver{flex:none;font-size:.74rem;padding:.2rem .55rem;border-radius:999px;border:1px solid var(--line);background:none;color:var(--muted);white-space:nowrap}
@@ -351,6 +361,7 @@ aside.open{transform:none}
     <button class="mver" id="mVer" hidden></button>
     <button class="mbtn mupd" id="mUpd" hidden>Mettre à jour l’appli</button>
     <button class="mbtn" id="mReload">⟳ Relire</button><input type="file" id="mFile" hidden>
+    <button class="mmenu" id="mMenuBtn" title="Options">⋮</button>
   </div>
   <div id="mFilters"></div>
   <nav class="mtabs" id="mTabs"></nav>
@@ -385,6 +396,15 @@ aside.open{transform:none}
       <div id="aLinks"></div>
       <p class="ameta" id="aMeta"></p>
       <div class="mrb"><button type="button" id="aDel" class="adel">Supprimer</button><span class="sp"></span><button type="submit" class="primary">Fermer</button></div>
+    </form>
+  </dialog>
+  <dialog id="mMenu">
+    <form method="dialog">
+      <label class="mopt"><input type="checkbox" id="oFilters"> Afficher les filtres (urgentes, à relancer, personnes)</label>
+      <button type="button" class="mitem" id="oUpdate">Vérifier la mise à jour de l’appli</button>
+      <button type="button" class="mitem" id="oFile">Choisir un autre fichier</button>
+      <p class="ameta" id="oInfo"></p>
+      <div class="mrb"><button type="submit" class="primary">Fermer</button></div>
     </form>
   </dialog>
   <dialog id="mNote">
@@ -1669,7 +1689,7 @@ const MKEY='taches-mobile';
 const MOBILE=/[?&]vue=mobile\b/.test(location.search)||(!/[?&]vue=pc\b/.test(location.search)&&matchMedia('(pointer: coarse)').matches&&(!hasFS||matchMedia('(max-width: 760px)').matches));
 const AND=(MOBILE&&window.TachesAndroid)||null;
 const mstore={get(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
-let mState={tab:'afaire',closed:{}},mName=null,mActId=null,mSubSig='',mNoteId=null;
+let mState={tab:'afaire',closed:{},filters:false},mName=null,mActId=null,mSubSig='',mNoteId=null;
 /* pont Android : chaque appel renvoie une promesse ; l'appli répond par tachesAndroidReply(id, ok, valeur) */
 const andCalls={};let andSeq=0;
 function andCall(m,arg){return new Promise((res,rej)=>{const id=++andSeq;andCalls[id]={res,rej};try{AND.request(id,m,arg==null?'':String(arg));}catch(e){delete andCalls[id];rej(e);}});}
@@ -1724,6 +1744,8 @@ function mCard(i){
   c.dataset.id=it.id;
   const h=headingOf(i);c.style.setProperty('--c',COLORS[it.color]||(h&&COLORS[h.color])||CARD_COLOR);
   const t=document.createElement('div');t.className='mct';
+  if(AND){const k=document.createElement('button');k.className='mchk'+(it.state==='fait'?' on':'');k.title=it.state==='fait'?'Remettre à faire':'Marquer comme faite';
+    k.onclick=ev=>{ev.stopPropagation();const f=it.state==='fait';mEdit(it.id,x=>{x.state=f?'afaire':'fait';},f?'Remise dans « À faire »':'Faite');};t.append(k);}
   if(isUrgent(it)&&it.state!=='fait'){const b=document.createElement('span');b.className='mbang';b.textContent='!';t.append(b);}
   const tx=document.createElement('span');tx.className='t';decorate(tx,it.text);t.append(tx);
   c.append(t);
@@ -1768,7 +1790,8 @@ function mRender(){
   /* filtres (mêmes règles que sur le PC) */
   const tops=items.map((x,i)=>i).filter(i=>items[i].kind==='t'&&items[i].level===0);
   const fb=$('#mFilters');fb.innerHTML='';
-  if(!notesTab){
+  if(!mState.filters)filter=null;
+  if(!notesTab&&mState.filters){
     const chips=[{t:'urgent',l:'! Urgentes'},{t:'late',l:'⏰ À relancer'}];
     for(const n of [...new Set(tops.filter(i=>items[i].state==='attente'&&items[i].waitFor).map(i=>items[i].waitFor))].sort((a,b)=>a.localeCompare(b,'fr')))chips.push({t:'who',v:n,l:'⏳ '+n});
     for(const ch of chips){
@@ -2084,6 +2107,13 @@ function initMobile(){
   const ui=mstore.get(MKEY+'-ui');if(ui)mState={...mState,...ui,closed:ui.closed||{}};
   if(!AND&&mState.tab==='notes')mState.tab='afaire';
   mInitAct();
+  $('#mMenuBtn').onclick=()=>{
+    $('#oFilters').checked=!!mState.filters;$('#oUpdate').hidden=!AND;$('#oFile').hidden=!AND||!mName;
+    $('#oInfo').textContent=AND&&mName?'Fichier : '+mName:'';$('#mMenu').showModal();if(document.activeElement)document.activeElement.blur();
+  };
+  $('#oFilters').onchange=()=>{mState.filters=$('#oFilters').checked;mstore.set(MKEY+'-ui',mState);mRender();};
+  $('#oUpdate').onclick=()=>{$('#mMenu').close();mCheckUpdate(true);};
+  $('#oFile').onclick=()=>{$('#mMenu').close();mPick();};
   if(AND){
     mInitNotes();mStartApp();$('#mReload').hidden=true;$('#mUpd').onclick=mUpdate;$('#mVer').onclick=()=>mCheckUpdate(true);mInitPull();setTimeout(mCheckUpdate,1500);
     $('#mInfo').onclick=()=>{if(mName&&confirm('Choisir un autre fichier que '+mName+' ?'))mPick();};
