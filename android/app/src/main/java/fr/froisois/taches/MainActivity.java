@@ -50,6 +50,15 @@ public class MainActivity extends Activity {
     private static final String DEPART = "https://" + HOTE + CHEMIN + "?vue=mobile";
     private static final String PAGE = "https://" + HOTE + CHEMIN + "index.html";
     private static final int CHOISIR = 1;
+    private static final int CHOISIR_DOSSIER = 4;
+    private static final int ENREGISTRER_SOUS = 5;
+    private static final String PJ = "Pièces jointes";
+    /** Fichier reçu par le menu Partager, copié dans le cache en attendant d'être rangé. */
+    private File partage = null;
+    private String partageNom = null, partageType = null;
+    private boolean partageALivrer = false;
+    private int pjEnCours = -1;
+    private String pjNom = null;
 
     private WebView web;
     private SharedPreferences prefs;
@@ -215,6 +224,19 @@ public class MainActivity extends Activity {
                         catch (Exception e) { repondre(id, false, message(e)); }
                     });
                     break;
+                case "saveAttachment":
+                    rangerPieceJointe(id, arg);
+                    break;
+                case "saveAttachmentAs":
+                    rangerSous(id, arg);
+                    break;
+                case "openAttachment":
+                    ouvrirPieceJointe(id, arg);
+                    break;
+                case "discardFile":
+                    partage = null; partageNom = null;
+                    repondre(id, true, "");
+                    break;
                 case "version":
                     repondre(id, true, String.valueOf(versionInstallee()));
                     break;
@@ -307,6 +329,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onActivityResult(int code, int res, Intent data) {
         super.onActivityResult(code, res, data);
+        if (code == CHOISIR_DOSSIER || code == ENREGISTRER_SOUS) { resultatPieceJointe(code, res, data); return; }
         if (code != CHOISIR) return;
         final int id = choixEnCours;
         choixEnCours = -1;
@@ -322,8 +345,9 @@ public class MainActivity extends Activity {
         }
         io.execute(() -> {
             // on ne garde que l'autorisation du fichier choisi
+            String tree = prefs.getString("tree", null);
             for (UriPermission p : getContentResolver().getPersistedUriPermissions())
-                if (!p.getUri().equals(u)) {
+                if (!p.getUri().equals(u) && !p.getUri().toString().equals(tree)) {
                     try { getContentResolver().releasePersistableUriPermission(p.getUri(),
                             Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION); }
                     catch (Exception ignored) { }
@@ -459,6 +483,8 @@ public class MainActivity extends Activity {
         if (i == null) return;
         if (NOTE.equals(i.getAction())) {
             noteEnAttente = "";
+        } else if (Intent.ACTION_SEND.equals(i.getAction()) && i.getParcelableExtra(Intent.EXTRA_STREAM) != null) {
+            recevoirFichier((Uri) i.getParcelableExtra(Intent.EXTRA_STREAM), i.getType());
         } else if (Intent.ACTION_SEND.equals(i.getAction()) && "text/plain".equals(i.getType())) {
             CharSequence t = i.getCharSequenceExtra(Intent.EXTRA_TEXT);
             String sujet = i.getStringExtra(Intent.EXTRA_SUBJECT);
@@ -469,10 +495,218 @@ public class MainActivity extends Activity {
     }
 
     private void livrerNote() {
+        livrerFichier();
         if (noteEnAttente == null || !pageChargee || web == null) return;
         String js = "window.tachesAndroidNewNote&&tachesAndroidNewNote(" + JSONObject.quote(noteEnAttente) + ")";
         noteEnAttente = null;
         web.evaluateJavascript(js, null);
+    }
+
+    private void resultatPieceJointe(int code, int res, Intent data) {
+        final int id = pjEnCours;
+        pjEnCours = -1;
+        if (id == -1) return;
+        if (res != RESULT_OK || data == null || data.getData() == null) {
+            repondre(id, false, code == CHOISIR_DOSSIER ? "dossier-refuse" : "annulé");
+            return;
+        }
+        final Uri u = data.getData();
+        if (code == ENREGISTRER_SOUS) {
+            io.execute(() -> {
+                try { copierVers(u); repondre(id, true, PJ + "/" + nomDocument(u, propre(pjNom))); }
+                catch (Exception e) { repondre(id, false, message(e)); }
+            });
+            return;
+        }
+        try {
+            getContentResolver().takePersistableUriPermission(u, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        } catch (Exception e) {
+            repondre(id, false, "dossier-refuse");
+            return;
+        }
+        io.execute(() -> {
+            // vérifier qu'il s'agit bien du dossier de taches.md
+            boolean ok = false;
+            String nomFichier = prefs.getString("nom", "taches.md");
+            try {
+                for (String[] e : enfants(u, DocumentsContract.getTreeDocumentId(u))) if (nomFichier.equals(e[1])) { ok = true; break; }
+            } catch (Exception ignored) { }
+            if (!ok) {
+                try { getContentResolver().releasePersistableUriPermission(u, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION); } catch (Exception ignored) { }
+                repondre(id, false, "ce dossier ne contient pas " + nomFichier + " : choisis le dossier où il se trouve");
+                return;
+            }
+            prefs.edit().putString("tree", u.toString()).apply();
+            runOnUiThread(() -> rangerPieceJointe(id, pjNom));
+        });
+    }
+
+    // ---------- fichier partagé vers l'appli : copié dans « Pièces jointes », à côté de taches.md ----------
+
+    private void recevoirFichier(Uri u, String type) {
+        String nom = "fichier";
+        try (Cursor c = getContentResolver().query(u, new String[]{OpenableColumns.DISPLAY_NAME}, null, null, null)) {
+            if (c != null && c.moveToFirst() && !c.isNull(0)) nom = c.getString(0);
+        } catch (Exception ignored) { }
+        final String n = nom;
+        partageNom = null;
+        io.execute(() -> {
+            try (InputStream in = getContentResolver().openInputStream(u)) {
+                if (in == null) throw new Exception("fichier illisible");
+                File dir = new File(getCacheDir(), "partage");
+                dir.mkdirs();
+                for (File f : dir.listFiles()) f.delete();
+                File f = new File(dir, "recu");
+                try (OutputStream o = new FileOutputStream(f)) {
+                    byte[] buf = new byte[65536]; int k; long total = 0;
+                    while ((k = in.read(buf)) > 0) { o.write(buf, 0, k); total += k; if (total > 60L * 1024 * 1024) throw new Exception("fichier trop gros (60 Mo au plus)"); }
+                }
+                partage = f; partageNom = n; partageType = type == null || type.isEmpty() ? "application/octet-stream" : type;
+                partageALivrer = true;
+                runOnUiThread(this::livrerFichier);
+            } catch (Exception e) {
+                runOnUiThread(() -> Toast.makeText(this, "Fichier non reçu : " + message(e), Toast.LENGTH_LONG).show());
+            }
+        });
+    }
+
+    private void livrerFichier() {
+        if (!partageALivrer || !pageChargee || web == null || partage == null) return;
+        partageALivrer = false;
+        try {
+            JSONObject o = new JSONObject();
+            o.put("name", partageNom); o.put("size", partage.length()); o.put("type", partageType);
+            web.evaluateJavascript("window.tachesAndroidFile&&tachesAndroidFile(" + o + ")", null);
+        } catch (Exception ignored) { }
+    }
+
+    private static String propre(String nom) {
+        String n = nom == null ? "" : nom.replaceAll("[\\\\/:*?\"<>|]", "-").trim();
+        return n.isEmpty() ? "fichier" : n;
+    }
+
+    private Uri dossier() {
+        String s = prefs.getString("tree", null);
+        if (s == null) return null;
+        Uri u = Uri.parse(s);
+        for (UriPermission p : getContentResolver().getPersistedUriPermissions())
+            if (p.getUri().equals(u) && p.isWritePermission()) return u;
+        return null;
+    }
+
+    /** Enfants d'un dossier : {identifiant, nom, type}. */
+    private java.util.List<String[]> enfants(Uri tree, String parentId) {
+        java.util.List<String[]> l = new java.util.ArrayList<>();
+        Uri q = DocumentsContract.buildChildDocumentsUriUsingTree(tree, parentId);
+        try (Cursor c = getContentResolver().query(q, new String[]{DocumentsContract.Document.COLUMN_DOCUMENT_ID,
+                DocumentsContract.Document.COLUMN_DISPLAY_NAME, DocumentsContract.Document.COLUMN_MIME_TYPE}, null, null, null)) {
+            while (c != null && c.moveToNext()) l.add(new String[]{c.getString(0), c.getString(1), c.getString(2)});
+        }
+        return l;
+    }
+
+    private String sousDossier(Uri tree, boolean creer) throws Exception {
+        String racine = DocumentsContract.getTreeDocumentId(tree);
+        for (String[] e : enfants(tree, racine))
+            if (PJ.equals(e[1]) && DocumentsContract.Document.MIME_TYPE_DIR.equals(e[2])) return e[0];
+        if (!creer) return null;
+        Uri d = DocumentsContract.createDocument(getContentResolver(), DocumentsContract.buildDocumentUriUsingTree(tree, racine),
+                DocumentsContract.Document.MIME_TYPE_DIR, PJ);
+        if (d == null) throw new Exception("impossible de créer le dossier « " + PJ + " »");
+        return DocumentsContract.getDocumentId(d);
+    }
+
+    private String nomDocument(Uri u, String defaut) {
+        try (Cursor c = getContentResolver().query(u, new String[]{OpenableColumns.DISPLAY_NAME}, null, null, null)) {
+            if (c != null && c.moveToFirst() && !c.isNull(0)) return c.getString(0);
+        } catch (Exception ignored) { }
+        return defaut;
+    }
+
+    private void copierVers(Uri doc) throws Exception {
+        try (InputStream in = new java.io.FileInputStream(partage); OutputStream o = getContentResolver().openOutputStream(doc, "w")) {
+            if (o == null) throw new Exception("écriture impossible");
+            byte[] buf = new byte[65536]; int k;
+            while ((k = in.read(buf)) > 0) o.write(buf, 0, k);
+        }
+    }
+
+    /** Range le fichier reçu dans « Pièces jointes » ; renvoie le chemin relatif au dossier de taches.md. */
+    private void rangerPieceJointe(int id, String nom) {
+        if (partage == null) { repondre(id, false, "aucun fichier reçu"); return; }
+        Uri tree = dossier();
+        if (tree == null) {
+            // première fois : demander l'accès au dossier de taches.md
+            pjEnCours = id; pjNom = nom;
+            runOnUiThread(() -> {
+                Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+                i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+                Uri f = fichier();
+                if (f != null && Build.VERSION.SDK_INT >= 26) i.putExtra(DocumentsContract.EXTRA_INITIAL_URI, f);
+                try { startActivityForResult(i, CHOISIR_DOSSIER); }
+                catch (Exception e) { pjEnCours = -1; repondre(id, false, "dossier-refuse"); }
+            });
+            return;
+        }
+        io.execute(() -> {
+            try {
+                String sous = sousDossier(tree, true);
+                java.util.Set<String> pris = new java.util.HashSet<>();
+                for (String[] e : enfants(tree, sous)) pris.add(e[1]);
+                String n = propre(nom), base = n, ext = "";
+                int pt = n.lastIndexOf('.');
+                if (pt > 0) { base = n.substring(0, pt); ext = n.substring(pt); }
+                for (int k = 2; pris.contains(n); k++) n = base + " (" + k + ")" + ext;
+                Uri doc = DocumentsContract.createDocument(getContentResolver(), DocumentsContract.buildDocumentUriUsingTree(tree, sous), partageType, n);
+                if (doc == null) throw new Exception("création du fichier refusée");
+                copierVers(doc);
+                repondre(id, true, PJ + "/" + nomDocument(doc, n));
+            } catch (Exception e) {
+                repondre(id, false, message(e));
+            }
+        });
+    }
+
+    /** Solution de repli si OneDrive refuse l'accès au dossier : « Enregistrer sous » à chaque fichier. */
+    private void rangerSous(int id, String nom) {
+        if (partage == null) { repondre(id, false, "aucun fichier reçu"); return; }
+        pjEnCours = id; pjNom = nom;
+        runOnUiThread(() -> {
+            Intent i = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+            i.addCategory(Intent.CATEGORY_OPENABLE);
+            i.setType(partageType);
+            i.putExtra(Intent.EXTRA_TITLE, propre(nom));
+            try { startActivityForResult(i, ENREGISTRER_SOUS); }
+            catch (Exception e) { pjEnCours = -1; repondre(id, false, message(e)); }
+        });
+    }
+
+    private void ouvrirPieceJointe(int id, String rel) {
+        Uri tree = dossier();
+        if (tree == null) { repondre(id, false, "l'appli n'a pas encore accès au dossier de taches.md"); return; }
+        io.execute(() -> {
+            try {
+                String[] parts = rel.split("/");
+                String cur = DocumentsContract.getTreeDocumentId(tree), type = null;
+                for (String part : parts) {
+                    String trouve = null;
+                    for (String[] e : enfants(tree, cur)) if (part.equals(e[1])) { trouve = e[0]; type = e[2]; break; }
+                    if (trouve == null) throw new Exception("fichier introuvable : " + rel);
+                    cur = trouve;
+                }
+                Uri doc = DocumentsContract.buildDocumentUriUsingTree(tree, cur);
+                final String t = type;
+                runOnUiThread(() -> {
+                    Intent v = new Intent(Intent.ACTION_VIEW);
+                    v.setDataAndType(doc, t == null ? "*/*" : t);
+                    v.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    try { startActivity(Intent.createChooser(v, null)); repondre(id, true, ""); }
+                    catch (Exception e) { repondre(id, false, "aucune appli pour ouvrir ce fichier"); }
+                });
+            } catch (Exception e) {
+                repondre(id, false, message(e));
+            }
+        });
     }
 
     // ---------- cycle de vie ----------

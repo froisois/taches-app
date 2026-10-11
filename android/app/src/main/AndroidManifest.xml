@@ -23,11 +23,11 @@
                 <action android:name="fr.froisois.taches.NOTE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-            <!-- menu Partager d'Android : un texte devient une note -->
-            <intent-filter android:label="@string/partager">
+            <!-- menu Partager d'Android : un texte devient une note, un fichier une pièce jointe -->
+            <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="text/plain" />
+                <data android:mimeType="*/*" />
             </intent-filter>
             <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
         </activity>

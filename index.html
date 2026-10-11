@@ -250,18 +250,20 @@ body.mobile,html:has(body.mobile){overflow-x:hidden}
 #aLinks .lnk{font-size:.88rem}
 .ameta{font-size:.8rem;color:var(--muted);margin:.5rem 0}
 #mAct :disabled{opacity:.75}
-#mNote{width:min(560px,94vw);max-height:92vh;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--fg);padding:1rem}
-#mNote textarea,#mNote input,#mNote select{display:block;width:100%;font:inherit;padding:.5rem;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);margin:.3rem 0}
-#mNote label{display:block;font-size:.85rem;margin-top:.4rem}
+#mAtt,#mNote{width:min(560px,94vw);max-height:92vh;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--fg);padding:1rem}
+#mAtt input,#mAtt select,#mNote textarea,#mNote input,#mNote select{display:block;width:100%;font:inherit;padding:.5rem;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);margin:.3rem 0}
+#mAtt label,#mNote label{display:block;font-size:.85rem;margin-top:.4rem}
+.tfile{font-weight:600;word-break:break-all;margin:.1rem 0 .3rem}
+#mAtt .ameta{margin:.3rem 0}
 #nMeta{margin-top:0}
 .ntabs{display:flex;gap:.4rem;margin:.5rem 0}
 .ntabs button{flex:1;font-size:.85rem;padding:.5rem .3rem}
 .ntabs button.on{background:var(--fg);border-color:var(--fg);color:var(--bg)}
 .npanel[hidden],#nTriage[hidden],#mAct [hidden]{display:none}
 .nwide{width:100%;margin:.3rem 0 .6rem;padding:.55rem}
-#nPick{max-height:40vh;overflow:auto;margin-bottom:.5rem}
-#nPick button{display:block;width:100%;text-align:left;border:none;border-bottom:1px solid var(--line);border-radius:0;background:none;padding:.55rem .3rem;font-size:.92rem;color:var(--fg)}
-#nPick small{display:block;color:var(--muted);font-size:.75rem}
+#nPick,#tPick{max-height:40vh;overflow:auto;margin-bottom:.5rem}
+#tPick button,#nPick button{display:block;width:100%;text-align:left;border:none;border-bottom:1px solid var(--line);border-radius:0;background:none;padding:.55rem .3rem;font-size:.92rem;color:var(--fg)}
+#tPick small,#nPick small{display:block;color:var(--muted);font-size:.75rem}
 .mnotec{margin:0 1rem .55rem;padding:.55rem .75rem;border:1px solid var(--line);border-left:4px solid #b59a3a;border-radius:8px;background:color-mix(in srgb,#b59a3a 9%,var(--bg));cursor:pointer}
 .mnotec .when{font-size:.74rem;color:var(--muted)}
 .mnotec .tx{white-space:pre-wrap;word-break:break-word;margin-top:.15rem;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
@@ -419,6 +421,24 @@ aside.open{transform:none}
       <div class="mrb"><button type="button" id="aDel" class="adel">Supprimer</button><span class="sp"></span><button type="submit" class="primary">Fermer</button></div>
     </form>
   </dialog>
+  <dialog id="mAtt">
+    <form method="dialog" id="tForm">
+      <p class="ameta">Fichier reçu</p>
+      <p class="tfile" id="tFile"></p>
+      <label>Nom du fichier<input id="tName"></label>
+      <div class="ntabs"><button type="button" data-p="new" class="on">Nouvelle tâche</button><button type="button" data-p="join">Joindre à une tâche</button></div>
+      <div class="npanel" id="tNew">
+        <label>Intitulé de la tâche<input id="tTitle"></label>
+        <label>Rubrique<select id="tSec"></select></label>
+      </div>
+      <div class="npanel" id="tJoin" hidden>
+        <input id="tQ" placeholder="Chercher une tâche" type="search">
+        <div id="tPick"></div>
+      </div>
+      <p class="ameta">Le fichier est copié dans le dossier « Pièces jointes », à côté de taches.md.</p>
+      <div class="mrb"><button type="button" id="tCancel">Annuler</button><span class="sp"></span><button type="submit" class="primary" id="tOk">Créer la tâche</button></div>
+    </form>
+  </dialog>
   <dialog id="mMenu">
     <form method="dialog">
       <label class="mopt"><input type="checkbox" id="oFilters"> Afficher les filtres (urgentes, à relancer, personnes)</label>
@@ -526,7 +546,11 @@ function oneDriveURL(p){
   }
   return null;
 }
+/* pièce jointe envoyée du téléphone : chemin relatif au dossier de taches.md */
+function isRel(u){return /^Pi[èe]ces jointes\//.test(u||'');}
+function relPath(u){return settings.dossier?settings.dossier.replace(/[\\/]+$/,'')+'\\'+u.replace(/\//g,'\\'):null;}
 function hrefOf(u){
+  if(isRel(u)){const p=relPath(u);return p?hrefOf(p):'#';}
   if(isPath(u)){
     for(const [app,re] of Object.entries(OFFICE))if(re.test(u))return 'ms-'+app+':ofe|u|'+(oneDriveURL(u)||fileURL(u));
     return fileURL(u);
@@ -535,6 +559,7 @@ function hrefOf(u){
   return u;
 }
 function labelOf(u){
+  if(isRel(u))return u.split('/').pop();
   if(/^mailto:/i.test(u))return u.slice(7).split('?')[0];
   if(/^https?:/i.test(u)){
     if(/outlook\.(office|office365|live)\.com|\/owa\//i.test(u))return 'E-mail Outlook';
@@ -546,11 +571,12 @@ function labelOf(u){
   if(isPath(u)){const parts=u.replace(/[\\/]+$/,'').split(/[\\/]/);return parts.pop()||u;}
   return u.length>40?u.slice(0,38)+'…':u;
 }
-function iconOf(u){if(/teams\.(microsoft|live)\.com\//i.test(u))return '💬';if(/^mailto:|outlook\.(office|office365|live)\.com|\/owa\/|mail\.google\.|\.(msg|eml)$/i.test(u))return '✉️';if(isPath(u))return /\.[a-z0-9]{1,5}$/i.test(u)?'📄':'📁';return '🌐';}
+function iconOf(u){if(isRel(u))return '📎';if(/teams\.(microsoft|live)\.com\//i.test(u))return '💬';if(/^mailto:|outlook\.(office|office365|live)\.com|\/owa\/|mail\.google\.|\.(msg|eml)$/i.test(u))return '✉️';if(isPath(u))return /\.[a-z0-9]{1,5}$/i.test(u)?'📄':'📁';return '🌐';}
 function mkLinks(links,removable){
   const d=document.createElement('div');d.className='links';
   links.forEach((l,k)=>{
     const a=document.createElement('a');a.className='lnk';a.href=hrefOf(l.url);a.target='_blank';a.rel='noopener';a.draggable=false;a.title=l.url;a.dataset.k=k;
+    if(isRel(l.url)&&!settings.dossier)a.onclick=e=>{if(e.target.closest('.lx'))return;e.preventDefault();toast('Indique dans ⚙ le dossier de taches.md sur ce PC pour ouvrir les pièces jointes du téléphone');};
     const ic=document.createElement('span');ic.textContent=/deeplink\/read\//.test(l.url)&&/\.[a-z0-9]{2,5}$/i.test(l.label||'')?'📎':iconOf(l.url);
     const t=document.createElement('span');t.className='lt';t.textContent=l.label||labelOf(l.url);a.append(ic,t);
     if(removable){const x=document.createElement('span');x.className='lx';x.textContent='×';x.title='Retirer ce lien';a.append(x);}
@@ -645,6 +671,7 @@ function parse(md){
       const sm=/^\s*[-*]\s*([^:]+?)\s*:\s*(.*?)\s*$/.exec(raw);if(!sm)continue;
       const k=sm[1].toLowerCase().replace(/[\s-]/g,''),v=sm[2];
       if(k==='email'||k==='courriel'){if(v)st.email=v;}
+      else if(k==='dossier'){if(v)st.dossier=v;}
       else if(k==='onedrive'){const m=/^(.*?)\s+=\s+(https?:\/\/\S+)$/.exec(v);if(m)(st.onedrive||(st.onedrive=[])).push({local:m[1],web:m[2]});}
       continue;
     }
@@ -749,9 +776,10 @@ function serialize(){
       });
     }
   }
-  if(settings.email||(settings.onedrive&&settings.onedrive.length)){
+  if(settings.email||settings.dossier||(settings.onedrive&&settings.onedrive.length)){
     L.push('','# ⚙ Réglages');
     if(settings.email)L.push('- e-mail : '+settings.email);
+    if(settings.dossier)L.push('- dossier : '+settings.dossier);
     for(const m of settings.onedrive||[])L.push('- onedrive : '+m.local+' = '+m.web);
   }
   return L.join('\n')+'\n';
@@ -822,7 +850,7 @@ function merge3(B,M,T){
   const hist=[...M.done.filter(e=>keepK(hk(e))),...T.done.filter(e=>!MK.has(hk(e))&&keepK(hk(e)))];
   /* réglages */
   const st={};const bs=B.settings||{},ms=M.settings||{},ts=T.settings||{};
-  for(const f of ['email','onedrive']){const j=x=>x==null?'':JSON.stringify(x);const mv=j(ms[f]),tv=j(ts[f]),bv=j(bs[f]);
+  for(const f of ['email','dossier','onedrive']){const j=x=>x==null?'':JSON.stringify(x);const mv=j(ms[f]),tv=j(ts[f]),bv=j(bs[f]);
     const v=mv===tv?ms[f]:(mv===bv?ts[f]:(tv===bv?ms[f]:(conflicts++,ms[f])));if(v!=null&&v!=='')st[f]=v;}
   /* notes : par identifiant, texte et date fusionnés comme les champs des tâches */
   const nB=new Map((B.notes||[]).map(n=>[n.id,n])),nM=new Map((M.notes||[]).map(n=>[n.id,n])),nT=new Map((T.notes||[]).map(n=>[n.id,n]));
@@ -1625,6 +1653,7 @@ $('#setBtn').onclick=()=>{
   if(!d){d=document.createElement('dialog');d.id='settings';d.innerHTML=`<h3>Réglages</h3>
     <p class="muted">Enregistrés à la fin de <code>taches.md</code>, jamais dans le programme.</p>
     <label>Adresse e-mail pour la saisie depuis le téléphone<input id="sEmail" type="email" placeholder="prenom.nom@exemple.fr"></label>
+    <label>Dossier de taches.md sur ce PC (pour ouvrir les pièces jointes envoyées du téléphone)<input id="sDir" placeholder="C:\\Users\\…\\OneDrive - …\\Tâches"></label>
     <fieldset><legend>Documents OneDrive ouverts sans avertissement d’Office</legend>
     <label>Dossier OneDrive sur ce PC<input id="sLocal" placeholder="C:\\Users\\…\\OneDrive - …"></label>
     <label>Adresse web de ce dossier<input id="sWeb" placeholder="https://…-my.sharepoint.com/personal/…/Documents"></label></fieldset>
@@ -1632,13 +1661,13 @@ $('#setBtn').onclick=()=>{
     document.body.append(d);
     d.querySelector('#sCancel').onclick=()=>d.close();
     d.querySelector('#sSave').onclick=()=>{
-      snapshot();const em=d.querySelector('#sEmail').value.trim(),lo=d.querySelector('#sLocal').value.trim(),we=d.querySelector('#sWeb').value.trim();
-      settings={...settings};if(em)settings.email=em;else delete settings.email;
+      snapshot();const dir=d.querySelector('#sDir').value.trim().replace(/^"(.*)"$/,'$1').replace(/[\\/]+$/,''),em=d.querySelector('#sEmail').value.trim(),lo=d.querySelector('#sLocal').value.trim(),we=d.querySelector('#sWeb').value.trim();
+      settings={...settings};if(em)settings.email=em;else delete settings.email;if(dir)settings.dossier=dir;else delete settings.dossier;
       if(lo&&/^https?:\/\//.test(we))settings.onedrive=[{local:lo,web:we}];else if(!lo&&!we)delete settings.onedrive;
       d.close();render();changed();toast('Réglages enregistrés');
     };
   }
-  d.querySelector('#sEmail').value=settings.email||'';
+  d.querySelector('#sEmail').value=settings.email||'';d.querySelector('#sDir').value=settings.dossier||'';
   const od=(settings.onedrive||[])[0]||{};d.querySelector('#sLocal').value=od.local||'';d.querySelector('#sWeb').value=od.web||'';
   d.showModal();
 };
@@ -1784,6 +1813,7 @@ window.tachesAndroidBack=()=>{const d=document.querySelector('dialog[open]');if(
 /* raccourci « Nouvelle note » et menu Partager d'Android */
 window.tachesAndroidNewNote=text=>{if(!AND)return;const d=document.querySelector('dialog[open]');if(d&&d.id!=='mNote')d.close();mOpenNote(null,text||'');};
 function mobileHref(u){
+  if(isRel(u)){const p=relPath(u);return p?oneDriveURL(p):null;}
   if(isPath(u))return oneDriveURL(u);
   return u;
 }
@@ -1809,13 +1839,14 @@ function mInfo(){
 }
 function mChip(txt,cls){const s=document.createElement('span');s.className='mchip'+(cls?' '+cls:'');s.textContent=txt;return s;}
 function mDue(it){const n=daysTo(it.due),soon=dueSoon(it);return mChip('📅 '+(n<0?'dépassée ('+shortDate(it.due)+')':n===0?'aujourd’hui':n===1?'demain':shortDate(it.due)+(n<=ECHEANCE_JOURS?' · J-'+n:'')),soon?(n<0?'redf':'red'):'');}
-function mIsFile(l){return isPath(l.url)||/sharepoint\.com|onedrive|^ms-/i.test(l.url)||(/deeplink\/read\//.test(l.url)&&/\.[a-z0-9]{2,5}$/i.test(l.label||''));}
+function mIsFile(l){return isRel(l.url)||isPath(l.url)||/sharepoint\.com|onedrive|^ms-/i.test(l.url)||(/deeplink\/read\//.test(l.url)&&/\.[a-z0-9]{2,5}$/i.test(l.label||''));}
 function mLinks(links){
   const d=document.createElement('div');d.className='mlinks';
   for(const l of links){
     const h=mobileHref(l.url),lab=(/deeplink\/read\//.test(l.url)&&/\.[a-z0-9]{2,5}$/i.test(l.label||'')?'📎':iconOf(l.url))+' '+(l.label||labelOf(l.url));
     let a;
-    if(h){a=document.createElement('a');a.href=h;a.target='_blank';a.rel='noopener';}
+    if(AND&&isRel(l.url)){a=document.createElement('a');a.href='#';a.onclick=e=>{e.preventDefault();e.stopPropagation();andCall('openAttachment',l.url).catch(err=>toast('Ouverture impossible\u202f: '+err.message));};}
+    else if(h){a=document.createElement('a');a.href=h;a.target='_blank';a.rel='noopener';}
     else{a=document.createElement('span');a.classList.add('off');a.title='Chemin du PC : inaccessible depuis le téléphone';}
     a.classList.add('lnk');a.textContent=lab;d.append(a);
   }
@@ -2183,6 +2214,64 @@ function mInitPull(){
   addEventListener('touchend',async()=>{if(y0==null)return;y0=null;const go=dy>90;dy=0;reset();if(!go)return;
     ind.classList.add('spin');try{await mRefresh();}finally{ind.classList.remove('spin');}});
 }
+/* ---------- fichier partagé vers l'appli : nouvelle tâche, ou pièce jointe d'une tâche existante ---------- */
+let mAttInfo=null;
+window.tachesAndroidFile=info=>{
+  if(!AND)return;const d=document.querySelector('dialog[open]');if(d&&d.id!=='mAtt')d.close();
+  mAttInfo=info||{};const name=mAttInfo.name||'fichier';
+  const kb=mAttInfo.size||0;$('#tFile').textContent='📎 '+name+(kb?' · '+(kb>=1048576?(kb/1048576).toLocaleString('fr-FR',{maximumFractionDigits:1})+'\u00a0Mo':Math.max(1,Math.round(kb/1024))+'\u00a0ko'):'');
+  $('#tName').value=name;$('#tTitle').value=name.replace(/\.[a-z0-9]{1,5}$/i,'').replace(/[_]+/g,' ').trim();
+  const sel=$('#tSec');sel.innerHTML='';const opt=(v,t)=>{const o=document.createElement('option');o.value=v;o.textContent=t;sel.append(o);};
+  opt('','Hors rubrique');for(const h of items.filter(x=>x.kind==='h'))opt(h.id,h.text);sel.value=idx(mState.sec)>=0?mState.sec:'';
+  mAttPanel('new');$('#tQ').value='';const b=$('#tOk');b.disabled=false;
+  $('#mAtt').showModal();if(document.activeElement)document.activeElement.blur();
+};
+function mAttPanel(p){
+  document.querySelectorAll('#mAtt .ntabs button').forEach(b=>b.classList.toggle('on',b.dataset.p===p));
+  $('#tNew').hidden=p!=='new';$('#tJoin').hidden=p!=='join';$('#tOk').hidden=p!=='new';
+  if(p==='join')mAttList();
+}
+function mAttList(){
+  const q=$('#tQ').value.trim().toLowerCase(),box=$('#tPick');box.innerHTML='';let n=0;
+  items.forEach((it,i)=>{
+    if(it.kind!=='t'||it.level!==0||it.state==='fait'||!it.text.trim())return;
+    if(q&&!it.text.toLowerCase().includes(q))return;if(n++>=40)return;
+    const h=headingOf(i),b=document.createElement('button');b.type='button';b.textContent=it.text;
+    const sm=document.createElement('small');sm.textContent=(h?h.text:'Hors rubrique')+' · '+(it.state==='attente'?'En attente':'À faire');b.append(sm);
+    b.onclick=()=>mAttSave(it.id);box.append(b);
+  });
+  if(!n)box.innerHTML='<p class="ameta">Aucune tâche ne correspond.</p>';
+}
+async function mAttSave(joinId){
+  if(!backend){toast('Choisis d’abord ton fichier taches.md');return;}
+  const name=($('#tName').value.trim()||(mAttInfo&&mAttInfo.name)||'fichier'),title=$('#tTitle').value.replace(/\s+/g,' ').trim();
+  if(!joinId&&!title){$('#tTitle').focus();return;}
+  const ok=$('#tOk');ok.disabled=true;const was=ok.textContent;ok.textContent='Copie…';
+  let rel=null;
+  try{rel=await andCall('saveAttachment',name);}
+  catch(e){
+    if(e.message==='dossier-refuse'){
+      if(confirm('OneDrive n’a pas donné accès au dossier de taches.md. Choisir plutôt l’emplacement du fichier\u202f? (Mets-le dans le dossier «\u00a0Pièces jointes\u00a0», à côté de taches.md.)')){
+        try{rel=await andCall('saveAttachmentAs',name);}catch(e2){if(!/annul/i.test(e2.message))toast('Copie impossible\u202f: '+e2.message);}
+      }
+    }else if(!/annul/i.test(e.message))toast('Copie impossible\u202f: '+e.message);
+  }
+  ok.disabled=false;ok.textContent=was;
+  if(!rel)return;
+  const link={url:rel,label:rel.split('/').pop()};
+  snapshot();
+  if(joinId){const it=items[idx(joinId)];if(!it)return;(it.links||(it.links=[])).push(link);}
+  else{const sec=$('#tSec').value;mState.sec=sec;const n={id:uid(),kind:'t',text:title,level:0,state:'afaire',created:todayISO(),links:[link]};items.splice(laneEndOf(sec||null),0,n);}
+  normalize();changed();mAttInfo=null;$('#mAtt').close();mRender();
+  toast(joinId?'Fichier joint à «\u00a0'+items[idx(joinId)].text+'\u00a0»':'Tâche créée avec le fichier');
+}
+function mInitAtt(){
+  document.querySelectorAll('#mAtt .ntabs button').forEach(b=>b.onclick=()=>mAttPanel(b.dataset.p));
+  $('#tQ').oninput=mAttList;
+  $('#tCancel').onclick=()=>{$('#mAtt').close();};
+  $('#mAtt').addEventListener('close',()=>{if(mAttInfo){mAttInfo=null;andCall('discardFile').catch(()=>{});}});
+  $('#tForm').onsubmit=e=>{e.preventDefault();mAttSave(null);};
+}
 async function mOpenFrom(name){
   mName=name;mstore.set('taches-app-name',name);backend=andBackend;
   const cur=await backend.read();
@@ -2250,7 +2339,7 @@ function initMobile(){
   $('#oUpdate').onclick=()=>{$('#mMenu').close();mCheckUpdate(true);};
   $('#oFile').onclick=()=>{$('#mMenu').close();mPick();};
   if(AND){
-    mInitNotes();mStartApp();$('#mReload').hidden=true;$('#mUpd').onclick=mUpdate;$('#mVer').onclick=()=>mCheckUpdate(true);mInitPull();setTimeout(mCheckUpdate,1500);
+    mInitNotes();mInitAtt();mStartApp();$('#mReload').hidden=true;$('#mUpd').onclick=mUpdate;$('#mVer').onclick=()=>mCheckUpdate(true);mInitPull();setTimeout(mCheckUpdate,1500);
     $('#mInfo').onclick=()=>{if(mName&&confirm('Choisir un autre fichier que '+mName+' ?'))mPick();};
   }else{
     const c=mstore.get(MKEY);

@@ -3,4 +3,5 @@
     <string name="note_court">Note</string>
     <string name="note_long">Nouvelle note</string>
     <string name="partager">Note dans Tâches</string>
+    <string name="partager_fichier">Joindre à une tâche</string>
 </resources>
