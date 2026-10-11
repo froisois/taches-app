@@ -204,6 +204,10 @@ body.mobile>header,body.mobile #help,body.mobile #banner,body.mobile main,body.m
 .mct .medit{flex:none;border:none;background:none;color:var(--muted);font-size:1.2rem;line-height:1;padding:0 .2rem;margin:-.1rem -.3rem 0 0}
 .msub .bx.tap{cursor:pointer;font-size:1.05rem;margin-top:-.1rem}
 #toast.undo{cursor:pointer;pointer-events:auto}
+.mpull{position:fixed;top:.6rem;left:50%;z-index:30;width:2.3rem;height:2.3rem;margin-left:-1.15rem;border-radius:50%;background:var(--panel);box-shadow:0 2px 10px rgba(0,0,0,.22);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;color:var(--accent);font-size:1.15rem;font-weight:700}
+.mpull.ready{background:var(--accent);color:var(--bg)}
+.mpull.spin{opacity:1!important;animation:mspin .9s linear infinite}
+@keyframes mspin{from{transform:translateY(46px) rotate(0)}to{transform:translateY(46px) rotate(360deg)}}
 .mupd{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:600}
 .mupd[hidden],.mver[hidden]{display:none}
 .mver{flex:none;font-size:.74rem;padding:.2rem .55rem;border-radius:999px;border:1px solid var(--line);background:none;color:var(--muted);white-space:nowrap}
@@ -1997,6 +2001,29 @@ function mInitNotes(){
   };
   $('#mNote').addEventListener('close',()=>{if(mNoteId)mSaveNoteEdit();mNoteId=null;});
 }
+/* tirer vers le bas pour actualiser : enregistre ce qui attend, sinon relit le fichier (en demandant à OneDrive sa dernière version) */
+async function mRefresh(){
+  if(!backend){mPick();return;}
+  if(saving)return;
+  if(dirty){await syncSave();mInfo();toast(saveErr?'Échec de l’enregistrement : '+saveErr:'Enregistré');return;}
+  try{
+    const cur=await andCall('read','frais');
+    if(cur===baseText||staleEcho(cur))toast('Déjà à jour');
+    else if(!cur.trim())toast('Le fichier est vide : rien n’a été remplacé');
+    else{applyModel(parse(cur));baseText=cur;backup();toast('Tableau mis à jour');}
+    savedAt=Date.now();saveErr=null;
+  }catch(e){toast('Lecture impossible : '+e.message);}
+  mInfo();
+}
+function mInitPull(){
+  const ind=document.createElement('div');ind.className='mpull';ind.textContent='↻';document.body.append(ind);
+  let y0=null,dy=0;const reset=()=>{ind.style.opacity='';ind.style.transform='';ind.classList.remove('ready');};
+  addEventListener('touchstart',e=>{y0=(scrollY>0||e.touches.length!==1||document.querySelector('dialog[open]'))?null:e.touches[0].clientY;dy=0;},{passive:true});
+  addEventListener('touchmove',e=>{if(y0==null)return;dy=e.touches[0].clientY-y0;if(dy<=0){reset();return;}
+    const d=Math.min(dy,130);ind.style.transform='translateY('+(d*.45)+'px) rotate('+(d*2.5)+'deg)';ind.style.opacity=Math.min(1,d/80);ind.classList.toggle('ready',dy>90);},{passive:true});
+  addEventListener('touchend',async()=>{if(y0==null)return;y0=null;const go=dy>90;dy=0;reset();if(!go)return;
+    ind.classList.add('spin');try{await mRefresh();}finally{ind.classList.remove('spin');}});
+}
 async function mOpenFrom(name){
   mName=name;mstore.set('taches-app-name',name);backend=andBackend;
   const cur=await backend.read();
@@ -2058,7 +2085,7 @@ function initMobile(){
   if(!AND&&mState.tab==='notes')mState.tab='afaire';
   mInitAct();
   if(AND){
-    mInitNotes();mStartApp();$('#mReload').hidden=true;$('#mUpd').onclick=mUpdate;$('#mVer').onclick=()=>mCheckUpdate(true);setTimeout(mCheckUpdate,1500);
+    mInitNotes();mStartApp();$('#mReload').hidden=true;$('#mUpd').onclick=mUpdate;$('#mVer').onclick=()=>mCheckUpdate(true);mInitPull();setTimeout(mCheckUpdate,1500);
     $('#mInfo').onclick=()=>{if(mName&&confirm('Choisir un autre fichier que '+mName+' ?'))mPick();};
   }else{
     const c=mstore.get(MKEY);

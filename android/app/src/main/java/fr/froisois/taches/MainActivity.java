@@ -199,7 +199,12 @@ public class MainActivity extends Activity {
                     break;
                 case "read":
                     io.execute(() -> {
-                        try { repondre(id, true, lire(exige())); }
+                        try {
+                            Uri u = exige();
+                            // « frais » (tirer pour actualiser) : demander à OneDrive sa dernière version avant de lire
+                            if ("frais".equals(arg)) { try { getContentResolver().refresh(u, null, null); } catch (Exception ignored) { } }
+                            repondre(id, true, lire(u));
+                        }
                         catch (Exception e) { repondre(id, false, message(e)); }
                     });
                     break;
