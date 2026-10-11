@@ -205,7 +205,7 @@ public class MainActivity extends Activity {
                     break;
                 case "write":
                     io.execute(() -> {
-                        try { ecrire(exige(), arg); repondre(id, true, ""); }
+                        try { repondre(id, true, ecrire(exige(), arg) ? "" : "non vérifié"); }
                         catch (Exception e) { repondre(id, false, message(e)); }
                     });
                     break;
@@ -263,15 +263,23 @@ public class MainActivity extends Activity {
         }
     }
 
-    /** Remplace le contenu (mode « wt » : tronqué puis écrit), puis relit pour vérifier. */
-    private void ecrire(Uri u, String texte) throws Exception {
+    /**
+     * Remplace le contenu (mode « wt » : tronqué puis écrit), puis relit pour vérifier.
+     * OneDrive peut renvoyer un moment l'ancienne version : on réessaie pendant quelques secondes.
+     * Une erreur d'écriture lève une exception ; une relecture encore différente renvoie seulement false.
+     */
+    private boolean ecrire(Uri u, String texte) throws Exception {
         byte[] octets = texte.getBytes(StandardCharsets.UTF_8);
         try (OutputStream o = getContentResolver().openOutputStream(u, "wt")) {
             if (o == null) throw new Exception("écriture impossible");
             o.write(octets);
             o.flush();
         }
-        if (!lire(u).equals(texte)) throw new Exception("écriture non vérifiée : le fichier relu diffère");
+        for (int essai = 0; essai < 6; essai++) {
+            if (lire(u).equals(texte)) return true;
+            Thread.sleep(500);
+        }
+        return false;
     }
 
     private void choisir(int id) {

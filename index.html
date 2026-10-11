@@ -1544,7 +1544,12 @@ async function idbSet(k,v){const db=await idb();return new Promise((res,rej)=>{c
    backend = accès au fichier ({read, write}) : File System Access sur le PC, pont de l'appli sur Android.
    baseText = dernière version lue ou écrite ; si le fichier a changé depuis, on fusionne avant d'écrire. */
 let baseText=null,backend=null,saving=false,saveAgain=false,rev=0,savedAt=0,saveErr=null;
-function backup(){try{localStorage.setItem(LS,JSON.stringify({items,done,settings,notes,dirty,base:baseText}));}catch(e){}}
+/* versions déjà connues (lues ou écrites ici) : OneDrive peut renvoyer un moment l'avant-dernière version ;
+   la relire ne doit pas passer pour une modification faite ailleurs, sinon la fusion annulerait les dernières modifications */
+let seenTexts=[];
+function remember(t){if(t==null)return;seenTexts=seenTexts.filter(x=>x!==t);seenTexts.push(t);if(seenTexts.length>15)seenTexts.shift();}
+function staleEcho(cur){return cur!==baseText&&seenTexts.includes(cur);}
+function backup(){remember(baseText);try{localStorage.setItem(LS,JSON.stringify({items,done,settings,notes,dirty,base:baseText}));}catch(e){}}
 function changed(){dirty=true;rev++;backup();clearTimeout(saveTimer);saveTimer=setTimeout(saveFile,700);setStatus();}
 function editing(){const a=document.activeElement;return !!(a&&a.matches&&a.matches('.txt,.cmt,input,textarea'));}
 function applyModel(r){
@@ -1556,14 +1561,18 @@ async function syncSave(){
   if(saving){saveAgain=true;return;}
   saving=true;
   try{
-    const cur=await backend.read();
+    let cur=await backend.read();
+    if(staleEcho(cur))cur=baseText;
     if(baseText!=null&&cur!==baseText&&cur.trim()){
       const r=merge3(parse(baseText),{items,done,settings,notes},parse(cur));
       applyModel(r);
       toast(r.conflicts?'Fusionné avec des modifications faites ailleurs · '+r.conflicts+' conflit'+(r.conflicts>1?'s':'')+' : la version de cet appareil a été gardée':'Fusionné avec des modifications faites ailleurs');
     }
     const at=rev,out=serialize();
-    if(out!==cur)await backend.write(out);
+    if(out!==cur){
+      try{await backend.write(out);}
+      catch(e){if(!/non v[ée]rifi[ée]e/.test(e.message))throw e;} /* appli 1.7 : relecture trop tôt, l'écriture a bien eu lieu */
+    }
     baseText=out;if(rev===at)dirty=false;backup();savedAt=Date.now();saveErr=null;
   }catch(err){saveErr=err.message||String(err);toast('Échec de l’enregistrement : '+saveErr);}
   saving=false;setStatus();
@@ -1574,7 +1583,7 @@ async function checkExternal(force){
   try{
     if(backend.changedSince&&!(await backend.changedSince()))return;
     const cur=await backend.read();
-    if(cur===baseText||!cur.trim())return;
+    if(cur===baseText||!cur.trim()||staleEcho(cur))return;
     if(baseText==null&&cur===serialize()){baseText=cur;backup();return;}
     if(dirty||(!force&&editing()))return;
     applyModel(parse(cur));baseText=cur;backup();toast('Mis à jour : le fichier a été modifié ailleurs');
@@ -2028,7 +2037,7 @@ async function mStartApp(){
   if(dirty){await syncSave();mRender();return;}
   try{
     const cur=await backend.read();
-    if(cur!==baseText){const p=parse(cur);items=p.items;done=p.done;settings=p.settings||{};notes=p.notes||[];normalize();baseText=cur;backup();}
+    if(cur!==baseText&&!staleEcho(cur)){const p=parse(cur);items=p.items;done=p.done;settings=p.settings||{};notes=p.notes||[];normalize();baseText=cur;backup();}
     savedAt=Date.now();saveErr=null;
   }catch(e){saveErr=e.message;toast('Lecture impossible : '+e.message+' · dernière version connue affichée');}
   mRender();
