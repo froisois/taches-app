@@ -1335,7 +1335,8 @@ window.addEventListener('focus',async()=>{
 
 /* ---------- vue téléphone (lecture seule, saisie par e-mail) ---------- */
 const MKEY='taches-mobile';
-const MOBILE=/[?&]vue=mobile\b/.test(location.search)||(!/[?&]vue=pc\b/.test(location.search)&&matchMedia('(max-width: 760px)').matches);
+/* Vue téléphone : écran tactile ET (pas d'accès aux fichiers, ou écran étroit). Une fenêtre Edge étroite au bureau reste en vue PC. */
+const MOBILE=/[?&]vue=mobile\b/.test(location.search)||(!/[?&]vue=pc\b/.test(location.search)&&matchMedia('(pointer: coarse)').matches&&(!hasFS||matchMedia('(max-width: 760px)').matches));
 const mstore={get(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
 let mState={tab:'afaire',closed:{},open:{}};
 function mobileHref(u){
