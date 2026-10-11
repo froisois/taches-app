@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Icône D : fond crème, une note (ocre), une urgente (rouge), une tâche cochée (vert sapin), comme dans l'appli.
+     Pile centrée sur le cercle utile de 66 dp (sur 108). Autres icônes : ../../../../icones-alternatives/ -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+    <!-- note -->
+    <path android:fillColor="#F3EEDD" android:pathData="M34.5,31.5h39a3.5,3.5 0 0 1 3.5,3.5v6a3.5,3.5 0 0 1 -3.5,3.5h-39a3.5,3.5 0 0 1 -3.5,-3.5v-6a3.5,3.5 0 0 1 3.5,-3.5z" />
+    <path android:fillColor="#B59A3A" android:pathData="M33,31.5h2v13h-2a2,2 0 0 1 -2,-2v-9a2,2 0 0 1 2,-2z" />
+    <path android:fillColor="#B59A3A" android:fillAlpha="0.6" android:pathData="M40.1,36h17.8a1.1,1.1 0 0 1 0,2.2h-17.8a1.1,1.1 0 0 1 0,-2.2z" />
+    <path android:fillColor="#B59A3A" android:fillAlpha="0.45" android:pathData="M40.1,40h10.8a1.1,1.1 0 0 1 0,2.2h-10.8a1.1,1.1 0 0 1 0,-2.2z" />
+    <!-- urgente -->
+    <path android:fillColor="#F4E1DF" android:pathData="M34.5,47.5h39a3.5,3.5 0 0 1 3.5,3.5v6a3.5,3.5 0 0 1 -3.5,3.5h-39a3.5,3.5 0 0 1 -3.5,-3.5v-6a3.5,3.5 0 0 1 3.5,-3.5z" />
+    <path android:fillColor="#C4524A" android:pathData="M33,47.5h2v13h-2a2,2 0 0 1 -2,-2v-9a2,2 0 0 1 2,-2z" />
+    <path android:strokeColor="#C4524A" android:strokeWidth="1.6" android:pathData="M41.5,54m-4.2,0a4.2,4.2 0 1 1 8.4,0a4.2,4.2 0 1 1 -8.4,0" />
+    <!-- tâche cochée -->
+    <path android:fillColor="#E0ECE7" android:pathData="M34.5,63.5h39a3.5,3.5 0 0 1 3.5,3.5v6a3.5,3.5 0 0 1 -3.5,3.5h-39a3.5,3.5 0 0 1 -3.5,-3.5v-6a3.5,3.5 0 0 1 3.5,-3.5z" />
+    <path android:fillColor="#2F6F5E" android:pathData="M33,63.5h2v13h-2a2,2 0 0 1 -2,-2v-9a2,2 0 0 1 2,-2z" />
+    <path android:fillColor="#2F6F5E" android:pathData="M41.5,70m-5,0a5,5 0 1 1 10,0a5,5 0 1 1 -10,0" />
+    <path android:strokeColor="#FFFFFF" android:strokeWidth="1.5" android:strokeLineCap="round" android:strokeLineJoin="round" android:pathData="M39.5,70l1.4,1.5l2.7,-3" />
+</vector>

@@ -3,5 +3,5 @@
     <color name="fond">#FBFAF7</color>
     <color name="vert">#2F6F5E</color>
     <bool name="clair">true</bool>
-    <color name="icone_fond">#FBFAF7</color>
+    <color name="icone_fond">#2F6F5E</color>
 </resources>
