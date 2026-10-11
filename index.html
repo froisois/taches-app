@@ -1907,9 +1907,12 @@ function mRender(){
   });
   /* urgentes d'abord (affichage seulement : l'ordre du fichier ne change pas) */
   const urgentFirst=arr=>sortIdx(arr,urgKey);
-  let shown=0;
+  /* urgentes : une section à part, avant les rubriques (rubrique d'origine en puce) */
+  const urg=urgentFirst(groups.flatMap(g=>g.todo.filter(i=>isUrgent(items[i]))));
+  let shown=urg.length;
+  if(urg.length)list.append(mSection('#urgent','! Urgentes',urg.length,'#c4524a',box=>{for(const i of urg)box.append(mCard(i,true));},'murg'));
   for(const g of groups){
-    g.todo=urgentFirst(g.todo);
+    g.todo=g.todo.filter(i=>!isUrgent(items[i]));
     const n=g.todo.length+g.done.length;if(!n)continue;shown+=n;
     list.append(mSection(g.h?g.h.text:'',g.h?g.h.text:'Hors rubrique',g.todo.length||'',(g.h&&COLORS[g.h.color])||CARD_COLOR,box=>{
       for(const i of g.todo)box.append(mCard(i));
