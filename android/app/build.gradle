@@ -8,7 +8,7 @@ android {
     namespace 'fr.froisois.taches'
     compileSdk 34
     defaultConfig {
-        applicationId 'fr.froisois.taches'
+        applicationId 'fr.froisois.tachesapp'
         minSdk 26
         targetSdk 34
         versionCode((System.getenv('GITHUB_RUN_NUMBER') ?: '1').toInteger())
