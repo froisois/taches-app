@@ -94,6 +94,56 @@ final class OneDriveWeb {
         return o;
     }
 
+    private static String jeton(Context c, String site) throws Exception {
+        HttpURLConnection g = ouvre(c, site + "/_api/contextinfo", "POST");
+        g.setRequestProperty("Accept", "application/json;odata=nometadata");
+        g.setDoOutput(true);
+        g.setFixedLengthStreamingMode(0);
+        g.getOutputStream().close();
+        verifie(g);
+        return new JSONObject(new String(corps(g), StandardCharsets.UTF_8)).getString("FormDigestValue");
+    }
+
+    /** Crée un fichier qui n'existe pas encore (et son dossier au besoin) ; refuse d'écraser un fichier existant (conflit). */
+    static void creer(Context c, String url, String texte) throws Exception {
+        String[] d = decoupe(url);
+        String chemin = d[1];
+        int k = chemin.lastIndexOf('/');
+        String dossier = chemin.substring(0, k), nom = chemin.substring(k + 1);
+        String digest = jeton(c, d[0]);
+        /* dossier : sans effet s'il existe déjà */
+        HttpURLConnection f = ouvre(c, d[0] + "/_api/web/folders/AddUsingPath(decodedurl='" + Uri.encode(dossier.replace("'", "''"), "/") + "')", "POST");
+        f.setRequestProperty("Accept", "application/json;odata=nometadata");
+        f.setRequestProperty("X-RequestDigest", digest);
+        f.setDoOutput(true);
+        f.setFixedLengthStreamingMode(0);
+        f.getOutputStream().close();
+        int rf = f.getResponseCode();
+        if (rf == 401 || rf == 403) throw new Exc("connexion", "connexion à OneDrive nécessaire");
+        HttpURLConnection h = ouvre(c, d[0] + "/_api/web/GetFolderByServerRelativePath(decodedurl='" + Uri.encode(dossier.replace("'", "''"), "/")
+                + "')/Files/AddUsingPath(decodedurl='" + Uri.encode(nom.replace("'", "''")) + "',overwrite=false)", "POST");
+        h.setRequestProperty("Accept", "application/json;odata=nometadata");
+        h.setRequestProperty("X-RequestDigest", digest);
+        byte[] b = texte.getBytes(StandardCharsets.UTF_8);
+        h.setDoOutput(true);
+        h.setFixedLengthStreamingMode(b.length);
+        try (OutputStream o = h.getOutputStream()) { o.write(b); }
+        int r = h.getResponseCode();
+        if (r == 409 || r == 400 && dejaLa(h)) throw new Exc("conflit", "le fichier existe déjà");
+        verifie(h);
+    }
+
+    private static boolean dejaLa(HttpURLConnection h) {
+        try (InputStream in = h.getErrorStream()) {
+            if (in == null) return false;
+            ByteArrayOutputStream bo = new ByteArrayOutputStream();
+            byte[] b = new byte[4096]; int n;
+            while ((n = in.read(b)) > 0) bo.write(b, 0, n);
+            String t = new String(bo.toByteArray(), StandardCharsets.UTF_8);
+            return t.contains("exist");
+        } catch (Exception e) { return false; }
+    }
+
     /** Écrit le fichier ; si etag est fourni, refuse d'écraser une version plus récente (conflit) */
     static void ecrire(Context c, String url, String texte, String etag) throws Exception {
         String[] d = decoupe(url);

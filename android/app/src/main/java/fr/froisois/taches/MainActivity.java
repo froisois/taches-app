@@ -275,6 +275,17 @@ public class MainActivity extends Activity {
                         catch (Exception e) { repondre(id, false, "reseau:" + message(e)); }
                     });
                     break;
+                case "spCreate":
+                    reseau.execute(() -> {
+                        try {
+                            JSONObject o = new JSONObject(arg);
+                            OneDriveWeb.creer(MainActivity.this, o.getString("url"), o.getString("text"));
+                            repondre(id, true, "");
+                        }
+                        catch (OneDriveWeb.Exc e) { repondre(id, false, e.code + ":" + e.getMessage()); }
+                        catch (Exception e) { repondre(id, false, "reseau:" + message(e)); }
+                    });
+                    break;
                 case "spWrite":
                     reseau.execute(() -> {
                         try {
