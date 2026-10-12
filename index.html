@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261012072738">
+<meta name="taches-page" content="20261012073807">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48Y2lyY2xlIGN4PSIzOCIgY3k9IjU0IiByPSI0LjEiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxjaXJjbGUgY3g9IjM4IiBjeT0iNzAiIHI9IjQuNiIgZmlsbD0iIzJGNkY1RSIvPjxwYXRoIGQ9Ik0zNS45IDcwbDEuNSAxLjYgMi45LTMuMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjEuNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHJlY3QgeD0iNDYiIHk9IjY4LjgiIHdpZHRoPSIxOCIgaGVpZ2h0PSIyLjQiIHJ4PSIxLjIiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PC9nPjwvc3ZnPg==">
 <style>
@@ -525,7 +525,7 @@ aside.open{transform:none}
           <div class="arow1"><select id="nSec" aria-label="Rubrique" title="Rubrique"></select><div class="aseg" id="nState"><button type="button" data-k="afaire" class="on" title="À faire" aria-label="À faire"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3.5"/><path d="M8.2 12.3l2.6 2.6 5-5.2"/></svg></button><button type="button" data-k="attente" title="En attente" aria-label="En attente"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="2.2" rx="1" fill="currentColor" stroke="none"/><rect x="5" y="19.3" width="14" height="2.2" rx="1" fill="currentColor" stroke="none"/><path d="M7.5 4.7c0 3.5 3 5 3.6 7.3-.6 2.3-3.6 3.8-3.6 7.3M16.5 4.7c0 3.5-3 5-3.6 7.3.6 2.3 3.6 3.8 3.6 7.3"/><path d="M9 18.6c.8-1.6 2.2-2.3 3-2.3s2.2.7 3 2.3z" fill="currentColor" stroke="none"/></svg></button></div></div>
           <p class="nsubs" id="nSubs" hidden></p>
           <label class="ndue" id="nDue" hidden><input type="checkbox" id="nDueOn" checked><span id="nDueTx"></span></label>
-          <button type="button" class="primary nwide" id="nMake">Créer la tâche</button>
+          <button type="button" class="primary nwide" id="nMake" hidden>Créer la tâche</button>
         </div>
         <div class="npanel" id="nAttach" hidden>
           <input id="nQ" placeholder="Chercher une tâche" type="search">
@@ -2328,7 +2328,7 @@ function mOpenNote(id,text){
   $('#nText').value=n?n.text:(text||'');
   $('#nMeta').textContent=n?'Note du '+mStamp(n.at):'Nouvelle note';
   $('#nTriage').hidden=false;$('#nDel').hidden=!n;$('#nCancel').hidden=!!n;mNoteDone=!!n;  /* seule une note en cours de saisie est gardée à la fermeture */
-  $('#nOk').title=n?'Fermer':'Enregistrer la note';$('#nOk').setAttribute('aria-label',$('#nOk').title);
+  $('#nOk').hidden=false;$('#nOk').title=n?'Fermer':'Enregistrer la note';$('#nOk').setAttribute('aria-label',$('#nOk').title);
   $('#nDel').classList.remove('sure');
   document.querySelectorAll('#mNote .ntabs button').forEach(b=>b.classList.remove('on'));$('#nTask').hidden=true;$('#nAttach').hidden=true;
   const d=$('#mNote');if(!d.open)d.showModal();
@@ -2359,6 +2359,8 @@ function mSaveNoteEdit(){
 function mNotePanel(p){
   document.querySelectorAll('#mNote .ntabs button').forEach(b=>b.classList.toggle('on',b.dataset.p===p));
   $('#nTask').hidden=p!=='task';$('#nAttach').hidden=p!=='attach';
+  /* un seul bouton de validation : ✓ enregistre la note, ou crée la tâche quand on en fait une ; rien à valider quand on choisit une tâche existante */
+  const ok=$('#nOk');ok.hidden=p==='attach';ok.title=p==='task'?'Créer la tâche':mNoteId?'Fermer':'Enregistrer la note';ok.setAttribute('aria-label',ok.title);
   if(p==='task'){const sel=$('#nSec');sel.innerHTML='';const opt=(v,t)=>{const o=document.createElement('option');o.value=v;o.textContent=t;sel.append(o);};
     opt('','Hors rubrique');for(const h of items.filter(x=>x.kind==='h'))opt(h.id,h.text);sel.value=idx(mState.sec)>=0?mState.sec:'';document.querySelectorAll('#nState button').forEach(b=>b.classList.toggle('on',b.dataset.k==='afaire'));}
   if(p==='attach'){$('#nQ').value='';mPickList();}
@@ -2419,6 +2421,7 @@ function mInitNotes(){
     const id=mNoteId;mNoteId=null;$('#mNote').close();snapshot();notes=notes.filter(x=>x.id!==id);changed();mRender();mUndoToast('Note supprimée');};
   $('#nForm').onsubmit=e=>{
     e.preventDefault();
+    if(!$('#nTask').hidden){mNoteToTask();return;}
     if(mNoteId){mSaveNoteEdit();mNoteId=null;$('#mNote').close();return;}
     const v=mNoteText();mNoteDone=true;if(!v){$('#mNote').close();return;}
     snapshot();notes.push({id:null,at:nowStamp(),text:v});normalize();changed();$('#mNote').close();mRender();toast('Note enregistrée');
