@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261012065622">
+<meta name="taches-page" content="20261012070207">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48Y2lyY2xlIGN4PSIzOCIgY3k9IjU0IiByPSI0LjEiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxjaXJjbGUgY3g9IjM4IiBjeT0iNzAiIHI9IjQuNiIgZmlsbD0iIzJGNkY1RSIvPjxwYXRoIGQ9Ik0zNS45IDcwbDEuNSAxLjYgMi45LTMuMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjEuNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHJlY3QgeD0iNDYiIHk9IjY4LjgiIHdpZHRoPSIxOCIgaGVpZ2h0PSIyLjQiIHJ4PSIxLjIiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PC9nPjwvc3ZnPg==">
 <style>
@@ -2464,12 +2464,13 @@ function mInitPull(){
   ind.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">'+PULL_ARROW+'</svg>';
   document.body.append(ind);const ic=ind.firstChild,list=$('#mList');
   let y0=null,x0=0,dy=0,pulling=false,raf=0;
-  const MAX=130;   /* second seuil : au-delà, l'écran ne descend plus et la flèche s'arrête */
-  const off=d=>{const k=Math.min(d,MAX)/MAX;return 52*(1-(1-k)*(1-k));};   /* amorti, et jamais plus bas que la position d'actualisation (52 px) */
+  /* butée douce : l'écran et la flèche ralentissent ensemble et s'approchent sans à-coup de leur limite
+     (l'écran jamais plus bas que sa position d'actualisation, 52 px) */
+  const ease=d=>1-Math.exp(-d/65),off=d=>52*ease(d),ang=d=>330*ease(d);
   const draw=()=>{raf=0;const d=Math.max(0,dy),o=off(d);
     list.style.transform='translateY('+o+'px)';
     ind.style.transform='translateY('+(o*40/52)+'px)';ind.style.opacity=String(Math.min(1,d/50));
-    ic.style.transform='rotate('+(Math.min(d,MAX)*2.4)+'deg)';
+    ic.style.transform='rotate('+ang(d)+'deg)';
     const rd=d>90;if(rd!==ind.classList.contains('ready')){ind.classList.toggle('ready',rd);if(rd)buzz(10);}};
   const back=()=>{list.style.transition='transform .25s ease-out';list.style.transform='';
     ind.style.transition='transform .25s ease-out,opacity .2s';ind.style.transform='';ind.style.opacity='';ic.style.transform='';ind.classList.remove('ready');
@@ -2486,7 +2487,7 @@ function mInitPull(){
   },{passive:false});
   addEventListener('touchend',async()=>{
     if(y0==null||!pulling){y0=null;return;}y0=null;pulling=false;if(raf){cancelAnimationFrame(raf);raf=0;}
-    const go=dy>90,a0=Math.min(dy,MAX)*2.4;dy=0;
+    const go=dy>90,a0=ang(dy);dy=0;
     if(!go){back();return;}
     /* l'écran se pose avec un petit rebond ; la flèche continue de tourner depuis où elle était */
     const spring='cubic-bezier(.34,1.56,.64,1)';
