@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261012070207">
+<meta name="taches-page" content="20261012071524">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48Y2lyY2xlIGN4PSIzOCIgY3k9IjU0IiByPSI0LjEiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxjaXJjbGUgY3g9IjM4IiBjeT0iNzAiIHI9IjQuNiIgZmlsbD0iIzJGNkY1RSIvPjxwYXRoIGQ9Ik0zNS45IDcwbDEuNSAxLjYgMi45LTMuMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjEuNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHJlY3QgeD0iNDYiIHk9IjY4LjgiIHdpZHRoPSIxOCIgaGVpZ2h0PSIyLjQiIHJ4PSIxLjIiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PC9nPjwvc3ZnPg==">
 <style>
@@ -230,7 +230,10 @@ button.ico.aurg.on{background:#c4524a;border-color:#c4524a;color:#fff}
 .mpull{position:fixed;top:.6rem;left:50%;z-index:30;width:2.4rem;height:2.4rem;margin-left:-1.2rem;border-radius:50%;background:var(--panel);box-shadow:0 2px 10px rgba(0,0,0,.22);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;color:var(--accent);transition:background .15s,color .15s}
 .mpull svg{display:block}
 .mpull.ready{background:var(--accent);color:var(--bg)}
-.mpull.spin svg{animation:mspin .75s linear infinite}
+.mpull.spin svg{animation:mspin .9s linear infinite}
+.mpull.spin .ah{display:none}
+.mpull.spin .arc{animation:marc 1.3s ease-in-out infinite}
+@keyframes marc{0%,100%{stroke-dasharray:9 44}50%{stroke-dasharray:30 44}}
 .mpull.good{background:var(--accent);color:var(--bg);animation:mpop .32s cubic-bezier(.34,1.56,.64,1)}
 .mpull.bad{background:#c4524a;color:#fff;animation:mpop .32s cubic-bezier(.34,1.56,.64,1)}
 .mpull .pk{stroke-dasharray:20;stroke-dashoffset:20;animation:mdraw .3s .05s ease-out forwards}
@@ -2456,7 +2459,7 @@ async function mRefresh(){
   }catch(e){toast('Lecture impossible : '+e.message);mInfo();return 'err';}
   mInfo();return 'ok';
 }
-const PULL_ARROW='<path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20.5 3.5v4.4h-4.4"/>',PULL_OK='<path class="pk" d="M5.5 12.5l4.2 4.2L18.5 8"/>',PULL_BAD='<path d="M12 6.5v7"/><circle cx="12" cy="17.5" r=".6" fill="currentColor"/>';
+const PULL_ARROW='<circle class="arc" cx="12" cy="12" r="7" transform="rotate(-90 12 12)" stroke-dasharray="0 44"/><g class="ah"><path d="M11.2 2.3L14.8 5l-3.6 2.7z" fill="currentColor" stroke="none"/></g>',PULL_OK='<path class="pk" d="M5.5 12.5l4.2 4.2L18.5 8"/>',PULL_BAD='<path d="M12 6.5v7"/><circle cx="12" cy="17.5" r=".6" fill="currentColor"/>';
 function buzz(p){try{navigator.vibrate&&navigator.vibrate(p);}catch(e){}}
 function mInitPull(){
   /* tirer pour actualiser : l'écran suit le doigt (avec résistance), la flèche tourne avec lui, dans un sens comme dans l'autre */
@@ -2464,16 +2467,19 @@ function mInitPull(){
   ind.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">'+PULL_ARROW+'</svg>';
   document.body.append(ind);const ic=ind.firstChild,list=$('#mList');
   let y0=null,x0=0,dy=0,pulling=false,raf=0;
-  /* butée douce : l'écran et la flèche ralentissent ensemble et s'approchent sans à-coup de leur limite
-     (l'écran jamais plus bas que sa position d'actualisation, 52 px) */
-  const ease=d=>1-Math.exp(-d/65),off=d=>52*ease(d),ang=d=>330*ease(d);
-  const draw=()=>{raf=0;const d=Math.max(0,dy),o=off(d);
-    list.style.transform='translateY('+o+'px)';
-    ind.style.transform='translateY('+(o*40/52)+'px)';ind.style.opacity=String(Math.min(1,d/50));
-    ic.style.transform='rotate('+ang(d)+'deg)';
+  /* comme Gmail : la flèche se dessine petit à petit (arc + pointe qui grandissent), fait un tour et demi
+     en ralentissant jusqu'à s'arrêter, et descend en même temps ; l'écran descend aussi, plus lentement */
+  const C=2*Math.PI*7,ease=(d,k)=>1-Math.exp(-d/k);
+  const yInd=d=>60*ease(d,85),yList=d=>30*ease(d,110),ang=d=>540*ease(d,80);
+  const shape=p=>{const len=.8*C*p;ic.querySelector('.arc').setAttribute('stroke-dasharray',len+' '+C);
+    ic.querySelector('.ah').setAttribute('transform','rotate('+(len/C*360)+' 12 12) translate(12 5) scale('+p+') translate(-12 -5)');};
+  const draw=()=>{raf=0;const d=Math.max(0,dy);
+    list.style.transform='translateY('+yList(d)+'px)';
+    ind.style.transform='translateY('+yInd(d)+'px)';ind.style.opacity=String(Math.min(1,d/40));
+    shape(Math.min(1,d/90));ic.style.transform='rotate('+ang(d)+'deg)';
     const rd=d>90;if(rd!==ind.classList.contains('ready')){ind.classList.toggle('ready',rd);if(rd)buzz(10);}};
   const back=()=>{list.style.transition='transform .25s ease-out';list.style.transform='';
-    ind.style.transition='transform .25s ease-out,opacity .2s';ind.style.transform='';ind.style.opacity='';ic.style.transform='';ind.classList.remove('ready');
+    ind.style.transition='transform .25s ease-out,opacity .2s';ind.style.transform='';ind.style.opacity='';ic.style.transform='';ind.classList.remove('ready');setTimeout(()=>{if(!pulling)shape(0);},260);
     setTimeout(()=>{list.style.transition='';ind.style.transition='';},260);};
   addEventListener('touchstart',e=>{
     y0=(scrollY>0||e.touches.length!==1||document.querySelector('dialog[open]')||ind.classList.contains('spin'))?null:e.touches[0].clientY;
@@ -2491,8 +2497,8 @@ function mInitPull(){
     if(!go){back();return;}
     /* l'écran se pose avec un petit rebond ; la flèche continue de tourner depuis où elle était */
     const spring='cubic-bezier(.34,1.56,.64,1)';
-    list.style.transition='transform .38s '+spring;list.style.transform='translateY(52px)';
-    ind.style.transition='transform .38s '+spring;ind.style.transform='translateY(40px)';ind.style.opacity='1';
+    list.style.transition='transform .38s '+spring;list.style.transform='translateY(26px)';
+    ind.style.transition='transform .38s '+spring;ind.style.transform='translateY(50px)';ind.style.opacity='1';
     ic.style.setProperty('--a0',a0+'deg');ic.style.transform='';ind.classList.add('spin');
     const t0=Date.now();let res='err';
     try{res=await mRefresh();}catch(e){}
