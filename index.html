@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261012133813">
+<meta name="taches-page" content="20261012153910">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -42,6 +42,7 @@ main{max-width:1240px;margin:0 auto;padding:1rem 1rem 30vh;min-height:60vh;curso
 .cells{display:grid;grid-template-columns:repeat(var(--ncol),1fr);gap:.8rem;margin-top:.5rem;align-items:stretch}
 .cell{display:flex;flex-direction:column;gap:.5rem;min-height:2.6rem;padding:.3rem;border-radius:9px;background:color-mix(in srgb,var(--c) 5%,transparent)}
 .cell.drop-in{outline:2px dashed var(--accent);outline-offset:-2px}
+.card.drop-in{outline:2px solid var(--accent);outline-offset:1px;background:color-mix(in srgb,var(--accent) 12%,var(--bg))}
 .cell[data-state="fait"]{background:color-mix(in srgb,var(--muted) 6%,transparent)}
 .cell[data-state="fait"] .card{opacity:.55;filter:saturate(.35)}
 .cell[data-state="fait"] .card:hover{opacity:.85}
@@ -365,6 +366,19 @@ body.mobile button:focus{outline:none}   /* au doigt, pas de cadre de focus (ora
 .mtabs:empty{display:none}
 .msech .al{color:#c4524a;font-size:.78rem;font-weight:600;margin-left:.4rem}
 .msec .mnotec{margin:0}
+.mhistsec .mcards{gap:.35rem}
+.mhq{width:100%;box-sizing:border-box;font:inherit;font-size:.92rem;padding:.45rem .7rem;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);margin:.1rem 0 .2rem}
+.mhday{font-size:.76rem;color:var(--muted);font-weight:600;margin:.5rem 0 .05rem .1rem}
+.mhent{padding:.45rem .7rem;border-radius:8px;border-left:3px solid var(--c);background:color-mix(in srgb,var(--c) 7%,var(--bg))}
+.mhent .t{font-size:.92rem;color:color-mix(in srgb,var(--fg) 80%,transparent)}
+.mhent .ctx{font-size:.74rem;color:var(--muted)}
+.mhent .det{margin-top:.35rem;font-size:.85rem}
+.mhent .sub{padding-left:calc(var(--lv,0) * 1rem + .2rem);color:var(--muted)}
+.mhent .sub.open{color:var(--fg)}
+.mhent .nt{white-space:pre-wrap;color:var(--muted);margin:.2rem 0}
+.mhent .meta{font-size:.74rem;color:var(--muted);margin-top:.3rem}
+.mbtn2{margin-top:.45rem;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:999px;padding:.3rem .8rem;font-size:.85rem}
+.mbtn2.more{align-self:center}
 .mcard.fait{opacity:.55;filter:saturate(.3)}
 .mcard.fait .mct .t{text-decoration:line-through;color:var(--muted);font-weight:500}
 .msecname{font-size:.74rem;color:var(--muted);align-self:center}
@@ -374,15 +388,33 @@ body.mobile button:focus{outline:none}   /* au doigt, pas de cadre de focus (ora
 #inbox[hidden]{display:none}
 #inbox .ihd{font-size:.82rem;color:var(--muted);margin:0 0 .5rem}
 #inbox .ihd strong{color:var(--fg);margin-right:.4rem}
-.inotes{display:flex;flex-wrap:wrap;gap:.5rem}
-.inote{position:relative;width:16rem;padding:.35rem 1.4rem .45rem .6rem;border:1px solid var(--line);border-left:4px solid var(--note-bar);border-radius:8px;background:var(--note-bg);cursor:grab}
+.inotes{display:flex;flex-wrap:wrap;gap:.5rem;align-items:flex-start}
+#inbox .ihd{display:flex;align-items:baseline;gap:.2rem;flex-wrap:wrap}
+#inbox .ihd .sp{flex:1}
+#inbox .nadd{border:1px solid var(--note-bar);background:var(--note-bg);color:var(--fg);border-radius:6px;padding:.1rem .6rem;font-size:.82rem}
+#inbox .nadd:hover{background:var(--bg)}
+#inbox.empty{padding:.35rem .8rem}
+#inbox.empty .ihd{margin:0}
+/* chaque note prend la largeur de sa plus longue ligne (plafonnée) et la hauteur de son texte */
+.inote{position:relative;width:max-content;min-width:9rem;max-width:min(34rem,100%);min-height:3.3rem;padding:.35rem 2.6rem .45rem .6rem;border:1px solid var(--line);border-left:4px solid var(--note-bar);border-radius:8px;background:var(--note-bg);cursor:grab}
 .inote.dragging{opacity:.4}
 .inote .when{font-size:.72rem;color:var(--muted)}
 .inote .tx{white-space:pre-wrap;word-break:break-word;font-size:.9rem;outline:none;line-height:1.35}
-.inote .tx[contenteditable]:not([contenteditable=false]){cursor:text;background:var(--bg);border-radius:4px}
-.inote .x{position:absolute;top:.15rem;right:.25rem;border:none;background:none;padding:0 .2rem;color:var(--muted);opacity:0;font-size:.95rem}
-.inote:hover .x{opacity:.6}
+.inote textarea.tx{display:block;field-sizing:content;min-width:max(12rem,100%);box-sizing:border-box;max-width:min(31rem,calc(100vw - 6rem));min-height:1.4em;resize:none;border:none;padding:0 .15rem;margin:0 -.15rem;font:inherit;font-size:.9rem;line-height:1.35;color:inherit;background:var(--bg);border-radius:4px;cursor:text}
+.inote.editing{cursor:default;box-shadow:0 0 0 2px color-mix(in srgb,var(--note-bar) 60%,transparent)}
+.inote .x,.inote .cp{position:absolute;top:.15rem;border:none;background:none;padding:0 .2rem;color:var(--muted);opacity:0;font-size:.95rem;line-height:1.3}
+.inote .x{right:.25rem}
+.inote .cp{right:1.35rem;font-size:.8rem}
+.inote:hover .x,.inote:hover .cp{opacity:.6}
 .inote .x:hover{opacity:1;color:#c4524a;background:none}
+.inote .cp:hover{opacity:1;color:var(--fg);background:none}
+.inote .cp.done{opacity:1;color:#2e6b57}
+.inote.drop-l{box-shadow:-4px 0 0 -1px var(--accent,#2e6b57)}
+.inote.drop-r{box-shadow:4px 0 0 -1px var(--accent,#2e6b57)}
+.inote .fmtb{display:flex;gap:.15rem;margin-top:.3rem}
+.inote .fmtb button{border:1px solid var(--line);background:var(--bg);border-radius:4px;padding:0 .4rem;font-size:.78rem;line-height:1.5;color:var(--muted)}
+.inote .fmtb button:hover{color:var(--fg)}
+.inote .fmtb .hint{font-size:.7rem;color:var(--muted);align-self:center;margin-left:.3rem}
 .lanelabel{font-size:.8rem;color:var(--muted);padding-left:.3rem}
 .drag-ghost{position:fixed;z-index:30;pointer-events:none;opacity:.92;transform:rotate(1.2deg);box-shadow:0 8px 24px rgba(0,0,0,.18);margin:0}
 .card{background:color-mix(in srgb,var(--c) 13%,var(--bg));border:1px solid color-mix(in srgb,var(--c) 28%,transparent);border-left:4px solid var(--c);border-radius:8px;padding:.4rem .6rem .45rem .25rem;transition:opacity .3s,transform .3s}
@@ -392,6 +424,16 @@ body.mobile button:focus{outline:none}   /* au doigt, pas de cadre de focus (ora
 .chk{flex:none;position:relative;width:.95rem;height:.95rem;margin-top:.3rem;padding:0;border:1.5px solid color-mix(in srgb,var(--c) 70%,var(--muted));border-radius:4px;background:var(--bg)}
 .chk:hover{background:color-mix(in srgb,var(--c) 25%,var(--bg))}
 .chk.on{background:var(--c);border-color:var(--c)}
+.row.t.urgent .chk,.card.urgent>.row.top .chk{border-color:#c4524a}
+.row.t.urgent .chk.on,.card.urgent>.row.top .chk.on{background:#c4524a}
+.section.urglane .lanehd{display:flex;align-items:center;gap:.45rem;font-weight:650;font-size:1.05rem;color:#c4524a;padding:.1rem .3rem .2rem;border-bottom:2px solid color-mix(in srgb,#c4524a 40%,transparent);margin-bottom:.5rem}
+.section.urglane .lanehd::before{content:"";width:.85rem;height:.85rem;border-radius:50%;background:#c4524a}
+.card .insec{display:inline-block;font-size:.7rem;color:color-mix(in srgb,var(--c) 75%,var(--fg));border:1px solid color-mix(in srgb,var(--c) 40%,transparent);border-radius:999px;padding:0 .45rem;margin:0 0 .15rem 1.6rem}
+.useg{display:inline-flex;align-items:center;gap:0;font-size:.78rem;border:1px solid color-mix(in srgb,#c4524a 45%,transparent);border-radius:999px;overflow:hidden;white-space:nowrap}
+.useg span{color:#c4524a;font-weight:700;padding:.1rem .2rem .1rem .55rem}
+.useg button{border:none;background:none;border-radius:0;padding:.1rem .55rem;font-size:.78rem;color:var(--muted)}
+.useg button:hover{color:var(--fg)}
+.useg button.on{background:#c4524a;color:#fff;font-weight:600}
 .chk.on::after{content:"";position:absolute;left:.26rem;top:.1rem;width:.2rem;height:.42rem;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
 .row.t.checked .txt{text-decoration:line-through;color:var(--muted)}
 .row .main{flex:1;min-width:0}
@@ -452,7 +494,7 @@ aside.open{transform:none}
     <li><kbd>Maj</kbd>+<kbd>Entrée</kbd> ou ✎ au survol : commentaire de la tâche ; dedans, <kbd>Entrée</kbd> va à la ligne, <kbd>Échap</kbd> revient à la tâche, le vider le supprime</li>
     <li><kbd>Tab</kbd> / <kbd>Maj</kbd>+<kbd>Tab</kbd> faire / défaire une sous-tâche</li>
     <li><kbd>Ctrl</kbd>+<kbd>Entrée</kbd> ou clic sur le rond : cocher. Une sous-tâche reste barrée dans son étiquette ; l’étiquette passe dans « Fait » (re-cliquer la ressort). « Vider » range les étiquettes faites de la rubrique dans l’historique</li>
-    <li>Glisser une étiquette depuis n’importe quel endroit ; un clic sans bouger place simplement le curseur ; une fois dans l’étiquette, la souris sélectionne le texte. Une sous-tâche se glisse par sa poignée ⋮⋮, une rubrique par son titre. <kbd>Échap</kbd> annule le glisser</li>
+    <li>Glisser une étiquette depuis n’importe quel endroit ; un clic sans bouger place simplement le curseur ; une fois dans l’étiquette, la souris sélectionne le texte. Une sous-tâche se glisse par sa poignée ⋮⋮, une rubrique par son titre. Lâchée au milieu d’une autre étiquette (qui s’encadre), une étiquette en devient la sous-tâche. <kbd>Échap</kbd> annule le glisser</li>
     <li><kbd>Alt</kbd>+<kbd>←</kbd> / <kbd>Alt</kbd>+<kbd>→</kbd> passer l’étiquette dans la colonne précédente / suivante</li>
     <li><kbd>Alt</kbd>+<kbd>↑</kbd> / <kbd>Alt</kbd>+<kbd>↓</kbd> monter / descendre dans la colonne</li>
     <li>« + Nouvelle rubrique » en bas, ou <kbd>#</kbd> + espace en début de ligne : nouvelle rubrique ; × au survol de son titre : la supprimer (ses étiquettes vont dans « Hors rubrique ») ; clic sur sa pastille : couleur de la rubrique et de ses étiquettes. Une étiquette peut avoir sa propre couleur (pastille multicolore au survol)</li>
@@ -464,9 +506,9 @@ aside.open{transform:none}
     <li><strong>!</strong> au survol ou <kbd>Alt</kbd>+<kbd>U</kbd> : marquer une tâche urgente (étiquette rouge) ; re-cliquer pour retirer</li>
     <li>📅 au survol : échéance. Sept jours avant, la tâche devient urgente toute seule ; clic sur la pastille pour changer ou effacer la date</li>
     <li>« En attente » : « + qui ? » pour noter la personne attendue (les noms déjà utilisés sont proposés)</li>
-    <li>Filtres en haut : urgentes, à relancer, ou une personne attendue ; re-cliquer ou <kbd>Échap</kbd> pour tout réafficher</li>
+    <li>En haut : <strong>!</strong> « urgentes en haut » (rangée à part, avec le nom de leur rubrique) ou « dans leur rubrique » ; filtres « à relancer » ou une personne attendue, re-cliquer ou <kbd>Échap</kbd> pour tout réafficher</li>
     <li>Glisser un e-mail, une pièce jointe d’e-mail, un lien ou du texte : sur une étiquette, il s’y ajoute ; ailleurs, il crée une étiquette (dans la case visée, sinon « À faire » de la rubrique, sinon « Hors rubrique »)</li>
-    <li>Coller la réponse JSON de l’Afficheur Graph (tâches To Do) dans une tâche, par exemple après Alt+N : importe les tâches non terminées</li>
+    <li>Coller la réponse JSON de l’Afficheur Graph (tâches To Do) dans une tâche, par exemple après Alt+T : importe les tâches non terminées</li>
     <li><kbd>Retour arrière</kbd> en début de ligne : décaler, fusionner ou supprimer</li>
     <li><kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Ctrl</kbd>+<kbd>Y</kbd> annuler / rétablir</li>
     <li>Coller plusieurs lignes : import (titres <kbd>#</kbd>, puces <kbd>-</kbd>, lignes <kbd>&gt;</kbd> = commentaire de la tâche au-dessus)</li>
@@ -532,6 +574,7 @@ aside.open{transform:none}
   </dialog>
   <dialog id="mMenu">
     <form method="dialog">
+      <label class="mopt"><input type="checkbox" id="oUrgTop"> Urgentes regroupées en haut</label>
       <label class="mopt"><input type="checkbox" id="oFilters"> Afficher les filtres (urgentes, à relancer, personnes)</label>
       <button type="button" class="mitem" id="oUpdate">Vérifier la mise à jour de l’appli</button>
       <button type="button" class="mitem" id="oFile">Choisir un autre fichier</button>
@@ -568,7 +611,7 @@ aside.open{transform:none}
   <div class="hhead"><strong>Historique</strong><input id="hq" placeholder="Rechercher…"><button id="hclose">Fermer</button></div>
   <div id="hlist"></div>
 </aside>
-<button class="fab" id="fab" title="Note rapide, hors rubrique (Alt+N)">+</button>
+<button class="fab" id="fab" title="Nouvelle note (Alt+N) · nouvelle tâche hors rubrique : Alt+T">+</button>
 <div id="toast"></div>
 
 <script>
@@ -861,9 +904,9 @@ function serialize(){
     if(it.kind==='h'){if(L.length)L.push('');L.push('# '+it.text+(it.color?' {couleur '+it.color+'}':'')+' {id '+it.id+'}');}
     else if(it.text.trim()){L.push(lineOf(it));noteLines(it,L,it.level);linkLines(it,L,it.level);}
   }
-  if(notes.length){
+  if(notes.some(n=>n.text.trim())){
     L.push('','# 📝 Notes');
-    for(const n of sortedNotes()){const ls=n.text.replace(/\s+$/,'').split('\n');L.push('- '+(n.at?n.at+' · ':'')+ls[0]+' {id '+n.id+'}');for(const l of ls.slice(1))L.push('  > '+l);}
+    for(const n of sortedNotes()){if(!n.text.trim())continue;   /* note en cours de saisie, encore vide */const ls=n.text.replace(/\s+$/,'').split('\n');L.push('- '+(n.at?n.at+' · ':'')+ls[0]+' {id '+n.id+'}');for(const l of ls.slice(1))L.push('  > '+l);}
   }
   if(done.length){
     L.push('','# ✓ Historique');let d=null;
@@ -1053,13 +1096,26 @@ function render(){
     }
     sec.append(wrap);list.append(sec);card=null;
   };
+  /* urgentes en haut : une rangée à part, chaque étiquette garde le nom de sa rubrique */
+  let ucells=null;
+  if(items.some(inUrgLane)){
+    const sec=document.createElement('section');sec.className='section urglane';sec.style.setProperty('--c','#c4524a');
+    const hd=document.createElement('div');hd.className='lanehd';hd.textContent='Urgentes';sec.append(hd);
+    const wrap=document.createElement('div');wrap.className='cells';ucells={};
+    for(const s of STATES){const c=document.createElement('div');c.className='cell';c.dataset.state=s.k;c.dataset.urg='1';wrap.append(c);ucells[s.k]=c;}
+    sec.append(wrap);list.append(sec);
+  }
   if(items[0].kind!=='h')newLane(null);
   let cur_h=null,skip=false;
   for(const it of items){
     if(it.kind==='h'){cur_h=it;newLane(it);continue;}
     if(it.level===0){skip=filter&&!matchFilter(items.indexOf(it));if(skip){card=null;continue;}}
     else if(skip)continue;
-    if(it.level===0||!card){card=document.createElement('div');card.className='card'+(isLate(it)?' late':'')+(isUrgent(it)?' urgent':'');card.style.setProperty('--c',COLORS[it.color]||(cur_h&&COLORS[cur_h.color])||CARD_COLOR);card.dataset.id=it.id;(cells[it.state]||cells.afaire).append(card);}
+    if(it.level===0||!card){
+      const up=ucells&&inUrgLane(it);
+      card=document.createElement('div');card.className='card'+(isLate(it)?' late':'')+(isUrgent(it)?' urgent':'')+(up?' inurg':'');card.style.setProperty('--c',COLORS[it.color]||(cur_h&&COLORS[cur_h.color])||CARD_COLOR);card.dataset.id=it.id;
+      if(up){const b=document.createElement('div');b.className='insec';b.textContent=cur_h?cur_h.text:'Hors rubrique';card.append(b);}
+      ((up?ucells:cells)[it.state]||(up?ucells:cells).afaire).append(card);}
     card.append(makeRow(it));
   }
   /* en tête de chaque case : relances dues, puis urgentes (affichage seulement) */
@@ -1070,13 +1126,14 @@ function render(){
   });
   {const ns=document.createElement('button');ns.className='newsec';ns.textContent='+ Nouvelle rubrique';ns.tabIndex=-1;list.append(ns);}
   list.querySelectorAll('.cell').forEach(c=>{
+    if(c.dataset.urg)return;
     if(c.dataset.state==='fait'){
       if(c.children.length){const v=document.createElement('button');v.className='vider';v.textContent='Vider → historique';v.title='Ranger les étiquettes faites de cette rubrique dans l’historique';v.tabIndex=-1;v.dataset.sec=c.dataset.sec;c.append(v);}
       return;
     }
     const g=document.createElement('button');g.className='ghost';g.textContent='+';g.title='Nouvelle étiquette';g.tabIndex=-1;g.dataset.sec=c.dataset.sec;g.dataset.state=c.dataset.state;c.append(g);
   });
-  if(filter)list.querySelectorAll('.section').forEach(sec=>{if(!sec.querySelector('.card'))sec.style.display='none';});
+  list.querySelectorAll('.section').forEach(sec=>{if((filter||sec.classList.contains('urglane'))&&!sec.querySelector('.card'))sec.style.display='none';});
   document.body.classList.toggle('filtering',!!filter);renderFilters();
   renderInbox();
   $('#histBtn').textContent='Historique ('+done.length+')';
@@ -1142,11 +1199,15 @@ function toggleBullet(ta){
 }
 
 /* ---------- notes à trier (prises au téléphone) ---------- */
+let noteEditId=null,noteDragId=null;
 function renderInbox(){
-  const box=$('#inbox');box.hidden=!notes.length;box.innerHTML='';if(!notes.length)return;
+  const box=$('#inbox');box.hidden=false;box.innerHTML='';box.classList.toggle('empty',!notes.length);
   const hd=document.createElement('div');hd.className='ihd';
-  hd.innerHTML='<strong></strong>glisse une note dans une case pour en faire une étiquette, sur une étiquette pour l’ajouter à son commentaire · double-clic pour la modifier';
-  hd.querySelector('strong').textContent='Notes à trier ('+notes.length+')';box.append(hd);
+  hd.innerHTML='<strong></strong><span class="hint"></span><span class="sp"></span><button type="button" class="nadd" title="Nouvelle note (Alt+N)">+ Note</button>';
+  hd.querySelector('strong').textContent=notes.length?'Notes à trier ('+notes.length+')':'Notes';
+  hd.querySelector('.hint').textContent=notes.length?'glisse une note sur une rubrique pour en faire une tâche, sur une tâche pour l’y ajouter, entre les notes pour les ranger · double-clic pour modifier':'aucune note à trier';
+  hd.querySelector('.nadd').onclick=newNote;box.append(hd);
+  if(!notes.length)return;
   const wrap=document.createElement('div');wrap.className='inotes';
   for(const n of sortedNotes()){
     const c=document.createElement('div');c.className='inote';c.draggable=true;c.dataset.id=n.id;
@@ -1154,16 +1215,59 @@ function renderInbox(){
     const t=document.createElement('div');t.className='tx';t.innerHTML=fmtView(n.text);
     const x=document.createElement('button');x.className='x';x.textContent='×';x.title='Supprimer la note (Ctrl+Z pour annuler)';
     x.onclick=()=>{snapshot();notes=notes.filter(y=>y.id!==n.id);render();changed();toast('Note supprimée · Ctrl+Z pour annuler');};
-    c.ondragstart=e=>{if(t.isContentEditable){e.preventDefault();return;}e.dataTransfer.setData('application/x-taches-note',n.id);e.dataTransfer.setData('text/plain',n.text);e.dataTransfer.effectAllowed='move';c.classList.add('dragging');};
-    c.ondragend=()=>c.classList.remove('dragging');
-    t.ondblclick=()=>{t.textContent=n.text;editable(t);c.draggable=false;t.focus();};
-    t.onblur=()=>{if(!t.isContentEditable)return;t.contentEditable='false';c.draggable=true;const v=t.textContent.replace(/\s+$/,'').replace(/^\s+/,'');t.innerHTML=fmtView(v||n.text);
-      if(!v){snapshot();notes=notes.filter(y=>y.id!==n.id);render();changed();toast('Note vide supprimée · Ctrl+Z pour annuler');}
-      else if(v!==n.text){snapshot();n.text=v;changed();}};
-    t.onkeydown=e=>{if(e.key==='Escape'){t.textContent=n.text;t.blur();}e.stopPropagation();};
-    c.append(w,t,x);wrap.append(c);
+    const cp=document.createElement('button');cp.className='cp';cp.textContent='⧉';cp.title='Copier la note';
+    cp.onclick=e=>{e.stopPropagation();copyText(n.text,cp);};
+    c.ondragstart=e=>{if(c.classList.contains('editing')){e.preventDefault();return;}noteDragId=n.id;e.dataTransfer.setData('application/x-taches-note',n.id);e.dataTransfer.setData('text/plain',n.text);e.dataTransfer.effectAllowed='move';c.classList.add('dragging');};
+    c.ondragend=()=>{noteDragId=null;c.classList.remove('dragging');document.querySelectorAll('.inote.drop-l,.inote.drop-r').forEach(z=>z.classList.remove('drop-l','drop-r'));};
+    /* ranger les notes entre elles : moitié gauche = avant, moitié droite = après */
+    c.ondragover=e=>{if(!noteDragId||noteDragId===n.id)return;e.preventDefault();e.stopPropagation();e.dataTransfer.dropEffect='move';
+      const r=c.getBoundingClientRect(),after=e.clientX>r.left+r.width/2;document.querySelectorAll('.inote.drop-l,.inote.drop-r').forEach(z=>z.classList.remove('drop-l','drop-r'));c.classList.add(after?'drop-r':'drop-l');};
+    c.ondragleave=()=>c.classList.remove('drop-l','drop-r');
+    c.ondrop=e=>{if(!noteDragId||noteDragId===n.id)return;e.preventDefault();e.stopPropagation();
+      const after=c.classList.contains('drop-r');c.classList.remove('drop-l','drop-r');const src=notes.find(y=>y.id===noteDragId);if(!src)return;
+      snapshot();notes=notes.filter(y=>y!==src);notes.splice(notes.indexOf(n)+(after?1:0),0,src);render();changed();};
+    t.ondblclick=()=>editNote(n.id);
+    c.append(w,t,cp,x);wrap.append(c);
   }
   box.append(wrap);
+  if(noteEditId){const id=noteEditId;noteEditId=null;editNote(id);}
+}
+/* modifier une note sur place : champ à la taille du texte, Ctrl+B gras, Ctrl+I italique, « - » liste ; Échap annule, clic ailleurs enregistre */
+function editNote(id){
+  const c=document.querySelector('.inote[data-id="'+id+'"]'),n=notes.find(y=>y.id===id);if(!c||!n)return;
+  const old=c.querySelector('.tx'),ta=document.createElement('textarea');ta.className='tx';ta.value=n.text;ta.spellcheck=true;
+  old.replaceWith(ta);c.classList.add('editing');c.draggable=false;
+  const bar=document.createElement('div');bar.className='fmtb';
+  bar.innerHTML='<button type="button" data-f="b" title="Gras (Ctrl+B)"><b>G</b></button><button type="button" data-f="i" title="Italique (Ctrl+I)"><i>I</i></button><button type="button" data-f="l" title="Liste (Ctrl+L)">• liste</button><span class="hint">Entrée : à la ligne · clic ailleurs : enregistrer · Échap : annuler</span>';
+  bar.onmousedown=e=>e.preventDefault();
+  bar.onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.f==='l')toggleBullet(ta);else wrapSel(ta,b.dataset.f==='b'?'**':'*');};
+  c.append(bar);listKeys(ta);
+  let cancelled=false;
+  ta.onkeydown=e=>{e.stopPropagation();
+    if(e.key==='Escape'){cancelled=true;ta.blur();return;}
+    if((e.ctrlKey||e.metaKey)&&!e.altKey){const k=e.key.toLowerCase();
+      if(k==='b'){e.preventDefault();wrapSel(ta,'**');}else if(k==='i'){e.preventDefault();wrapSel(ta,'*');}else if(k==='l'){e.preventDefault();toggleBullet(ta);}
+      else if(k==='enter'){e.preventDefault();ta.blur();}}};
+  ta.onblur=()=>{
+    const v=ta.value.replace(/\s+$/,'').replace(/^\s+/,'');
+    if(!v||(cancelled&&!n.text)){if(n.text){snapshot();}notes=notes.filter(y=>y.id!==n.id);render();if(n.text){changed();toast('Note vide supprimée · Ctrl+Z pour annuler');}return;}
+    if(!cancelled&&v!==n.text){if(n.text)snapshot();n.text=v;render();changed();return;}
+    render();
+  };
+  ta.focus();ta.setSelectionRange(ta.value.length,ta.value.length);
+}
+function newNote(){
+  const cur=notes.find(y=>!y.text);if(cur){editNote(cur.id);return;}
+  snapshot();const n={id:uid(),at:nowStamp(),text:''};notes.unshift(n);noteEditId=n.id;render();
+  $('#inbox').scrollIntoView({block:'nearest',behavior:'smooth'});
+}
+/* copier : texte brut (puces •, sans astérisques) et version mise en forme quand le navigateur le permet */
+async function copyText(v,b){
+  const text=plainFmt(bulletsView(v)),html=fmtView(v).replace(/\n/g,'<br>');let ok=false;
+  try{await navigator.clipboard.write([new ClipboardItem({'text/plain':new Blob([text],{type:'text/plain'}),'text/html':new Blob([html],{type:'text/html'})})]);ok=true;}catch(e){}
+  if(!ok){try{await navigator.clipboard.writeText(text);ok=true;}catch(e){}}
+  if(!ok){toast('Copie impossible');return;}
+  b.classList.add('done');clearTimeout(b._t);b._t=setTimeout(()=>b.classList.remove('done'),1400);toast('Note copiée');
 }
 function fmtStamp(at){const [d,h]=at.split(' ');return new Date(d+'T12:00').toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'})+(h?', '+h.replace(':',' h '):'');}
 /* une note devient une étiquette (1re ligne = titre, reste = commentaire), ou s'ajoute au commentaire d'une étiquette */
@@ -1171,7 +1275,9 @@ function noteToTask(nid,secId,state){
   const n=notes.find(x=>x.id===nid);if(!n)return;const sp=noteSplit(n.text);if(!sp.title)return;
   snapshot();textSnapFor=null;notes=notes.filter(x=>x!==n);
   const t={id:uid(),kind:'t',level:0,state:state||'afaire',created:(n.at||'').slice(0,10)||todayISO(),text:sp.title};if(sp.note)t.note=sp.note;
-  const pos=laneEndOf(secId);items.splice(pos,0,t,...sp.subs.map(x=>({id:uid(),kind:'t',level:1,text:x,created:t.created})));commit();toast('Note devenue étiquette · Ctrl+Z pour annuler');
+  const dt=dateIn(n.text);if(dt&&t.state!=='fait')t.due=dt.d;   /* « jeudi », « le 15 »… : échéance reprise, comme au téléphone */
+  const pos=laneEndOf(secId);items.splice(pos,0,t,...sp.subs.map(x=>({id:uid(),kind:'t',level:1,text:x,created:t.created})));commit();
+  toast('Note devenue étiquette'+(t.due?' · échéance '+shortDate(t.due)+' (« '+dt.w+' »)':'')+' · Ctrl+Z pour annuler');
 }
 function noteToComment(nid,taskId){
   const n=notes.find(x=>x.id===nid),it=items[idx(taskId)];if(!n||!it)return;
@@ -1314,8 +1420,9 @@ function emptyDone(secId){
   for(let k=end-1;k>=start;k--){const x=items[k];if(x.kind==='t'&&x.level===0&&x.state==='fait')n+=archiveAt(k);}
   commit();toast(n+' étiquette'+(n>1?'s':'')+' rangée'+(n>1?'s':'')+' dans l’historique · Ctrl+Z pour annuler');
 }
-function restoreEntry(eid){
-  const d=done.find(x=>x.id===eid);if(!d)return;
+function restoreEntry(eid){if(restoreCore(eid)){commit();toast('Remis dans la liste');}}
+function restoreCore(eid){
+  const d=done.find(x=>x.id===eid);if(!d)return false;
   snapshot();
   let insertAt,base=0;
   if(d.section){
@@ -1330,7 +1437,7 @@ function restoreEntry(eid){
   }else{const fh=items.findIndex(x=>x.kind==='h');insertAt=fh<0?items.length:fh;}
   items.splice(insertAt,0,...d.items.map((x,k)=>({id:uid(),kind:'t',text:x.text,note:x.note||'',links:x.links,created:x.created,due:x.due,color:x.color,waitFor:x.waitFor,level:x.level+base,checked:k===0?false:!!x.checked})));
   done=done.filter(x=>x.id!==eid);
-  commit();toast('Remis dans la liste');
+  return true;
 }
 function addCard(secId,state){
   state=state||'afaire';
@@ -1418,12 +1525,23 @@ function cardMatch(i,f){
   if(f.t==='who')return top.state==='attente'&&top.waitFor===f.v;
   return true;
 }
+/* urgentes regroupées en haut (réglage de cet appareil, par défaut oui) */
+function urgTop(){try{return localStorage.getItem('taches-urg-haut')!=='0';}catch(e){return true;}}
+function setUrgTop(v){try{localStorage.setItem('taches-urg-haut',v?'1':'0');}catch(e){}}
+function inUrgLane(it){return urgTop()&&it.kind==='t'&&it.level===0&&it.state!=='fait'&&isUrgent(it);}
 function matchFilter(i){return !filter||cardMatch(i,filter);}
 function renderFilters(){
   const box=$('#filters');box.innerHTML='';
   const tops=items.map((x,i)=>i).filter(i=>items[i].kind==='t'&&items[i].level===0);
   const count=f=>tops.filter(i=>cardMatch(i,f)).length;
-  const chips=[{t:'urgent',l:'! Urgentes'},{t:'late',l:'⏰ À relancer'}];
+  if(tops.some(i=>isUrgent(items[i])&&items[i].state!=='fait')||!urgTop()){
+    const u=document.createElement('span');u.className='useg';u.title='Où afficher les tâches urgentes';
+    u.innerHTML='<span>!</span><button type="button" data-v="1">urgentes en haut</button><button type="button" data-v="0">dans leur rubrique</button>';
+    u.querySelectorAll('button').forEach(b=>{b.classList.toggle('on',(b.dataset.v==='1')===urgTop());b.onclick=()=>{setUrgTop(b.dataset.v==='1');render();};});
+    box.append(u);
+  }
+  if(filter&&filter.t==='urgent')filter=null;
+  const chips=[{t:'late',l:'⏰ À relancer'}];
   for(const n of [...new Set(tops.filter(i=>items[i].state==='attente'&&items[i].waitFor).map(i=>items[i].waitFor))].sort((a,b)=>a.localeCompare(b,'fr')))chips.push({t:'who',v:n,l:'⏳ '+n});
   for(const c of chips){
     const n=count(c);const on=filter&&filter.t===c.t&&filter.v===c.v;if(!n&&!on)continue;
@@ -1438,11 +1556,26 @@ function quickAdd(){
   const n={id:uid(),kind:'t',text:'',level:0,state:'afaire',created:todayISO()};items.splice(0,0,n);render();focusItem(n.id,0);
   txtEl(n.id).scrollIntoView({block:'center',behavior:'smooth'});
 }
+/* une tâche (avec ses sous-tâches, son commentaire, ses liens) devient sous-tâche d'une autre, à la fin de celle-ci */
+function taskIntoTask(srcId,tgtId){
+  const i=idx(srcId),t=idx(tgtId);if(i<0||t<0)return false;
+  const e=blockEnd(i),src=items[i];if(src.kind!=='t'||(t>=i&&t<e))return false;
+  const top=items[topIdx(t)];
+  snapshot();const blk=items.splice(i,e-i);
+  const dl=1-src.level;blk.forEach(x=>x.level+=dl);
+  const x=blk[0];x.checked=x.state==='fait';for(const k of ['state','doneDate','relance','waitFor','color'])delete x[k];
+  items.splice(blockEnd(idx(top.id)),0,...blk);
+  return top;
+}
 function dropBlock(srcId,tgt){
   const i=idx(srcId);if(i<0)return;const e=blockEnd(i);
   if(tgt.id){const t0=idx(tgt.id);if(t0<0||(t0>=i&&t0<e))return;}
   const src=items[i];
   if(src.kind==='h'&&tgt.cell)return;
+  /* lâchée dans la rangée Urgentes : elle devient urgente et change de colonne, sans quitter sa rubrique */
+  if(tgt.into){const top=taskIntoTask(srcId,tgt.id);if(top){commit();toast('Devenue sous-tâche de «\u00a0'+top.text+'\u00a0» · Ctrl+Z pour annuler');}return;}
+  if(tgt.cell&&tgt.cell.urg){if(src.level!==0)return;snapshot();src.state=tgt.cell.state;if(!isUrgent(src))src.urgent=true;commit();return;}
+  const wasUp=inUrgLane(src);
   snapshot();
   const blk=items.splice(i,e-i);
   let pos,lv=0,state=null;
@@ -1458,7 +1591,9 @@ function dropBlock(srcId,tgt){
     else{pos=tgt.after?blockEnd(ti):ti;lv=target.level;if(lv===0)state=target.state;}
   }
   if(src.kind!=='h'){const dl=lv-src.level;blk.forEach(x=>x.level+=dl);if(lv===0)blk[0].state=state||blk[0].state||'afaire';}
+  if(tgt.urg&&lv===0&&!isUrgent(blk[0]))blk[0].urgent=true;
   items.splice(pos,0,...blk);commit();
+  if(wasUp&&!tgt.urg&&inUrgLane(blk[0])){const h=headingOf(idx(blk[0].id));toast('Rangée dans «\u00a0'+(h?h.text:'Hors rubrique')+'\u00a0» · toujours urgente, donc affichée en haut');}
 }
 
 /* ---------- événements de la liste ---------- */
@@ -1691,13 +1826,17 @@ function computeTarget(t,y){
   const vert=el=>{const r=el.getBoundingClientRect();return y>r.top+r.height/2;};
   if(src.kind==='h'){if(!sec)return null;const hr=sec.querySelector('.row.h');if(!hr||hr.dataset.id===dragId)return null;return {el:hr,tgt:{id:hr.dataset.id,after:vert(sec)}};}
   if(src.level===0){
-    if(card){if(card.dataset.id===dragId)return null;return {el:card,tgt:{id:card.dataset.id,after:vert(card)}};}
+    if(card){if(card.dataset.id===dragId)return null;
+      const r=card.getBoundingClientRect(),f=(y-r.top)/r.height;
+      if(f>.28&&f<.72)return {el:card,tgt:{id:card.dataset.id,into:true}};   /* milieu : dedans (sous-tâche) */
+      return {el:card,tgt:{id:card.dataset.id,after:f>=.5,urg:card.classList.contains('inurg')}};}
+    if(cell&&cell.dataset.urg)return {el:cell,tgt:{cell:{urg:true,state:cell.dataset.state}}};
     if(cell)return {el:cell,tgt:{cell:{sec:cell.dataset.sec,state:cell.dataset.state}}};
     if(row&&row.classList.contains('h'))return {el:row,tgt:{id:row.dataset.id,after:true}};
     return null;
   }
   if(row&&card){if(row.dataset.id===dragId)return null;return {el:row,tgt:{id:row.dataset.id,after:vert(row)}};}
-  if(cell)return {el:cell,tgt:{cell:{sec:cell.dataset.sec,state:cell.dataset.state}}};
+  if(cell&&!cell.dataset.urg)return {el:cell,tgt:{cell:{sec:cell.dataset.sec,state:cell.dataset.state}}};
   return null;
 }
 list.addEventListener('pointerdown',e=>{
@@ -1736,7 +1875,7 @@ document.addEventListener('pointermove',e=>{
   if(e.clientY<70)scrollBy(0,-14);else if(e.clientY>innerHeight-50)scrollBy(0,14);
   const res=computeTarget(document.elementFromPoint(e.clientX,e.clientY),e.clientY);
   clearDrop();dropTarget=res?res.tgt:null;
-  if(res)res.el.classList.add(res.tgt.cell?'drop-in':(res.tgt.after?'drop-after':'drop-before'));
+  if(res)res.el.classList.add(res.tgt.cell||res.tgt.into?'drop-in':(res.tgt.after?'drop-after':'drop-before'));
 });
 document.addEventListener('pointerup',()=>{
   if(!pd)return;
@@ -1756,13 +1895,14 @@ setInterval(()=>{if(todayISO()!==lastDay){lastDay=todayISO();const a=activeInfo(
 /* ---------- raccourcis globaux, panneaux ---------- */
 document.addEventListener('keydown',e=>{
   const mod=e.ctrlKey||e.metaKey;if(e.target.id==='hq'&&e.key!=='Escape')return;
-  if(e.altKey&&!mod&&!e.shiftKey&&e.code==='KeyN'){e.preventDefault();quickAdd();return;}
+  if(e.altKey&&!mod&&!e.shiftKey&&e.code==='KeyN'){e.preventDefault();newNote();return;}
+  if(e.altKey&&!mod&&!e.shiftKey&&e.code==='KeyT'){e.preventDefault();quickAdd();return;}
   if(mod&&!e.altKey&&!e.shiftKey&&e.key.toLowerCase()==='z'){e.preventDefault();restoreFrom(undoStack,redoStack);}
   else if(mod&&(e.key.toLowerCase()==='y'||(e.shiftKey&&e.key.toLowerCase()==='z'))){e.preventDefault();restoreFrom(redoStack,undoStack);}
   else if(e.key==='Escape'){if(filter&&!(document.activeElement&&document.activeElement.matches&&document.activeElement.matches('.txt,.cmt,input'))){filter=null;render();}if(pd&&pd.started){stopDrag(false);pd=null;justDragged=true;setTimeout(()=>justDragged=false,50);}$('#hist').classList.remove('open');}
 });
 $('#histBtn').onclick=()=>{const h=$('#hist');h.classList.toggle('open');if(h.classList.contains('open')){renderHist();$('#hq').focus();}};
-$('#fab').onclick=quickAdd;
+$('#fab').onclick=newNote;
 $('#setBtn').onclick=()=>{
   let d=$('#settings');
   if(!d){d=document.createElement('dialog');d.id='settings';d.innerHTML=`<h3>Réglages</h3>
@@ -2144,11 +2284,11 @@ function mRender(){
   /* urgentes d'abord (affichage seulement : l'ordre du fichier ne change pas) */
   const urgentFirst=arr=>sortIdx(arr,urgKey);
   /* urgentes : une section à part, avant les rubriques (rubrique d'origine en puce) */
-  const urg=urgentFirst(groups.flatMap(g=>g.todo.filter(i=>isUrgent(items[i]))));
+  const urg=urgTop()?urgentFirst(groups.flatMap(g=>g.todo.filter(i=>isUrgent(items[i])))):[];
   let shown=urg.length;
   if(urg.length)list.append(mSection('#urgent','Urgentes',urg.length,'#c4524a',box=>{for(const i of urg)box.append(mCard(i,true));},'murg'));
   for(const g of groups){
-    g.todo=g.todo.filter(i=>!isUrgent(items[i]));
+    if(urgTop())g.todo=g.todo.filter(i=>!isUrgent(items[i]));
     const n=g.todo.length+g.done.length;if(!n)continue;shown+=n;
     list.append(mSection(g.h?g.h.text:'',g.h?g.h.text:'Hors rubrique',g.todo.length||'',(g.h&&COLORS[g.h.color])||CARD_COLOR,box=>{
       for(const i of g.todo)box.append(mCard(i));
@@ -2162,7 +2302,45 @@ function mRender(){
     list.append(mSection('#attente','En attente',wait.length,'#8a8f98',box=>{for(const i of wait)box.append(mCard(i,true));},'mwait',late?'dont '+late+' à relancer':''));
   }
   if(!shown&&!(notes.length&&!filter)){const e=document.createElement('div');e.className='mempty';e.textContent=filter?'Aucune étiquette pour ce filtre.':'Rien pour l’instant.';list.append(e);}
+  /* historique : replié par défaut, en bas */
+  if(done.length&&!filter){if(mState.closed['#hist']===undefined)mState.closed['#hist']=true;
+    list.append(mSection('#hist','Historique',done.length,'#8a8f98',mHistFill,'mhistsec'));}
   if(AND&&$('#mAct').open)mFillAct();
+}
+/* historique au téléphone : recherche, entrées par jour (les plus récentes d'abord), toucher pour le détail et « Remettre » */
+let mHistMax=30,mHistQ='',mHistOpen=null;
+function mHistFill(box){
+  box.innerHTML='';
+  const q=document.createElement('input');q.type='search';q.className='mhq';q.placeholder='Rechercher dans l’historique';q.value=mHistQ;
+  q.oninput=()=>{mHistQ=q.value;mHistMax=30;const p=q.selectionStart;mHistFill(box);const n=box.querySelector('.mhq');n.focus();try{n.setSelectionRange(p,p);}catch(e){}};
+  box.append(q);
+  const ql=mHistQ.trim().toLowerCase(),cols=sectionColors();
+  const all=sortedDone().filter(e=>!ql||(e.items.map(x=>x.text+' '+(x.note||'')).join(' ')+' '+e.section+' '+e.path.join(' ')).toLowerCase().includes(ql));
+  let d=null;
+  for(const e of all.slice(0,mHistMax)){
+    if(e.date!==d){d=e.date;const h=document.createElement('div');h.className='mhday';h.textContent=e.date===todayISO()?'Aujourd’hui':e.date===addDays(todayISO(),-1)?'Hier':fmtDate(e.date);box.append(h);}
+    const c=document.createElement('div');c.className='mhent'+(mHistOpen===e.id?' open':'');c.style.setProperty('--c',cols[e.section]||CARD_COLOR);
+    const t=document.createElement('div');t.className='t';t.textContent=e.items[0]?e.items[0].text:'';
+    const subs=e.items.slice(1).filter(x=>x.kind!=='h');
+    const ctx=document.createElement('div');ctx.className='ctx';ctx.textContent=[[e.section||'Hors rubrique',...e.path].join(' › '),subs.length?subs.length+' sous-tâche'+(subs.length>1?'s':''):''].filter(Boolean).join(' · ');
+    c.append(t,ctx);
+    if(mHistOpen===e.id){
+      const det=document.createElement('div');det.className='det';
+      e.items.forEach((x,k)=>{
+        if(k>0){const l=document.createElement('div');l.className='sub'+(x.checked?'':' open');l.style.setProperty('--lv',x.level-1);l.textContent=(x.checked?'✓ ':'○ ')+x.text;det.append(l);}
+        if(x.note){const n=document.createElement('div');n.className='nt';n.innerHTML=fmtView(x.note);det.append(n);}
+        if(x.links&&x.links.length)det.append(mLinks(x.links));
+      });
+      const c0=e.items[0]&&e.items[0].created;if(c0){const m=document.createElement('div');m.className='meta';m.textContent='Créée le '+shortDate(c0)+' · faite le '+shortDate(e.date);det.append(m);}
+      const r=document.createElement('button');r.className='mbtn2';r.textContent='↺ Remettre dans la liste';
+      r.onclick=ev=>{ev.stopPropagation();if(restoreCore(e.id)){mHistOpen=null;normalize();changed();mRender();mUndoToast('Remise dans la liste');}};
+      det.append(r);c.append(det);
+    }
+    c.onclick=ev=>{if(ev.target.closest('a,button'))return;mHistOpen=mHistOpen===e.id?null:e.id;mHistFill(box);};
+    box.append(c);
+  }
+  if(!all.length){const p=document.createElement('div');p.className='mhday';p.textContent=ql?'Aucun résultat':'Rien pour l’instant';box.append(p);}
+  if(all.length>mHistMax){const m=document.createElement('button');m.className='mbtn2 more';m.textContent='Afficher plus ('+(all.length-mHistMax)+')';m.onclick=()=>{mHistMax+=50;mHistFill(box);};box.append(m);}
 }
 /* une section repliable : titre, compteur, alerte éventuelle */
 function mSection(key,title,count,color,fill,cls,alert){
@@ -2255,6 +2433,7 @@ function mDragStart(c,x,y){
     }
   };
   target(null);for(const hd of items.filter(x=>x.kind==='h'))target(hd);
+  {const hint=document.createElement('div');hint.className='dhint';hint.textContent='Maintenir sur une rubrique\u00a0: ses tâches s’ouvrent, lâcher sur l’une d’elles pour en faire une sous-tâche';col.append(hint);}
   const g=document.createElement('div');g.className='dghost';g.textContent=it.text;
   g.style.setProperty('--c',getComputedStyle(c).getPropertyValue('--c')||CARD_COLOR);
   mDragOpen(ov,col,g,anchor,{id,cur,c,kind:'task'},x,y);
@@ -2299,7 +2478,7 @@ function mDragMove(x,y){
   const el=document.elementFromPoint(x,y),tg=el&&el.closest('.dtgt,.dtask'),lst=el&&el.closest('.dlist');
   const hov=tg||null;
   /* note : maintenir sur une rubrique l'ouvre, pour lâcher la note sur une de ses tâches */
-  if(d.kind==='note'&&hov!==d.openFor&&!(hov&&hov.classList.contains('dtask'))){clearTimeout(d.ot);d.openFor=null;
+  if((d.kind==='note'||d.kind==='task')&&hov!==d.openFor&&!(hov&&hov.classList.contains('dtask'))){clearTimeout(d.ot);d.openFor=null;
     if(hov&&hov.classList.contains('dtgt')&&!hov.classList.contains('open')){d.openFor=hov;d.ot=setTimeout(()=>mDragOpenSec(hov),650);}}
   if(hov!==d.hov){if(d.hov)d.hov.classList.remove('hov');if(hov){hov.classList.add('hov');
     const sl=d.col.querySelector('.dslot');if(sl){if(d.slotNext)sl.parentNode.insertBefore(sl,d.slotNext);else sl.parentNode.append(sl);}   /* vers une autre rubrique : la place revient où elle était */
@@ -2313,10 +2492,12 @@ function mDragMove(x,y){
 function mDragOpenSec(tg){
   const d=mDrag;if(!d)return;
   d.col.querySelectorAll('.dtasks').forEach(x=>x.remove());d.col.querySelectorAll('.dtgt.open').forEach(x=>x.classList.remove('open'));
+  if(d.kind==='task')d.col.querySelectorAll('.dlist').forEach(x=>x.hidden=tg.classList.contains('cur'));   /* sa propre rubrique : les tâches remplacent la liste de rangement */
   const sec=tg.dataset.sec,hi=sec?idx(sec):-1,end=sec?blockEnd(hi):laneEndOf(null);
   const box=document.createElement('div');box.className='dtasks';box.style.setProperty('--c',tg.style.getPropertyValue('--c')==='var(--fg)'?CARD_COLOR:tg.style.getPropertyValue('--c'));
-  for(let k=hi+1;k<end;k++){const x=items[k];if(x.kind!=='t'||x.level!==0||x.state==='fait')continue;
+  for(let k=hi+1;k<end;k++){const x=items[k];if(x.kind!=='t'||x.level!==0||x.state==='fait'||x.id===d.id)continue;
     const r=document.createElement('div');r.className='dtask';r.dataset.id=x.id;
+    if(d.kind==='task'){r.innerHTML='<span class="tx"></span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4v9a3 3 0 0 0 3 3h9"/><path d="M15 13l3 3-3 3"/></svg>';r.querySelector('.tx').textContent=x.text;box.append(r);continue;}
     r.innerHTML='<span class="tx"></span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h16v10H10l-4.5 3.5V15.5H4z"/><path d="M12 8v5M9.5 10.5h5"/></svg>';
     r.querySelector('.tx').textContent=x.text;box.append(r);}
   if(!box.children.length){const e=document.createElement('div');e.className='dempty';e.textContent='Aucune tâche en cours';box.append(e);}
@@ -2342,6 +2523,7 @@ function mDragEnd(cancel){
     snapshot();const [n]=notes.splice(k,1);const at=nx?notes.findIndex(z=>z.id===nx.dataset.id):notes.length;notes.splice(at<0?notes.length:at,0,n);
     changed();mRender();mUndoToast('Note déplacée');return;
   }
+  if(d.hov&&d.hov.classList.contains('dtask')){const top=taskIntoTask(d.id,d.hov.dataset.id);if(top){normalize();changed();mRender();mUndoToast('Devenue sous-tâche de «\u00a0'+top.text+'\u00a0»');}return;}
   if(d.hov){const sec=d.hov.dataset.sec;if(sec===d.cur)return;
     const h=sec?items[idx(sec)]:null;mMoveBlock(d.id,{sec},'Déplacée vers « '+(h?h.text:'Hors rubrique')+' »');return;}
   const slot=d.col.querySelector('.dslot');if(!slot)return;
@@ -2534,7 +2716,7 @@ function mSpUrl(){
 function mPageTxt(){const v=(document.querySelector('meta[name=taches-page]')||{}).content||'';const m=/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d)/.exec(v);if(!m)return '';
   const d=new Date(Date.UTC(+m[1],m[2]-1,+m[3],+m[4],+m[5]));return 'Page du '+d.toLocaleDateString('fr-FR',{day:'numeric',month:'numeric'})+' '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})+' · ';}
 async function mSpTrial(){
-  if(mDirect){mDirect=false;mstore.set('taches-direct',0);backend=mName?andBackend:null;toast('Accès direct désactivé : retour à l’appli OneDrive du téléphone');return;}
+  if(mDirect){mDirect=false;mstore.set('taches-direct',0);backend=mName?andBackend:null;toast('Accès direct désactivé : retour à l’appli OneDrive du téléphone');return;}
   const url=mSpUrl();
   if(!url){toast('Réglages ⚙ du PC à compléter : dossier de taches.md et dossier OneDrive avec son adresse web');return;}
   try{
@@ -2547,8 +2729,8 @@ async function mSpTrial(){
     if(dirty)await syncSave();
     else if(r.text!==baseText&&r.text.trim()){applyModel(parse(r.text));baseText=r.text;backup();}
     savedAt=Date.now();saveErr=null;mInfo();
-    toast('Accès direct activé : l’appli lit et écrit maintenant le fichier en ligne · empreinte '+fileTag()+(before&&before!==tg?' (l’appli affichait '+before+' : version en ligne reprise)':''),9000);
-  }catch(e){toast('Essai de connexion directe : '+e.message.replace(/^\w+:/,'')+(/^adresse:/.test(e.message)?' — adresse essayée : '+url:''),12000);}
+    toast('Accès direct activé : l’appli lit et écrit maintenant le fichier en ligne · empreinte '+fileTag()+(before&&before!==tg?' (l’appli affichait '+before+' : version en ligne reprise)':''),9000);
+  }catch(e){toast('Essai de connexion directe : '+e.message.replace(/^\w+:/,'')+(/^adresse:/.test(e.message)?' — adresse essayée : '+url:''),12000);}
 }
 async function mCopyText(v,b,raw){
   if(!v){toast('Rien à copier');return;}
@@ -2863,9 +3045,10 @@ function initMobile(){
   const ui=mstore.get(MKEY+'-ui');if(ui)mState={...mState,...ui,closed:ui.closed||{}};
   mInitAct();
   $('#mMenuBtn').onclick=()=>{
-    $('#oFilters').checked=!!mState.filters;$('#oUpdate').hidden=!AND;$('#oFile').hidden=!AND||!mName||mDirect;$('#oSp').hidden=!AND;$('#oSp').textContent=mDirect?'Accès direct à OneDrive : activé (toucher pour l’arrêter)':'Accès direct à OneDrive';
+    $('#oFilters').checked=!!mState.filters;$('#oUrgTop').checked=urgTop();$('#oUpdate').hidden=!AND;$('#oFile').hidden=!AND||!mName||mDirect;$('#oSp').hidden=!AND;$('#oSp').textContent=mDirect?'Accès direct à OneDrive : activé (toucher pour l’arrêter)':'Accès direct à OneDrive';
     $('#oInfo').textContent=AND?[mName?'Fichier\u00a0: '+mName+(fileTag()&&!dirty?' '+fileTag():''):'',savedAt&&!saveErr?'enregistré '+mAgo(savedAt):'',saveErr?'non enregistré\u00a0: '+saveErr:'',backend&&backend.direct?'accès direct':mName?'via l’appli OneDrive':'',mVerTxt].filter(Boolean).join(' · '):'';$('#mMenu').showModal();if(document.activeElement)document.activeElement.blur();
   };
+  $('#oUrgTop').onchange=()=>{setUrgTop($('#oUrgTop').checked);mRender();};
   $('#oFilters').onchange=()=>{mState.filters=$('#oFilters').checked;mstore.set(MKEY+'-ui',mState);mRender();};
   $('#oUpdate').onclick=()=>{$('#mMenu').close();mCheckUpdate(true);};
   $('#oFile').onclick=()=>{$('#mMenu').close();mPick();};
