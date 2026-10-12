@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261012100533">
+<meta name="taches-page" content="20261012103136">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -646,6 +646,7 @@ function hrefOf(u){
     for(const [app,re] of Object.entries(OFFICE))if(re.test(u))return 'ms-'+app+':ofe|u|'+(oneDriveURL(u)||fileURL(u));
     return fileURL(u);
   }
+  if(!MOBILE&&/^https:\/\/teams\.microsoft\.com\/l\//i.test(u))return 'msteams:'+u.slice('https://teams.microsoft.com'.length);   /* l'appli Teams directement, sans page web à fermer */
   if(/^https:\/\/[^/]+\.sharepoint\.com\/.*\.(docx?|docm|xlsx?|xlsm|pptx?)(\?|$)/i.test(u)){for(const [app,re] of Object.entries(OFFICE))if(re.test(u.split('?')[0]))return 'ms-'+app+':ofe|u|'+u.split('?')[0];}
   return u;
 }
@@ -766,6 +767,8 @@ function parse(md){
       const k=sm[1].toLowerCase().replace(/[\s-]/g,''),v=sm[2];
       if(k==='email'||k==='courriel'){if(v)st.email=v;}
       else if(k==='dossier'){if(v)st.dossier=v;}
+      else if(k==='archivage'){const n=parseInt(v,10);if(!isNaN(n))st.archivage=n;}
+      else if(k==='règle'||k==='regle'){if(v)(st.regles||(st.regles=[])).push(v);}
       else if(k==='onedrive'){const m=/^(.*?)\s+=\s+(https?:\/\/\S+)$/.exec(v);if(m)(st.onedrive||(st.onedrive=[])).push({local:m[1],web:m[2]});}
       continue;
     }
@@ -830,7 +833,7 @@ function parse(md){
       else cur.items.push({kind:'t',text:body,checked,created,level:Math.max(1,Math.min(level,cur.items[cur.items.length-1].level+1))});
     }else if(checked&&level===0){
       cur=null;dn.push({id:uid(),date:todayISO(),section,path:[],items:[{kind:'t',text:body,level:0,checked:true,created}]});
-    }else{const o={id:tid||null,kind:'t',text:body,level,checked};if(state)o.state=state;if(doneDate)o.doneDate=doneDate;if(relance)o.relance=relance;if(created)o.created=created;if(urgent)o.urgent=true;if(due)o.due=due;if(color&&level===0)o.color=color;if(waitFor&&level===0)o.waitFor=waitFor;its.push(o);}
+    }else{const o={id:tid||null,kind:'t',text:body,level,checked,_p:1};if(state)o.state=state;if(doneDate)o.doneDate=doneDate;if(relance)o.relance=relance;if(created)o.created=created;if(urgent)o.urgent=true;if(due)o.due=due;if(color&&level===0)o.color=color;if(waitFor&&level===0)o.waitFor=waitFor;its.push(o);}
   }
   /* lignes sans {id} : identifiant déduit du contenu (rubrique, parents, texte, date de création, rang en cas de doublon) */
   {const occ={},path=[];let sec='';
@@ -870,11 +873,13 @@ function serialize(){
       });
     }
   }
-  if(settings.email||settings.dossier||(settings.onedrive&&settings.onedrive.length)){
+  if(settings.email||settings.dossier||(settings.onedrive&&settings.onedrive.length)||settings.archivage!=null||(settings.regles&&settings.regles.length)){
     L.push('','# ⚙ Réglages');
     if(settings.email)L.push('- e-mail : '+settings.email);
     if(settings.dossier)L.push('- dossier : '+settings.dossier);
     for(const m of settings.onedrive||[])L.push('- onedrive : '+m.local+' = '+m.web);
+    if(settings.archivage!=null)L.push('- archivage : '+settings.archivage+' jours');
+    for(const r of settings.regles||[])L.push('- règle : '+r);
   }
   return L.join('\n')+'\n';
 }
@@ -944,7 +949,7 @@ function merge3(B,M,T){
   const hist=[...M.done.filter(e=>keepK(hk(e))),...T.done.filter(e=>!MK.has(hk(e))&&keepK(hk(e)))];
   /* réglages */
   const st={};const bs=B.settings||{},ms=M.settings||{},ts=T.settings||{};
-  for(const f of ['email','dossier','onedrive']){const j=x=>x==null?'':JSON.stringify(x);const mv=j(ms[f]),tv=j(ts[f]),bv=j(bs[f]);
+  for(const f of ['email','dossier','onedrive','archivage','regles']){const j=x=>x==null?'':JSON.stringify(x);const mv=j(ms[f]),tv=j(ts[f]),bv=j(bs[f]);
     const v=mv===tv?ms[f]:(mv===bv?ts[f]:(tv===bv?ms[f]:(conflicts++,ms[f])));if(v!=null&&v!=='')st[f]=v;}
   /* notes : par identifiant, texte et date fusionnés comme les champs des tâches */
   const nB=new Map((B.notes||[]).map(n=>[n.id,n])),nM=new Map((M.notes||[]).map(n=>[n.id,n])),nT=new Map((T.notes||[]).map(n=>[n.id,n]));
@@ -1289,9 +1294,9 @@ function toggle(id,viaKey){
   const i=idx(id);if(i<0||items[i].kind!=='t')return;
   const it=items[i];
   snapshot();textSnapFor=null;
-  if(it.level>0)it.checked=!it.checked;
+  let msg='';if(it.level>0){it.checked=!it.checked;msg=subSync(i);}
   else it.state=it.state==='fait'?'afaire':'fait';
-  normalize();render();if(viaKey)focusItem(id);changed();
+  normalize();render();if(viaKey)focusItem(id);changed();if(msg)toast(msg+' · Ctrl+Z pour annuler');
 }
 function archiveAt(i){
   const e=blockEnd(i),it=items[i];
@@ -1454,6 +1459,7 @@ function dropBlock(srcId,tgt){
 
 /* ---------- événements de la liste ---------- */
 const list=$('#list');
+list.addEventListener('focusout',e=>{if(e.target.matches&&e.target.matches('.txt'))setTimeout(()=>{if(!editingId()&&rulesTick()){render();changed();}},0);});
 list.addEventListener('input',e=>{
   const cm=e.target.closest('.cmt');
   if(cm){const id=cm.closest('.row').dataset.id,it=items[idx(id)];if(!it)return;if(textSnapFor!==id+':c'){snapshot();textSnapFor=id+':c';}it.note=cm.textContent.replace(/​/g,'');changed();return;}
@@ -1762,6 +1768,9 @@ $('#setBtn').onclick=()=>{
     <fieldset><legend>Documents OneDrive ouverts sans avertissement d’Office</legend>
     <label>Dossier OneDrive sur ce PC<input id="sLocal" placeholder="C:\\Users\\…\\OneDrive - …"></label>
     <label>Adresse web de ce dossier<input id="sWeb" placeholder="https://…-my.sharepoint.com/personal/…/Documents"></label></fieldset>
+    <label>Ranger dans l’historique les tâches faites depuis (jours ; 0 = jamais)<input id="sArch" type="number" min="0" placeholder="7"></label>
+    <label>Règles des rubriques (une par ligne)<textarea id="sRules" rows="4" placeholder="Commandes = Demande de devis ; Bon de commande&#10;Conventions = → Calendrier"></textarea></label>
+    <p class="muted" style="margin:.2rem 0 0;font-size:.8rem">Quand une tâche arrive dans la rubrique (créée ou déplacée) : les sous-tâches listées sont ajoutées ; « → Rubrique » en crée une copie dans cette rubrique.</p>
     <div class="rb"><button id="sSave" class="primary">Enregistrer</button><button id="sCancel">Annuler</button></div>`;
     document.body.append(d);
     d.querySelector('#sCancel').onclick=()=>d.close();
@@ -1769,11 +1778,15 @@ $('#setBtn').onclick=()=>{
       snapshot();const dir=d.querySelector('#sDir').value.trim().replace(/^"(.*)"$/,'$1').replace(/[\\/]+$/,''),em=d.querySelector('#sEmail').value.trim(),lo=d.querySelector('#sLocal').value.trim(),we=d.querySelector('#sWeb').value.trim();
       settings={...settings};if(em)settings.email=em;else delete settings.email;if(dir)settings.dossier=dir;else delete settings.dossier;
       if(lo&&/^https?:\/\//.test(we))settings.onedrive=[{local:lo,web:we}];else if(!lo&&!we)delete settings.onedrive;
+      {const a=d.querySelector('#sArch').value.trim();if(a==='')delete settings.archivage;else settings.archivage=Math.max(0,parseInt(a,10)||0);}
+      {const rl=d.querySelector('#sRules').value.split('\n').map(s=>s.trim()).filter(Boolean);if(rl.length)settings.regles=rl;else delete settings.regles;}
+      rulesInit();
       d.close();render();changed();toast('Réglages enregistrés');
     };
   }
   d.querySelector('#sEmail').value=settings.email||'';d.querySelector('#sDir').value=settings.dossier||'';
   const od=(settings.onedrive||[])[0]||{};d.querySelector('#sLocal').value=od.local||'';d.querySelector('#sWeb').value=od.web||'';
+  d.querySelector('#sArch').value=settings.archivage==null?'':settings.archivage;d.querySelector('#sRules').value=(settings.regles||[]).join('\n');
   d.showModal();
 };
 $('#hclose').onclick=()=>$('#hist').classList.remove('open');
@@ -1794,10 +1807,65 @@ let seenTexts=[];
 function remember(t){if(t==null)return;seenTexts=seenTexts.filter(x=>x!==t);seenTexts.push(t);if(seenTexts.length>15)seenTexts.shift();}
 function staleEcho(cur){return cur!==baseText&&seenTexts.includes(cur);}
 function backup(){remember(baseText);try{localStorage.setItem(LS,JSON.stringify({items,done,settings,notes,dirty,base:baseText}));}catch(e){}}
-function changed(){dirty=true;rev++;backup();clearTimeout(saveTimer);saveTimer=setTimeout(saveFile,700);setStatus();}
+/* ---------- règles des rubriques, sous-tâches qui font la tâche, rangement automatique ---------- */
+function normName(s){return (s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();}
+function parseRules(){return (settings.regles||[]).map(l=>{const m=/^(.*?)\s*=\s*(.*)$/.exec(l);if(!m)return null;const add=[],copy=[];
+  for(const x of m[2].split(';').map(s=>s.trim()).filter(Boolean)){const c=/^(?:→|->|copie\s*(?:dans\s*)?(?:→|->)?)\s*(.+)$/i.exec(x);if(c)copy.push(c[1].trim());else add.push(x);}
+  return {sec:normName(m[1]),add,copy};}).filter(Boolean);}
+/* chaque tâche retient sa rubrique (_s, jamais écrit dans le fichier) ; les tâches lues dans le fichier sont déjà « connues » */
+function rulesInit(){for(let i=0;i<items.length;i++){const it=items[i];if(it.kind==='t'&&it.level===0&&it._s===undefined){const h=headingOf(i);it._s=h?h.id:'';}}}
+function editingId(){const a=document.activeElement;const r=a&&a.closest&&a.closest('#list .row');return r&&a.matches('.txt')?r.dataset.id:null;}
+function rulesTick(){
+  const R=parseRules();let any=false;
+  for(let guard=0;guard<60;guard++){
+    let did=false;
+    for(let i=0;i<items.length&&!did;i++){
+      const it=items[i];if(it.kind!=='t'||it.level!==0)continue;
+      const h=headingOf(i),sec=h?h.id:'';
+      if(it._s===sec)continue;
+      if(it._s===undefined&&it._p){it._s=sec;continue;}
+      if(!it.text.trim()||editingId()===it.id)continue;   /* carte en cours de saisie : on attend qu'elle ait son nom */
+      it._s=sec;if(!h||!R.length)continue;
+      for(const r of R.filter(x=>x.sec===normName(h.text))){
+        const e=blockEnd(i),have=new Set(items.slice(i+1,e).map(x=>normName(x.text)));
+        const add=r.add.filter(s=>!have.has(normName(s)));
+        if(add.length){items.splice(e,0,...add.map(s=>({id:uid(),kind:'t',level:1,text:s,created:todayISO()})));did=true;}
+        for(const c of r.copy){const th=items.find(x=>x.kind==='h'&&normName(x.text)===normName(c));if(!th||th===h)continue;
+          const ti=idx(th.id),te=blockEnd(ti);
+          if(items.slice(ti+1,te).some(x=>x.kind==='t'&&x.level===0&&normName(x.text)===normName(it.text)))continue;
+          items.splice(te,0,{id:uid(),kind:'t',level:0,state:'afaire',text:it.text,created:todayISO()});did=true;}
+      }
+    }
+    if(!did)break;any=true;normalize();
+  }
+  return any;
+}
+/* une sous-tâche cochée ou décochée : toutes cochées → tâche faite ; décochée dans une tâche faite → à faire */
+function subSync(k){
+  let p=k;while(p>=0&&!(items[p].kind==='t'&&items[p].level===0))p--;if(p<0||p===k)return '';
+  const P=items[p],subs=items.slice(p+1,blockEnd(p)).filter(x=>x.kind==='t');if(!subs.length)return '';
+  if(subs.every(x=>x.checked)&&P.state!=='fait'){P.state='fait';P.doneDate=todayISO();return 'Toutes les sous-tâches sont faites : tâche faite';}
+  if(!items[k].checked&&P.state==='fait'){P.state='afaire';delete P.doneDate;return 'Sous-tâche décochée : tâche remise à faire';}
+  return '';
+}
+/* tâches faites depuis plus de N jours (7 par défaut, réglable dans ⚙) : rangées dans l'historique */
+function autoArchive(){
+  const n=settings.archivage==null?7:+settings.archivage;if(!(n>0))return 0;const lim=addDays(todayISO(),-n);let c=0;
+  for(let i=items.length-1;i>=0;i--){const it=items[i];if(it.kind==='t'&&it.level===0&&it.state==='fait'&&it.doneDate&&it.doneDate<=lim)c+=archiveAt(i);}
+  return c;
+}
+function housekeeping(){
+  rulesInit();const c=autoArchive();if(!c)return;
+  normalize();if(MOBILE){if(typeof mRender==='function')mRender();}else render();changed();
+  const n=settings.archivage==null?7:settings.archivage;toast(c+(c>1?' tâches faites':' tâche faite')+' depuis plus de '+n+' jours '+(c>1?'rangées':'rangée')+' dans l’historique');
+}
+function changed(){
+  if(rulesTick()){if(MOBILE){if(typeof mRender==='function')mRender();}else render();}
+  dirty=true;rev++;backup();
+clearTimeout(saveTimer);saveTimer=setTimeout(saveFile,700);setStatus();}
 function editing(){const a=document.activeElement;return !!(a&&a.matches&&a.matches('.txt,.cmt,input,textarea'));}
 function applyModel(r){
-  const a=activeInfo();items=r.items;done=r.done;settings=r.settings||{};notes=r.notes||[];normalize();
+  const a=activeInfo();items=r.items;done=r.done;settings=r.settings||{};notes=r.notes||[];normalize();rulesInit();setTimeout(housekeeping,0);
   if(MOBILE){if(typeof mRender==='function')mRender();}else{render();if(a&&idx(a.id)>=0)focusItem(a.id,a.off);}
 }
 async function syncSave(){
@@ -1854,7 +1922,7 @@ async function saveFile(){
 }
 async function loadFile(){
   backend=pcBackend;const t=await pcBackend.read();const p=parse(t);
-  items=p.items;done=p.done;settings=p.settings||{};notes=p.notes||[];normalize();baseText=t;dirty=false;backup();render();setStatus();
+  items=p.items;done=p.done;settings=p.settings||{};notes=p.notes||[];normalize();baseText=t;dirty=false;setTimeout(housekeeping,0);backup();render();setStatus();
 }
 async function askPerm(){permOK=(await fileHandle.requestPermission({mode:'readwrite'}))==='granted';return permOK;}
 async function resume(){
@@ -1981,7 +2049,7 @@ function mCard(i,withSec){
     for(const x of subs.filter(x=>!x.checked)){
       const r=document.createElement('div');r.className='msub'+(x.checked?' done':'')+(isUrgent(x)?' urgent':'');r.style.setProperty('--lv',x.level-1);
       const bx=document.createElement('span');bx.className='bx';bx.textContent=x.checked?'☑':'☐';
-      if(AND){bx.classList.add('tap');bx.onclick=ev=>{ev.stopPropagation();mEdit(x.id,y=>{y.checked=!y.checked;});};}
+      if(AND){bx.classList.add('tap');bx.onclick=ev=>{ev.stopPropagation();mSubToggle(x.id);};}
       const w=document.createElement('div');const tt=document.createElement('span');tt.className='tx';tt.textContent=x.text;w.append(tt);
       if(x.due&&!x.checked){const cc=document.createElement('div');cc.className='mchips';cc.append(mDue(x));w.append(cc);}
       r.append(bx,w);box.append(r);
@@ -2087,6 +2155,7 @@ function mSection(key,title,count,color,fill,cls,alert){
 function mMailto(to,task,more){return 'mailto:'+encodeURIComponent(to).replace(/%40/g,'@')+'?subject='+encodeURIComponent(task)+(more?'&body='+encodeURIComponent(more):'');}
 
 /* ---------- modification depuis l'appli ---------- */
+function mSubToggle(id){let msg='';mEdit(id,(y,k)=>{y.checked=!y.checked;msg=subSync(k);});if(msg)mUndoToast(msg);}
 function mEdit(id,fn,undoMsg){
   const i=idx(id);if(i<0)return;
   snapshot();fn(items[i],i);normalize();changed();mRender();
@@ -2323,7 +2392,7 @@ function mFillAct(){
   for(const x of subs){
     const r=document.createElement('div');r.className='asub'+(x.checked?' done':'');r.style.setProperty('--lv',x.level-1);
     const bx=document.createElement('button');bx.type='button';bx.className='bx';bx.textContent=x.checked?'☑':'☐';bx.disabled=ro;
-    bx.onclick=()=>mEdit(x.id,y=>{y.checked=!y.checked;});
+    bx.onclick=()=>mSubToggle(x.id);
     const tx=document.createElement('input');tx.className='tx';tx.value=x.text;tx.disabled=ro;
     tx.onchange=()=>{const v=tx.value.replace(/\s+/g,' ').trim();if(v&&v!==x.text)mEdit(x.id,y=>{y.text=v;});};
     r.append(bx,tx);
@@ -2724,7 +2793,7 @@ async function mUpdate(){
 async function mStartApp(){
   if(mstore.get('taches-page-maj')){mstore.set('taches-page-maj',0);setTimeout(()=>toast('Appli à jour'),600);}
   let b=null;try{b=JSON.parse(localStorage.getItem(LS));}catch(e){}
-  if(b&&Array.isArray(b.items)){items=b.items;done=b.done||[];settings=b.settings||{};notes=b.notes||[];dirty=!!b.dirty;baseText=b.base==null?null:b.base;normalize();}
+  if(b&&Array.isArray(b.items)){items=b.items;done=b.done||[];settings=b.settings||{};notes=b.notes||[];rulesInit();dirty=!!b.dirty;baseText=b.base==null?null:b.base;normalize();}
   mName=mstore.get('taches-app-name');
   mRender();
   let n='';try{n=await andCall('name');}catch(e){}
@@ -2737,7 +2806,7 @@ async function mStartApp(){
     if(cur!==baseText&&!staleEcho(cur)){const p=parse(cur);items=p.items;done=p.done;settings=p.settings||{};notes=p.notes||[];normalize();baseText=cur;backup();}
     savedAt=Date.now();saveErr=null;
   }catch(e){saveErr=e.message;toast('Lecture impossible : '+e.message+' · dernière version connue affichée');}
-  mRender();
+  mRender();setTimeout(housekeeping,0);
 }
 function initMobile(){
   document.body.classList.add('mobile');$('#m').hidden=false;
@@ -2796,7 +2865,7 @@ function initMobile(){
 (async()=>{
   if(MOBILE){initMobile();return;}
   let b=null;try{b=JSON.parse(localStorage.getItem(LS));}catch(e){}
-  if(b&&Array.isArray(b.items)){items=b.items;done=b.done||[];settings=b.settings||{};notes=b.notes||[];dirty=!!b.dirty;baseText=b.base==null?null:b.base;}
+  if(b&&Array.isArray(b.items)){items=b.items;done=b.done||[];settings=b.settings||{};notes=b.notes||[];rulesInit();dirty=!!b.dirty;baseText=b.base==null?null:b.base;}
   else{const p=parse(SEED);items=p.items;done=p.done;settings=p.settings||{};notes=p.notes||[];dirty=true;}
   normalize();render();setStatus();
   if(!hasFS){showBanner('nofs');return;}
