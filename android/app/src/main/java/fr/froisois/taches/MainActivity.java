@@ -55,6 +55,8 @@ public class MainActivity extends Activity {
     private static final int CHOISIR = 1;
     private static final int CHOISIR_DOSSIER = 4;
     private static final int ENREGISTRER_SOUS = 5;
+    private static final int CONNEXION = 6;
+    private int connexionEnCours = -1;
     private static final String PJ = "Pièces jointes";
     /** Fichier reçu par le menu Partager, copié dans le cache en attendant d'être rangé. */
     private File partage = null;
@@ -255,6 +257,33 @@ public class MainActivity extends Activity {
                 case "update":
                     runOnUiThread(() -> mettreAJour(id));
                     break;
+                case "spLogin":
+                    runOnUiThread(() -> {
+                        if (connexionEnCours != -1) repondre(connexionEnCours, false, "annulé");
+                        connexionEnCours = id;
+                        Intent i = new Intent(MainActivity.this, ConnexionActivity.class);
+                        i.putExtra(ConnexionActivity.URL, arg);
+                        startActivityForResult(i, CONNEXION);
+                    });
+                    break;
+                case "spRead":
+                    reseau.execute(() -> {
+                        try { repondre(id, true, OneDriveWeb.lire(MainActivity.this, arg).toString()); }
+                        catch (OneDriveWeb.Exc e) { repondre(id, false, e.code + ":" + e.getMessage()); }
+                        catch (Exception e) { repondre(id, false, "reseau:" + message(e)); }
+                    });
+                    break;
+                case "spWrite":
+                    reseau.execute(() -> {
+                        try {
+                            JSONObject o = new JSONObject(arg);
+                            OneDriveWeb.ecrire(MainActivity.this, o.getString("url"), o.getString("text"), o.optString("etag"));
+                            repondre(id, true, OneDriveWeb.lire(MainActivity.this, o.getString("url")).optString("etag"));
+                        }
+                        catch (OneDriveWeb.Exc e) { repondre(id, false, e.code + ":" + e.getMessage()); }
+                        catch (Exception e) { repondre(id, false, "reseau:" + message(e)); }
+                    });
+                    break;
                 case "copy":
                     // presse-papiers : texte brut + version mise en forme (gras, italique) pour les applis qui la comprennent
                     runOnUiThread(() -> {
@@ -347,6 +376,7 @@ public class MainActivity extends Activity {
     protected void onActivityResult(int code, int res, Intent data) {
         super.onActivityResult(code, res, data);
         if (code == CHOISIR_DOSSIER || code == ENREGISTRER_SOUS) { resultatPieceJointe(code, res, data); return; }
+        if (code == CONNEXION) { int i = connexionEnCours; connexionEnCours = -1; if (i != -1) repondre(i, res == RESULT_OK, res == RESULT_OK ? "" : "annulé"); return; }
         if (code != CHOISIR) return;
         final int id = choixEnCours;
         choixEnCours = -1;

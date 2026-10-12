@@ -41,5 +41,6 @@
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
+        <activity android:name=".ConnexionActivity" android:exported="false" android:label="Connexion à OneDrive" />
     </application>
 </manifest>

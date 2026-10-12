@@ -38,3 +38,8 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 }
+
+dependencies {
+    // retirer l'en-tête X-Requested-With dans la page de connexion
+    implementation 'androidx.webkit:webkit:1.8.0'
+}

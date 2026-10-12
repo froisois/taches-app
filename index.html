@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261012105200">
+<meta name="taches-page" content="20261012115026">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -536,6 +536,7 @@ aside.open{transform:none}
       <button type="button" class="mitem" id="oUpdate">Vérifier la mise à jour de l’appli</button>
       <button type="button" class="mitem" id="oFile">Choisir un autre fichier</button>
       <button type="button" class="mitem" id="oCopyAll">Copier tout le contenu (sauvegarde)</button>
+      <button type="button" class="mitem" id="oSp">Connexion directe à OneDrive (essai)</button>
       <p class="ameta" id="oInfo"></p>
       <div class="mrb"><button type="submit" class="primary">Fermer</button></div>
     </form>
@@ -1903,7 +1904,8 @@ async function checkExternal(force){
   }catch(e){}
 }
 /* empreinte du fichier tel que lu ou écrit en dernier : la même au PC et au téléphone = le même fichier, dans le même état */
-function fileTag(){if(baseText==null)return '';let h=0x811c9dc5;for(let i=0;i<baseText.length;i++){h^=baseText.charCodeAt(i);h=Math.imul(h,16777619)>>>0;}return '#'+h.toString(16).padStart(8,'0').slice(0,4);}
+function fileTagOf(s){let h=0x811c9dc5;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)>>>0;}return '#'+h.toString(16).padStart(8,'0').slice(0,4);}
+function fileTag(){return baseText==null?'':fileTagOf(baseText);}
 function setStatus(){
   if(MOBILE){if(typeof mInfo==='function')mInfo();return;}
   let s;
@@ -2503,6 +2505,23 @@ let mNoteDone=false;
 function mNoteSrc(){const n=mNoteId?notes.find(x=>x.id===mNoteId):null;if(mNoteId&&!n)return null;return {n,v:mNoteText()||(n?n.text:''),at:n?n.at:nowStamp()};}
 /* copier toute la note : l'appli met texte brut + mise en forme dans le presse-papiers ; sinon le navigateur */
 function mCopyNote(){return mCopyText(mNoteText(),$('#nCopy'));}
+/* essai : lire taches.md directement sur le site OneDrive (session web, comme un navigateur), par son chemin */
+function mSpUrl(){
+  const od=(settings.onedrive||[])[0];if(!od||!settings.dossier)return null;
+  return oneDriveURL(settings.dossier.replace(/[\\/]+$/,'')+'\\'+(mName||'taches.md'));
+}
+async function mSpTrial(){
+  const url=mSpUrl();
+  if(!url){toast('Réglages ⚙ du PC à compléter : dossier de taches.md et dossier OneDrive avec son adresse web');return;}
+  try{
+    let r;
+    try{r=JSON.parse(await andCall('spRead',url));}
+    catch(e){if(/inconnue/.test(e.message))throw new Error('mets d’abord l’appli à jour (menu ⋮)');if(!/^(connexion|reseau|http):/.test(e.message))throw e;
+      toast('Connexion à OneDrive…');await andCall('spLogin',settings.onedrive[0].web);r=JSON.parse(await andCall('spRead',url));}
+    const tg=fileTagOf(r.text);
+    toast('Lecture directe réussie : '+r.text.split('\n').length+' lignes, empreinte '+tg+(tg===fileTag()?' (identique à celle de l’appli)':' — l’appli affiche '+fileTag()));
+  }catch(e){toast('Essai de connexion directe : '+e.message.replace(/^\w+:/,''));}
+}
 async function mCopyText(v,b,raw){
   if(!v){toast('Rien à copier');return;}
   const text=raw?v:plainFmt(bulletsView(v)),html=raw?'':fmtView(v).replace(/\n/g,'<br>');
@@ -2822,6 +2841,7 @@ function initMobile(){
   $('#oFilters').onchange=()=>{mState.filters=$('#oFilters').checked;mstore.set(MKEY+'-ui',mState);mRender();};
   $('#oUpdate').onclick=()=>{$('#mMenu').close();mCheckUpdate(true);};
   $('#oFile').onclick=()=>{$('#mMenu').close();mPick();};
+  $('#oSp').onclick=()=>{$('#mMenu').close();mSpTrial();};
   $('#oCopyAll').onclick=async()=>{await mCopyText(serialize(),$('#oCopyAll'),true);toast('Tout le contenu est copié : colle-le où tu veux');};   /* sauvegarde de secours, indépendante du fichier */
   if(AND){
     mInitNotes();mInitAtt();mStartApp();$('#mReload').hidden=true;$('#mUpd').onclick=mUpdate;$('#mVer').onclick=()=>mCheckUpdate(true);mInitPull();setTimeout(mCheckUpdate,1500);
