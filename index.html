@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261012192621">
+<meta name="taches-page" content="20261012193919">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -21,6 +21,7 @@ button.primary{border-color:var(--accent);color:var(--accent)}
 .banner,#help{max-width:1240px;margin:.8rem auto 0;border:1px solid var(--line);border-radius:8px;font-size:.88rem}
 .banner{padding:.55rem .8rem;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
 .banner[hidden],#help[hidden]{display:none}
+.vban{display:block;background:color-mix(in srgb,var(--accent) 10%,var(--bg));border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
 #help{padding:.4rem 1rem;color:var(--muted)}
 #help ul{margin:.3rem 0;padding-left:1.1rem;columns:2 340px}
 #help kbd{font:inherit;font-size:.8rem;border:1px solid var(--line);border-radius:4px;padding:0 .3rem;color:var(--fg)}
@@ -536,6 +537,7 @@ aside.open{transform:none}
   </ul>
 </div>
 <div class="banner" id="banner" hidden></div>
+<div class="banner vban" id="vbanner" hidden></div>
 <main id="main"><div id="inbox" hidden></div><div id="list"></div></main>
 <div id="m" hidden>
   <div class="mh">
@@ -855,6 +857,7 @@ function parse(md){
       const k=sm[1].toLowerCase().replace(/[\s-]/g,''),v=sm[2];
       if(k==='email'||k==='courriel'){if(v)st.email=v;}
       else if(k==='dossier'){if(v)st.dossier=v;}
+      else if(k==='versionweb'){const n=parseInt(v,10);if(n>0)st.webv=n;}
       else if(k==='archivage'){const n=parseInt(v,10);if(!isNaN(n))st.archivage=n;}
       else if(k==='règle'||k==='regle'){if(v)(st.regles||(st.regles=[])).push(v);}
       else if(k==='onedrive'){const m=/^(.*?)\s+=\s+(https?:\/\/\S+)$/.exec(v);if(m)(st.onedrive||(st.onedrive=[])).push({local:m[1].replace(/^"(.*)"$/,'$1'),web:cleanWeb(m[2])});}
@@ -966,13 +969,14 @@ function serialize(){
   }
   if(done.length){L.push('','# ✓ Historique');doneLines(sortedDone(),L);}
   if(trash.length){L.push('','# 🗑 Corbeille');doneLines([...trash].sort((a,b)=>b.date.localeCompare(a.date)),L);}
-  if(settings.email||settings.dossier||(settings.onedrive&&settings.onedrive.length)||settings.archivage!=null||(settings.regles&&settings.regles.length)){
+  if(settings.email||settings.dossier||(settings.onedrive&&settings.onedrive.length)||settings.archivage!=null||(settings.regles&&settings.regles.length)||settings.webv){
     L.push('','# ⚙ Réglages');
     if(settings.email)L.push('- e-mail : '+settings.email);
     if(settings.dossier)L.push('- dossier : '+settings.dossier);
     for(const m of settings.onedrive||[])L.push('- onedrive : '+m.local+' = '+m.web);
     if(settings.archivage!=null)L.push('- archivage : '+settings.archivage+' jours');
     for(const r of settings.regles||[])L.push('- règle : '+r);
+    if(settings.webv)L.push('- version web : '+settings.webv);
   }
   return L.join('\n')+'\n';
 }
@@ -1048,6 +1052,7 @@ function merge3(B,M,T){
   const st={};const bs=B.settings||{},ms=M.settings||{},ts=T.settings||{};
   for(const f of ['email','dossier','onedrive','archivage','regles']){const j=x=>x==null?'':JSON.stringify(x);const mv=j(ms[f]),tv=j(ts[f]),bv=j(bs[f]);
     const v=mv===tv?ms[f]:(mv===bv?ts[f]:(tv===bv?ms[f]:(conflicts++,ms[f])));if(v!=null&&v!=='')st[f]=v;}
+  {const w=Math.max(ms.webv||0,ts.webv||0);if(w)st.webv=w;}
   /* notes : par identifiant, texte et date fusionnés comme les champs des tâches */
   const nB=new Map((B.notes||[]).map(n=>[n.id,n])),nM=new Map((M.notes||[]).map(n=>[n.id,n])),nT=new Map((T.notes||[]).map(n=>[n.id,n]));
   const nsame=(a,b)=>a.text===b.text&&(a.at||'')===(b.at||'');const nts=[],nNew=[];
@@ -1185,7 +1190,7 @@ function render(){
   });
   list.querySelectorAll('.section').forEach(sec=>{if((filter||sec.classList.contains('urglane'))&&!sec.querySelector('.card'))sec.style.display='none';});
   document.body.classList.toggle('filtering',!!filter);renderFilters();
-  renderInbox();
+  renderInbox();pcVersionCheck();
   $('#histBtn').textContent='Historique ('+done.length+')';
   if($('#hist').classList.contains('open'))renderHist();
 }
@@ -2411,6 +2416,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-12 21:50',type:'web',v:11,items:['Le Compagnon dépose chaque nouvelle version de l’application web dans ton dossier Tâches (taches.html, à côté de taches.md)\u202f: le PC n’a rien à télécharger, ni à aller chercher sur internet. Quand une version plus récente y arrive, un bandeau sur le PC propose de recharger la page.']},
  {d:'2026-10-12 21:20',type:'web',v:10,items:['Noms et numéros de version\u00a0: l’«\u00a0Application web Chromium\u00a0» (tout ce que tu vois et utilises, dans Edge ou Chrome, mise à jour toute seule) et le «\u00a0Compagnon Android\u00a0» (l’appli du téléphone, à installer depuis ⋮). Les deux numéros figurent dans ⋮ au téléphone et dans «\u00a0Quoi de neuf\u00a0?\u00a0».']},
  {d:'2026-10-12 19:50',type:'web',v:9,items:['Notes de version : « Quoi de neuf ? » dans le menu ⋮ du téléphone et en haut du PC. Après une actualisation qui apporte du neuf, un message propose de les lire.']},
  {d:'2026-10-12 19:35',type:'appli',v:43,items:['Création des fichiers d’archive annuels sur OneDrive (nécessaire à l’archivage automatique).']},
@@ -2487,6 +2493,33 @@ async function archiveOld(force){
   mstore.set('taches-arch-jour',today);mRender();
   toast(moved+(moved>1?' tâches faites rangées':' tâche faite rangée')+' dans Tâches/Archives (années '+[...new Set(old.map(e=>e.date.slice(0,4)))].join(', ')+')',6000);
   return moved;
+}
+/* ---------- taches.html dans le dossier Tâches ----------
+   Le PC n'a pas à aller chercher le programme sur internet (choix de François) : le Compagnon, qui reçoit chaque
+   nouvelle version, en dépose une copie à côté de taches.md, et OneDrive l'amène au PC. « - version web : N » dans
+   taches.md dit au PC quelle version l'attend dans le dossier (bandeau « recharge la page »). */
+async function copyHtml(){
+  if(!AND||!backend||!backend.direct)return false;
+  const me=(document.querySelector('meta[name=taches-page]')||{}).content||'';if(!/^\d{14}$/.test(me))return false;
+  if(mstore.get('taches-html-copie')===me&&(settings.webv||0)>=WEB_V)return false;
+  const url=settings.dossier?oneDriveURL(settings.dossier.replace(/[\\/]+$/,'')+'\\taches.html'):null;if(!url)return false;
+  const r=await fetch(location.pathname+'?v='+Date.now(),{cache:'no-store'});if(!r.ok)return false;
+  const html=await r.text(),stamp=t=>((t||'').match(/<meta name="taches-page" content="(\d{14})">/)||[])[1]||'';
+  if(stamp(html)!==me)return false;   /* pas la page affichée : on attendra */
+  let cur=null,etag='';
+  try{const x=JSON.parse(await spCall('spRead',url));cur=x.text;etag=x.etag||'';}catch(e){if(!/^introuvable:/.test(e.message))throw e;}
+  const there=stamp(cur);
+  if(there>me)return false;   /* le dossier a déjà plus récent */
+  if(there<me){if(cur==null)await spCall('spCreate',JSON.stringify({url,text:html}));else await spCall('spWrite',JSON.stringify({url,text:html,etag}));}
+  mstore.set('taches-html-copie',me);
+  if((settings.webv||0)<WEB_V){settings.webv=WEB_V;changed();}
+  return true;
+}
+/* au PC : une version plus récente attend dans le dossier */
+function pcVersionCheck(){
+  if(MOBILE)return;const b=document.getElementById('vbanner');if(!b)return;
+  const w=settings.webv||0;b.hidden=!(w>WEB_V);
+  if(w>WEB_V)b.innerHTML='<strong>Nouvelle version de l’application web Chromium (v'+w+')</strong> arrivée dans ton dossier Tâches. Recharge la page (F5) pour l’utiliser\u00a0; ton travail en cours est déjà enregistré. Tu as actuellement la v'+WEB_V+'.';
 }
 /* recherche dans les archives des années précédentes (lues à la demande) */
 let mArchLoaded=null;
@@ -3029,7 +3062,7 @@ async function mRefresh(){
     else{applyModel(parse(cur));baseText=cur;backup();toast('Tableau mis à jour');}
     savedAt=Date.now();saveErr=null;
   }catch(e){toast('Lecture impossible : '+e.message.replace(/^\w+:/,''));mInfo();return 'err';}
-  mInfo();archiveOld().catch(()=>{});return 'ok';
+  mInfo();archiveOld().catch(()=>{}).then(()=>copyHtml()).catch(()=>{});return 'ok';
 }
 const PULL_ARROW='<circle class="arc" cx="12" cy="12" r="7" transform="rotate(-90 12 12)" stroke-dasharray="0 44"/><g class="ah"><path d="M11.2 2.3L14.8 5l-3.6 2.7z" fill="currentColor" stroke="none"/></g>',PULL_OK='<path class="pk" d="M5.5 12.5l4.2 4.2L18.5 8"/>',PULL_BAD='<path d="M12 6.5v7"/><circle cx="12" cy="17.5" r=".6" fill="currentColor"/>';
 /* retour haptique : par l'appli (vibreur du téléphone, appli 1.42 et plus), sinon le navigateur.
@@ -3208,7 +3241,7 @@ async function mStartApp(){
     savedAt=Date.now();saveErr=null;
   }catch(e){saveErr=e.message.replace(/^\w+:/,'');toast('Lecture impossible : '+saveErr+' · dernière version connue affichée');}
   mRender();setTimeout(housekeeping,0);
-  setTimeout(()=>archiveOld().catch(e=>toast('Archivage annuel reporté\u00a0: '+e.message.replace(/^\w+:/,''))),1500);
+  setTimeout(()=>archiveOld().catch(e=>toast('Archivage annuel reporté\u00a0: '+e.message.replace(/^\w+:/,''))).then(()=>copyHtml()).catch(()=>{}),1500);
 }
 function initMobile(){
   document.body.classList.add('mobile');$('#m').hidden=false;
