@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261012074636">
+<meta name="taches-page" content="20261012075146">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48Y2lyY2xlIGN4PSIzOCIgY3k9IjU0IiByPSI0LjEiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxjaXJjbGUgY3g9IjM4IiBjeT0iNzAiIHI9IjQuNiIgZmlsbD0iIzJGNkY1RSIvPjxwYXRoIGQ9Ik0zNS45IDcwbDEuNSAxLjYgMi45LTMuMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjEuNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHJlY3QgeD0iNDYiIHk9IjY4LjgiIHdpZHRoPSIxOCIgaGVpZ2h0PSIyLjQiIHJ4PSIxLjIiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PC9nPjwvc3ZnPg==">
 <style>
@@ -199,6 +199,8 @@ body.mobile>header,body.mobile #help,body.mobile #banner,body.mobile main,body.m
 .arow1 .sp{flex:1}
 #mAct .arow1 input#aWho{flex:1;min-width:0;margin:0}
 #mNote .arow1 select{flex:1;min-width:0;margin:0}
+#mNote #nWait input{flex:1;min-width:0;margin:0}
+#nWait[hidden]{display:none}
 button.ico.aurg{color:#c4524a;border-color:color-mix(in srgb,#c4524a 55%,transparent);font-weight:800;font-size:1.15rem}
 button.ico.aurg.on{background:#c4524a;border-color:#c4524a;color:#fff}
 .dpill{position:relative;display:inline-flex;align-items:center;flex:none;height:2.6rem;border:1px solid var(--line);border-radius:999px;background:var(--panel)}
@@ -529,6 +531,7 @@ aside.open{transform:none}
       <div id="nTriage">
                 <div class="npanel" id="nTask" hidden>
           <div class="arow1"><select id="nSec" aria-label="Rubrique" title="Rubrique"></select><div class="aseg" id="nState"><button type="button" data-k="afaire" class="on" title="À faire" aria-label="À faire"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3.5"/><path d="M8.2 12.3l2.6 2.6 5-5.2"/></svg></button><button type="button" data-k="attente" title="En attente" aria-label="En attente"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="2.2" rx="1" fill="currentColor" stroke="none"/><rect x="5" y="19.3" width="14" height="2.2" rx="1" fill="currentColor" stroke="none"/><path d="M7.5 4.7c0 3.5 3 5 3.6 7.3-.6 2.3-3.6 3.8-3.6 7.3M16.5 4.7c0 3.5-3 5-3.6 7.3.6 2.3 3.6 3.8 3.6 7.3"/><path d="M9 18.6c.8-1.6 2.2-2.3 3-2.3s2.2.7 3 2.3z" fill="currentColor" stroke="none"/></svg></button></div></div>
+          <div class="arow1" id="nWait" hidden><input id="nWho" list="aPeople" placeholder="Attendu de…" enterkeyhint="done"></div>
           <p class="nsubs" id="nSubs" hidden></p>
           <label class="ndue" id="nDue" hidden><input type="checkbox" id="nDueOn" checked><span id="nDueTx"></span></label>
           <button type="button" class="primary nwide" id="nMake" hidden>Créer la tâche</button>
@@ -2368,7 +2371,7 @@ function mNotePanel(p){
   /* un seul bouton de validation : ✓ enregistre la note, ou crée la tâche quand on en fait une ; rien à valider quand on choisit une tâche existante */
   const ok=$('#nOk');ok.hidden=p==='attach';ok.title=p==='task'?'Créer la tâche':mNoteId?'Fermer':'Enregistrer la note';ok.setAttribute('aria-label',ok.title);
   if(p==='task'){const sel=$('#nSec');sel.innerHTML='';const opt=(v,t)=>{const o=document.createElement('option');o.value=v;o.textContent=t;sel.append(o);};
-    opt('','Hors rubrique');for(const h of items.filter(x=>x.kind==='h'))opt(h.id,h.text);sel.value=idx(mState.sec)>=0?mState.sec:'';document.querySelectorAll('#nState button').forEach(b=>b.classList.toggle('on',b.dataset.k==='afaire'));}
+    opt('','Hors rubrique');for(const h of items.filter(x=>x.kind==='h'))opt(h.id,h.text);sel.value=idx(mState.sec)>=0?mState.sec:'';document.querySelectorAll('#nState button').forEach(b=>b.classList.toggle('on',b.dataset.k==='afaire'));$('#nWho').value='';$('#nWait').hidden=true;}
   if(p==='attach'){$('#nQ').value='';mPickList();}
   mDueOff='';mTaskPreview();
 }
@@ -2391,14 +2394,19 @@ function mTaskPreview(){
   $('#nDue').hidden=!dt;
   if(dt){$('#nDueTx').textContent='Échéance '+new Date(dt.d+'T12:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})+' (d’après « '+dt.w+' »)';$('#nDue').dataset.d=dt.d;$('#nDueOn').checked=mDueOff!==dt.d;}
 }
+/* tâche en attente : on demande tout de suite qui on attend (personnes déjà connues proposées) */
+function mNoteWait(){
+  const w=$('#nState .on').dataset.k==='attente',box=$('#nWait');box.hidden=!w;
+  if(w){const dl=$('#aPeople');dl.innerHTML='';for(const n of peopleNames()){const o=document.createElement('option');o.value=n;dl.append(o);}$('#nWho').focus();}
+}
 function mNoteToTask(){
   const src=mNoteSrc();if(!src)return;const {n,v}=src,sp=noteSplit(v);
   if(!sp.title){$('#nText').focus();return;}
-  const st=$('#nState .on').dataset.k,sec=$('#nSec').value,due=!$('#nDue').hidden&&$('#nDueOn').checked?$('#nDue').dataset.d:'';
+  const st=$('#nState .on').dataset.k,who=st==='attente'?$('#nWho').value.replace(/\s+/g,' ').trim():'',sec=$('#nSec').value,due=!$('#nDue').hidden&&$('#nDueOn').checked?$('#nDue').dataset.d:'';
   snapshot();if(n)notes=notes.filter(x=>x!==n);mState.sec=sec;
   mNoteDone=true;mNoteId=null;$('#mNote').close();
   const t=mAddTask(sp.title,sp.note,sec,st,(src.at||'').slice(0,10)||todayISO());
-  if(due)t.due=due;
+  if(due)t.due=due;if(who)t.waitFor=who;
   if(sp.subs.length)items.splice(idx(t.id)+1,0,...sp.subs.map(x=>({id:uid(),kind:'t',level:1,text:x,created:t.created})));
   normalize();changed();mRender();
   mUndoToast('Tâche créée'+(sp.subs.length?' avec '+sp.subs.length+' sous-tâche'+(sp.subs.length>1?'s':''):'')+(due?', échéance '+shortDate(due):''));
@@ -2412,7 +2420,8 @@ function mNoteToComment(taskId){
 function mInitNotes(){
   $('#mAdd').title='Nouvelle note';
   document.querySelectorAll('#mNote .ntabs button').forEach(b=>b.onclick=()=>mNotePanel(b.classList.contains('on')?'':b.dataset.p));
-  document.querySelectorAll('#nState button').forEach(b=>b.onclick=()=>document.querySelectorAll('#nState button').forEach(x=>x.classList.toggle('on',x===b)));
+  document.querySelectorAll('#nState button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#nState button').forEach(x=>x.classList.toggle('on',x===b));mNoteWait();});
+  $('#nWho').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();e.target.blur();}};
   $('#nMake').onclick=mNoteToTask;
   $('#nText').addEventListener('input',mTaskPreview);
   $('#nDueOn').onchange=()=>{mDueOff=$('#nDueOn').checked?'':$('#nDue').dataset.d;};
