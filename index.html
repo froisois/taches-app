@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261012064013">
+<meta name="taches-page" content="20261012064437">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48Y2lyY2xlIGN4PSIzOCIgY3k9IjU0IiByPSI0LjEiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxjaXJjbGUgY3g9IjM4IiBjeT0iNzAiIHI9IjQuNiIgZmlsbD0iIzJGNkY1RSIvPjxwYXRoIGQ9Ik0zNS45IDcwbDEuNSAxLjYgMi45LTMuMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjEuNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHJlY3QgeD0iNDYiIHk9IjY4LjgiIHdpZHRoPSIxOCIgaGVpZ2h0PSIyLjQiIHJ4PSIxLjIiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PC9nPjwvc3ZnPg==">
 <style>
@@ -230,8 +230,13 @@ button.ico.aurg.on{background:#c4524a;border-color:#c4524a;color:#fff}
 .mpull{position:fixed;top:.6rem;left:50%;z-index:30;width:2.4rem;height:2.4rem;margin-left:-1.2rem;border-radius:50%;background:var(--panel);box-shadow:0 2px 10px rgba(0,0,0,.22);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;color:var(--accent);transition:background .15s,color .15s}
 .mpull svg{display:block}
 .mpull.ready{background:var(--accent);color:var(--bg)}
-.mpull.spin svg{animation:mspin .8s linear infinite}
-@keyframes mspin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.mpull.spin svg{animation:mspin .75s linear infinite}
+.mpull.good{background:var(--accent);color:var(--bg);animation:mpop .32s cubic-bezier(.34,1.56,.64,1)}
+.mpull.bad{background:#c4524a;color:#fff;animation:mpop .32s cubic-bezier(.34,1.56,.64,1)}
+.mpull .pk{stroke-dasharray:20;stroke-dashoffset:20;animation:mdraw .3s .05s ease-out forwards}
+@keyframes mpop{0%{scale:.7}100%{scale:1}}
+@keyframes mdraw{to{stroke-dashoffset:0}}
+@keyframes mspin{from{transform:rotate(var(--a0,0deg))}to{transform:rotate(calc(var(--a0,0deg) + 360deg))}}
 .mmenu{flex:none;border:none;background:none;color:var(--muted);font-size:1.4rem;line-height:1;padding:.2rem .3rem;margin-right:-.4rem}
 #mMenu{width:min(420px,90vw);border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--fg);padding:1rem}
 .mopt{display:flex;gap:.6rem;align-items:flex-start;font-size:.95rem;padding:.4rem 0 .7rem;border-bottom:1px solid var(--line)}
@@ -2438,30 +2443,33 @@ async function mCheckPage(force){
   }catch(e){return false;}
 }
 async function mRefresh(){
-  if(await mCheckPage(true))return;
-  if(!backend){mPick();return;}
-  if(saving)return;
-  if(dirty){await syncSave();mInfo();toast(saveErr?'Échec de l’enregistrement : '+saveErr:'Enregistré');return;}
+  if(await mCheckPage(true))return 'ok';
+  if(!backend){mPick();return 'err';}
+  if(saving)return 'ok';
+  if(dirty){await syncSave();mInfo();if(saveErr)return toast('Échec de l’enregistrement : '+saveErr),'err';toast('Enregistré');return 'ok';}
   try{
     const cur=await andCall('read','frais');
-    if(cur===baseText||staleEcho(cur))toast('Déjà à jour');
-    else if(!cur.trim())toast('Le fichier est vide : rien n’a été remplacé');
+    if(cur===baseText||staleEcho(cur)){}   /* déjà à jour : la coche suffit */
+    else if(!cur.trim())return toast('Le fichier est vide : rien n’a été remplacé'),'err';
     else{applyModel(parse(cur));baseText=cur;backup();toast('Tableau mis à jour');}
     savedAt=Date.now();saveErr=null;
-  }catch(e){toast('Lecture impossible : '+e.message);}
-  mInfo();
+  }catch(e){toast('Lecture impossible : '+e.message);mInfo();return 'err';}
+  mInfo();return 'ok';
 }
+const PULL_ARROW='<path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20.5 3.5v4.4h-4.4"/>',PULL_OK='<path class="pk" d="M5.5 12.5l4.2 4.2L18.5 8"/>',PULL_BAD='<path d="M12 6.5v7"/><circle cx="12" cy="17.5" r=".6" fill="currentColor"/>';
+function buzz(p){try{navigator.vibrate&&navigator.vibrate(p);}catch(e){}}
 function mInitPull(){
   /* tirer pour actualiser : l'écran suit le doigt (avec résistance), la flèche tourne avec lui, dans un sens comme dans l'autre */
   const ind=document.createElement('div');ind.className='mpull';
-  ind.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20.5 3.5v4.4h-4.4"/></svg>';
+  ind.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">'+PULL_ARROW+'</svg>';
   document.body.append(ind);const ic=ind.firstChild,list=$('#mList');
   let y0=null,x0=0,dy=0,pulling=false,raf=0;
   const off=d=>90*(1-Math.exp(-d/150));          /* déplacement amorti de l'écran */
   const draw=()=>{raf=0;const d=Math.max(0,dy),o=off(d);
     list.style.transform='translateY('+o+'px)';
     ind.style.transform='translateY('+(o*0.75)+'px)';ind.style.opacity=String(Math.min(1,d/50));
-    ic.style.transform='rotate('+(d*2)+'deg)';ind.classList.toggle('ready',d>90);};
+    ic.style.transform='rotate('+(d*2)+'deg)';
+    const rd=d>90;if(rd!==ind.classList.contains('ready')){ind.classList.toggle('ready',rd);if(rd)buzz(10);}};
   const back=()=>{list.style.transition='transform .25s ease-out';list.style.transform='';
     ind.style.transition='transform .25s ease-out,opacity .2s';ind.style.transform='';ind.style.opacity='';ic.style.transform='';ind.classList.remove('ready');
     setTimeout(()=>{list.style.transition='';ind.style.transition='';},260);};
@@ -2477,11 +2485,23 @@ function mInitPull(){
   },{passive:false});
   addEventListener('touchend',async()=>{
     if(y0==null||!pulling){y0=null;return;}y0=null;pulling=false;if(raf){cancelAnimationFrame(raf);raf=0;}
-    const go=dy>90;dy=0;
+    const go=dy>90,a0=dy*2;dy=0;
     if(!go){back();return;}
-    list.style.transition='transform .25s ease-out';list.style.transform='translateY(40px)';
-    ind.style.transition='transform .25s ease-out';ind.style.transform='translateY(30px)';ind.style.opacity='1';ind.classList.remove('ready');ind.classList.add('spin');
-    try{await mRefresh();}finally{ind.classList.remove('spin');back();}
+    /* l'écran se pose avec un petit rebond ; la flèche continue de tourner depuis où elle était */
+    const spring='cubic-bezier(.34,1.56,.64,1)';
+    list.style.transition='transform .38s '+spring;list.style.transform='translateY(52px)';
+    ind.style.transition='transform .38s '+spring;ind.style.transform='translateY(40px)';ind.style.opacity='1';
+    ic.style.setProperty('--a0',a0+'deg');ic.style.transform='';ind.classList.add('spin');
+    const t0=Date.now();let res='err';
+    try{res=await mRefresh();}catch(e){}
+    await new Promise(r=>setTimeout(r,Math.max(0,650-(Date.now()-t0))));   /* jamais un simple clignotement */
+    if(!document.body.contains(ind))return;
+    ind.classList.remove('spin','ready');ind.classList.add(res==='err'?'bad':'good');ic.innerHTML=res==='err'?PULL_BAD:PULL_OK;ic.style.transform='';
+    buzz(res==='err'?[20,60,20]:12);
+    await new Promise(r=>setTimeout(r,520));
+    list.style.transition='transform .32s cubic-bezier(.5,0,.75,0)';list.style.transform='';
+    ind.style.transition='transform .3s ease-in,opacity .3s ease-in';ind.style.transform='translateY(-10px) scale(.6)';ind.style.opacity='0';
+    setTimeout(()=>{ind.classList.remove('good','bad');ic.innerHTML=PULL_ARROW;ind.style.transition='';ind.style.transform='';ind.style.opacity='';list.style.transition='';},330);
   });
 }
 /* ---------- fichier partagé vers l'appli : nouvelle tâche, ou pièce jointe d'une tâche existante ---------- */
