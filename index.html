@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261012125013">
+<meta name="taches-page" content="20261012133813">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -536,7 +536,7 @@ aside.open{transform:none}
       <button type="button" class="mitem" id="oUpdate">Vérifier la mise à jour de l’appli</button>
       <button type="button" class="mitem" id="oFile">Choisir un autre fichier</button>
       <button type="button" class="mitem" id="oCopyAll">Copier tout le contenu (sauvegarde)</button>
-      <button type="button" class="mitem" id="oSp">Connexion directe à OneDrive (essai)</button>
+      <button type="button" class="mitem" id="oSp">Accès direct à OneDrive</button>
       <p class="ameta" id="oInfo"></p>
       <div class="mrb"><button type="submit" class="primary">Fermer</button></div>
     </form>
@@ -1889,8 +1889,9 @@ async function syncSave(){
       try{await backend.write(out);}
       catch(e){if(!/non v[ée]rifi[ée]e/.test(e.message))throw e;} /* appli 1.7 : relecture trop tôt, l'écriture a bien eu lieu */
     }
-    baseText=out;if(rev===at)dirty=false;backup();savedAt=Date.now();saveErr=null;
-  }catch(err){saveErr=err&&err.name==='NotFoundError'&&!MOBILE?'fichier introuvable (déplacé ou renommé ?), rouvre-le avec « Ouvrir… »':(err.message||String(err));toast('Échec de l’enregistrement : '+saveErr);}
+    baseText=out;if(rev===at)dirty=false;backup();savedAt=Date.now();saveErr=null;syncSave.retry=0;
+  }catch(err){if(/^conflit:/.test(err&&err.message)&&(syncSave.retry=(syncSave.retry||0)+1)<=3){saving=false;syncSave();return;}   /* changé en ligne entre lecture et écriture : on relit et on fusionne */
+    saveErr=err&&err.name==='NotFoundError'&&!MOBILE?'fichier introuvable (déplacé ou renommé ?), rouvre-le avec « Ouvrir… »':(err.message||String(err));saveErr=String(saveErr).replace(/^\w+:/,'');toast('Échec de l’enregistrement : '+saveErr);}
   saving=false;setStatus();
   if(saveAgain){saveAgain=false;if(dirty)syncSave();}
 }
@@ -1989,7 +1990,24 @@ let mState={tab:'afaire',closed:{},filters:false},mName=null,mActId=null,mSubSig
 const andCalls={};let andSeq=0;
 function andCall(m,arg){return new Promise((res,rej)=>{const id=++andSeq;andCalls[id]={res,rej};try{AND.request(id,m,arg==null?'':String(arg));}catch(e){delete andCalls[id];rej(e);}});}
 window.tachesAndroidReply=(id,ok,val)=>{const c=andCalls[id];if(!c)return;delete andCalls[id];if(ok)c.res(val);else c.rej(new Error(val||'erreur'));};
-const andBackend={read:()=>andCall('read'),write:t=>andCall('write',t)};
+const andBackend={read:()=>andCall('read'),fresh:()=>andCall('read','frais'),write:t=>andCall('write',t)};
+/* accès direct : le fichier en ligne, lu et écrit par son chemin avec la session web (comme un navigateur).
+   L'ETag de la dernière lecture empêche d'écraser une version arrivée entre-temps (« conflit » → on relit et on fusionne). */
+let mDirect=!!mstore.get('taches-direct'),spEtag='';
+async function spCall(m,arg){
+  try{return await andCall(m,arg);}
+  catch(e){
+    if(!/^connexion:/.test(e.message)||document.hidden)throw e;   /* appli en arrière-plan : on réessaiera au retour */
+    toast('Connexion à OneDrive…');await andCall('spLogin',settings.onedrive[0].web);return await andCall(m,arg);
+  }
+}
+const spBackend={
+  async read(){const r=JSON.parse(await spCall('spRead',mSpUrl()));spEtag=r.etag||'';return r.text;},
+  fresh(){return this.read();},
+  async write(t){spEtag=await spCall('spWrite',JSON.stringify({url:mSpUrl(),text:t,etag:spEtag}))||'';},
+  direct:true
+};
+function mBackend(){return mDirect&&mSpUrl()?spBackend:andBackend;}
 window.tachesAndroidResume=()=>{mCheckUpdate();mCheckPage();if(!backend||saving)return;if(dirty)syncSave();else checkExternal();};
 window.tachesAndroidPause=()=>{if(dirty&&backend){clearTimeout(saveTimer);syncSave();}};
 window.tachesAndroidBack=()=>{const d=document.querySelector('dialog[open]');if(d){d.close();return true;}return false;};
@@ -2510,12 +2528,13 @@ function mCopyNote(){return mCopyText(mNoteText(),$('#nCopy'));}
 /* essai : lire taches.md directement sur le site OneDrive (session web, comme un navigateur), par son chemin */
 function mSpUrl(){
   const od=(settings.onedrive||[])[0];if(!od||!settings.dossier)return null;
-  return oneDriveURL(settings.dossier.replace(/[\\/]+$/,'')+'\\'+(mName||'taches.md'));
+  return oneDriveURL(settings.dossier.replace(/[\\/]+$/,'')+'\\taches.md');   /* toujours le nom du PC : le nom donné par l'appli OneDrive peut être celui d'une copie */
 }
 /* date de la page affichée dans ⋮ (tampon AAAAMMJJhhmmss, heure UTC de publication) */
 function mPageTxt(){const v=(document.querySelector('meta[name=taches-page]')||{}).content||'';const m=/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d)/.exec(v);if(!m)return '';
   const d=new Date(Date.UTC(+m[1],m[2]-1,+m[3],+m[4],+m[5]));return 'Page du '+d.toLocaleDateString('fr-FR',{day:'numeric',month:'numeric'})+' '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})+' · ';}
 async function mSpTrial(){
+  if(mDirect){mDirect=false;mstore.set('taches-direct',0);backend=mName?andBackend:null;toast('Accès direct désactivé : retour à l’appli OneDrive du téléphone');return;}
   const url=mSpUrl();
   if(!url){toast('Réglages ⚙ du PC à compléter : dossier de taches.md et dossier OneDrive avec son adresse web');return;}
   try{
@@ -2523,8 +2542,12 @@ async function mSpTrial(){
     try{r=JSON.parse(await andCall('spRead',url));}
     catch(e){if(/inconnue/.test(e.message))throw new Error('mets d’abord l’appli à jour (menu ⋮)');if(!/^(connexion|reseau|http):/.test(e.message))throw e;
       toast('Connexion à OneDrive…');await andCall('spLogin',settings.onedrive[0].web);r=JSON.parse(await andCall('spRead',url));}
-    const tg=fileTagOf(r.text);
-    toast('Lecture directe réussie : '+r.text.split('\n').length+' lignes, empreinte '+tg+(tg===fileTag()?' (identique à celle de l’appli)':' — l’appli affiche '+fileTag()));
+    mDirect=true;mstore.set('taches-direct',1);backend=spBackend;spEtag=r.etag||'';
+    const tg=fileTagOf(r.text),before=fileTag();
+    if(dirty)await syncSave();
+    else if(r.text!==baseText&&r.text.trim()){applyModel(parse(r.text));baseText=r.text;backup();}
+    savedAt=Date.now();saveErr=null;mInfo();
+    toast('Accès direct activé : l’appli lit et écrit maintenant le fichier en ligne · empreinte '+fileTag()+(before&&before!==tg?' (l’appli affichait '+before+' : version en ligne reprise)':''),9000);
   }catch(e){toast('Essai de connexion directe : '+e.message.replace(/^\w+:/,'')+(/^adresse:/.test(e.message)?' — adresse essayée : '+url:''),12000);}
 }
 async function mCopyText(v,b,raw){
@@ -2655,12 +2678,12 @@ async function mRefresh(){
   if(saving)return 'ok';
   if(dirty){await syncSave();mInfo();if(saveErr)return toast('Échec de l’enregistrement : '+saveErr),'err';toast('Enregistré');return 'ok';}
   try{
-    const cur=await andCall('read','frais');
+    const cur=await backend.fresh();
     if(cur===baseText||staleEcho(cur)){}   /* déjà à jour : la coche suffit */
     else if(!cur.trim())return toast('Le fichier est vide : rien n’a été remplacé'),'err';
     else{applyModel(parse(cur));baseText=cur;backup();toast('Tableau mis à jour');}
     savedAt=Date.now();saveErr=null;
-  }catch(e){toast('Lecture impossible : '+e.message);mInfo();return 'err';}
+  }catch(e){toast('Lecture impossible : '+e.message.replace(/^\w+:/,''));mInfo();return 'err';}
   mInfo();return 'ok';
 }
 const PULL_ARROW='<circle class="arc" cx="12" cy="12" r="7" transform="rotate(-90 12 12)" stroke-dasharray="0 44"/><g class="ah"><path d="M11.2 2.3L14.8 5l-3.6 2.7z" fill="currentColor" stroke="none"/></g>',PULL_OK='<path class="pk" d="M5.5 12.5l4.2 4.2L18.5 8"/>',PULL_BAD='<path d="M12 6.5v7"/><circle cx="12" cy="17.5" r=".6" fill="currentColor"/>';
@@ -2778,7 +2801,7 @@ function mInitAtt(){
   $('#tForm').onsubmit=e=>{e.preventDefault();mAttSave(null);};
 }
 async function mOpenFrom(name){
-  mName=name;mstore.set('taches-app-name',name);backend=andBackend;
+  mName=name;mstore.set('taches-app-name',name);backend=mBackend();
   const cur=await backend.read();
   if(dirty&&baseText!=null&&cur.trim()){await syncSave();mRender();return;}
   const local=dirty?notes:[];
@@ -2825,14 +2848,14 @@ async function mStartApp(){
   mRender();
   let n='';try{n=await andCall('name');}catch(e){}
   if(mPicking)return;   /* fichier choisi pendant le démarrage : ne pas effacer ce qui vient d'être ouvert */
-  if(!n){mName=null;mRender();return;}
-  mName=n;mstore.set('taches-app-name',n);backend=andBackend;
+  if(!n&&!(mDirect&&mSpUrl())){mName=null;mRender();return;}
+  mName=n||'taches.md';mstore.set('taches-app-name',mName);backend=mBackend();
   if(dirty){await syncSave();mRender();return;}
   try{
     const cur=await backend.read();
     if(cur!==baseText&&!staleEcho(cur)){const p=parse(cur);items=p.items;done=p.done;settings=p.settings||{};notes=p.notes||[];normalize();baseText=cur;backup();}
     savedAt=Date.now();saveErr=null;
-  }catch(e){saveErr=e.message;toast('Lecture impossible : '+e.message+' · dernière version connue affichée');}
+  }catch(e){saveErr=e.message.replace(/^\w+:/,'');toast('Lecture impossible : '+saveErr+' · dernière version connue affichée');}
   mRender();setTimeout(housekeeping,0);
 }
 function initMobile(){
@@ -2840,8 +2863,8 @@ function initMobile(){
   const ui=mstore.get(MKEY+'-ui');if(ui)mState={...mState,...ui,closed:ui.closed||{}};
   mInitAct();
   $('#mMenuBtn').onclick=()=>{
-    $('#oFilters').checked=!!mState.filters;$('#oUpdate').hidden=!AND;$('#oFile').hidden=!AND||!mName;
-    $('#oInfo').textContent=AND?[mName?'Fichier\u00a0: '+mName+(fileTag()&&!dirty?' '+fileTag():''):'',savedAt&&!saveErr?'enregistré '+mAgo(savedAt):'',saveErr?'non enregistré\u00a0: '+saveErr:'',mVerTxt,(()=>{const v=(document.querySelector('meta[name=taches-page]')||{}).content||'';return /^\d{14}$/.test(v)?'page du '+v.slice(6,8)+'/'+v.slice(4,6)+' '+String((+v.slice(8,10)+2)%24).padStart(2,'0')+'h'+v.slice(10,12):'';})()].filter(Boolean).join(' · '):'';$('#mMenu').showModal();if(document.activeElement)document.activeElement.blur();
+    $('#oFilters').checked=!!mState.filters;$('#oUpdate').hidden=!AND;$('#oFile').hidden=!AND||!mName||mDirect;$('#oSp').hidden=!AND;$('#oSp').textContent=mDirect?'Accès direct à OneDrive : activé (toucher pour l’arrêter)':'Accès direct à OneDrive';
+    $('#oInfo').textContent=AND?[mName?'Fichier\u00a0: '+mName+(fileTag()&&!dirty?' '+fileTag():''):'',savedAt&&!saveErr?'enregistré '+mAgo(savedAt):'',saveErr?'non enregistré\u00a0: '+saveErr:'',backend&&backend.direct?'accès direct':mName?'via l’appli OneDrive':'',mVerTxt].filter(Boolean).join(' · '):'';$('#mMenu').showModal();if(document.activeElement)document.activeElement.blur();
   };
   $('#oFilters').onchange=()=>{mState.filters=$('#oFilters').checked;mstore.set(MKEY+'-ui',mState);mRender();};
   $('#oUpdate').onclick=()=>{$('#mMenu').close();mCheckUpdate(true);};
