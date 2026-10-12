@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="taches-page" content="20261012061512">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48Y2lyY2xlIGN4PSIzOCIgY3k9IjU0IiByPSI0LjEiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxjaXJjbGUgY3g9IjM4IiBjeT0iNzAiIHI9IjQuNiIgZmlsbD0iIzJGNkY1RSIvPjxwYXRoIGQ9Ik0zNS45IDcwbDEuNSAxLjYgMi45LTMuMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjEuNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHJlY3QgeD0iNDYiIHk9IjY4LjgiIHdpZHRoPSIxOCIgaGVpZ2h0PSIyLjQiIHJ4PSIxLjIiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PC9nPjwvc3ZnPg==">
 <style>
@@ -1875,7 +1876,7 @@ const andCalls={};let andSeq=0;
 function andCall(m,arg){return new Promise((res,rej)=>{const id=++andSeq;andCalls[id]={res,rej};try{AND.request(id,m,arg==null?'':String(arg));}catch(e){delete andCalls[id];rej(e);}});}
 window.tachesAndroidReply=(id,ok,val)=>{const c=andCalls[id];if(!c)return;delete andCalls[id];if(ok)c.res(val);else c.rej(new Error(val||'erreur'));};
 const andBackend={read:()=>andCall('read'),write:t=>andCall('write',t)};
-window.tachesAndroidResume=()=>{mCheckUpdate();if(!backend||saving)return;if(dirty)syncSave();else checkExternal();};
+window.tachesAndroidResume=()=>{mCheckUpdate();mCheckPage();if(!backend||saving)return;if(dirty)syncSave();else checkExternal();};
 window.tachesAndroidPause=()=>{if(dirty&&backend){clearTimeout(saveTimer);syncSave();}};
 window.tachesAndroidBack=()=>{const d=document.querySelector('dialog[open]');if(d){d.close();return true;}return false;};
 /* raccourci « Nouvelle note » et menu Partager d'Android */
@@ -2420,7 +2421,23 @@ function mInitNotes(){
     mNoteDone=true;mNoteId=null;});
 }
 /* tirer vers le bas pour actualiser : enregistre ce qui attend, sinon relit le fichier (en demandant à OneDrive sa dernière version) */
+/* le programme de la page lui-même : la version publiée porte un tampon ; s'il a changé, on recharge
+   (après avoir enregistré, et jamais pendant une saisie dans une fenêtre) */
+let mPageChecked=0;
+async function mCheckPage(force){
+  const me=(document.querySelector('meta[name=taches-page]')||{}).content||'';
+  if(!AND||!me||me.startsWith('__')||(!force&&Date.now()-mPageChecked<60e3))return false;mPageChecked=Date.now();
+  try{
+    const r=await fetch(location.pathname+'?v='+Date.now(),{cache:'no-store'});if(!r.ok)return false;
+    const m=(await r.text()).match(/<meta name="taches-page" content="([^"]+)">/);
+    if(!m||m[1]===me||m[1].startsWith('__'))return false;
+    if(document.querySelector('dialog[open]')||mDrag)return false;
+    if(dirty)await syncSave();
+    mstore.set('taches-page-maj',1);location.reload();return true;
+  }catch(e){return false;}
+}
 async function mRefresh(){
+  if(await mCheckPage(true))return;
   if(!backend){mPick();return;}
   if(saving)return;
   if(dirty){await syncSave();mInfo();toast(saveErr?'Échec de l’enregistrement : '+saveErr:'Enregistré');return;}
@@ -2535,6 +2552,7 @@ async function mUpdate(){
   btn.disabled=false;btn.textContent=was;
 }
 async function mStartApp(){
+  if(mstore.get('taches-page-maj')){mstore.set('taches-page-maj',0);setTimeout(()=>toast('Appli à jour'),600);}
   let b=null;try{b=JSON.parse(localStorage.getItem(LS));}catch(e){}
   if(b&&Array.isArray(b.items)){items=b.items;done=b.done||[];settings=b.settings||{};notes=b.notes||[];dirty=!!b.dirty;baseText=b.base==null?null:b.base;normalize();}
   mName=mstore.get('taches-app-name');

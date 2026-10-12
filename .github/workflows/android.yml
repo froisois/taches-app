@@ -2,7 +2,7 @@ name: Appli Android
 
 on:
   push:
-    paths: ['android/**', 'index.html', '.github/workflows/android.yml']
+    paths: ['android/**', '.github/workflows/android.yml']   # la page se charge en ligne : pas de nouvelle appli pour un changement de page
   workflow_dispatch:
 
 permissions:
