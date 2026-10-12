@@ -12,5 +12,6 @@ et mettre la couleur de fond correspondante dans `app/src/main/res/values/colors
 | `ic_avant_I_rouge_adouci.xml` | `#FFFFFF` | icône inversée, carte « à faire » rouge adouci `#DB6B63` |
 | `ic_avant_I_rouge_pale.xml` | `#FFFFFF` | icône inversée, carte « à faire » rouge pâle `#E9928B` |
 | `ic_avant_I_rouge_tres_pale.xml` | `#FFFFFF` | icône inversée, carte « à faire » rose très pâle `#F6D3CF`, cercle et trait rouges `#C4524A` (coup de cœur de François) |
+| `ic_avant_I_cases_rondes.xml` | `#FFFFFF` | icône inversée à cases rondes (disque blanc cerclé, disque vert coché), versions 1.27 à 1.37 |
 
-Icône en service depuis la version 1.27 : **G4 inversée, cases de l'appli** (fond blanc `#FFFFFF`, cartes vert sapin ; tâche à faire : disque blanc cerclé de vert sombre `#1E4A3E` ; tâche faite : disque vert sapin, coche blanche). Fond blanc choisi pour mieux s'accorder aux autres icônes de l'écran d'accueil. La version 1.26 (anneau blanc, disque coché blanc) est la base des trois variantes rouges ci-dessus.
+Icône en service depuis la version 1.38 : **G4 inversée, cases carrées** (fond blanc `#FFFFFF`, cartes vert sapin ; tâche à faire : case blanche arrondie cerclée de vert sombre `#1E4A3E` ; tâche faite : case vert sapin, coche blanche), comme les cases de l'appli. Fond blanc choisi pour mieux s'accorder aux autres icônes de l'écran d'accueil. La version 1.26 (anneau blanc, disque coché blanc) est la base des trois variantes rouges ci-dessus.
