@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261012123811">
+<meta name="taches-page" content="20261012125013">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -730,7 +730,7 @@ function normalize(){
 function sortedNotes(){return [...notes];}
 function nowStamp(){const d=new Date();return todayISO()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
 function sortedDone(){return [...done].sort((a,b)=>b.date.localeCompare(a.date));}
-function toast(msg){const t=$('#toast');t.classList.remove('undo');t.onclick=null;t.textContent=msg;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),2600);}
+function toast(msg,ms){const t=$('#toast');t.classList.remove('undo');t.onclick=null;t.textContent=msg;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),ms||2600);}
 /* commentaires : on garde **gras** et *italique* (mis en forme à l'affichage) */
 function cleanNote(s){return s.replace(/\\([\\`_{}\[\]()#+\-.!>~|])/g,'$1').trim();}
 function clean(s){return s.replace(/\\([\\`*_{}\[\]()#+\-.!>~|])/g,'$1').replace(/\*\*(.*?)\*\*/g,'$1').replace(/__(.*?)__/g,'$1').trim();}
@@ -2512,6 +2512,9 @@ function mSpUrl(){
   const od=(settings.onedrive||[])[0];if(!od||!settings.dossier)return null;
   return oneDriveURL(settings.dossier.replace(/[\\/]+$/,'')+'\\'+(mName||'taches.md'));
 }
+/* date de la page affichée dans ⋮ (tampon AAAAMMJJhhmmss, heure UTC de publication) */
+function mPageTxt(){const v=(document.querySelector('meta[name=taches-page]')||{}).content||'';const m=/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d)/.exec(v);if(!m)return '';
+  const d=new Date(Date.UTC(+m[1],m[2]-1,+m[3],+m[4],+m[5]));return 'Page du '+d.toLocaleDateString('fr-FR',{day:'numeric',month:'numeric'})+' '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})+' · ';}
 async function mSpTrial(){
   const url=mSpUrl();
   if(!url){toast('Réglages ⚙ du PC à compléter : dossier de taches.md et dossier OneDrive avec son adresse web');return;}
@@ -2522,7 +2525,7 @@ async function mSpTrial(){
       toast('Connexion à OneDrive…');await andCall('spLogin',settings.onedrive[0].web);r=JSON.parse(await andCall('spRead',url));}
     const tg=fileTagOf(r.text);
     toast('Lecture directe réussie : '+r.text.split('\n').length+' lignes, empreinte '+tg+(tg===fileTag()?' (identique à celle de l’appli)':' — l’appli affiche '+fileTag()));
-  }catch(e){toast('Essai de connexion directe : '+e.message.replace(/^\w+:/,''));}
+  }catch(e){toast('Essai de connexion directe : '+e.message.replace(/^\w+:/,'')+(/^adresse:/.test(e.message)?' — adresse essayée : '+url:''),12000);}
 }
 async function mCopyText(v,b,raw){
   if(!v){toast('Rien à copier');return;}
@@ -2803,7 +2806,7 @@ async function mCheckUpdate(force){
   if(prev&&a>prev)toast('Appli mise à jour : version 1.'+a);
   try{b=parseInt(await andCall('checkUpdate'),10)||0;}catch(e){}
   btn.hidden=!(b>a);btn.title=b>a?'Version 1.'+b+' disponible (installée : 1.'+a+')':'';
-  chip.hidden=true;mVerTxt='Appli 1.'+a+(b&&b<=a?' · à jour':b>a?' · version 1.'+b+' disponible':'');
+  chip.hidden=true;mVerTxt=mPageTxt()+'Appli 1.'+a+(b&&b<=a?' · à jour':b>a?' · version 1.'+b+' disponible':'');
   chip.title='Toucher pour vérifier à nouveau';
   if(force)toast(b>a?'Version 1.'+b+' disponible':b?'L’appli est à jour (1.'+a+')':'Vérification impossible : pas de réseau ?');
 }

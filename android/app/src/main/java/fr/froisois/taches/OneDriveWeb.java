@@ -37,6 +37,8 @@ final class OneDriveWeb {
     private static String[] decoupe(String url) throws Exc {
         Uri u = Uri.parse(url);
         String chemin = u.getPath();
+        /* adresse copiée sous forme de lien de partage : « /:f:/r/personal/… » */
+        if (chemin != null) chemin = chemin.replaceFirst("^/:[a-zA-Z]:/[a-zA-Z](?=/)", "");
         if (chemin == null) throw new Exc("adresse", "adresse du fichier incomplète");
         String[] p = chemin.split("/");
         if (p.length < 4 || !("personal".equals(p[1]) || "sites".equals(p[1])))
