@@ -14,6 +14,8 @@ import android.provider.Settings;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.provider.DocumentsContract;
 import android.provider.OpenableColumns;
 import android.webkit.JavascriptInterface;
@@ -283,6 +285,24 @@ public class MainActivity extends Activity {
                         catch (OneDriveWeb.Exc e) { repondre(id, false, e.code + ":" + e.getMessage()); }
                         catch (Exception e) { repondre(id, false, "reseau:" + message(e)); }
                     });
+                    break;
+                case "haptic":
+                    // retour haptique : WebView ignore navigator.vibrate, on passe par le vibreur du téléphone
+                    try {
+                        Vibrator v = getSystemService(Vibrator.class);
+                        if (v != null && v.hasVibrator()) {
+                            if (Build.VERSION.SDK_INT >= 29) {
+                                int e = "tick".equals(arg) ? VibrationEffect.EFFECT_TICK
+                                      : "heavy".equals(arg) ? VibrationEffect.EFFECT_HEAVY_CLICK
+                                      : "double".equals(arg) ? VibrationEffect.EFFECT_DOUBLE_CLICK
+                                      : VibrationEffect.EFFECT_CLICK;
+                                v.vibrate(VibrationEffect.createPredefined(e));
+                            } else {
+                                v.vibrate(VibrationEffect.createOneShot("tick".equals(arg) ? 8 : 20, VibrationEffect.DEFAULT_AMPLITUDE));
+                            }
+                        }
+                        repondre(id, true, "");
+                    } catch (Exception e) { repondre(id, false, message(e)); }
                     break;
                 case "copy":
                     // presse-papiers : texte brut + version mise en forme (gras, italique) pour les applis qui la comprennent
