@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261012093809">
+<meta name="taches-page" content="20261012100533">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -1818,7 +1818,7 @@ async function syncSave(){
       catch(e){if(!/non v[ée]rifi[ée]e/.test(e.message))throw e;} /* appli 1.7 : relecture trop tôt, l'écriture a bien eu lieu */
     }
     baseText=out;if(rev===at)dirty=false;backup();savedAt=Date.now();saveErr=null;
-  }catch(err){saveErr=err.message||String(err);toast('Échec de l’enregistrement : '+saveErr);}
+  }catch(err){saveErr=err&&err.name==='NotFoundError'&&!MOBILE?'fichier introuvable (déplacé ou renommé ?), rouvre-le avec « Ouvrir… »':(err.message||String(err));toast('Échec de l’enregistrement : '+saveErr);}
   saving=false;setStatus();
   if(saveAgain){saveAgain=false;if(dirty)syncSave();}
 }
@@ -1869,8 +1869,11 @@ const TYPES=[{description:'Liste Markdown',accept:{'text/markdown':['.md','.txt'
 async function openFile(){
   try{
     const [h]=await showOpenFilePicker({types:TYPES});
-    fileHandle=h;await idbSet('handle',h);snapshot();baseText=null;
-    if(await askPerm()){hideBanner();await loadFile();toast('Ouvert : '+h.name+' · Ctrl+Z pour revenir à la liste précédente');}
+    const wasDirty=dirty;   /* des modifications pas encore enregistrées : on les fusionne dans le fichier choisi au lieu de les perdre */
+    fileHandle=h;await idbSet('handle',h);snapshot();if(!wasDirty)baseText=null;
+    if(await askPerm()){hideBanner();
+      if(wasDirty){saveErr=null;await saveFile();if(!saveErr){await loadFile();toast('Ouvert : '+h.name+' · tes modifications en attente y ont été ajoutées');}}
+      else{await loadFile();toast('Ouvert : '+h.name+' · Ctrl+Z pour revenir à la liste précédente');}}
   }catch(e){if(e.name!=='AbortError')toast(e.message);}
   setStatus();
 }
