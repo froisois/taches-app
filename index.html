@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261012073807">
+<meta name="taches-page" content="20261012074636">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48Y2lyY2xlIGN4PSIzOCIgY3k9IjU0IiByPSI0LjEiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxjaXJjbGUgY3g9IjM4IiBjeT0iNzAiIHI9IjQuNiIgZmlsbD0iIzJGNkY1RSIvPjxwYXRoIGQ9Ik0zNS45IDcwbDEuNSAxLjYgMi45LTMuMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjEuNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHJlY3QgeD0iNDYiIHk9IjY4LjgiIHdpZHRoPSIxOCIgaGVpZ2h0PSIyLjQiIHJ4PSIxLjIiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PC9nPjwvc3ZnPg==">
 <style>
@@ -236,6 +236,12 @@ button.ico.aurg.on{background:#c4524a;border-color:#c4524a;color:#fff}
 .mpull.spin .arc{animation:marc 1.3s ease-in-out infinite}
 @keyframes marc{0%,100%{stroke-dasharray:9 44}50%{stroke-dasharray:30 44}}
 .mpull.good{background:var(--accent);color:var(--bg)}
+.mpull.party{background:conic-gradient(#ff5a5a,#ffb02e,#ffe14d,#5fd068,#3cc3e8,#6c7cff,#c45cf0,#ff5a5a);animation:mparty .9s linear infinite,mpop .4s cubic-bezier(.34,1.56,.64,1);overflow:visible;color:#fff}
+.mpull.party svg{filter:drop-shadow(0 0 1.5px rgba(0,0,0,.55))}
+@keyframes mparty{to{filter:hue-rotate(360deg)}}
+.mpull .spark{position:absolute;left:50%;top:50%;width:7px;height:7px;margin:-3.5px;border-radius:50%;background:hsl(calc(var(--r)*1),90%,60%);opacity:0;animation:mspark .9s var(--d) ease-out forwards}
+.mpull .spark:nth-child(3n){width:5px;height:5px;margin:-2.5px;border-radius:1px}
+@keyframes mspark{0%{opacity:1;transform:rotate(var(--r)) translateY(0) scale(1)}100%{opacity:0;transform:rotate(var(--r)) translateY(-34px) scale(.4)}}
 .mpull.bad{background:#c4524a;color:#fff;animation:mpop .32s cubic-bezier(.34,1.56,.64,1)}
 .mpull .pk{stroke-dasharray:20;stroke-dashoffset:20;animation:mdraw .3s .05s ease-out forwards}
 @keyframes mpop{0%{scale:.7}100%{scale:1}}
@@ -2436,7 +2442,7 @@ function mInitNotes(){
 /* le programme de la page lui-même : la version publiée porte un tampon ; s'il a changé, on recharge
    (après avoir enregistré, et jamais pendant une saisie dans une fenêtre) */
 let mPageChecked=0;
-async function mCheckPage(force){
+async function mCheckPage(force,later){
   const me=(document.querySelector('meta[name=taches-page]')||{}).content||'';
   if(!AND||!me||me.startsWith('__')||(!force&&Date.now()-mPageChecked<60e3))return false;mPageChecked=Date.now();
   try{
@@ -2445,11 +2451,12 @@ async function mCheckPage(force){
     if(!m||m[1]===me||m[1].startsWith('__'))return false;
     if(document.querySelector('dialog[open]')||mDrag)return false;
     if(dirty)await syncSave();
+    if(later)return 'page';   /* tirer pour actualiser : on fête d'abord, on recharge ensuite */
     mstore.set('taches-page-maj',1);location.reload();return true;
   }catch(e){return false;}
 }
 async function mRefresh(){
-  if(await mCheckPage(true))return 'ok';
+  if(await mCheckPage(true,true)==='page')return 'page';
   if(!backend){mPick();return 'err';}
   if(saving)return 'ok';
   if(dirty){await syncSave();mInfo();if(saveErr)return toast('Échec de l’enregistrement : '+saveErr),'err';toast('Enregistré');return 'ok';}
@@ -2512,6 +2519,11 @@ function mInitPull(){
     await new Promise(r=>setTimeout(r,190));
     ind.classList.remove('spin');ic.style.transition='';ic.style.opacity='';
     ind.classList.remove('ready');ind.classList.add(res==='err'?'bad':'good');ic.innerHTML=res==='err'?PULL_BAD:PULL_OK;ic.style.transform='';
+    if(res==='page'){   /* nouvelle version de l'appli : pastille arc-en-ciel et étincelles, puis rechargement */
+      ind.classList.add('party');for(let k=0;k<10;k++){const s=document.createElement('i');s.className='spark';s.style.setProperty('--r',(k*36+(k%2)*12)+'deg');s.style.setProperty('--d',(k%3)*40+'ms');ind.append(s);}
+      buzz([12,50,12,50,30]);await new Promise(r=>setTimeout(r,1500));
+      mstore.set('taches-page-maj',1);location.reload();return;
+    }
     buzz(res==='err'?[20,60,20]:12);
     await new Promise(r=>setTimeout(r,520));
     list.style.transition='transform .32s cubic-bezier(.5,0,.75,0)';list.style.transform='';
