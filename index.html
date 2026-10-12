@@ -277,7 +277,9 @@ body.mobile.app #m{padding-bottom:6.5rem}
 .nsubs{font-size:.82rem;color:var(--muted);margin:.1rem 0 .4rem}
 .msec.empty .msech{opacity:.55}
 .mcard{cursor:pointer}
-.mcard{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+/* téléphone : aucun texte sélectionnable hors des champs de saisie, sinon Android ouvre son menu « Copier, Tout sélectionner » à l'appui long */
+body.mobile{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+body.mobile input,body.mobile textarea,body.mobile [contenteditable=true]{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
 #mDrag{position:fixed;inset:0;z-index:40;background:color-mix(in srgb,var(--bg) 84%,transparent);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);opacity:0;transition:opacity .15s;touch-action:none}
 #mDrag.on{opacity:1}
 #mDrag .dcol{position:absolute;left:1rem;right:1rem;top:0;max-height:100%;overflow-y:auto;padding:.5rem 0;display:flex;flex-direction:column;gap:.5rem;scrollbar-width:none}
@@ -2075,9 +2077,11 @@ function mSwipe(c,id){
    Les rubriques se replient en grosses cibles au-dessus de l'écran ; celle de la tâche reste ouverte
    pour la remonter ou la descendre. Lâcher sur une autre rubrique : la tâche part à la fin de celle-ci. */
 let mDrag=null,mLastTouch=0;
+/* appui long hors d'un champ : pas de menu d'Android (il couperait le déplacement) */
+document.addEventListener('contextmenu',e=>{if(document.body.classList.contains('mobile')&&!(e.target.closest&&e.target.closest('input,textarea,[contenteditable=true]')))e.preventDefault();},true);
 function mDragInit(c){
   let tm=null,sx=0,sy=0;
-  const begin=(x,y)=>{sx=x;sy=y;clearTimeout(tm);tm=setTimeout(()=>{tm=null;mDragStart(c,x,y);},480);};
+  const begin=(x,y)=>{sx=x;sy=y;clearTimeout(tm);tm=setTimeout(()=>{tm=null;mDragStart(c,x,y);},380);   /* avant l'appui long d'Android (400 ms) */};
   const move=(x,y)=>{if(tm&&Math.hypot(x-sx,y-sy)>9){clearTimeout(tm);tm=null;}};
   const cancel=()=>{clearTimeout(tm);tm=null;};
   c.addEventListener('touchstart',e=>{mLastTouch=Date.now();if(e.touches.length!==1||e.target.closest('button,.tap')){cancel();return;}begin(e.touches[0].clientX,e.touches[0].clientY);},{passive:true});
@@ -2090,7 +2094,6 @@ function mDragInit(c){
     const mu=()=>{cancel();removeEventListener('mousemove',mm);removeEventListener('mouseup',mu);if(mDrag)mDragEnd();};
     addEventListener('mousemove',mm);addEventListener('mouseup',mu);
   });
-  c.addEventListener('contextmenu',e=>e.preventDefault());
 }
 function mDragStart(c,x,y){
   const id=c.dataset.id,i=idx(id);if(i<0||document.querySelector('dialog[open]'))return;
