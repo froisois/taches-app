@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261012085228">
+<meta name="taches-page" content="20261012091623">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -316,6 +316,12 @@ body.mobile input,body.mobile textarea,body.mobile [contenteditable=true]{-webki
 #mDrag .drow,#mDrag .dslot{flex:none;padding:.5rem .7rem;border-radius:8px;font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #mDrag .drow{background:color-mix(in srgb,var(--c) 13%,var(--bg));border-left:3px solid var(--c)}
 #mDrag .dslot{border:1.5px dashed var(--c);color:transparent;min-height:2.3rem}
+#mDrag .dhd{display:flex;align-items:center;gap:.6rem;padding:.2rem .3rem;font-weight:650;color:var(--fg)}
+#mDrag .dhd .dot{width:.7rem;height:.7rem;border-radius:50%;background:var(--note-dot)}
+#mDrag .dnotes{--c:var(--note-bar);margin-left:0}
+#mDrag .dnotes .drow{background:var(--note-bg);border-left-color:var(--note-bar)}
+#mDrag .dhint{margin:.5rem .3rem -.1rem;font-size:.8rem;color:var(--muted)}
+#mDrag .dghost.dnote{border-left-color:var(--note-bar);background:var(--note-bg)}
 #mDrag .dghost{position:fixed;left:0;top:0;max-width:75vw;padding:.55rem .85rem;border-radius:10px;background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--c);box-shadow:0 8px 24px rgba(0,0,0,.25);font-weight:600;pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 body.mobile,html:has(body.mobile){overflow-x:hidden}
 #m{overflow-x:clip}
@@ -708,7 +714,8 @@ function normalize(){
     maxNext=it.level+1;
   }
 }
-function sortedNotes(){return [...notes].sort((a,b)=>(b.at||'').localeCompare(a.at||''));}
+/* les notes gardent l'ordre choisi (appui long pour les déplacer) ; les nouvelles arrivent en tête */
+function sortedNotes(){return [...notes];}
 function nowStamp(){const d=new Date();return todayISO()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
 function sortedDone(){return [...done].sort((a,b)=>b.date.localeCompare(a.date));}
 function toast(msg){const t=$('#toast');t.classList.remove('undo');t.onclick=null;t.textContent=msg;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),2600);}
@@ -934,13 +941,13 @@ function merge3(B,M,T){
     const v=mv===tv?ms[f]:(mv===bv?ts[f]:(tv===bv?ms[f]:(conflicts++,ms[f])));if(v!=null&&v!=='')st[f]=v;}
   /* notes : par identifiant, texte et date fusionnés comme les champs des tâches */
   const nB=new Map((B.notes||[]).map(n=>[n.id,n])),nM=new Map((M.notes||[]).map(n=>[n.id,n])),nT=new Map((T.notes||[]).map(n=>[n.id,n]));
-  const nsame=(a,b)=>a.text===b.text&&(a.at||'')===(b.at||'');const nts=[];
+  const nsame=(a,b)=>a.text===b.text&&(a.at||'')===(b.at||'');const nts=[],nNew=[];
   for(const id of new Set([...nM.keys(),...nT.keys()])){
     const b=nB.get(id),m=nM.get(id),t=nT.get(id);
     if(m&&t){const n={...m};for(const f of ['text','at']){const mv=m[f]||'',tv=t[f]||'';if(mv===tv)continue;const bv=b?(b[f]||''):null;if(b&&mv===bv)n[f]=t[f];else if(!(b&&tv===bv))conflicts++;}nts.push(n);}
-    else{const x=m||t;if(b){if(nsame(x,b))continue;conflicts++;}nts.push({...x});}
+    else{const x=m||t;if(b){if(nsame(x,b))continue;conflicts++;}(m?nts:nNew).push({...x});}
   }
-  return {items:out,done:hist,settings:st,notes:nts,conflicts};
+  return {items:out,done:hist,settings:st,notes:[...nNew,...nts],conflicts};
 }
 
 /* ---------- affichage ---------- */
@@ -2019,7 +2026,7 @@ function mRender(){
         const c=document.createElement('div');c.className='mnotec';c.dataset.id=n.id;
         const w=document.createElement('div');w.className='when';w.textContent=mStampShort(n.at);
         const t=document.createElement('div');t.className='tx';t.innerHTML=fmtView(n.text);
-        c.append(w,t);if(AND)c.onclick=()=>mOpenNote(n.id);box.append(c);
+        c.append(w,t);if(AND){c.onclick=()=>{if(c.dataset.swiped)return;mOpenNote(n.id);};mDragInit(c);}box.append(c);
       }
     },'mnotes'));
   }
@@ -2119,6 +2126,7 @@ function mDragInit(c){
   });
 }
 function mDragStart(c,x,y){
+  if(c.classList.contains('mnotec'))return mDragStartNote(c,x,y);
   const id=c.dataset.id,i=idx(id);if(i<0||document.querySelector('dialog[open]'))return;
   const it=items[i],h=headingOf(i),cur=h?h.id:'',reorder=it.state==='afaire'&&!isUrgent(it);
   try{navigator.vibrate&&navigator.vibrate(15);}catch(e){}
@@ -2145,13 +2153,35 @@ function mDragStart(c,x,y){
   target(null);for(const hd of items.filter(x=>x.kind==='h'))target(hd);
   const g=document.createElement('div');g.className='dghost';g.textContent=it.text;
   g.style.setProperty('--c',getComputedStyle(c).getPropertyValue('--c')||CARD_COLOR);
+  mDragOpen(ov,col,g,anchor,{id,cur,c,kind:'task'},x,y);
+}
+/* note : les notes restent ouvertes pour les réordonner ; lâchée sur une rubrique, elle devient une tâche */
+function mDragStartNote(c,x,y){
+  const id=c.dataset.id,n=notes.find(z=>z.id===id);if(!n||document.querySelector('dialog[open]'))return;
+  try{navigator.vibrate&&navigator.vibrate(15);}catch(e){}
+  const ov=document.createElement('div');ov.id='mDrag';const col=document.createElement('div');col.className='dcol';
+  const hd=document.createElement('div');hd.className='dhd';hd.innerHTML='<span class="dot"></span>Notes';col.append(hd);
+  const lst=document.createElement('div');lst.className='dlist dnotes';let anchor=null;
+  for(const z of notes){const r=document.createElement('div');if(z.id===id){r.className='dslot';anchor=r;}else{r.className='drow';r.dataset.id=z.id;}
+    r.textContent=plainFmt(z.text.split('\n')[0]);lst.append(r);}
+  col.append(lst);
+  const hint=document.createElement('div');hint.className='dhint';hint.textContent='En faire une tâche dans…';col.append(hint);
+  for(const h of [null,...items.filter(x=>x.kind==='h')]){
+    const b=document.createElement('div');b.className='dtgt'+(h?'':' none');b.dataset.sec=h?h.id:'';
+    b.style.setProperty('--c',h?(COLORS[h.color]||CARD_COLOR):'var(--fg)');
+    b.innerHTML='<span class="dot"></span><span class="nm"></span>';b.querySelector('.nm').textContent=h?h.text:'Hors rubrique';col.append(b);
+  }
+  const g=document.createElement('div');g.className='dghost dnote';g.textContent=plainFmt(n.text.split('\n')[0]);
+  mDragOpen(ov,col,g,anchor,{id,cur:null,c,kind:'note'},x,y);
+}
+function mDragOpen(ov,col,g,anchor,st,x,y){
   ov.append(col,g);document.body.append(ov);
   /* la rubrique de la tâche (ou sa place) arrive sous le doigt */
   const vh=innerHeight,H=col.scrollHeight,ac=anchor?anchor.offsetTop+anchor.offsetHeight/2:H/2;
   if(H<vh){col.style.transform='translateY('+Math.max(8,Math.min(vh-H-8,y-ac))+'px)';}
   else col.scrollTop=ac-y;
   const sl=col.querySelector('.dslot');
-  mDrag={id,cur,c,ov,col,g,hov:null,moved:false,sx:x,sy:y,ax:0,slotNext:sl&&sl.nextElementSibling};
+  mDrag={...st,ov,col,g,hov:null,moved:false,sx:x,sy:y,ax:0,slotNext:sl&&sl.nextElementSibling};
   requestAnimationFrame(()=>ov.classList.add('on'));
   mDragMove(x,y);
 }
@@ -2179,6 +2209,14 @@ function mDragEnd(cancel){
   d.c.dataset.swiped='1';setTimeout(()=>{delete d.c.dataset.swiped;},400);
   d.ov.classList.remove('on');setTimeout(()=>d.ov.remove(),160);
   if(cancel)return;
+  if(d.kind==='note'){
+    if(d.hov){mNoteDropToSec(d.id,d.hov.dataset.sec);return;}
+    const slot=d.col.querySelector('.dslot');if(!slot)return;
+    const nx=slot.nextElementSibling,k=notes.findIndex(z=>z.id===d.id);if(k<0)return;
+    const nk=notes[k+1];if((nx?nx.dataset.id:null)===(nk?nk.id:null))return;
+    snapshot();const [n]=notes.splice(k,1);const at=nx?notes.findIndex(z=>z.id===nx.dataset.id):notes.length;notes.splice(at<0?notes.length:at,0,n);
+    changed();mRender();mUndoToast('Note déplacée');return;
+  }
   if(d.hov){const sec=d.hov.dataset.sec;if(sec===d.cur)return;
     const h=sec?items[idx(sec)]:null;mMoveBlock(d.id,{sec},'Déplacée vers « '+(h?h.text:'Hors rubrique')+' »');return;}
   const slot=d.col.querySelector('.dslot');if(!slot)return;
@@ -2189,6 +2227,16 @@ function mDragEnd(cancel){
   const sameNext=(()=>{let k=blockEnd(i);while(k<items.length&&!(items[k].kind==='h'||(items[k].level===0&&items[k].state==='afaire'&&!isUrgent(items[k]))))k++;return k<items.length&&items[k].kind!=='h'?items[k].id:null;})();
   if(before?before===sameNext:!sameNext)return;
   mMoveBlock(d.id,before?{before}:{after},'Déplacée');
+}
+function mNoteDropToSec(nid,sec){
+  const n=notes.find(z=>z.id===nid);if(!n)return;const sp=noteSplit(n.text);if(!sp.title)return;
+  const dt=dateIn(n.text),h=sec?items[idx(sec)]:null;
+  snapshot();notes=notes.filter(z=>z!==n);
+  const t=mAddTask(sp.title,sp.note,sec||null,'afaire',(n.at||'').slice(0,10)||todayISO());
+  if(dt)t.due=dt.d;
+  if(sp.subs.length)items.splice(idx(t.id)+1,0,...sp.subs.map(x=>({id:uid(),kind:'t',level:1,text:x,created:t.created})));
+  normalize();changed();mRender();
+  mUndoToast('Tâche créée dans « '+(h?h.text:'Hors rubrique')+' »'+(sp.subs.length?' avec '+sp.subs.length+' sous-tâche'+(sp.subs.length>1?'s':''):'')+(dt?', échéance '+shortDate(dt.d):''));
 }
 function mMoveBlock(id,where,msg){
   const i=idx(id);if(i<0)return;
@@ -2449,12 +2497,12 @@ function mInitNotes(){
     if(!$('#nTask').hidden){mNoteToTask();return;}
     if(mNoteId){mSaveNoteEdit();mNoteId=null;$('#mNote').close();return;}
     const v=mNoteText();mNoteDone=true;if(!v){$('#mNote').close();return;}
-    snapshot();notes.push({id:null,at:nowStamp(),text:v});normalize();changed();$('#mNote').close();mRender();toast('Note enregistrée');
+    snapshot();notes.unshift({id:null,at:nowStamp(),text:v});normalize();changed();$('#mNote').close();mRender();toast('Note enregistrée');
   };
   /* fermée autrement (bouton retour d'Android…) : une note en cours de saisie n'est jamais perdue */
   $('#mNote').addEventListener('close',()=>{
     if(mNoteId)mSaveNoteEdit();
-    else if(!mNoteDone){const v=mNoteText();if(v){snapshot();notes.push({id:null,at:nowStamp(),text:v});normalize();changed();mRender();toast('Note enregistrée');}}
+    else if(!mNoteDone){const v=mNoteText();if(v){snapshot();notes.unshift({id:null,at:nowStamp(),text:v});normalize();changed();mRender();toast('Note enregistrée');}}
     mNoteDone=true;mNoteId=null;});
 }
 /* tirer vers le bas pour actualiser : enregistre ce qui attend, sinon relit le fichier (en demandant à OneDrive sa dernière version) */
