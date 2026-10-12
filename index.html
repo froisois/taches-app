@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261012075146">
+<meta name="taches-page" content="20261012080405">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48Y2lyY2xlIGN4PSIzOCIgY3k9IjU0IiByPSI0LjEiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxjaXJjbGUgY3g9IjM4IiBjeT0iNzAiIHI9IjQuNiIgZmlsbD0iIzJGNkY1RSIvPjxwYXRoIGQ9Ik0zNS45IDcwbDEuNSAxLjYgMi45LTMuMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjEuNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHJlY3QgeD0iNDYiIHk9IjY4LjgiIHdpZHRoPSIxOCIgaGVpZ2h0PSIyLjQiIHJ4PSIxLjIiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PC9nPjwvc3ZnPg==">
 <style>
@@ -277,6 +277,8 @@ button.ico{display:inline-flex;align-items:center;justify-content:center;width:2
 .nbar .sp{flex:1}
 .nbar .ntabs{display:flex;gap:.35rem;margin:0}
 .nbar .ntabs button.ico.on{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+.nbar button.ok svg{animation:okin .18s ease-out}
+@keyframes okin{from{opacity:0;transform:scale(.6)}}
 .nbar button.ok{width:3rem;height:3rem;background:var(--accent);border-color:var(--accent);color:var(--bg)}
 .nbar button.adel{color:#c4524a}
 .nbar button.adel.sure{background:#c4524a;border-color:#c4524a;color:#fff}
@@ -2337,7 +2339,7 @@ function mOpenNote(id,text){
   $('#nText').value=n?n.text:(text||'');
   $('#nMeta').textContent=n?'Note du '+mStamp(n.at):'Nouvelle note';
   $('#nTriage').hidden=false;$('#nDel').hidden=!n;$('#nCancel').hidden=!!n;mNoteDone=!!n;  /* seule une note en cours de saisie est gardée à la fermeture */
-  $('#nOk').hidden=false;$('#nOk').title=n?'Fermer':'Enregistrer la note';$('#nOk').setAttribute('aria-label',$('#nOk').title);
+  mNoteOk('');
   $('#nDel').classList.remove('sure');
   document.querySelectorAll('#mNote .ntabs button').forEach(b=>b.classList.remove('on'));$('#nTask').hidden=true;$('#nAttach').hidden=true;
   const d=$('#mNote');if(!d.open)d.showModal();
@@ -2369,7 +2371,7 @@ function mNotePanel(p){
   document.querySelectorAll('#mNote .ntabs button').forEach(b=>b.classList.toggle('on',b.dataset.p===p));
   $('#nTask').hidden=p!=='task';$('#nAttach').hidden=p!=='attach';
   /* un seul bouton de validation : ✓ enregistre la note, ou crée la tâche quand on en fait une ; rien à valider quand on choisit une tâche existante */
-  const ok=$('#nOk');ok.hidden=p==='attach';ok.title=p==='task'?'Créer la tâche':mNoteId?'Fermer':'Enregistrer la note';ok.setAttribute('aria-label',ok.title);
+  mNoteOk(p);
   if(p==='task'){const sel=$('#nSec');sel.innerHTML='';const opt=(v,t)=>{const o=document.createElement('option');o.value=v;o.textContent=t;sel.append(o);};
     opt('','Hors rubrique');for(const h of items.filter(x=>x.kind==='h'))opt(h.id,h.text);sel.value=idx(mState.sec)>=0?mState.sec:'';document.querySelectorAll('#nState button').forEach(b=>b.classList.toggle('on',b.dataset.k==='afaire'));$('#nWho').value='';$('#nWait').hidden=true;}
   if(p==='attach'){$('#nQ').value='';mPickList();}
@@ -2395,6 +2397,12 @@ function mTaskPreview(){
   if(dt){$('#nDueTx').textContent='Échéance '+new Date(dt.d+'T12:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})+' (d’après « '+dt.w+' »)';$('#nDue').dataset.d=dt.d;$('#nDueOn').checked=mDueOff!==dt.d;}
 }
 /* tâche en attente : on demande tout de suite qui on attend (personnes déjà connues proposées) */
+/* bouton vert : pense-bête pour enregistrer une nouvelle note, coche pour créer la tâche (ou fermer une note existante) */
+const SV_OK=b=>'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+b+'</svg>';
+const I_NOTE=SV_OK('<path d="M4 4h16v10.5L14.5 20H4z"/><path d="M20 14.5h-5.5V20"/><path d="M7.5 8.5h9M7.5 12h6"/>'),I_CHECK=SV_OK('<path d="M5 12.5l4.5 4.5L19 7.5"/>');
+function mNoteOk(p){const ok=$('#nOk'),k=p==='task'||mNoteId?'check':'note';ok.hidden=p==='attach';
+  if(ok.dataset.ico!==k){ok.dataset.ico=k;ok.innerHTML=k==='note'?I_NOTE:I_CHECK;}
+  ok.title=p==='task'?'Créer la tâche':mNoteId?'Fermer':'Enregistrer la note';ok.setAttribute('aria-label',ok.title);}
 function mNoteWait(){
   const w=$('#nState .on').dataset.k==='attente',box=$('#nWait');box.hidden=!w;
   if(w){const dl=$('#aPeople');dl.innerHTML='';for(const n of peopleNames()){const o=document.createElement('option');o.value=n;dl.append(o);}$('#nWho').focus();}
