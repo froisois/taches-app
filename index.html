@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261012193919">
+<meta name="taches-page" content="20261012204820">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -240,6 +240,7 @@ button.ico.aurg.on{background:#c4524a;border-color:#c4524a;color:#fff}
 .mpull.spin .arc{animation:marc 1.3s ease-in-out infinite}
 @keyframes marc{0%,100%{stroke-dasharray:9 44}50%{stroke-dasharray:30 44}}
 .mpull.good{background:var(--accent);color:var(--bg)}
+.mpull.pause{background:#8a8f98;color:#fff}
 .mpull.party{background:conic-gradient(#ff5a5a,#ffb02e,#ffe14d,#5fd068,#3cc3e8,#6c7cff,#c45cf0,#ff5a5a);animation:mparty .9s linear infinite,mpop .4s cubic-bezier(.34,1.56,.64,1);overflow:visible;color:#fff}
 .mpull.party svg{filter:drop-shadow(0 0 1.5px rgba(0,0,0,.55))}
 @keyframes mparty{to{filter:hue-rotate(360deg)}}
@@ -361,6 +362,13 @@ body.mobile,html:has(body.mobile){overflow-x:hidden}
 #aLinks .mlinks{margin-top:.6rem}
 #aLinks .lnk{font-size:.88rem}
 .ameta{font-size:.8rem;color:var(--muted);margin:.5rem 0}
+#mMenu .ooff{color:var(--fg);background:color-mix(in srgb,#8a8f98 14%,var(--bg));border-radius:8px;padding:.45rem .6rem}
+#mMenu .oforce{display:block;margin:-.2rem 0 .3rem auto;border:none;background:none;padding:.1rem 0;font-size:.72rem;color:color-mix(in srgb,var(--muted) 75%,transparent);text-decoration:underline;text-underline-offset:2px}
+#mOver{width:min(400px,90vw);border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--fg);padding:1.1rem}
+#mOver::backdrop{background:rgba(0,0,0,.35)}
+#mOver p{margin:.2rem 0 .7rem;line-height:1.45}
+#mOver .wait{display:block;width:100%;padding:.75rem;border-radius:10px;border:none;background:var(--accent);color:var(--bg);font-size:1rem;font-weight:600}
+#mOver .go{display:block;margin:.8rem auto 0;border:none;background:none;font-size:.75rem;color:var(--muted);text-decoration:underline}
 #oInfo{white-space:pre-line}
 #mAct :disabled{opacity:.75}
 /* la fenêtre de note reste accrochée en haut : quand un panneau s'ouvre, elle s'allonge vers le bas sans bouger */
@@ -596,6 +604,7 @@ aside.open{transform:none}
     </form>
   </dialog>
   <dialog id="news"><form method="dialog"><div class="nwhd"><strong>Quoi de neuf ?</strong><button class="nwx" aria-label="Fermer">✕</button></div><p class="nwintro"><strong>Application web Chromium</strong> : tout ce que tu vois et utilises, à ouvrir dans Edge ou Chrome (Chromium est leur socle commun, celui qui fait aussi tourner le Compagnon) ; se met à jour toute seule (tirer pour actualiser au téléphone, recharger la page au PC).<br><strong>Compagnon Android</strong> : l’appli du téléphone qui fait tourner l’application web et lui prête les fichiers, la connexion, le vibreur ; se met à jour depuis le menu ⋮.<br><span id="nwver"></span></p><div id="nwlist"></div></form></dialog>
+  <dialog id="mOver"><form method="dialog"><p id="mOverTxt"></p><button class="wait" value="attendre">Ça peut attendre</button><button type="button" class="go" id="mOverGo">envoyer maintenant malgré tout</button></form></dialog>
   <dialog id="mMenu">
     <form method="dialog">
       <label class="mopt"><input type="checkbox" id="oUrgTop"> Urgentes regroupées en haut</label>
@@ -606,6 +615,8 @@ aside.open{transform:none}
       <button type="button" class="mitem" id="oCopyAll">Copier tout le contenu (sauvegarde)</button>
       <button type="button" class="mitem" id="oSp">Accès direct à OneDrive</button>
       <p class="ameta" id="oInfo"></p>
+      <p class="ameta ooff" id="oOff" hidden></p>
+      <button type="button" class="oforce" id="oForce" hidden>envoyer quand même…</button>
       <div class="mrb"><button type="submit" class="primary">Fermer</button></div>
     </form>
   </dialog>
@@ -2075,7 +2086,7 @@ function applyModel(r){
   if(MOBILE){if(typeof mRender==='function')mRender();}else{render();if(a&&idx(a.id)>=0)focusItem(a.id,a.off);}
 }
 async function syncSave(){
-  if(!backend)return;
+  if(!backend||offHours()){setStatus();return;}
   if(saving){saveAgain=true;return;}
   saving=true;
   try{
@@ -2098,6 +2109,7 @@ async function syncSave(){
   if(saveAgain){saveAgain=false;if(dirty)syncSave();}
 }
 async function checkExternal(force){
+  if(offHours())return;
   if(!backend||saving||dirty||(!force&&editing()))return;
   try{
     if(backend.changedSince&&!(await backend.changedSince()))return;
@@ -2190,7 +2202,46 @@ const mstore={get(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){re
 let mState={tab:'afaire',closed:{},filters:false},mName=null,mActId=null,mSubSig='',mNoteId=null;
 /* pont Android : chaque appel renvoie une promesse ; l'appli répond par tachesAndroidReply(id, ok, valeur) */
 const andCalls={};let andSeq=0;
-function andCall(m,arg){return new Promise((res,rej)=>{const id=++andSeq;andCalls[id]={res,rej};try{AND.request(id,m,arg==null?'':String(arg));}catch(e){delete andCalls[id];rej(e);}});}
+/* ---------- heures de travail (téléphone) ----------
+   Hors des heures, le Compagnon ne touche pas à OneDrive : ni lecture, ni écriture, ni connexion. Les modifications
+   restent sur le téléphone et partent au premier usage dans les heures. Heures : 9 h – 18 h 30, du lundi au vendredi,
+   sauf jours fériés, vacances de Noël (mêmes dates dans toutes les zones) et du 14 juillet au 15 août. */
+const WORK_FROM=9*60,WORK_TO=18*60+30;
+function easter(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,da,12);}
+function isoOf(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function offDayReason(d){   /* raison pour laquelle ce jour n'est pas travaillé, ou '' */
+  const y=d.getFullYear(),md=isoOf(d).slice(5),wd=d.getDay();
+  if(wd===0||wd===6)return 'week-end';
+  const fixes={'01-01':'jour de l’An','05-01':'1ᵉʳ Mai','05-08':'8 Mai','07-14':'14 Juillet','08-15':'15 Août','11-01':'Toussaint','11-11':'11 Novembre','12-25':'Noël'};
+  if(fixes[md])return fixes[md];
+  const E=easter(y),plus=n=>{const x=new Date(E);x.setDate(x.getDate()+n);return isoOf(x);};
+  const iso=isoOf(d);
+  if(iso===plus(1))return 'lundi de Pâques';if(iso===plus(39))return 'Ascension';if(iso===plus(50))return 'lundi de Pentecôte';
+  if(md>='07-14'&&md<='08-15')return 'congés d’été';
+  /* vacances de Noël : du samedi au lundi de reprise, premier lundi à partir du 2 janvier */
+  const rep=yy=>{const r=new Date(yy,0,2,12);while(r.getDay()!==1)r.setDate(r.getDate()+1);return r;};
+  for(const yy of [y,y+1]){const r=rep(yy),st=new Date(r);st.setDate(st.getDate()-16);if(d>=st&&d<r)return 'vacances de Noël';}
+  return '';
+}
+/* horloge (les tests peuvent la régler : window.__now) */
+function mNow(){return window.__now?new Date(window.__now):new Date();}
+let mOverride=0;   /* « envoyer quand même » : ouvre OneDrive pour deux minutes */
+function workTime(now){if(window.__toujours)return true;now=now||mNow();if(Date.now()<mOverride)return true;const t=now.getHours()*60+now.getMinutes();return !offDayReason(now)&&t>=WORK_FROM&&t<WORK_TO;}
+function offHours(){return !!(AND&&!workTime());}
+function nextWorkStart(now){
+  now=now||mNow();const d=new Date(now);d.setSeconds(0,0);
+  if(now.getHours()*60+now.getMinutes()>=WORK_FROM||offDayReason(d))d.setDate(d.getDate()+1);
+  for(let k=0;k<60&&offDayReason(d);k++)d.setDate(d.getDate()+1);
+  d.setHours(9,0,0,0);return d;
+}
+function nextWorkTxt(){
+  const d=nextWorkStart(),t=mNow();t.setHours(12,0,0,0);const dd=new Date(d);dd.setHours(12,0,0,0);const n=Math.round((dd-t)/864e5);
+  return (n===0?'aujourd’hui':n===1?'demain':n<7?d.toLocaleDateString('fr-FR',{weekday:'long'}):'le '+d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}))+' à 9\u00a0h';
+}
+function offHoursTxt(){const r=offDayReason(mNow());return 'Hors des heures de travail'+(r&&r!=='week-end'?' ('+r+')':'')+'\u00a0: rien n’est lu ni envoyé avant '+nextWorkTxt();}
+const ONEDRIVE_M=new Set(['read','write','pick','spLogin','spRead','spWrite','spCreate','sendToOneDrive']);
+function andCall(m,arg){if(ONEDRIVE_M.has(m)&&offHours())return Promise.reject(new Error('horsplage:'+offHoursTxt()));return andCallRaw(m,arg);}
+function andCallRaw(m,arg){return new Promise((res,rej)=>{const id=++andSeq;andCalls[id]={res,rej};try{AND.request(id,m,arg==null?'':String(arg));}catch(e){delete andCalls[id];rej(e);}});}
 window.tachesAndroidReply=(id,ok,val)=>{const c=andCalls[id];if(!c)return;delete andCalls[id];if(ok)c.res(val);else c.rej(new Error(val||'erreur'));};
 const andBackend={read:()=>andCall('read'),fresh:()=>andCall('read','frais'),write:t=>andCall('write',t)};
 /* accès direct : le fichier en ligne, lu et écrit par son chemin avec la session web (comme un navigateur).
@@ -2233,8 +2284,8 @@ function mInfo(){
   const el=$('#mInfo');
   if(AND){
     if(!mName){el.textContent='aucun fichier choisi';el.className='';return;}
-    el.textContent=saveErr?'⚠ non enregistré':(saving||dirty)?'↻':'';
-    el.className=saveErr?'stale':'';el.title=saveErr||'';return;
+    el.textContent=saveErr?'⚠ non enregistré':dirty&&offHours()?'⏸':(saving||dirty)?'↻':'';
+    el.className=saveErr?'stale':'';el.title=saveErr||(dirty&&offHours()?'Modifications gardées sur le téléphone · envoi '+nextWorkTxt():'');return;
   }
   const c=mstore.get(MKEY);
   if(!c){el.textContent='aucun fichier lu';el.className='';return;}
@@ -2416,6 +2467,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-12 23:00',type:'web',v:12,items:['Heures de travail\u00a0: en dehors de 9\u00a0h – 18\u00a0h\u00a030 du lundi au vendredi (et les jours fériés, les vacances de Noël, du 14 juillet au 15 août), le téléphone ne touche plus à OneDrive. Tu peux tout faire\u00a0; les modifications restent sur le téléphone (⏸ en haut) et partent au premier usage dans les heures. En cas de vraie urgence\u00a0: «\u00a0envoyer quand même…\u00a0», tout en bas du menu ⋮.']},
  {d:'2026-10-12 21:50',type:'web',v:11,items:['Le Compagnon dépose chaque nouvelle version de l’application web dans ton dossier Tâches (taches.html, à côté de taches.md)\u202f: le PC n’a rien à télécharger, ni à aller chercher sur internet. Quand une version plus récente y arrive, un bandeau sur le PC propose de recharger la page.']},
  {d:'2026-10-12 21:20',type:'web',v:10,items:['Noms et numéros de version\u00a0: l’«\u00a0Application web Chromium\u00a0» (tout ce que tu vois et utilises, dans Edge ou Chrome, mise à jour toute seule) et le «\u00a0Compagnon Android\u00a0» (l’appli du téléphone, à installer depuis ⋮). Les deux numéros figurent dans ⋮ au téléphone et dans «\u00a0Quoi de neuf\u00a0?\u00a0».']},
  {d:'2026-10-12 19:50',type:'web',v:9,items:['Notes de version : « Quoi de neuf ? » dans le menu ⋮ du téléphone et en haut du PC. Après une actualisation qui apporte du neuf, un message propose de les lire.']},
@@ -2466,6 +2518,7 @@ function openNews(){
 const histKey=e=>e.date+'|'+e.section+'|'+(e.items[0]?e.items[0].text:'');
 function archUrl(y){return settings.dossier?oneDriveURL(settings.dossier.replace(/[\\/]+$/,'')+'\\Archives\\taches-'+y+'.md'):null;}
 async function archiveOld(force){
+  if(offHours())return 0;
   if(!AND||!backend||!backend.direct||dirty||saving)return 0;
   const today=todayISO();if(!force&&mstore.get('taches-arch-jour')===today)return 0;
   const lim=(+today.slice(0,4)-1)+'-01-01',old=done.filter(e=>e.date<lim);
@@ -2499,6 +2552,7 @@ async function archiveOld(force){
    nouvelle version, en dépose une copie à côté de taches.md, et OneDrive l'amène au PC. « - version web : N » dans
    taches.md dit au PC quelle version l'attend dans le dossier (bandeau « recharge la page »). */
 async function copyHtml(){
+  if(offHours())return false;
   if(!AND||!backend||!backend.direct)return false;
   const me=(document.querySelector('meta[name=taches-page]')||{}).content||'';if(!/^\d{14}$/.test(me))return false;
   if(mstore.get('taches-html-copie')===me&&(settings.webv||0)>=WEB_V)return false;
@@ -3052,6 +3106,7 @@ async function mCheckPage(force,later){
 }
 async function mRefresh(){
   if(await mCheckPage(true,true)==='page')return 'page';
+  if(offHours()){toast(offHoursTxt()+(dirty?' · tes modifications sont gardées sur le téléphone':''),5000);mInfo();return 'pause';}
   if(!backend){mPick();return 'err';}
   if(saving)return 'ok';
   if(dirty){await syncSave();mInfo();if(saveErr)return toast('Échec de l’enregistrement : '+saveErr),'err';toast('Enregistré');return 'ok';}
@@ -3064,7 +3119,7 @@ async function mRefresh(){
   }catch(e){toast('Lecture impossible : '+e.message.replace(/^\w+:/,''));mInfo();return 'err';}
   mInfo();archiveOld().catch(()=>{}).then(()=>copyHtml()).catch(()=>{});return 'ok';
 }
-const PULL_ARROW='<circle class="arc" cx="12" cy="12" r="7" transform="rotate(-90 12 12)" stroke-dasharray="0 44"/><g class="ah"><path d="M11.2 2.3L14.8 5l-3.6 2.7z" fill="currentColor" stroke="none"/></g>',PULL_OK='<path class="pk" d="M5.5 12.5l4.2 4.2L18.5 8"/>',PULL_BAD='<path d="M12 6.5v7"/><circle cx="12" cy="17.5" r=".6" fill="currentColor"/>';
+const PULL_ARROW='<circle class="arc" cx="12" cy="12" r="7" transform="rotate(-90 12 12)" stroke-dasharray="0 44"/><g class="ah"><path d="M11.2 2.3L14.8 5l-3.6 2.7z" fill="currentColor" stroke="none"/></g>',PULL_OK='<path class="pk" d="M5.5 12.5l4.2 4.2L18.5 8"/>',PULL_BAD='<path d="M12 6.5v7"/><circle cx="12" cy="17.5" r=".6" fill="currentColor"/>',PULL_PAUSE='<path d="M9.5 8v8M14.5 8v8"/>';
 /* retour haptique : par l'appli (vibreur du téléphone, appli 1.42 et plus), sinon le navigateur.
    « tick » léger (survol d'une cible), « click » (prise en main, seuil atteint), « heavy »/« double » (corbeille) */
 function buzz(p){
@@ -3119,13 +3174,13 @@ function mInitPull(){
     ic.style.transition='opacity .18s ease-in';ic.style.opacity='0';
     await new Promise(r=>setTimeout(r,190));
     ind.classList.remove('spin');ic.style.transition='';ic.style.opacity='';
-    ind.classList.remove('ready');ind.classList.add(res==='err'?'bad':'good');ic.innerHTML=res==='err'?PULL_BAD:PULL_OK;ic.style.transform='';
+    ind.classList.remove('ready');ind.classList.add(res==='err'?'bad':res==='pause'?'pause':'good');ic.innerHTML=res==='err'?PULL_BAD:res==='pause'?PULL_PAUSE:PULL_OK;ic.style.transform='';
     if(res==='page'){   /* nouvelle version de l'appli : pastille arc-en-ciel et étincelles, puis rechargement */
       ind.classList.add('party');for(let k=0;k<10;k++){const s=document.createElement('i');s.className='spark';s.style.setProperty('--r',(k*36+(k%2)*12)+'deg');s.style.setProperty('--d',(k%3)*40+'ms');ind.append(s);}
       buzz([12,50,12,50,30]);await new Promise(r=>setTimeout(r,1500));
       mstore.set('taches-page-maj',1);location.reload();return;
     }
-    buzz(res==='err'?[20,60,20]:12);
+    buzz(res==='err'?[20,60,20]:res==='pause'?'tick':12);
     await new Promise(r=>setTimeout(r,520));
     list.style.transition='transform .32s cubic-bezier(.5,0,.75,0)';list.style.transform='';
     ind.style.transition='transform .3s ease-in,opacity .3s ease-in';ind.style.transform='translateY(-10px) scale(.6)';ind.style.opacity='0';
@@ -3197,6 +3252,7 @@ async function mOpenFrom(name){
 }
 let mPicking=0;
 async function mPick(){
+  if(offHours()){toast(offHoursTxt(),5000);return;}
   mPicking++;
   try{const name=await andCall('pick');baseText=null;await mOpenFrom(name);toast('Ouvert : '+name);}
   catch(e){if(!/annul/i.test(e.message))toast('Impossible d’ouvrir le fichier : '+e.message);}
@@ -3234,6 +3290,7 @@ async function mStartApp(){
   if(mPicking)return;   /* fichier choisi pendant le démarrage : ne pas effacer ce qui vient d'être ouvert */
   if(!n&&!(mDirect&&mSpUrl())){mName=null;mRender();return;}
   mName=n||'taches.md';mstore.set('taches-app-name',mName);backend=mBackend();
+  if(offHours()){mRender();setTimeout(housekeeping,0);return;}   /* hors des heures : la dernière version connue, rien n'est lu */
   if(dirty){await syncSave();mRender();return;}
   try{
     const cur=await backend.read();
@@ -3248,6 +3305,7 @@ function initMobile(){
   const ui=mstore.get(MKEY+'-ui');if(ui)mState={...mState,...ui,closed:ui.closed||{}};
   mInitAct();
   $('#mMenuBtn').onclick=()=>{
+    {const off=offHours();$('#oOff').hidden=!off;if(off)$('#oOff').textContent=offHoursTxt()+(dirty?'. Tes modifications sont gardées sur le téléphone et partiront à ce moment-là, dès que tu ouvriras l’appli.':'.');$('#oForce').hidden=!(off&&dirty);}
     $('#oFilters').checked=!!mState.filters;$('#oUrgTop').checked=urgTop();$('#oUpdate').hidden=!AND;$('#oFile').hidden=!AND||!mName||mDirect;$('#oSp').hidden=!AND;$('#oSp').textContent=mDirect?'Accès direct à OneDrive : activé (toucher pour l’arrêter)':'Accès direct à OneDrive';
     $('#oInfo').textContent=AND?[mName?'Fichier\u00a0: '+mName+(fileTag()&&!dirty?' '+fileTag():''):'',savedAt&&!saveErr?'enregistré '+mAgo(savedAt):'',saveErr?'non enregistré\u00a0: '+saveErr:'',backend&&backend.direct?'accès direct':mName?'via l’appli OneDrive':''].filter(Boolean).join(' · ')+'\n'+(mVerTxt||'Application web Chromium v'+WEB_V):'';$('#mMenu').showModal();if(document.activeElement)document.activeElement.blur();
   };
@@ -3256,6 +3314,11 @@ function initMobile(){
   $('#oUpdate').onclick=()=>{$('#mMenu').close();mCheckUpdate(true);};
   $('#oFile').onclick=()=>{$('#mMenu').close();mPick();};
   $('#oSp').onclick=()=>{$('#mMenu').close();mSpTrial();};
+  $('#oForce').onclick=()=>{$('#mMenu').close();
+    const now=mNow();$('#mOverTxt').textContent='Il est '+now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}).replace(':',' h ')+', '+now.toLocaleDateString('fr-FR',{weekday:'long'})+'. Tout ce que tu as noté est en sécurité sur le téléphone et partira '+nextWorkTxt().replace(/à 9/,'à partir de 9')+', dès que tu ouvriras l’appli. Rien ne presse.';
+    $('#mOver').showModal();};
+  $('#mOverGo').onclick=async()=>{$('#mOver').close();mOverride=Date.now()+120e3;await syncSave();mInfo();toast(saveErr?'Échec de l’enregistrement\u00a0: '+saveErr:'Envoyé. Retour au silence jusqu’à '+nextWorkTxt().replace(/^à /,''));mOverride=0;};
+  $('#mOver').addEventListener('click',e=>{if(e.target===$('#mOver'))$('#mOver').close();});
   $('#oNews').onclick=()=>{$('#mMenu').close();openNews();};
   $('#oCopyAll').onclick=async()=>{await mCopyText(serialize(),$('#oCopyAll'),true);toast('Tout le contenu est copié : colle-le où tu veux');};   /* sauvegarde de secours, indépendante du fichier */
   if(AND){
