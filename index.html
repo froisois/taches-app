@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013090740">
+<meta name="taches-page" content="20261013091345">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -75,9 +75,12 @@ body.dragging,body.dragging *{user-select:none!important;cursor:grabbing!importa
 #report .rb{display:flex;gap:.5rem;justify-content:flex-end}
 .rel{display:inline-block;margin-top:.2rem;font-size:.75rem;padding:.02rem .5rem;border:1px solid color-mix(in srgb,var(--c) 35%,transparent);border-radius:999px;background:none;color:var(--muted)}
 .rel:hover{border-color:var(--c);color:var(--fg)}
-.rel.late{background:#c4524a;border-color:#c4524a;color:#fff;font-weight:600;animation:pulse 1.8s ease-in-out infinite}
+.rel.late{background:#b7791f;border-color:#b7791f;color:#fff;font-weight:600}
+.relok{margin:.2rem .3rem 0 0;font-size:.75rem;padding:.02rem .55rem;border:1px solid #b7791f;border-radius:999px;background:none;color:#b7791f;font-weight:600}
+.relok:hover{background:#b7791f;color:#fff}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(196,82,74,.55)}50%{box-shadow:0 0 0 5px rgba(196,82,74,0)}}
-.card.late{border-color:#c4524a;border-left-color:#c4524a;background:color-mix(in srgb,#c4524a 14%,var(--bg))}
+.card.late{border-color:#b7791f;border-left-color:#b7791f;background:color-mix(in srgb,#b7791f 13%,var(--bg))}
+.card.late.urgent{border-color:#c4524a;border-left-color:#c4524a;background:color-mix(in srgb,#c4524a 16%,var(--bg))}
 .urg{flex:none;border:none;background:none;padding:0;width:1.05rem;height:1.05rem;margin-top:.25rem;border-radius:50%;font-size:.8rem;font-weight:800;line-height:1.05rem;text-align:center;color:var(--muted);opacity:0}
 .row:hover>.urg{opacity:.6}
 .urg:hover{opacity:1!important;color:#c4524a;background:none}
@@ -123,8 +126,10 @@ body.dragging .tools{display:none!important}
 .fchip{font-size:.78rem;padding:.1rem .6rem;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:none;white-space:nowrap}
 .fchip:hover{color:var(--fg)}
 .fchip.on{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:600}
-.fchip.f-urgent:not(.on),.fchip.f-late:not(.on){color:#c4524a;border-color:color-mix(in srgb,#c4524a 45%,transparent)}
-.fchip.f-urgent.on,.fchip.f-late.on{background:#c4524a;border-color:#c4524a;color:#fff}
+.fchip.f-urgent:not(.on){color:#c4524a;border-color:color-mix(in srgb,#c4524a 45%,transparent)}
+.fchip.f-late:not(.on){color:#b7791f;border-color:color-mix(in srgb,#b7791f 50%,transparent)}
+.fchip.f-late.on{background:#b7791f;border-color:#b7791f;color:#fff}
+.fchip.f-urgent.on{background:#c4524a;border-color:#c4524a;color:#fff}
 body.filtering .ghost,body.filtering .vider,body.filtering .newsec{display:none!important}
 #settings{max-width:min(560px,92vw);border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--fg);padding:1rem 1.2rem}
 #settings h3{margin:.1rem 0 .3rem;font-size:1.05rem}
@@ -160,7 +165,8 @@ body.mobile>header,body.mobile #help,body.mobile #banner,body.mobile main,body.m
 .msec.closed .mcards{display:none}
 .mcards{display:flex;flex-direction:column;gap:.45rem;margin-top:.5rem}
 .mcard{background:color-mix(in srgb,var(--c) 13%,var(--bg));border:1px solid color-mix(in srgb,var(--c) 28%,transparent);border-left:4px solid var(--c);border-radius:8px;padding:.5rem .7rem}
-.mcard.urgent,.mcard.late{border-color:#c4524a;background:color-mix(in srgb,#c4524a 14%,var(--bg))}
+.mcard.urgent{border-color:#c4524a;background:color-mix(in srgb,#c4524a 14%,var(--bg))}
+.mcard.late:not(.urgent){border-color:#b7791f;background:color-mix(in srgb,#b7791f 12%,var(--bg))}
 .mcard.fait{opacity:.6;filter:saturate(.4)}
 .mct{display:flex;gap:.4rem;align-items:flex-start;font-weight:600;line-height:1.35}
 .mct .t{flex:1;min-width:0;word-break:break-word}
@@ -170,6 +176,8 @@ body.mobile>header,body.mobile #help,body.mobile #banner,body.mobile main,body.m
 .mchip{font-size:.74rem;padding:.05rem .5rem;border-radius:999px;border:1px solid color-mix(in srgb,var(--c) 35%,transparent);color:var(--muted);white-space:nowrap}
 .mchip.red{border-color:#c4524a;color:#c4524a;font-weight:600}
 .mchip.redf{background:#c4524a;border-color:#c4524a;color:#fff;font-weight:600}
+.mchip.amb{background:#b7791f;border-color:#b7791f;color:#fff;font-weight:600}
+.mrelb{font-size:.78rem;padding:.12rem .7rem;border-radius:999px;border:1.5px solid #b7791f;background:var(--bg);color:#b7791f;font-weight:650;margin-left:auto}
 .mchip.who{background:var(--c);border-color:var(--c);color:#fff;font-weight:700}
 .mmore{font-size:.76rem;color:var(--muted);margin-top:.3rem}
 .mdet{margin-top:.4rem;font-size:.9rem}
@@ -179,8 +187,9 @@ body.mobile>header,body.mobile #help,body.mobile #banner,body.mobile main,body.m
 .msub .bx{flex:none;color:var(--muted)}
 .msub.done .tx{text-decoration:line-through;color:var(--muted)}
 .msub.urgent .tx{color:#c4524a;font-weight:600}
-.mcard.urgent .mchk,.mcard.late .mchk{border-color:#c4524a}
-.mcard.urgent .mchk.on,.mcard.late .mchk.on{background:#c4524a}
+.mcard.urgent .mchk{border-color:#c4524a}
+.mcard.late:not(.urgent) .mchk{border-color:#b7791f}
+.mcard.urgent .mchk.on{background:#c4524a}
 .mlinks{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.35rem}
 .mlinks .lnk{font-size:.8rem;padding:.15rem .6rem}
 .mlinks .off{opacity:.45;text-decoration:line-through;cursor:default}
@@ -788,6 +797,8 @@ function urgKey(it){return isUrgent(it)?(it.urgent?'0':'1'+(it.due||'')):'2';}
 /* en attente : relances dues (la plus ancienne d'abord), puis même ordre */
 function waitKey(it){return isLate(it)?'0'+(it.relance||''):'1'+urgKey(it);}
 function sortIdx(arr,key){return arr.map((i,k)=>[key(items[i]),k,i]).sort((a,b)=>a[0]<b[0]?-1:a[0]>b[0]?1:a[1]-b[1]).map(z=>z[2]);}
+/* « Relancé » : prochaine relance dans une semaine, trace dans le commentaire */
+function relanceDone(it){const t=todayISO();it.relance=addDays(t,RELANCE_JOURS);it.note=(it.note?it.note.replace(/\s+$/,'')+'\n':'')+'relancé le '+t.slice(8,10)+'/'+t.slice(5,7);}
 function isLate(it){return it.level===0&&it.state==='attente'&&it.relance&&it.relance<=todayISO();}
 function idx(id){return items.findIndex(x=>x.id===id);}
 function isChild(c,p){if(p.kind==='h')return c.kind!=='h';return c.kind!=='h'&&c.level>p.level;}
@@ -1128,7 +1139,8 @@ function makeRow(it){
   if(it.level===0&&it.state==='attente'&&it.relance){
     const late=isLate(it),r=document.createElement('button');r.className='rel'+(late?' late':'');r.tabIndex=-1;
     r.textContent=late?(it.relance===todayISO()?'⏰ à relancer aujourd’hui':'⏰ à relancer depuis le '+shortDate(it.relance)):'⏰ relance le '+shortDate(it.relance);
-    r.title='Clic : choisir une autre date de relance';r.dataset.d=it.relance;(meta||m).append(r);
+    r.title='Clic : choisir une autre date de relance';r.dataset.d=it.relance;(meta||m).append(r);
+    if(late){const ok=document.createElement('button');ok.className='relok';ok.tabIndex=-1;ok.textContent='✓ Relancé';ok.title='J’ai relancé : prochaine relance dans une semaine (noté dans le commentaire)';(meta||m).append(ok);}
   }
   row.append(m);
   const tools=document.createElement('span');tools.className='tools';
@@ -1708,6 +1720,8 @@ list.addEventListener('click',e=>{
   const lx=e.target.closest('.lx');
   if(lx){e.preventDefault();const a=lx.closest('.lnk'),row=a.closest('.row'),it=items[idx(row.dataset.id)];if(it&&it.links){snapshot();it.links.splice(+a.dataset.k,1);render();changed();}return;}
   if(e.target.closest('.lnk'))return;
+  const ro=e.target.closest('.relok');
+  if(ro){const it=items[idx(ro.closest('.row').dataset.id)];if(it){snapshot();relanceDone(it);render();changed();toast('Relancé · prochaine relance le '+shortDate(it.relance)+' · Ctrl+Z pour annuler');}return;}
   const rl=e.target.closest('.rel');
   if(rl){const id=rl.closest('.row').dataset.id;pickDate(e,rl.dataset.d,v=>{const it=items[idx(id)];if(it&&v){snapshot();it.relance=v;render();changed();toast('Relance le '+fmtDate(v).toLowerCase());}});return;}
   const dd=e.target.closest('.due,.dueb');
@@ -2350,7 +2364,8 @@ function mCard(i,withSec){
   const ch=document.createElement('div');ch.className='mchips';
   if(withSec&&h){const sn=document.createElement('span');sn.className='msecname';sn.textContent=h.text;ch.append(sn);}
   if(it.state==='attente'&&it.waitFor)ch.append(mChip('⏳ '+it.waitFor,'who'));
-  if(it.state==='attente'&&it.relance){const late=isLate(it);ch.append(mChip('⏰ '+shortDate(it.relance),late?'redf':''));}
+  if(it.state==='attente'&&it.relance){const late=isLate(it);ch.append(mChip('⏰ '+shortDate(it.relance),late?'amb':''));
+    if(late&&AND){const b=document.createElement('button');b.className='mrelb';b.textContent='✓ Relancé';b.onclick=ev=>{ev.stopPropagation();mEdit(it.id,x=>relanceDone(x),'Relancé · prochaine relance le '+shortDate(addDays(todayISO(),RELANCE_JOURS)));};ch.append(b);}}
   if(it.due&&it.state!=='fait')ch.append(mDue(it));
   const all=[it,...subs].flatMap(x=>x.links||[]);
   if(all.length){const f=all.some(mIsFile);ch.append(mChip((f?'📎':'🔗')+(all.length>1?' '+all.length:'')));}
@@ -2412,6 +2427,9 @@ function mRender(){
   const urg=urgTop()?urgentFirst(groups.flatMap(g=>g.todo.filter(i=>isUrgent(items[i])))):[];
   let shown=urg.length;
   if(urg.length)list.append(mSection('#urgent','Urgentes',urg.length,'#c4524a',box=>{for(const i of urg)box.append(mCard(i,true));},'murg'));
+  /* à relancer : juste sous les urgentes, en ambre ; elles quittent « En attente » le temps d'être relancées */
+  const rel=sortIdx(tops.filter(i=>isLate(items[i])&&matchFilter(i)),waitKey);
+  if(rel.length){shown+=rel.length;list.append(mSection('#relancer','À relancer',rel.length,'#b7791f',box=>{for(const i of rel)box.append(mCard(i,true));},'mrel'));}
   for(const g of groups){
     if(urgTop())g.todo=g.todo.filter(i=>!isUrgent(items[i]));
     const n=g.todo.length+g.done.length;if(!n)continue;shown+=n;
@@ -2420,11 +2438,11 @@ function mRender(){
       for(const i of g.done)box.append(mCard(i));
     }));
   }
-  const w0=tops.filter(i=>items[i].state==='attente'&&matchFilter(i));
+  const w0=tops.filter(i=>items[i].state==='attente'&&!isLate(items[i])&&matchFilter(i));
   const wait=sortIdx(w0,waitKey);
   if(wait.length){
-    shown+=wait.length;const late=wait.filter(i=>isLate(items[i])).length;
-    list.append(mSection('#attente','En attente',wait.length,'#8a8f98',box=>{for(const i of wait)box.append(mCard(i,true));},'mwait',late?'dont '+late+' à relancer':''));
+    shown+=wait.length;
+    list.append(mSection('#attente','En attente',wait.length,'#8a8f98',box=>{for(const i of wait)box.append(mCard(i,true));},'mwait'));
   }
   if(!shown&&!(notes.length&&!filter)){const e=document.createElement('div');e.className='mempty';e.textContent=filter?'Aucune étiquette pour ce filtre.':'Rien pour l’instant.';list.append(e);}
   /* historique : replié par défaut, en bas */
@@ -2479,6 +2497,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-13 11:25',type:'web',v:'2.6',items:['À relancer\u00a0: les tâches en attente dont la date de relance est passée passent en ambre (plus en rouge\u00a0: ce n’est pas une urgence, juste un tiers à relancer). Au téléphone, elles remontent dans une section «\u00a0À relancer\u00a0» sous les urgentes\u202f; au PC, elles restent en tête de la colonne «\u00a0En attente\u00a0».','Bouton «\u00a0✓ Relancé\u00a0»\u00a0: prochaine relance dans une semaine, et «\u00a0relancé le …\u00a0» noté dans le commentaire.']},
  {d:'2026-10-13 11:15',type:'web',v:'2.5',items:['Halo d’échéance sur le «\u00a0!\u00a0» des tâches urgentes, au PC comme au téléphone\u00a0: d’autant plus large et plus rouge que l’échéance approche (une semaine avant\u00a0: léger\u202f; la veille, le jour même et au-delà\u00a0: il pulse).']},
  {d:'2026-10-13 09:50',type:'web',v:'2.4.2',items:['Nouvelle numérotation, la même pour les deux\u00a0: 1 pour les débuts, 2 depuis que le Compagnon Android lit et écrit directement le fichier (12 octobre). Deuxième chiffre\u00a0: une nouvelle fonction (ou de nouveaux pictogrammes pour le Compagnon)\u202f; troisième\u00a0: une retouche. Ton Compagnon actuel est la 2.2.']},
  {d:'2026-10-13 09:20',type:'web',v:'2.4.1',items:['Menu ⋮\u00a0: «\u00a0Copier tout le contenu\u00a0» descend tout en bas (roue de secours)\u202f; «\u00a0Vérifier la mise à jour du Compagnon Android\u00a0» dit maintenant de quoi il s’agit.']},
