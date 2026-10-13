@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013165713">
+<meta name="taches-page" content="20261013170746">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -2665,6 +2665,7 @@ function nextWorkTxt(){
   return (n===0?'aujourd’hui':n===1?'demain':n<7?d.toLocaleDateString('fr-FR',{weekday:'long'}):'le '+d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}))+' à 9\u00a0h';
 }
 function offHoursTxt(){const r=offDayReason(mNow());return 'Hors des heures de travail'+(r&&r!=='week-end'?' ('+r+')':'')+'\u00a0: rien n’est lu ni envoyé avant '+nextWorkTxt();}
+const PAUSE_SVG='<svg viewBox="0 0 12 12" width=".8em" height=".8em" fill="currentColor" aria-hidden="true" style="vertical-align:-.05em"><rect x="2" y="1.5" width="3" height="9" rx=".8"/><rect x="7" y="1.5" width="3" height="9" rx=".8"/></svg>';   /* le caractère ⏸ sort en émoji orange sur Android */
 const ONEDRIVE_M=new Set(['read','write','pick','spLogin','spRead','spWrite','spCreate','sendToOneDrive']);
 function andCall(m,arg){if(ONEDRIVE_M.has(m)&&offHours())return Promise.reject(new Error('horsplage:'+offHoursTxt()));return andCallRaw(m,arg);}
 function andCallRaw(m,arg){return new Promise((res,rej)=>{const id=++andSeq;andCalls[id]={res,rej};try{AND.request(id,m,arg==null?'':String(arg));}catch(e){delete andCalls[id];rej(e);}});}
@@ -2710,7 +2711,7 @@ function mInfo(){
   const el=$('#mInfo');
   if(AND){
     if(!mName){el.textContent='aucun fichier choisi';el.className='';return;}
-    el.textContent=saveErr?'⚠ non enregistré':dirty&&offHours()?'⏸':(saving||dirty)?'↻':'';
+    if(!saveErr&&dirty&&offHours())el.innerHTML=PAUSE_SVG;else el.textContent=saveErr?'⚠ non enregistré':(saving||dirty)?'↻':'';
     el.className=saveErr?'stale':'';el.title=saveErr||(dirty&&offHours()?'Modifications gardées sur le téléphone · envoi '+nextWorkTxt():'');return;
   }
   const c=mstore.get(MKEY);
@@ -2897,6 +2898,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-13 19:45',type:'web',v:'2.12.4',items:['Téléphone\u00a0: le menu ⋮ indique la version de l’Application web Chromium sur le téléphone et celle déposée dans OneDrive pour le PC (à jour, ou quand la nouvelle sera déposée).','Téléphone\u00a0: le symbole pause (hors des heures de travail) est dessiné en blanc au lieu de l’émoji orange d’Android.']},
  {d:'2026-10-13 19:35',type:'web',v:'2.12.3',items:['PC\u00a0: menu volant, une fois ouvert, toute la page est grisée, rubrique de départ (ou bandeau des notes) comprise. Pour ranger dans la rubrique ou entre les notes, il suffit de rester dedans.']},
  {d:'2026-10-13 19:25',type:'web',v:'2.12.2',items:['PC\u00a0: on parle partout de «\u00a0tâche\u00a0» au lieu d’«\u00a0étiquette\u00a0» (messages, menu clic droit, aide).']},
  {d:'2026-10-13 19:15',type:'web',v:'2.12.1',items:['PC\u00a0: menu volant, la tâche attrapée garde son allure en plus petit, et reste petite jusqu’au lâcher.','PC\u00a0: sur une tâche en retard (rouge), les boutons de survol («\u00a0!\u00a0», 📅, ×) sont de nouveau visibles.']},
@@ -3045,8 +3047,8 @@ function vcRender(){
   if(vc.prev!=null){l1.append(el('vb1','Nouvelle version installée'),el('vb2','v'+WEB_V));if(vc.prev&&vc.prev!==WEB_V)l1.append(el('vb3','précédente\u00a0: v'+vc.prev));}
   else l1.append(el('vb1','Application web Chromium'),el('vb2','v'+WEB_V));
   if(first)c.append(el('vcn',first,'div'),el('vcm',many?'toucher pour tout voir':'toucher pour le détail','div'));
-  const cp={wait:'◌ Copie pour le PC\u00a0: dépôt dans OneDrive…',ok:'✓ Déposée dans OneDrive pour le PC',pause:'\u23f8\ufe0e Copie pour le PC\u00a0: dépôt '+nextWorkTxt()}[vc.copy];
-  if(cp)c.append(el('vcc'+(vc.copy==='ok'?' ok':vc.copy==='pause'?' pause':''),cp,'div'));
+  const cp={wait:'◌ Copie pour le PC\u00a0: dépôt dans OneDrive…',ok:'✓ Déposée dans OneDrive pour le PC',pause:'Copie pour le PC\u00a0: dépôt '+nextWorkTxt()}[vc.copy];
+  if(cp){const d=el('vcc'+(vc.copy==='ok'?' ok':vc.copy==='pause'?' pause':''),cp,'div');if(vc.copy==='pause')d.insertAdjacentHTML('afterbegin',PAUSE_SVG+' ');c.append(d);}
   c.classList.toggle('fete',vc.copy==='ok');
   return c;
 }
@@ -3762,6 +3764,12 @@ async function mPick(){
 }
 /* mise à jour de l'appli elle-même : au démarrage puis au plus toutes les 6 h ; les anciennes versions ignorent ces appels */
 let mUpdChecked=0,mVerTxt='',mAndV=0;
+/* versions : l'application web du téléphone et celle déposée dans OneDrive pour le PC peuvent différer */
+function mVerLines(){
+  const od=settings.webv,cmp=od?vcmp(od,WEB_V):-1;
+  const odTxt=!mDirect?'non déposée (accès direct désactivé)':!od?'pas encore déposée'+(offHours()?' · dépôt '+nextWorkTxt():''):'v'+od+(cmp>=0?' (à jour)':offHours()?' · v'+WEB_V+' déposée '+nextWorkTxt():' · v'+WEB_V+' déposée à la prochaine actualisation');
+  return ['Application web Chromium\u00a0:','– sur ce téléphone\u00a0: v'+WEB_V,'– dans OneDrive, pour le PC\u00a0: '+odTxt,mVerTxt||''].filter(Boolean).join('\n');
+}
 async function mCheckUpdate(force){
   if(!AND||(!force&&Date.now()-mUpdChecked<6*3600e3))return;mUpdChecked=Date.now();
   const chip=$('#mVer'),btn=$('#mUpd');
@@ -3772,7 +3780,7 @@ async function mCheckUpdate(force){
   if(prev&&a>prev){if(newsUnseen().length)newsToast();else toast('Compagnon Android mis à jour\u00a0: '+compV(a));}
   try{b=parseInt(await andCall('checkUpdate'),10)||0;}catch(e){}
   btn.hidden=!(b>a);btn.title=b>a?'Compagnon Android\u00a0: '+compV(b)+' disponible (installée\u00a0: '+compV(a)+')':'';
-  chip.hidden=true;mAndV=a;mVerTxt='Application web Chromium v'+WEB_V+'\nCompagnon Android '+compV(a)+(b&&b<=a?' (à jour)':b>a?' ('+compV(b)+' disponible)':'');
+  chip.hidden=true;mAndV=a;mVerTxt='Compagnon Android '+compV(a)+(b&&b<=a?' (à jour)':b>a?' ('+compV(b)+' disponible)':'');
   chip.title='Toucher pour vérifier à nouveau';
   if(force)toast(b>a?'Compagnon Android\u00a0: '+compV(b)+' disponible':b?'Le Compagnon Android est à jour ('+compV(a)+')':'Vérification impossible : pas de réseau ?');
 }
@@ -3810,7 +3818,7 @@ function initMobile(){
   $('#mMenuBtn').onclick=()=>{
     {const off=offHours();$('#oOff').hidden=!off;if(off)$('#oOff').textContent=offHoursTxt()+(dirty?'. Tes modifications sont gardées sur le téléphone et partiront à ce moment-là, dès que tu ouvriras l’appli.':'.');$('#oForce').hidden=!(off&&dirty);}
     $('#oFilters').checked=!!mState.filters;$('#oUrgTop').checked=urgTop();$('#oUpdate').hidden=!AND;$('#oFile').hidden=!AND||!mName||mDirect;$('#oSp').hidden=!AND;$('#oSp').textContent=mDirect?'Accès direct à OneDrive : activé (toucher pour l’arrêter)':'Accès direct à OneDrive';
-    $('#oInfo').textContent=AND?[mName?'Fichier\u00a0: '+mName+(fileTag()&&!dirty?' '+fileTag():''):'',savedAt&&!saveErr?'enregistré '+mAgo(savedAt):'',saveErr?'non enregistré\u00a0: '+saveErr:'',backend&&backend.direct?'accès direct':mName?'via l’appli OneDrive':''].filter(Boolean).join(' · ')+'\n'+(mVerTxt||'Application web Chromium v'+WEB_V):'';$('#mMenu').showModal();if(document.activeElement)document.activeElement.blur();
+    $('#oInfo').textContent=AND?[mName?'Fichier\u00a0: '+mName+(fileTag()&&!dirty?' '+fileTag():''):'',savedAt&&!saveErr?'enregistré '+mAgo(savedAt):'',saveErr?'non enregistré\u00a0: '+saveErr:'',backend&&backend.direct?'accès direct':mName?'via l’appli OneDrive':''].filter(Boolean).join(' · ')+'\n'+mVerLines():'';$('#mMenu').showModal();if(document.activeElement)document.activeElement.blur();
   };
   $('#oUrgTop').onchange=()=>{setUrgTop($('#oUrgTop').checked);mRender();};
   $('#oFilters').onchange=()=>{mState.filters=$('#oFilters').checked;mstore.set(MKEY+'-ui',mState);mRender();};
