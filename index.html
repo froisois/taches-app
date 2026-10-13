@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013094405">
+<meta name="taches-page" content="20261013100634">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -32,7 +32,7 @@ main{max-width:1240px;margin:0 auto;padding:1rem 1rem 30vh;min-height:60vh;curso
 
 .section{margin-bottom:1.5rem}
 .row{display:flex;align-items:flex-start;gap:.3rem;cursor:auto}
-.handle{flex:none;width:.75rem;opacity:0;cursor:grab;color:var(--muted);user-select:none;font-size:.7rem;line-height:1.5rem;text-align:center}
+.handle{flex:none;width:.75rem;opacity:0;cursor:var(--c-grab);color:var(--muted);user-select:none;font-size:.7rem;line-height:1.5rem;text-align:center}
 .row:hover>.handle{opacity:.6}
 .txt{flex:1;min-width:0;min-height:1.5em;outline:none;white-space:pre-wrap;word-break:break-word}
 .txt:empty::before{content:attr(data-ph);color:var(--muted);opacity:.7}
@@ -53,9 +53,10 @@ main{max-width:1240px;margin:0 auto;padding:1rem 1rem 30vh;min-height:60vh;curso
 .cell[data-state="fait"] .row.top .txt{font-weight:500}
 .vider{align-self:flex-end;font-size:.75rem;padding:.05rem .5rem;color:var(--muted);opacity:.7}
 .vider:hover{opacity:1}
-.card{cursor:grab}
+:root{--c-grab:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M8.2 11.2V5.4a1.15 1.15 0 0 1 2.3 0v5.1V3.9a1.15 1.15 0 0 1 2.3 0v6.6V4.9a1.15 1.15 0 0 1 2.3 0v5.9V6.6a1.15 1.15 0 0 1 2.3 0v8c0 3.6-2.3 6.4-5.6 6.4-2.2 0-3.4-.9-4.6-2.6L4.9 14.6a1.2 1.2 0 0 1 1.8-1.6z%22 fill=%22%23fff%22 stroke=%22%23000%22 stroke-width=%221.1%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E") 12 12,grab;--c-grabbing:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M8.2 11.4V9.6a1.15 1.15 0 0 1 2.3 0v.9-1.6a1.15 1.15 0 0 1 2.3 0v1.6-1.1a1.15 1.15 0 0 1 2.3 0v1.4-.6a1.15 1.15 0 0 1 2.3 0v4.4c0 3.6-2.3 6.4-5.6 6.4-2.2 0-3.4-.9-4.6-2.6L6.5 15.1a1.2 1.2 0 0 1 1.7-1.6z%22 fill=%22%23fff%22 stroke=%22%23000%22 stroke-width=%221.1%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E") 12 12,grabbing}   /* mains dessinées : celles de Chromium sous Windows s'affichaient parfois toutes blanches, sans contour */
+.card{cursor:var(--c-grab)}
 .card .txt,.card .cmt{cursor:text}
-body.dragging,body.dragging *{user-select:none!important;cursor:grabbing!important}
+body.dragging,body.dragging *{user-select:none!important;cursor:var(--c-grabbing)!important}
 .drag-src{opacity:.3!important}
 .fab{position:fixed;right:1.6rem;bottom:1.6rem;z-index:8;width:3.4rem;height:3.4rem;border-radius:50%;border:none;padding:0;background:var(--accent);color:var(--bg);font-size:2rem;line-height:3.3rem;box-shadow:0 4px 14px rgba(0,0,0,.2)}
 #m .fab{width:3.9rem;height:3.9rem;font-size:2.3rem;line-height:3.75rem}
@@ -446,7 +447,7 @@ body.mobile button:focus{outline:none}   /* au doigt, pas de cadre de focus (ora
 #inbox.empty{padding:.35rem .8rem}
 #inbox.empty .ihd{margin:0}
 /* chaque note prend la largeur de sa plus longue ligne (plafonnée) et la hauteur de son texte */
-.inote{position:relative;width:max-content;min-width:9rem;max-width:min(34rem,100%);min-height:3.3rem;padding:.35rem 2.6rem .45rem .6rem;border:1px solid var(--line);border-left:4px solid var(--note-bar);border-radius:8px;background:var(--note-bg);cursor:grab}
+.inote{position:relative;width:max-content;min-width:9rem;max-width:min(34rem,100%);min-height:3.3rem;padding:.35rem 2.6rem .45rem .6rem;border:1px solid var(--line);border-left:4px solid var(--note-bar);border-radius:8px;background:var(--note-bg);cursor:var(--c-grab)}
 .inote.dragging{opacity:.4}
 .inote .when{font-size:.72rem;color:var(--muted)}
 .inote .tx{white-space:pre-wrap;word-break:break-word;font-size:.9rem;outline:none;line-height:1.35}
@@ -2503,6 +2504,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-13 12:10',type:'web',v:'2.6.3',items:['PC\u00a0: les curseurs en forme de main (pour attraper et glisser une étiquette ou une note) sont dessinés par l’application, avec leur contour noir\u00a0: ceux d’Edge s’affichaient parfois tout blancs.']},
  {d:'2026-10-13 11:50',type:'web',v:'2.6.2',items:['Urgentes\u00a0: celles dont l’échéance est dépassée passent en tête, avant les urgentes marquées à la main, et leur pastille «\u00a0!\u00a0» bat comme un cœur.','PC\u00a0: le «\u00a0+\u00a0» rond est bien centré\u202f; le bandeau de nouvelle version a un contour arc-en-ciel qui tourne, en écho à l’arc-en-ciel du téléphone.']},
  {d:'2026-10-13 11:20',type:'web',v:'2.6.1',items:['PC\u00a0: «\u00a0Quoi de neuf\u00a0?\u00a0» s’ouvrait de façon invisible et bloquait la page (Échap la refermait). Corrigé.']},
  {d:'2026-10-13 11:13',type:'web',v:'2.6',items:['À relancer\u00a0: les tâches en attente dont la date de relance est passée passent en ambre (plus en rouge\u00a0: ce n’est pas une urgence, juste un tiers à relancer). Au téléphone, elles remontent dans une section «\u00a0À relancer\u00a0» sous les urgentes\u202f; au PC, elles restent en tête de la colonne «\u00a0En attente\u00a0».','Bouton «\u00a0✓ Relancé\u00a0»\u00a0: prochaine relance dans une semaine, et «\u00a0relancé le …\u00a0» noté dans le commentaire.']},
