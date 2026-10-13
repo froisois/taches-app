@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013154250">
+<meta name="taches-page" content="20261013162310">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -512,6 +512,7 @@ body.mobile button:focus{outline:none}   /* au doigt, pas de cadre de focus (ora
 .inote .fmtb .hint{font-size:.7rem;color:var(--muted);align-self:center;margin-left:.3rem}
 .lanelabel{font-size:.8rem;color:var(--muted);padding-left:.3rem}
 .drag-ghost{position:fixed;z-index:30;pointer-events:none;opacity:.92;transform:rotate(1.2deg);box-shadow:0 8px 24px rgba(0,0,0,.18);margin:0}
+.drag-ghost.mini{width:auto!important;max-width:15rem;opacity:.95;transform:rotate(-2deg) scale(.9);transform-origin:right top}
 .card{background:color-mix(in srgb,var(--c) 13%,var(--bg));border:1px solid color-mix(in srgb,var(--c) 28%,transparent);border-left:4px solid var(--c);border-radius:8px;padding:.4rem .6rem .45rem .25rem;transition:opacity .3s,transform .3s}
 .card .row{padding-left:calc(var(--lv,0) * 1.15rem)}
 .card .row+.row{margin-top:.05rem}
@@ -573,6 +574,35 @@ aside.open{transform:none}
 .empty{color:var(--muted);font-size:.9rem}
 #toast{position:fixed;left:50%;bottom:1.2rem;transform:translateX(-50%);background:var(--fg);color:var(--bg);font-size:.85rem;padding:.35rem .8rem;border-radius:6px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:20}
 #toast.show{opacity:.92}
+/* ---------- menu volant pendant un glisser (PC) : rubriques en arc, puis tâches de la rubrique survolée ---------- */
+#fly{position:fixed;inset:0;z-index:28;pointer-events:none;animation:flyIn .16s ease-out}
+#fly .fv{position:absolute;background:rgba(24,26,34,.6);pointer-events:none}
+#fly .fhole{position:absolute;border-radius:12px;box-shadow:0 0 0 3px rgba(255,255,255,.55);pointer-events:none}
+#fly .fp,#fly .ft{pointer-events:auto}
+@keyframes flyIn{from{opacity:0}to{opacity:1}}
+#fly .fl{position:absolute;color:#fff;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;opacity:.7;white-space:nowrap;pointer-events:none}
+#fly .fp{position:absolute;display:flex;align-items:center;gap:.55rem;height:2.3rem;box-sizing:border-box;padding:0 1rem;border-radius:999px;background:var(--panel,#fff);color:var(--fg);font-size:.92rem;
+  box-shadow:0 4px 14px rgba(0,0,0,.25);white-space:nowrap;transform-origin:left center;transition:transform .12s,background .12s,color .12s;animation:fpIn .2s both cubic-bezier(.34,1.4,.64,1)}
+@keyframes fpIn{from{opacity:0;transform:translateX(-14px) scale(.85)}to{opacity:1;transform:none}}
+#fly .fp i{flex:none;width:.7rem;height:.7rem;border-radius:50%}
+#fly .fp.none{color:var(--muted)}
+#fly .fp.furg{font-weight:600;color:#c4524a}#fly .fp.furg.on{color:#fff}
+#fly .fp.here{opacity:.75}#fly .fp.here::after{content:'ici';font-size:.72rem;color:var(--muted);margin-left:.2rem}
+#fly .fp.on{background:var(--fc);color:#fff;transform:scale(1.07);box-shadow:0 0 0 3px rgba(255,255,255,.75),0 6px 18px rgba(0,0,0,.3)}
+#fly .fp.on.none{background:#6b7080}#fly .fp.on i{outline:2px solid #fff}#fly .fp.on::after{color:#fff}
+#fly .ft{position:absolute;max-width:22rem;box-sizing:border-box;padding:.45rem .8rem;border-radius:10px;background:var(--panel,#fff);color:var(--fg);font-size:.86rem;line-height:1.3;
+  border-left:4px solid var(--fc);box-shadow:0 3px 12px rgba(0,0,0,.22);animation:fpIn .18s both ease-out}
+#fly .ft .tt{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#fly .ft.att .tt{font-style:italic;color:var(--muted)}
+#fly .ft.on{z-index:2;box-shadow:0 0 0 3px #f3d43f,0 6px 18px rgba(0,0,0,.3)}
+#fly .ft .fz{display:none;gap:.4rem;position:absolute;left:100%;top:50%;transform:translateY(-50%);padding-left:.5rem}
+#fly .ft.on .fz{display:flex}
+#fly .fz span{padding:.45rem .7rem;border-radius:9px;background:var(--panel,#fff);color:var(--fg);box-shadow:0 3px 12px rgba(0,0,0,.25);font-size:.8rem;white-space:nowrap}
+#fly .fz span.on{background:var(--fc);color:#fff}
+#fly .ft .fz1{display:none;position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:.6rem;color:#fff;font-size:.8rem;white-space:nowrap;pointer-events:none}#fly .ft.on .fz1{display:block}
+#fly .fe{position:absolute;color:#fff;opacity:.7;font-size:.82rem;font-style:italic}
+#fly .fh{position:absolute;left:50%;bottom:1.1rem;transform:translateX(-50%);color:#fff;font-size:.8rem;opacity:.85;white-space:nowrap}
+
 /* téléphone : carte de nouvelle version, en écho au bouton arc-en-ciel du PC */
 #vcard{position:fixed;left:50%;bottom:1rem;z-index:25;width:min(26rem,calc(100% - 2rem));box-sizing:border-box;transform:translate(-50%,1.2rem);opacity:0;pointer-events:none;
   transition:opacity .25s,transform .35s cubic-bezier(.34,1.3,.64,1);padding:.7rem .95rem .75rem;border-radius:14px;border:2.5px solid transparent;color:#fff;font-size:.86rem;line-height:1.35;
@@ -612,6 +642,7 @@ aside.open{transform:none}
     <li><kbd>Tab</kbd> / <kbd>Maj</kbd>+<kbd>Tab</kbd> faire / défaire une sous-tâche</li>
     <li><kbd>Ctrl</kbd>+<kbd>Entrée</kbd> ou clic sur le rond : cocher. Une sous-tâche reste barrée dans son étiquette ; l’étiquette passe dans « Fait » (re-cliquer la ressort). « Vider » range les étiquettes faites de la rubrique dans l’historique</li>
     <li>Glisser une étiquette depuis n’importe quel endroit (la main) ; <strong>double-clic</strong> pour écrire dedans ; une fois dans l’étiquette, la souris sélectionne le texte. Une sous-tâche se glisse par sa poignée ⋮⋮, une rubrique par son titre. Lâchée au milieu d’une autre étiquette (qui s’encadre), une étiquette en devient la sous-tâche. <kbd>Échap</kbd> annule le glisser</li>
+    <li><strong>Menu volant</strong> : une étiquette glissée hors de sa rubrique, ou une note hors du bandeau des notes, grise la page et fait apparaître les rubriques en arc (plus « Urgentes » pour une étiquette) ; survoler une rubrique déploie ses tâches. Lâcher sur une rubrique : la note devient tâche, l’étiquette y est rangée ; sur une tâche : sous-tâche (et pour une note, au choix, commentaire). La zone de départ reste claire et fonctionne comme d’habitude ; ailleurs ou <kbd>Échap</kbd> : rien ne change</li>
     <li><strong>Clic droit</strong> sur une étiquette, une sous-tâche, une note, un titre de rubrique ou une case vide : toutes les actions (état, urgence, échéance, rubrique, couleur, sous-tâche, commentaire, lien, dupliquer, copier, supprimer…). Au clavier pendant l’écriture : touche Menu ou <kbd>Maj</kbd>+<kbd>F10</kbd>. Pendant l’écriture, le clic droit garde le menu d’Edge (correcteur)</li>
     <li><kbd>Alt</kbd>+<kbd>←</kbd> / <kbd>Alt</kbd>+<kbd>→</kbd> passer l’étiquette dans la colonne précédente / suivante</li>
     <li><kbd>Alt</kbd>+<kbd>↑</kbd> / <kbd>Alt</kbd>+<kbd>↓</kbd> monter / descendre dans la colonne</li>
@@ -1370,7 +1401,7 @@ function renderInbox(){
   const hd=document.createElement('div');hd.className='ihd';
   hd.innerHTML='<strong></strong><span class="hint"></span>';
   hd.querySelector('strong').textContent=notes.length?'Notes à trier ('+notes.length+')':'Notes';
-  hd.querySelector('.hint').textContent=notes.length?'glisse une note sur une rubrique pour en faire une tâche, sur une tâche pour l’y ajouter, entre les notes pour les ranger · double-clic pour modifier':'aucune note à trier';
+  hd.querySelector('.hint').textContent=notes.length?'glisse une note hors du bandeau\u00a0: les rubriques s’affichent, lâche-la sur l’une d’elles ou sur une de ses tâches · entre les notes pour les ranger · double-clic pour modifier':'aucune note à trier';
   box.append(hd);
   const add=()=>{const g=document.createElement('button');g.type='button';g.className='nghost';g.textContent='+';g.title='Nouvelle note (Alt+N)';g.onclick=newNote;box.append(g);};
   if(!notes.length){add();return;}
@@ -1384,7 +1415,7 @@ function renderInbox(){
     const cp=document.createElement('button');cp.className='cp';cp.textContent='⧉';cp.title='Copier la note';
     cp.onclick=e=>{e.stopPropagation();copyText(n.text,cp);};
     c.ondragstart=e=>{if(c.classList.contains('editing')){e.preventDefault();return;}noteDragId=n.id;e.dataTransfer.setData('application/x-taches-note',n.id);e.dataTransfer.setData('text/plain',n.text);e.dataTransfer.effectAllowed='move';c.classList.add('dragging');};
-    c.ondragend=()=>{noteDragId=null;c.classList.remove('dragging');document.querySelectorAll('.inote.drop-l,.inote.drop-r').forEach(z=>z.classList.remove('drop-l','drop-r'));};
+    c.ondragend=()=>{flyClose();noteDragId=null;c.classList.remove('dragging');document.querySelectorAll('.inote.drop-l,.inote.drop-r').forEach(z=>z.classList.remove('drop-l','drop-r'));};
     /* ranger les notes entre elles : moitié gauche = avant, moitié droite = après */
     c.ondragover=e=>{if(!noteDragId||noteDragId===n.id)return;e.preventDefault();e.stopPropagation();e.dataTransfer.dropEffect='move';
       const r=c.getBoundingClientRect(),after=e.clientX>r.left+r.width/2;document.querySelectorAll('.inote.drop-l,.inote.drop-r').forEach(z=>z.classList.remove('drop-l','drop-r'));c.classList.add(after?'drop-r':'drop-l');};
@@ -1450,6 +1481,15 @@ function noteToComment(nid,taskId){
   const d=(n.at||todayISO()).slice(0,10);
   snapshot();textSnapFor=null;notes=notes.filter(x=>x!==n);it.note=(it.note?it.note.replace(/\s+$/,'')+'\n':'')+d.slice(8,10)+'/'+d.slice(5,7)+' : '+n.text;
   commit();toast('Note ajoutée au commentaire · Ctrl+Z pour annuler');
+}
+/* une note devient sous-tâche d'une étiquette (ses puces aussi) ; le reste de son texte va au commentaire de l'étiquette */
+function noteToSub(nid,taskId){
+  const n=notes.find(x=>x.id===nid),i=idx(taskId),it=items[i];if(!n||!it)return;const sp=noteSplit(n.text);if(!sp.title)return;
+  snapshot();textSnapFor=null;notes=notes.filter(x=>x!==n);
+  const d=(n.at||todayISO()).slice(0,10),cr=d;
+  items.splice(blockEnd(i),0,...[sp.title,...sp.subs].map(x=>({id:uid(),kind:'t',level:1,text:x,created:cr})));
+  if(sp.note)it.note=(it.note?it.note.replace(/\s+$/,'')+'\n':'')+d.slice(8,10)+'/'+d.slice(5,7)+' : '+sp.note;
+  commit();toast('Note devenue sous-tâche de « '+it.text+' » · Ctrl+Z pour annuler');
 }
 let histTrash=false;
 function renderHist(){
@@ -2028,6 +2068,10 @@ list.addEventListener('paste',e=>{
   const last=ins[ins.length-1];commit(last&&last.id);
   toast(ins.length+' ligne'+(ins.length>1?'s':'')+' ajoutée'+(ins.length>1?'s':''));
 });
+/* note glissée hors du bandeau : menu volant */
+document.addEventListener('dragover',e=>{if(!noteDragId||MOBILE)return;
+  if(flyMove('note',noteDragId,$('#inbox'),e.clientX,e.clientY)===true){e.preventDefault();e.stopPropagation();e.dataTransfer.dropEffect='move';}},true);
+document.addEventListener('drop',e=>{if(!noteDragId||!fly)return;if(fly.inHome){flyClose();return;}e.preventDefault();e.stopPropagation();flyDrop();},true);
 /* ---------- dépôt d'un lien venu d'ailleurs (navigateur, webmail, Explorateur) ---------- */
 function pickEffect(dt){const a=(dt.effectAllowed||'all').toLowerCase();if(a==='none')return 'none';if(a==='all'||a==='uninitialized'||a.includes('link'))return 'link';if(a.includes('copy'))return 'copy';return 'move';}
 /* mode test : accepter un dépôt n'importe où dans la page pour voir ce que la source transmet */
@@ -2211,11 +2255,121 @@ function stopDrag(apply){
   const id=dragId,t=dropTarget;clearDrop();dragId=null;dropTarget=null;
   if(apply&&id&&t)dropBlock(id,t);
 }
+
+/* ---------- menu volant (PC) : en attrapant une note ou une étiquette et en quittant sa zone (bandeau des notes, rubrique
+   de l'étiquette), la page se grise et les rubriques flottent en arc ; survoler une rubrique déploie ses tâches.
+   Lâcher : sur une rubrique (nouvelle tâche, ou étiquette rangée), sur une tâche (note : commentaire ou sous-tâche ;
+   étiquette : sous-tâche), ailleurs (rien). Revenir dans la zone de départ referme le menu. ---------- */
+let fly=null;
+function flyOpen(kind,srcId,home){
+  flyClose();const box=document.createElement('div');box.id='fly';document.body.append(box);
+  fly={kind,srcId,home,box,sec:null,pend:null,pendT:0,hot:null,zone:null,ts:0,list:[],raf:0,x:0,y:0,inHome:false};
+  fly.veil=[0,1,2,3].map(()=>{const v=document.createElement('div');v.className='fv';box.append(v);return v;});   /* voile en quatre bandes autour de la zone de départ, qui reste claire */
+  const hole=document.createElement('div');hole.className='fhole';box.append(hole);fly.hole=hole;flyHole();
+  const cols=sectionColors(),hs=items.filter(x=>x.kind==='h'),secs=hs.map(h=>({id:h.id,text:h.text,c:cols['#'+h.id]||CARD_COLOR})).concat([{id:'',text:'Hors rubrique',c:'#6b7080',none:true}]);
+  const si=items[idx(srcId)];if(kind==='task'&&si&&!si.urgent&&!dueSoon(si))secs.unshift({id:'!urg',text:'Urgentes',c:'#c4524a',urg:true});   /* comme la rangée « Urgentes » : la rendre urgente sans la changer de rubrique */
+  const cur=kind==='task'?(()=>{const h=headingOf(idx(srcId));return h?h.id:'';})():null;
+  const H=innerHeight,n=secs.length,gap=Math.max(38,Math.min(58,(H-170)/n)),cy=H/2,x0=Math.max(220,Math.round(innerWidth*.26));
+  const bow=t=>Math.round(Math.min(46,10+n*5)*t*t);   /* arc léger : les extrémités reculent un peu, quel que soit le nombre de rubriques */
+  const lb=document.createElement('div');lb.className='fl';lb.textContent='Rubriques';box.append(lb);
+  secs.forEach((sc,k)=>{const y=cy+(k-(n-1)/2)*gap,x=x0-bow(n>1?(2*k/(n-1)-1):0);
+    const p=document.createElement('div');p.className='fp'+(sc.none?' none':'')+(cur===sc.id?' here':'');p.dataset.sec=sc.id;p.style.setProperty('--fc',sc.c);
+    p.style.left=x+'px';p.style.top=(y-18)+'px';p.style.animationDelay=(k*18)+'ms';
+    if(sc.urg)p.classList.add('furg');
+    if(!sc.none){const i=document.createElement('i');i.style.background=sc.c;p.append(i);}
+    p.append(document.createTextNode(sc.text));box.append(p);if(k===0){lb.style.left=(x+8)+'px';lb.style.top=(y-46)+'px';}});
+  const h=document.createElement('div');h.className='fh';
+  h.textContent=kind==='note'?'Lâcher sur une rubrique\u00a0: nouvelle tâche · sur une tâche\u00a0: commentaire ou sous-tâche · ailleurs\u00a0: rien · dans le bandeau des notes\u00a0: les ranger'
+    :'Lâcher sur une rubrique\u00a0: l’y ranger · sur une tâche\u00a0: en faire une sous-tâche · ailleurs\u00a0: rien · dans sa rubrique (restée claire)\u00a0: comme d’habitude · Échap\u00a0: annuler';
+  box.append(h);
+  const loop=()=>{if(!fly)return;flyScroll();if(fly.pend!=null&&Date.now()-fly.pendT>140){const q=fly.pend;fly.pend=null;flyShowSec(q);}fly.raf=requestAnimationFrame(loop);};   /* pointeur immobile sur une autre rubrique : on bascule quand même */fly.raf=requestAnimationFrame(loop);
+}
+function flyHole(){
+  const r=fly.home.getBoundingClientRect(),L=r.left-6,T=r.top-6,W=r.width+12,Hh=r.height+12,h=fly.hole.style;h.left=L+'px';h.top=T+'px';h.width=W+'px';h.height=Hh+'px';
+  const set=(v,l,t,w,hh)=>{v.style.left=l+'px';v.style.top=t+'px';v.style.width=Math.max(0,w)+'px';v.style.height=Math.max(0,hh)+'px';};
+  const [a,b,c,d]=fly.veil,VW=innerWidth,VH=innerHeight;
+  set(a,0,0,VW,T);set(b,0,T+Hh,VW,VH-T-Hh);set(c,0,T,L,Hh);set(d,L+W,T,VW-L-W,Hh);
+}
+function flyClose(){if(!fly)return;cancelAnimationFrame(fly.raf);fly.box.remove();fly=null;}
+function flyTasks(secId){
+  const out=[];let i,end;
+  if(secId){const hi=idx(secId);if(hi<0)return out;i=hi+1;end=blockEnd(hi);}else{i=0;end=laneEndOf('');}
+  for(;i<end;i++){const x=items[i];if(x.kind==='t'&&x.level===0&&x.state!=='fait'&&x.text.trim()&&x.id!==fly.srcId)out.push(x);}
+  return out;
+}
+function flyShowSec(secId){
+  fly.sec=secId;fly.ts=0;fly.hot=null;fly.zone=null;
+  fly.box.querySelectorAll('.fp').forEach(p=>p.classList.toggle('on',p.dataset.sec===secId));
+  fly.box.querySelectorAll('.ft,.fe,.fl.t2').forEach(x=>x.remove());
+  const p=fly.box.querySelector('.fp[data-sec="'+secId+'"]');if(!p)return;
+  if(secId==='!urg'){fly.list=[];fly.anchor=null;return;}
+  const r=p.getBoundingClientRect(),c=p.style.getPropertyValue('--fc'),ts=flyTasks(secId);
+  fly.list=ts.map((t,k)=>{const d=document.createElement('div');d.className='ft'+(t.state==='attente'?' att':'');d.dataset.id=t.id;d.style.setProperty('--fc',c);d.style.animationDelay=Math.min(k,8)*16+'ms';
+    const tt=document.createElement('span');tt.className='tt';tt.textContent=t.text;d.append(tt);
+    if(fly.kind==='note'){const z=document.createElement('div');z.className='fz';z.innerHTML='<span data-z="cmt">💬 en commentaire</span><span data-z="sub">↳ en sous-tâche</span>';d.append(z);}
+    else{const z=document.createElement('div');z.className='fz1';z.textContent='↳ en faire une sous-tâche';d.append(z);}
+    fly.box.append(d);return d;});
+  const lb=document.createElement('div');lb.className='fl t2';lb.textContent='Tâches de « '+(secId?(items[idx(secId)]||{}).text:'Hors rubrique')+' »';fly.box.append(lb);
+  fly.anchor={x:r.right+70,y:r.top+r.height/2};
+  if(!ts.length){const e=document.createElement('div');e.className='fe';e.textContent='aucune tâche en cours';e.style.left=fly.anchor.x+'px';e.style.top=(fly.anchor.y-10)+'px';fly.box.append(e);}
+  flyPlace();
+}
+/* tâches en arc léger, centrées sur la rubrique ; trop nombreuses : elles défilent quand on approche du bord haut ou bas */
+function flyPlace(){
+  const a=fly.anchor,n=fly.list.length,gap=46,H=innerHeight;if(!a)return;
+  const tot=(n-1)*gap,top0=Math.min(Math.max(70,a.y-tot/2),Math.max(70,H-90-tot));
+  fly.minTs=Math.min(0,H-90-(top0+tot));fly.ts=Math.max(fly.minTs,Math.min(0,fly.ts));
+  fly.list.forEach((d,k)=>{const y=top0+k*gap+fly.ts,dy=Math.min(1,Math.abs(y-a.y)/260),x=a.x-Math.round(34*dy*dy);d.style.left=x+'px';d.style.top=(y-17)+'px';d.style.visibility=y<50||y>H-60?'hidden':'';});
+  const lb=fly.box.querySelector('.fl.t2');if(lb){lb.style.left=(a.x+6)+'px';lb.style.top=Math.max(20,top0+fly.ts-44)+'px';lb.style.visibility=top0+fly.ts-44<20&&fly.ts<0?'hidden':'';}
+}
+function flyScroll(){
+  if(!fly||!fly.list.length||!fly.anchor||fly.x<fly.anchor.x-30)return;const H=innerHeight;
+  if(fly.y<110&&fly.ts<0){fly.ts=Math.min(0,fly.ts+7);flyPlace();}
+  else if(fly.y>H-120&&fly.ts>fly.minTs){fly.ts=Math.max(fly.minTs,fly.ts-7);flyPlace();}
+}
+/* le pointeur bouge : ouvrir, refermer (retour dans la zone de départ), ou suivre ce qu'il survole. Renvoie true si le menu est ouvert. */
+function flyMove(kind,srcId,homeEl,x,y){
+  const inR=(r,m)=>x>=r.left-m&&x<=r.right+m&&y>=r.top-m&&y<=r.bottom+m;
+  const hr=homeEl&&homeEl.getBoundingClientRect(),inHome=hr&&inR(hr,0);
+  if(!fly){if(!homeEl||inHome)return false;flyOpen(kind,srcId,homeEl);}
+  fly.x=x;fly.y=y;flyHole();
+  const el=document.elementFromPoint(x,y),p=el&&el.closest&&el.closest('#fly .fp'),t=el&&el.closest&&el.closest('#fly .ft');
+  /* zone de départ (restée claire) : on y range comme d'habitude, le menu reste ouvert */
+  fly.inHome=!!(inHome&&!p&&!t);
+  if(fly.inHome){fly.hot=null;fly.onPill=false;fly.pend=null;fly.box.querySelectorAll('.ft.on').forEach(d=>d.classList.remove('on'));return 'home';}
+  if(p){const s=p.dataset.sec;
+    if(s!==fly.sec){if(fly.sec==null||!fly.list.length){flyShowSec(s);}
+      else{if(fly.pend!==s){fly.pend=s;fly.pendT=Date.now();}if(Date.now()-fly.pendT>140){fly.pend=null;flyShowSec(s);}}}
+    else fly.pend=null;
+  }else fly.pend=null;
+  fly.hot=t?t.dataset.id:null;fly.zone=null;
+  fly.box.querySelectorAll('.ft.on').forEach(d=>{if(d!==t)d.classList.remove('on');});
+  if(t){t.classList.add('on');const z=el.closest('.fz span');t.querySelectorAll('.fz span').forEach(s=>s.classList.toggle('on',s===z));fly.zone=z?z.dataset.z:(fly.kind==='note'?'cmt':'sub');}
+  fly.onPill=!!p;fly.pill=p?p.dataset.sec:null;
+  return true;
+}
+/* lâcher : true si le menu a traité le dépôt (ou l'a annulé) */
+function flyDrop(){
+  if(!fly)return false;const f=fly;flyClose();
+  if(f.kind==='note'){
+    if(f.hot&&f.zone==='sub')noteToSub(f.srcId,f.hot);else if(f.hot)noteToComment(f.srcId,f.hot);
+    else if(f.onPill)noteToTask(f.srcId,f.pill,'afaire');
+  }else{
+    if(f.hot)dropBlock(f.srcId,{id:f.hot,into:true});
+    else if(f.onPill&&f.pill==='!urg'){toggleUrgent(f.srcId);toast('Devenue urgente · Ctrl+Z pour annuler');}
+    else if(f.onPill){const h=headingOf(idx(f.srcId));if((h?h.id:'')!==f.pill)moveToSec(f.srcId,f.pill);}
+  }
+  return true;
+}
 document.addEventListener('pointermove',e=>{
   if(!pd)return;
   if(!pd.started){if(Math.hypot(e.clientX-pd.x,e.clientY-pd.y)<6)return;startDrag(e);}
   e.preventDefault();getSelection().removeAllRanges();
   pd.ghost.style.left=(e.clientX-pd.dx)+'px';pd.ghost.style.top=(e.clientY-pd.dy)+'px';
+  const src=items[idx(pd.srcId)];
+  const flying=src&&src.kind==='t'&&src.level===0&&flyMove('task',pd.srcId,pd.el.closest('.section,.urglane'),e.clientX,e.clientY);
+  pd.ghost.classList.toggle('mini',flying===true);
+  if(flying===true){pd.ghost.style.left=(e.clientX-pd.ghost.offsetWidth-14)+'px';pd.ghost.style.top=(e.clientY-16)+'px';clearDrop();dropTarget=null;return;}   /* petite, à gauche du pointeur : elle ne cache pas les cibles */
   if(e.clientY<70)scrollBy(0,-14);else if(e.clientY>innerHeight-50)scrollBy(0,14);
   const res=computeTarget(document.elementFromPoint(e.clientX,e.clientY),e.clientY);
   clearDrop();dropTarget=res?res.tgt:null;
@@ -2223,7 +2377,7 @@ document.addEventListener('pointermove',e=>{
 });
 document.addEventListener('pointerup',()=>{
   if(!pd)return;
-  if(pd.started){justDragged=true;setTimeout(()=>justDragged=false,50);stopDrag(true);}
+  if(pd.started){justDragged=true;setTimeout(()=>justDragged=false,50);if(fly&&!fly.inHome){flyDrop();stopDrag(false);}else{flyClose();stopDrag(true);}}
   pd=null;
 });
 document.addEventListener('selectstart',e=>{if(pd&&pd.started)e.preventDefault();});
@@ -2243,7 +2397,7 @@ document.addEventListener('keydown',e=>{
   if(e.altKey&&!mod&&!e.shiftKey&&e.code==='KeyT'){e.preventDefault();quickAdd();return;}
   if(mod&&!e.altKey&&!e.shiftKey&&e.key.toLowerCase()==='z'){e.preventDefault();restoreFrom(undoStack,redoStack);}
   else if(mod&&(e.key.toLowerCase()==='y'||(e.shiftKey&&e.key.toLowerCase()==='z'))){e.preventDefault();restoreFrom(redoStack,undoStack);}
-  else if(e.key==='Escape'){if(filter&&!(document.activeElement&&document.activeElement.matches&&document.activeElement.matches('.txt,.cmt,input'))){filter=null;render();}if(pd&&pd.started){stopDrag(false);pd=null;justDragged=true;setTimeout(()=>justDragged=false,50);}$('#hist').classList.remove('open');}
+  else if(e.key==='Escape'){if(filter&&!(document.activeElement&&document.activeElement.matches&&document.activeElement.matches('.txt,.cmt,input'))){filter=null;render();}if(pd&&pd.started){flyClose();stopDrag(false);pd=null;justDragged=true;setTimeout(()=>justDragged=false,50);}$('#hist').classList.remove('open');}
 });
 $('#histBtn').onclick=()=>{const h=$('#hist');h.classList.toggle('open');if(h.classList.contains('open')){renderHist();$('#hq').focus();}};
 function fabToggle(open){const m=$('#fabMenu'),f=$('#fab');if(open==null)open=m.hidden;m.hidden=!open;f.classList.toggle('open',open);if(open)m.querySelectorAll('.fabo').forEach(b=>{b.style.animation='none';void b.offsetWidth;b.style.animation='';});}
@@ -2752,6 +2906,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-13 19:00',type:'web',v:'2.12',items:['PC\u00a0: menu volant. Une note glissée hors du bandeau, ou une étiquette glissée hors de sa rubrique, grise la page et fait apparaître les rubriques en arc\u00a0; survoler une rubrique déploie ses tâches. Lâcher sur une rubrique\u00a0: la note devient tâche, l’étiquette y est rangée. Sur une tâche\u00a0: sous-tâche, ou pour une note, au choix, commentaire.','PC\u00a0: pour une étiquette, le menu propose aussi «\u00a0Urgentes\u00a0». La zone de départ reste claire et marche comme avant\u00a0; lâcher ailleurs ou Échap ne change rien.']},
  {d:'2026-10-13 17:50',type:'web',v:'2.11',items:['PC\u00a0: Entrée valide l’étiquette au lieu d’en créer une nouvelle\u00a0; pour ajouter une ligne en dessous (tâche ou sous-tâche), Alt+Entrée.']},
  {d:'2026-10-13 17:40',type:'web',v:'2.10.3',items:['PC\u00a0: au bout d’une longue liste du clic droit, un coup de molette de plus ne referme plus le menu.']},
  {d:'2026-10-13 17:35',type:'web',v:'2.10.2',items:['Téléphone\u00a0: hors des heures de travail, message court sur la carte de version\u00a0: «\u00a0Copie pour le PC\u00a0: dépôt demain à 9\u00a0h\u00a0».']},
