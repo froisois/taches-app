@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013131312">
+<meta name="taches-page" content="20261013132406">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -101,6 +101,7 @@ body.dragging,body.dragging *{user-select:none!important;cursor:grabbing!importa
 .relok:hover{background:#b7791f;color:#fff}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(196,82,74,.55)}50%{box-shadow:0 0 0 5px rgba(196,82,74,0)}}
 .card.late{border-color:#b7791f;border-left-color:#b7791f;background:color-mix(in srgb,#b7791f 13%,var(--bg))}
+#list .card.retard{border:3px solid transparent;border-left-width:6px;background:linear-gradient(color-mix(in srgb,#c4524a 16%,var(--bg)),color-mix(in srgb,#c4524a 16%,var(--bg))) padding-box,repeating-linear-gradient(-45deg,#1d1d1f 0 6px,#c4524a 6px 12px) border-box}   /* échéance dépassée : hachures noir-rouge, signal fixe */
 .card.late.urgent{border-color:#c4524a;border-left-color:#c4524a;background:color-mix(in srgb,#c4524a 16%,var(--bg))}
 .urg{flex:none;border:none;background:none;padding:0;width:1.05rem;height:1.05rem;margin-top:.25rem;border-radius:50%;font-size:.8rem;font-weight:800;line-height:1.05rem;text-align:center;color:var(--muted);opacity:0}
 .row:hover>.urg{opacity:.6}
@@ -1152,7 +1153,7 @@ function makeRow(it){
   if(it.note||noteOpen===it.id){const n=document.createElement('div');n.className='cmt';editable(n);n.dataset.ph='Commentaire…';n.textContent=it.note||'';m.append(n);}
   if(it.links&&it.links.length)m.append(mkLinks(it.links,true));
   if(it.due){
-    const n=daysTo(it.due),c=document.createElement('button');c.className='due'+(dueSoon(it)?' soon':'')+(n<0&&dueSoon(it)?' over':'');c.tabIndex=-1;c.dataset.d=it.due;
+    const n=daysTo(it.due),c=document.createElement('button');c.className='due'+(dueSoon(it)?' soon':'')+(n<=0&&dueSoon(it)?' over':'');c.tabIndex=-1;c.dataset.d=it.due;
     c.textContent='📅 '+(n<0?'échéance dépassée ('+shortDate(it.due)+')':n===0?'échéance aujourd’hui':n===1?'échéance demain':'échéance le '+shortDate(it.due)+(n<=ECHEANCE_JOURS?' · J-'+n:''));
     c.title='Clic : changer ou effacer l’échéance';m.append(c);
   }
@@ -1229,7 +1230,7 @@ function render(){
     else if(skip)continue;
     if(it.level===0||!card){
       const up=ucells&&inUrgLane(it);
-      card=document.createElement('div');card.className='card'+(isLate(it)?' late':'')+(isUrgent(it)?' urgent':'')+(up?' inurg':'');card.style.setProperty('--c',COLORS[it.color]||(cur_h&&COLORS[cur_h.color])||CARD_COLOR);card.dataset.id=it.id;
+      card=document.createElement('div');card.className='card'+(isLate(it)?' late':'')+(isUrgent(it)?' urgent':'')+(up?' inurg':'')+(dueSoon(it)&&daysTo(it.due)<0?' retard':'');card.style.setProperty('--c',COLORS[it.color]||(cur_h&&COLORS[cur_h.color])||CARD_COLOR);card.dataset.id=it.id;
       if(up){const b=document.createElement('div');b.className='insec';b.textContent=cur_h?cur_h.text:'Hors rubrique';card.append(b);}
       ((up?ucells:cells)[it.state]||(up?ucells:cells).afaire).append(card);}
     card.append(makeRow(it));
@@ -2365,7 +2366,7 @@ function mInfo(){
   el.className=Date.now()-c.readAt>12*3600e3?'stale':'';
 }
 function mChip(txt,cls){const s=document.createElement('span');s.className='mchip'+(cls?' '+cls:'');s.textContent=txt;return s;}
-function mDue(it){const n=daysTo(it.due),soon=dueSoon(it);return mChip('📅 '+(n<0?shortDate(it.due):n===0?'aujourd’hui':n===1?'demain':n<=ECHEANCE_JOURS?'J-'+n:shortDate(it.due)),soon?(n<0?'redf':'red'):'');}
+function mDue(it){const n=daysTo(it.due),soon=dueSoon(it);return mChip('📅 '+(n<0?shortDate(it.due):n===0?'aujourd’hui':n===1?'demain':n<=ECHEANCE_JOURS?'J-'+n:shortDate(it.due)),soon?(n<=0?'redf':'red'):'');}
 function mIsFile(l){return isRel(l.url)||isPath(l.url)||/sharepoint\.com|onedrive|^ms-/i.test(l.url)||(/deeplink\/read\//.test(l.url)&&/\.[a-z0-9]{2,5}$/i.test(l.label||''));}
 function mLinks(links){
   const d=document.createElement('div');d.className='mlinks';
@@ -2543,6 +2544,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-13 15:30',type:'web',v:'2.8.1',items:['PC\u00a0: une tâche dont l’échéance est dépassée a un contour hachuré noir et rouge.','La pastille «\u00a0échéance aujourd’hui\u00a0» passe en rouge plein, comme celle d’une échéance dépassée (PC et téléphone).']},
  {d:'2026-10-13 15:25',type:'web',v:'2.8',items:['PC\u00a0: un clic sur le «\u00a0+\u00a0» rond déploie deux pastilles, «\u00a0Nouvelle note\u00a0» et «\u00a0Nouvelle tâche\u00a0» (Alt+N et Alt+T marchent toujours).','PC\u00a0: plus de pulsation sur les tâches (elle perturbait l’affichage des curseurs d’Edge)\u202f; le halo reste, fixe. Le téléphone garde ses pulsations.']},
  {d:'2026-10-13 14:25',type:'web',v:'2.7',items:['PC\u00a0: les étiquettes se comportent comme les notes\u00a0: une main au survol pour les attraper, un double-clic pour écrire dedans.','PC\u00a0: les notes peuvent prendre toute la largeur du bandeau.','PC\u00a0: «\u00a0Nouvelle version disponible\u00a0» devient un bouton compact au contour arc-en-ciel\u00a0: un clic, et la page se recharge avec la nouvelle version.']},
  {d:'2026-10-13 14:00',type:'web',v:'2.6.4',items:['PC\u00a0: retour aux curseurs en forme de main d’Edge.','PC\u00a0: nouvelle note avec le «\u00a0+\u00a0» en pointillés, en bas à gauche du bandeau des notes, comme pour une nouvelle tâche (toujours aussi Alt+N et le bouton rond).']},
