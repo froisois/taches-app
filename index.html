@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013225928">
+<meta name="taches-page" content="20261013233531">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -538,6 +538,7 @@ body.mobile button:focus{outline:none}   /* au doigt, pas de cadre de focus (ora
 .chk.on{background:var(--c);border-color:var(--c)}
 .row.t.urgent .chk,.card.urgent>.row.top .chk{border-color:#c4524a}
 .row.t.urgent .chk.on,.card.urgent>.row.top .chk.on{background:#c4524a}
+.section.dband .lanehd{display:flex;align-items:baseline;font-weight:650;font-size:1.05rem;color:var(--c);padding:.1rem .3rem .2rem;border-bottom:2px solid color-mix(in srgb,var(--c) 35%,transparent);margin-bottom:.5rem}
 .section.urglane .lanehd{display:flex;align-items:center;gap:.45rem;font-weight:650;font-size:1.05rem;color:#c4524a;padding:.1rem .3rem .2rem;border-bottom:2px solid color-mix(in srgb,#c4524a 40%,transparent);margin-bottom:.5rem}
 .section.urglane .lanehd::before{content:"";width:.85rem;height:.85rem;border-radius:50%;background:#c4524a}
 .card .insec{display:flex;align-items:center;gap:.35rem;font-size:.72rem;color:var(--muted);margin:.3rem 0 .05rem 1.6rem}
@@ -591,6 +592,9 @@ aside.open{transform:none}
 #toast{position:fixed;left:50%;bottom:1.2rem;transform:translateX(-50%);background:var(--fg);color:var(--bg);font-size:.85rem;padding:.35rem .8rem;border-radius:6px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:20}
 #toast.show{opacity:.92}
 /* ---------- menu volant pendant un glisser (PC) : rubriques en arc, puis tâches de la rubrique survolée ---------- */
+#list .cell.dcell{display:flex;flex-direction:row;flex-wrap:wrap;align-items:flex-start;gap:.6rem;min-height:3rem}
+#list .cell.dcell>.card{width:min(21rem,100%);margin:0}
+.dband .lanehd .dn{margin-left:.5rem;font-weight:400;font-size:.8rem;color:var(--muted);text-transform:none;letter-spacing:0}
 #fly{position:fixed;inset:0;z-index:28;pointer-events:none;animation:flyIn .16s ease-out}
 #fly .fv{position:absolute;inset:0;background:rgba(24,26,34,.6);pointer-events:none}
 #fly .fp,#fly .ft{pointer-events:auto}
@@ -671,7 +675,7 @@ aside.open{transform:none}
     <li>📅 au survol : échéance. Dès J-7, la tâche est signalée en corail ; à J-3 elle devient <strong>urgente</strong> (rouge, halo) ; dépassée, rouge plein. Seuils réglables dans ⚙. Les tâches datées passent avant les autres, par date. Clic sur la pastille pour changer ou effacer la date</li>
     <li>Une tâche à faire sans échéance prend une <strong>patine</strong> au bout de 2 semaines, plus marquée à 4 (« depuis 3 sem. ») : elle attend</li>
     <li>« En attente » : « + qui ? » pour noter la personne attendue (les noms déjà utilisés sont proposés)</li>
-    <li>En haut : <strong>!</strong> « priorités en haut » (rangée à part : urgentes, puis importantes, avec le nom de leur rubrique) ou « dans leur rubrique » ; filtres « à relancer » ou une personne attendue, re-cliquer ou <kbd>Échap</kbd> pour tout réafficher</li>
+    <li>En haut : <strong>!</strong> « priorités en haut » (rangée à part : urgentes, puis importantes, avec le nom de leur rubrique), « dans leur rubrique » ou « 📅 par échéance » (bandes en retard, cette semaine, semaine prochaine, plus tard, sans échéance ; glisser une tâche dans une bande lui donne la date de début de la bande, dans « Sans échéance » la retire) ; filtres « à relancer » ou une personne attendue, re-cliquer ou <kbd>Échap</kbd> pour tout réafficher</li>
     <li>Glisser un e-mail, une pièce jointe d’e-mail, un lien ou du texte : sur une tâche, il s’y ajoute ; ailleurs, il crée une tâche (dans la case visée, sinon « À faire » de la rubrique, sinon « Hors rubrique »)</li>
     <li>Coller la réponse JSON de l’Afficheur Graph (tâches To Do) dans une tâche, par exemple après Alt+T : importe les tâches non terminées</li>
     <li><kbd>Retour arrière</kbd> en début de ligne : décaler, fusionner ou supprimer</li>
@@ -743,6 +747,7 @@ aside.open{transform:none}
   <dialog id="mMenu">
     <form method="dialog">
       <label class="mopt"><input type="checkbox" id="oUrgTop"> Priorités regroupées en haut</label>
+      <label class="mopt"><input type="checkbox" id="oDate"> Afficher par échéance</label>
       <label class="mopt"><input type="checkbox" id="oFilters"> Afficher les filtres (priorités, à relancer, personnes)</label>
       <button type="button" class="mitem" id="oUpdate">Vérifier la mise à jour du Compagnon Android</button>
       <button type="button" class="mitem" id="oFile">Choisir un autre fichier</button>
@@ -1306,6 +1311,7 @@ function render(){
   const list=$('#list');list.innerHTML='';
   const cols=sectionColors();
   const counts={};for(const it of items)if(it.kind==='t'&&it.level===0)counts[it.state]=(counts[it.state]||0)+1;
+  if(dateView()){renderDates(list,cols);renderEnd(list);return;}
   const ch=document.createElement('div');ch.className='colheads';
   for(const s of STATES){const d=document.createElement('div');d.textContent=s.l;const n=document.createElement('span');n.textContent=counts[s.k]||'';d.append(n);ch.append(d);}
   list.append(ch);
@@ -1346,6 +1352,7 @@ function render(){
   }
   /* en tête de chaque case : relances dues, puis urgentes (affichage seulement) */
   list.querySelectorAll('.cell').forEach(c=>{
+    if(c.dataset.band)return;
     const cards=[...c.querySelectorAll(':scope>.card')],rk=x=>{const it=items[idx(x.dataset.id)];return it?(it.state==='attente'?waitKey(it):urgKey(it)):'9';};
     const sorted=cards.map((x,k)=>[rk(x),k,x]).sort((a,b)=>a[0]<b[0]?-1:a[0]>b[0]?1:a[1]-b[1]).map(z=>z[2]);
     if(sorted.some((x,k)=>x!==cards[k]))sorted.forEach(x=>c.append(x));
@@ -1359,12 +1366,34 @@ function render(){
     }
     const g=document.createElement('button');g.className='ghost';g.textContent='+';g.title='Nouvelle tâche';g.tabIndex=-1;g.dataset.sec=c.dataset.sec;g.dataset.state=c.dataset.state;c.append(g);
   });
+  renderEnd(list);
+}
+function renderEnd(list){
   list.querySelectorAll('.card>.insec').forEach(b=>b.parentNode.append(b));   /* nom de la rubrique en bas de la tâche */
-  list.querySelectorAll('.section').forEach(sec=>{if((filter||sec.classList.contains('urglane'))&&!sec.querySelector('.card'))sec.style.display='none';});
-  document.body.classList.toggle('filtering',!!filter);renderFilters();
+  list.querySelectorAll('.section').forEach(sec=>{if((filter||sec.classList.contains('urglane')||sec.classList.contains('dband'))&&!sec.querySelector('.card'))sec.style.display='none';});
+  document.body.classList.toggle('filtering',!!filter);document.body.classList.toggle('dateview',dateView());renderFilters();
   renderInbox();pcVersionCheck();
   $('#histBtn').textContent='Historique ('+done.length+')';
   if($('#hist').classList.contains('open'))renderHist();
+}
+/* affichage par échéance (PC) : une bande par période, chaque tâche avec le nom de sa rubrique */
+function renderDates(list,cols){
+  const by=bandTops();
+  for(const [k,l,c] of BANDS){
+    const sec=document.createElement('section');sec.className='section dband';sec.dataset.band=k;sec.style.setProperty('--c',c);
+    const hd=document.createElement('div');hd.className='lanehd';hd.textContent=l;const n=document.createElement('span');n.className='dn';
+    n.textContent=by[k].length+(k==='semaine'?' · jusqu’au '+shortDate(addDays(todayISO(),6-(new Date(todayISO()+'T12:00').getDay()+6)%7)):k==='sans'?' · les plus anciennes d’abord':'');hd.append(n);sec.append(hd);
+    const cell=document.createElement('div');cell.className='cell dcell';cell.dataset.band=k;sec.append(cell);
+    for(const i of by[k]){
+      const it=items[i],h=headingOf(i),al=ageLevel(it);
+      const card=document.createElement('div');card.className='card inurg'+(isLate(it)?' late':'')+(isUrgent(it)?' urgent':it.important?' important':'')+(dueNear(it)&&!it.important?' bientot':'')+(al?' vieux vieux'+al:'')+(dueSoon(it)&&daysTo(it.due)<0?' retard':'')+(dueSoon(it)&&daysTo(it.due)===0?' jour':'');
+      card.style.setProperty('--c',COLORS[it.color]||(h&&COLORS[h.color])||CARD_COLOR);card.dataset.id=it.id;
+      const b=document.createElement('div');b.className='insec';b.textContent=(h?h.text:'Hors rubrique')+(it.state==='attente'?' · en attente':'');b.style.setProperty('--sc',h?(cols['#'+h.id]||CARD_COLOR):'var(--muted)');card.append(b);
+      for(let j=i;j<blockEnd(i);j++)card.append(makeRow(items[j]));
+      cell.append(card);
+    }
+    list.append(sec);
+  }
 }
 /* ---------- listes à puces et dates dans les notes ---------- */
 function bulletsView(t){return (t||'').replace(/^(\s*)[-*•] /gm,'$1• ');}
@@ -1921,7 +1950,19 @@ function cardMatch(i,f){
   return true;
 }
 /* urgentes regroupées en haut (réglage de cet appareil, par défaut oui) */
-function urgTop(){try{return localStorage.getItem('taches-urg-haut')!=='0';}catch(e){return true;}}
+function dateView(){try{return localStorage.getItem('taches-vue')==='date';}catch(e){return false;}}   /* affichage par échéance (réglage de cet appareil) */
+function setDateView(v){try{localStorage.setItem('taches-vue',v?'date':'rubriques');}catch(e){}}
+function urgTop(){if(dateView())return false;try{return localStorage.getItem('taches-urg-haut')!=='0';}catch(e){return true;}}
+/* bandes de l'affichage par échéance ; glisser une tâche dans une bande lui donne la date de début de la bande */
+const BANDS=[['retard','En retard','#c4524a'],['semaine','Aujourd’hui et cette semaine','#c4643f'],['prochaine','Semaine prochaine','#2e6b57'],['tard','Plus tard','#8a8f98'],['sans','Sans échéance','#b8945a']];
+function bandOf(it){if(!it.due)return 'sans';const n=daysTo(it.due);if(n<0)return 'retard';const dow=(new Date(todayISO()+'T12:00').getDay()+6)%7,toSun=6-dow;return n<=toSun?'semaine':n<=toSun+7?'prochaine':'tard';}
+function bandDate(b){const dow=(new Date(todayISO()+'T12:00').getDay()+6)%7;return b==='retard'||b==='semaine'?todayISO():b==='prochaine'?addDays(todayISO(),7-dow):b==='tard'?addDays(todayISO(),14-dow):null;}
+function bandTops(){
+  const by={};for(const [k] of BANDS)by[k]=[];
+  items.forEach((it,i)=>{if(it.kind==='t'&&it.level===0&&it.state!=='fait'&&matchFilter(i))by[bandOf(it)].push(i);});
+  for(const k in by)by[k]=sortIdx(by[k],k==='sans'?(it=>(it.important?'0':'1')+(it.created||'9999')):(it=>it.due+urgKey(it)));
+  return by;
+}
 function setUrgTop(v){try{localStorage.setItem('taches-urg-haut',v?'1':'0');}catch(e){}}
 function inUrgLane(it){return urgTop()&&it.kind==='t'&&it.level===0&&it.state!=='fait'&&isPrio(it);}
 function matchFilter(i){return !filter||cardMatch(i,filter);}
@@ -1929,10 +1970,11 @@ function renderFilters(){
   const box=$('#filters');box.innerHTML='';
   const tops=items.map((x,i)=>i).filter(i=>items[i].kind==='t'&&items[i].level===0);
   const count=f=>tops.filter(i=>cardMatch(i,f)).length;
-  if(tops.some(i=>isPrio(items[i])&&items[i].state!=='fait')||!urgTop()){
-    const u=document.createElement('span');u.className='useg';u.title='Où afficher les priorités (tâches urgentes et importantes)';
-    u.innerHTML='<span>!</span><button type="button" data-v="1">priorités en haut</button><button type="button" data-v="0">dans leur rubrique</button>';
-    u.querySelectorAll('button').forEach(b=>{b.classList.toggle('on',(b.dataset.v==='1')===urgTop());b.onclick=()=>{setUrgTop(b.dataset.v==='1');render();};});
+  {
+    const u=document.createElement('span');u.className='useg';u.title='Affichage : priorités en haut, ou chaque tâche dans sa rubrique, ou par échéance';
+    u.innerHTML='<span>!</span><button type="button" data-v="1">priorités en haut</button><button type="button" data-v="0">dans leur rubrique</button><button type="button" data-v="d">📅 par échéance</button>';
+    const cur=dateView()?'d':urgTop()?'1':'0';
+    u.querySelectorAll('button').forEach(b=>{b.classList.toggle('on',b.dataset.v===cur);b.onclick=()=>{if(b.dataset.v==='d')setDateView(true);else{setDateView(false);setUrgTop(b.dataset.v==='1');}render();};});
     box.append(u);
   }
   if(filter&&filter.t==='urgent')filter=null;
@@ -1963,6 +2005,8 @@ function taskIntoTask(srcId,tgtId){
   return top;
 }
 function dropBlock(srcId,tgt){
+  if(tgt.band){const it=items[idx(srcId)];if(!it||bandOf(it)===tgt.band)return;snapshot();const d=bandDate(tgt.band);if(d)it.due=d;else delete it.due;commit();
+    toast(d?'Échéance\u00a0: '+shortDate(d)+' · Ctrl+Z pour annuler':'Échéance retirée · Ctrl+Z pour annuler');return;}
   const i=idx(srcId);if(i<0)return;const e=blockEnd(i);
   if(tgt.id){const t0=idx(tgt.id);if(t0<0||(t0>=i&&t0<e))return;}
   const src=items[i];
@@ -2228,6 +2272,11 @@ function computeTarget(t,y){
   const row=t.closest('#list .row'),card=t.closest('#list .card'),cell=t.closest('#list .cell'),sec=t.closest('#list .section');
   const vert=el=>{const r=el.getBoundingClientRect();return y>r.top+r.height/2;};
   if(src.kind==='h'){if(!sec)return null;const hr=sec.querySelector('.row.h');if(!hr||hr.dataset.id===dragId)return null;return {el:hr,tgt:{id:hr.dataset.id,after:vert(sec)}};}
+  if(src.level===0&&dateView()){   /* par échéance : on change la date en changeant de bande (ou on en fait une sous-tâche, au milieu d'une tâche) */
+    const dc=t.closest('#list .dcell');if(!dc)return null;
+    if(card&&card.dataset.id!==dragId){const r=card.getBoundingClientRect(),f=(y-r.top)/r.height;if(f>.28&&f<.72)return {el:card,tgt:{id:card.dataset.id,into:true}};}
+    return {el:dc,tgt:{band:dc.dataset.band}};
+  }
   if(src.level===0){
     if(card){if(card.dataset.id===dragId)return null;
       const r=card.getBoundingClientRect(),f=(y-r.top)/r.height;
@@ -2387,7 +2436,7 @@ document.addEventListener('pointermove',e=>{
   e.preventDefault();getSelection().removeAllRanges();
   pd.ghost.style.left=(e.clientX-pd.dx)+'px';pd.ghost.style.top=(e.clientY-pd.dy)+'px';
   const src=items[idx(pd.srcId)];
-  const flying=src&&src.kind==='t'&&src.level===0&&flyMove('task',pd.srcId,pd.el.closest('.section,.urglane'),e.clientX,e.clientY);
+  const flying=src&&src.kind==='t'&&src.level===0&&flyMove('task',pd.srcId,dateView()?$('#list'):pd.el.closest('.section,.urglane'),e.clientX,e.clientY);
   /* une fois le menu ouvert, la tâche reste petite jusqu'au lâcher (sinon elle change de taille à chaque passage) */
   if(flying===true&&!pd.mini){pd.mini=Math.min(1,230/pd.ghost.offsetWidth);pd.ghost.style.setProperty('--gs',pd.mini);pd.ghost.classList.add('mini');}
   if(pd.mini){pd.ghost.style.left=(e.clientX-pd.ghost.offsetWidth*pd.mini-14)+'px';pd.ghost.style.top=(e.clientY-pd.ghost.offsetHeight*pd.mini/2)+'px';}
@@ -2395,7 +2444,7 @@ document.addEventListener('pointermove',e=>{
   if(e.clientY<70)scrollBy(0,-14);else if(e.clientY>innerHeight-50)scrollBy(0,14);
   const res=computeTarget(document.elementFromPoint(e.clientX,e.clientY),e.clientY);
   clearDrop();dropTarget=res?res.tgt:null;
-  if(res)res.el.classList.add(res.tgt.cell||res.tgt.into?'drop-in':(res.tgt.after?'drop-after':'drop-before'));
+  if(res)res.el.classList.add(res.tgt.cell||res.tgt.into||res.tgt.band?'drop-in':(res.tgt.after?'drop-after':'drop-before'));
 });
 document.addEventListener('pointerup',()=>{
   if(!pd)return;
@@ -2858,6 +2907,11 @@ function mRender(){
     if(!matchFilter(i))return;
     if(it.state==='afaire')cur.todo.push(i);else if(it.state==='fait')cur.done.push(i);
   });
+  /* par échéance : une section par bande, chaque tâche avec sa rubrique ; l'historique et la corbeille restent en bas */
+  if(dateView()){const by=bandTops();let sh=0;
+    for(const [k,l,c] of BANDS){if(!by[k].length)continue;sh+=by[k].length;list.append(mSection('#d-'+k,l,by[k].length,c,box=>{for(const i of by[k])box.append(mCard(i,true));},'mband'));}
+    if(!sh&&!(notes.length&&!filter)){const e=document.createElement('div');e.className='mempty';e.textContent=filter?'Aucune tâche pour ce filtre.':'Rien pour l’instant.';list.append(e);}
+    mRenderTail(list);return;}
   /* urgentes d'abord (affichage seulement : l'ordre du fichier ne change pas) */
   const urgentFirst=arr=>sortIdx(arr,urgKey);
   /* urgentes : une section à part, avant les rubriques (rubrique d'origine en puce) */
@@ -2882,6 +2936,9 @@ function mRender(){
     list.append(mSection('#attente','En attente',wait.length,'#8a8f98',box=>{for(const i of wait)box.append(mCard(i,true));},'mwait'));
   }
   if(!shown&&!(notes.length&&!filter)){const e=document.createElement('div');e.className='mempty';e.textContent=filter?'Aucune tâche pour ce filtre.':'Rien pour l’instant.';list.append(e);}
+  mRenderTail(list);
+}
+function mRenderTail(list){
   /* historique : replié par défaut, en bas */
   if(done.length&&!filter){if(mState.closed['#hist']===undefined)mState.closed['#hist']=true;
     list.append(mSection('#hist','Historique',done.length,'#8a8f98',box=>mHistFill(box,false),'mhistsec'));}
@@ -2934,6 +2991,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-14 02:15',type:'web',v:'2.14',t:'Affichage par échéance',items:['Troisième affichage, «\u00a0📅 par échéance\u00a0» (à côté de «\u00a0priorités en haut / dans leur rubrique\u00a0» au PC, dans ⋮ au téléphone)\u00a0: les tâches à faire et en attente rangées en bandes, en retard, aujourd’hui et cette semaine, semaine prochaine, plus tard, sans échéance (les plus anciennes d’abord), chacune avec le nom de sa rubrique.','PC\u00a0: glisser une tâche dans une autre bande change sa date (début de la bande\u00a0; «\u00a0Sans échéance\u00a0» la retire)\u00a0; au milieu d’une tâche, elle en devient une sous-tâche.']},
  {d:'2026-10-14 01:30',type:'web',v:'2.13',t:'Urgent et important',items:['Deux mots pour deux choses\u00a0: une tâche est «\u00a0urgente\u00a0» quand le calendrier presse (échéance dépassée, du jour, ou à J-3), «\u00a0importante\u00a0» quand tu la marques toi-même («\u00a0!\u00a0», Alt+I). La rangée du haut s’appelle «\u00a0Priorités\u00a0»\u00a0: les urgentes d’abord, puis les importantes.','Échéances\u00a0: dès J-7 la tâche est signalée en corail (sans être urgente), à J-3 elle devient urgente (rouge et halo). Seuils réglables dans ⚙. Dans chaque case, les tâches datées passent avant les autres, par date.','Une tâche à faire sans échéance prend une patine au bout de 2 semaines, plus marquée à 4 («\u00a0depuis 3\u00a0sem.\u00a0»).','Dans taches.md, la marque {urgent} devient {important} (mise à jour toute seule).']},
  {d:'2026-10-13 21:30',type:'web',v:'2.12.12',items:['Notes de version regroupées\u00a0: une carte par version mineure avec un titre court et sa nouveauté\u00a0; ses retouches sont repliées dessous («\u00a0▸ 11 retouches\u00a0»). Après une mise à jour, la carte annonce la nouveauté plutôt que la dernière retouche.']},
  {d:'2026-10-13 21:10',type:'web',v:'2.12.11',items:['«\u00a0Quoi de neuf\u00a0?\u00a0» s’appelle désormais «\u00a0Notes de version\u00a0», au PC comme au téléphone.','Téléphone\u00a0: dans le menu ⋮, la version déposée dans OneDrive pour le PC n’affiche plus que son numéro.']},
@@ -3886,10 +3944,11 @@ function initMobile(){
   mInitAct();
   $('#mMenuBtn').onclick=()=>{
     {const off=offHours();$('#oOff').hidden=!off;if(off)$('#oOff').textContent=offHoursTxt()+(dirty?'. Tes modifications sont gardées sur le téléphone et partiront à ce moment-là, dès que tu ouvriras l’appli.':'.');$('#oForce').hidden=!(off&&(dirty||mCopyDue()));}
-    $('#oFilters').checked=!!mState.filters;$('#oUrgTop').checked=urgTop();$('#oUpdate').hidden=!AND;$('#oFile').hidden=!AND||!mName||mDirect;$('#oSp').hidden=!AND;$('#oSp').textContent=mDirect?'Accès direct à OneDrive : activé (toucher pour l’arrêter)':'Accès direct à OneDrive';
+    $('#oFilters').checked=!!mState.filters;$('#oUrgTop').checked=urgTop();$('#oDate').checked=dateView();$('#oUpdate').hidden=!AND;$('#oFile').hidden=!AND||!mName||mDirect;$('#oSp').hidden=!AND;$('#oSp').textContent=mDirect?'Accès direct à OneDrive : activé (toucher pour l’arrêter)':'Accès direct à OneDrive';
     $('#oInfo').textContent=AND?[mName?'Fichier\u00a0: '+mName+(fileTag()&&!dirty?' '+fileTag():''):'',savedAt&&!saveErr?'enregistré '+mAgo(savedAt):'',saveErr?'non enregistré\u00a0: '+saveErr:'',backend&&backend.direct?'accès direct':mName?'via l’appli OneDrive':''].filter(Boolean).join(' · ')+'\n'+mVerLines():'';$('#mMenu').showModal();if(document.activeElement)document.activeElement.blur();
   };
-  $('#oUrgTop').onchange=()=>{setUrgTop($('#oUrgTop').checked);mRender();};
+  $('#oUrgTop').onchange=()=>{if($('#oUrgTop').checked){setDateView(false);$('#oDate').checked=false;}setUrgTop($('#oUrgTop').checked);mRender();};
+  $('#oDate').onchange=()=>{setDateView($('#oDate').checked);$('#oUrgTop').checked=urgTop();mRender();};
   $('#oFilters').onchange=()=>{mState.filters=$('#oFilters').checked;mstore.set(MKEY+'-ui',mState);mRender();};
   $('#oUpdate').onclick=()=>{$('#mMenu').close();mCheckUpdate(true);};
   $('#oFile').onclick=()=>{$('#mMenu').close();mPick();};
