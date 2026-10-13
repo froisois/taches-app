@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013144901">
+<meta name="taches-page" content="20261013150249">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -30,7 +30,7 @@ button.primary{border-color:var(--accent);color:var(--accent)}
 .vbtn .vb1{font-weight:600}.vbtn .vb2{font-weight:700;letter-spacing:.01em}.vbtn .vb3{opacity:.65;font-size:.8rem}
 @property --arc{syntax:'<angle>';inherits:false;initial-value:0deg}
 @keyframes arcTurn{to{--arc:360deg}}
-@media (prefers-reduced-motion:reduce){.vban{animation:none}}
+@media (prefers-reduced-motion:reduce){.vbtn,#vcard{animation:none}}
 #help{padding:.4rem 1rem;color:var(--muted)}
 #help ul{margin:.3rem 0;padding-left:1.1rem;columns:2 340px}
 #help kbd{font:inherit;font-size:.8rem;border:1px solid var(--line);border-radius:4px;padding:0 .3rem;color:var(--fg)}
@@ -573,6 +573,18 @@ aside.open{transform:none}
 .empty{color:var(--muted);font-size:.9rem}
 #toast{position:fixed;left:50%;bottom:1.2rem;transform:translateX(-50%);background:var(--fg);color:var(--bg);font-size:.85rem;padding:.35rem .8rem;border-radius:6px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:20}
 #toast.show{opacity:.92}
+/* téléphone : carte de nouvelle version, en écho au bouton arc-en-ciel du PC */
+#vcard{position:fixed;left:50%;bottom:1rem;z-index:25;width:min(26rem,calc(100% - 2rem));box-sizing:border-box;transform:translate(-50%,1.2rem);opacity:0;pointer-events:none;
+  transition:opacity .25s,transform .35s cubic-bezier(.34,1.3,.64,1);padding:.7rem .95rem .75rem;border-radius:14px;border:2.5px solid transparent;color:#fff;font-size:.86rem;line-height:1.35;
+  background:linear-gradient(#232733,#232733) padding-box,conic-gradient(from var(--arc,0deg),#e8463c,#f2a33a,#f3d43f,#5cc46a,#3aa7e0,#7a5ce0,#d65cc0,#e8463c) border-box;
+  animation:arcTurn 3.5s linear infinite;box-shadow:0 4px 18px rgba(0,0,0,.25)}
+#vcard.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+#vcard .vc1{display:flex;align-items:baseline;flex-wrap:wrap;column-gap:.5rem}
+#vcard .vb1{font-weight:600}#vcard .vb2{font-weight:700}#vcard .vb3{opacity:.62;font-size:.78rem}
+#vcard .vcn{margin-top:.35rem;opacity:.92;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#vcard .vcm{margin-top:.1rem;font-size:.75rem;opacity:.55}
+#vcard .vcc{margin-top:.45rem;padding-top:.4rem;border-top:1px solid rgba(255,255,255,.14);font-size:.8rem;opacity:.85}
+#vcard .vcc.ok{color:#a6e3ae;opacity:1}
 </style>
 </head>
 <body>
@@ -2730,6 +2742,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-13 17:15',type:'web',v:'2.10',items:['Téléphone\u00a0: chaque nouvelle version est fêtée par la pastille arc-en-ciel, même quand le Compagnon Android la trouve tout seul au retour dans l’appli (avant, il rechargeait sans rien dire).','Téléphone\u00a0: après chaque nouvelle version, une carte au contour arc-en-ciel, en écho au bouton du PC\u00a0: «\u00a0Nouvelle version installée\u00a0», le numéro, la version précédente, la nouveauté principale, et ce que devient la copie pour le PC (déposée dans OneDrive, en cours, ou en pause hors des heures de travail).']},
  {d:'2026-10-13 17:00',type:'web',v:'2.9.2',items:['PC\u00a0: dans le clic droit, faire défiler une longue liste (par exemple «\u00a0Ajouter à une tâche\u00a0») à la molette ne referme plus le menu.','PC\u00a0: le menu clic droit apparaît en douceur, comme celui d’Edge.']},
  {d:'2026-10-13 16:50',type:'web',v:'2.9.1',items:['PC\u00a0: le «\u00a0+\u00a0» rond propose aussi «\u00a0Nouvelle rubrique\u00a0», au-dessus de «\u00a0Nouvelle note\u00a0» et «\u00a0Nouvelle tâche\u00a0».']},
  {d:'2026-10-13 16:30',type:'web',v:'2.9',items:['PC\u00a0: menu clic droit sur une étiquette (état, urgente, échéance, relance, changer de rubrique ou en créer une, couleur, sous-tâche, commentaire, lien, dupliquer, copier, ranger, supprimer), une sous-tâche, une note, un titre de rubrique ou une case vide.','PC\u00a0: au survol d’une étiquette, il ne reste que «\u00a0!\u00a0», 📅 et ×\u202f; le reste est dans le clic droit. Pendant l’écriture, le clic droit garde le menu d’Edge (correcteur d’orthographe).']},
@@ -2854,8 +2867,34 @@ async function copyHtml(){
   if(there<me){if(cur==null)await spCall('spCreate',JSON.stringify({url,text:html}));else await spCall('spWrite',JSON.stringify({url,text:html,etag}));}
   mstore.set('taches-html-copie',me);
   if(vcmp(settings.webv,WEB_V)<0){settings.webv=WEB_V;changed();}
-  return true;
+  return there<me?'deposee':true;
 }
+/* téléphone : carte « Nouvelle version installée », en écho au bouton du PC (« Nouvelle version disponible »).
+   Elle dit aussi ce que devient la copie pour le PC : déposée dans OneDrive, en cours, ou en pause hors des heures de travail. */
+const vc={prev:null,news:false,copy:null,on:false,t:0};
+function vcRender(){
+  let c=document.getElementById('vcard');
+  if(!c){c=document.createElement('div');c.id='vcard';c.setAttribute('role','status');document.body.append(c);
+    c.onclick=()=>{const n=vc.news;vcHide();if(n)openNews();};}
+  const u=vc.news?newsUnseen():[],first=u.length?u[0].items[0].replace(/^Téléphone\u00a0: (.)/,(m,c)=>c.toUpperCase()):'';const many=u.reduce((n,e)=>n+e.items.length,0)>1;
+  const el=(k,t,tag)=>{const e=document.createElement(tag||'span');e.className=k;if(t!=null)e.textContent=t;return e;};
+  c.replaceChildren();const l1=el('vc1',null,'div');c.append(l1);
+  if(vc.prev!=null){l1.append(el('vb1','Nouvelle version installée'),el('vb2','v'+WEB_V));if(vc.prev&&vc.prev!==WEB_V)l1.append(el('vb3','précédente\u00a0: v'+vc.prev));}
+  else l1.append(el('vb1','Application web Chromium'),el('vb2','v'+WEB_V));
+  if(first)c.append(el('vcn',first,'div'),el('vcm',many?'toucher pour tout voir':'toucher pour le détail','div'));
+  const cp={wait:'◌ Copie pour le PC\u00a0: dépôt dans OneDrive…',ok:'✓ Déposée dans OneDrive pour le PC',pause:'⏸ Copie pour le PC\u00a0: au premier usage dans les heures de travail'}[vc.copy];
+  if(cp)c.append(el('vcc'+(vc.copy==='ok'?' ok':''),cp,'div'));
+  return c;
+}
+function vcShow(){const c=vcRender();vc.on=true;requestAnimationFrame(()=>c.classList.add('show'));clearTimeout(vc.t);vc.t=setTimeout(vcHide,vc.copy==='wait'?25000:vc.news?9000:6000);}
+function vcHide(){clearTimeout(vc.t);vc.on=false;const c=document.getElementById('vcard');if(c)c.classList.remove('show');}
+function vcOpen(prev){vc.prev=prev||'';vc.news=newsUnseen().length>0;vc.copy=!mDirect?null:offHours()?'pause':'wait';vcShow();}
+/* résultat du dépôt de taches.html : met la carte à jour, ou l'ouvre si le dépôt arrive plus tard (premier usage dans les heures) */
+function vcCopy(r){
+  if(r==='deposee'){vc.copy='ok';if(!vc.on){vc.prev=null;vc.news=false;}vcShow();}
+  else if(vc.on&&vc.copy==='wait'){vc.copy=null;vcShow();}
+}
+function copyHtmlVu(){return copyHtml().then(vcCopy,e=>{vcCopy(null);throw e;});}
 /* au PC : une version plus récente attend dans le dossier */
 function pcVersionCheck(){
   if(MOBILE)return;const b=document.getElementById('vbanner');if(!b)return;
@@ -3391,7 +3430,7 @@ async function mCheckPage(force,later){
     if(document.querySelector('dialog[open]')||mDrag)return false;
     if(dirty)await syncSave();
     if(later)return 'page';   /* tirer pour actualiser : on fête d'abord, on recharge ensuite */
-    mstore.set('taches-page-maj',1);location.reload();return true;
+    mPartyReload();return true;   /* au retour dans l'appli : même fête, sans avoir tiré */
   }catch(e){return false;}
 }
 async function mRefresh(){
@@ -3407,7 +3446,7 @@ async function mRefresh(){
     else{applyModel(parse(cur));baseText=cur;backup();toast('Tableau mis à jour');}
     savedAt=Date.now();saveErr=null;
   }catch(e){toast('Lecture impossible : '+e.message.replace(/^\w+:/,''));mInfo();return 'err';}
-  mInfo();archiveOld().catch(()=>{}).then(()=>copyHtml()).catch(()=>{});return 'ok';
+  mInfo();archiveOld().catch(()=>{}).then(()=>copyHtmlVu()).catch(()=>{});return 'ok';
 }
 const PULL_ARROW='<circle class="arc" cx="12" cy="12" r="7" transform="rotate(-90 12 12)" stroke-dasharray="0 44"/><g class="ah"><path d="M11.2 2.3L14.8 5l-3.6 2.7z" fill="currentColor" stroke="none"/></g>',PULL_OK='<path class="pk" d="M5.5 12.5l4.2 4.2L18.5 8"/>',PULL_BAD='<path d="M12 6.5v7"/><circle cx="12" cy="17.5" r=".6" fill="currentColor"/>',PULL_PAUSE='<path d="M9.5 8v8M14.5 8v8"/>';
 /* retour haptique : par l'appli (vibreur du téléphone, appli 1.42 et plus), sinon le navigateur.
@@ -3416,6 +3455,16 @@ function buzz(p){
   const k=typeof p==='string'?p:Array.isArray(p)?'double':p<=8?'tick':'click';
   const web=()=>{try{navigator.vibrate&&navigator.vibrate(typeof p==='string'?(k==='tick'?8:k==='click'?15:[12,40,12]):p);}catch(e){}};
   if(AND)andCall('haptic',k).catch(web);else web();
+}
+/* nouvelle version de l'application web : pastille arc-en-ciel et étincelles, puis rechargement (la carte de version suit) */
+async function mPartyReload(){
+  const ind=document.querySelector('.mpull');
+  if(ind){const ic=ind.firstChild;ind.classList.remove('spin','ready','bad','pause');ic.style.transform='';ic.style.opacity='';
+    ind.style.transition='transform .38s cubic-bezier(.34,1.56,.64,1),opacity .2s';ind.style.transform='translateY(50px)';ind.style.opacity='1';
+    ic.innerHTML=PULL_OK;ind.classList.add('good','party');
+    for(let k=0;k<10;k++){const s=document.createElement('i');s.className='spark';s.style.setProperty('--r',(k*36+(k%2)*12)+'deg');s.style.setProperty('--d',(k%3)*40+'ms');ind.append(s);}}
+  buzz([12,50,12,50,30]);await new Promise(r=>setTimeout(r,1500));
+  mstore.set('taches-page-maj',WEB_V);location.reload();
 }
 function mInitPull(){
   /* tirer pour actualiser : l'écran suit le doigt (avec résistance), la flèche tourne avec lui, dans un sens comme dans l'autre */
@@ -3466,9 +3515,7 @@ function mInitPull(){
     ind.classList.remove('spin');ic.style.transition='';ic.style.opacity='';
     ind.classList.remove('ready');ind.classList.add(res==='err'?'bad':res==='pause'?'pause':'good');ic.innerHTML=res==='err'?PULL_BAD:res==='pause'?PULL_PAUSE:PULL_OK;ic.style.transform='';
     if(res==='page'){   /* nouvelle version de l'appli : pastille arc-en-ciel et étincelles, puis rechargement */
-      ind.classList.add('party');for(let k=0;k<10;k++){const s=document.createElement('i');s.className='spark';s.style.setProperty('--r',(k*36+(k%2)*12)+'deg');s.style.setProperty('--d',(k%3)*40+'ms');ind.append(s);}
-      buzz([12,50,12,50,30]);await new Promise(r=>setTimeout(r,1500));
-      mstore.set('taches-page-maj',1);location.reload();return;
+      await mPartyReload();return;
     }
     buzz(res==='err'?[20,60,20]:res==='pause'?'tick':12);
     await new Promise(r=>setTimeout(r,520));
@@ -3571,7 +3618,7 @@ async function mUpdate(){
   btn.disabled=false;btn.textContent=was;
 }
 async function mStartApp(){
-  if(mstore.get('taches-page-maj')){mstore.set('taches-page-maj',0);setTimeout(newsToast,600);}   /* la page (le programme) a changé ; l'appli elle-même se met à jour par ⋮ */
+  {const pv=mstore.get('taches-page-maj');if(pv){mstore.set('taches-page-maj',0);setTimeout(()=>vcOpen(typeof pv==='string'?pv:''),600);}}   /* la page (le programme) a changé ; l'appli elle-même se met à jour par ⋮ */
   let b=null;try{b=JSON.parse(localStorage.getItem(LS));}catch(e){}
   if(b&&Array.isArray(b.items)){items=b.items;done=b.done||[];settings=b.settings||{};notes=b.notes||[];trash=b.trash||[];rulesInit();dirty=!!b.dirty;baseText=b.base==null?null:b.base;normalize();}
   mName=mstore.get('taches-app-name');
@@ -3588,7 +3635,7 @@ async function mStartApp(){
     savedAt=Date.now();saveErr=null;
   }catch(e){saveErr=e.message.replace(/^\w+:/,'');toast('Lecture impossible : '+saveErr+' · dernière version connue affichée');}
   mRender();setTimeout(housekeeping,0);
-  setTimeout(()=>archiveOld().catch(e=>toast('Archivage annuel reporté\u00a0: '+e.message.replace(/^\w+:/,''))).then(()=>copyHtml()).catch(()=>{}),1500);
+  setTimeout(()=>archiveOld().catch(e=>toast('Archivage annuel reporté\u00a0: '+e.message.replace(/^\w+:/,''))).then(()=>copyHtmlVu()).catch(()=>{}),1500);
 }
 function initMobile(){
   document.body.classList.add('mobile');$('#m').hidden=false;
