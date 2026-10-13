@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013171329">
+<meta name="taches-page" content="20261013171717">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -2665,7 +2665,7 @@ function nextWorkTxt(){
   return (n===0?'aujourd’hui':n===1?'demain':n<7?d.toLocaleDateString('fr-FR',{weekday:'long'}):'le '+d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}))+' à 9\u00a0h';
 }
 function offHoursTxt(){const r=offDayReason(mNow());return 'Hors des heures de travail'+(r&&r!=='week-end'?' ('+r+')':'')+'\u00a0: rien n’est lu ni envoyé avant '+nextWorkTxt();}
-const PAUSE_SVG='<svg viewBox="0 0 16 14" width="1.05em" height=".92em" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-.08em"><path d="M1.5 7.5h5l-5 5h5"/><path d="M8 3.8h3.4L8 7.2h3.4"/><path d="M12.4 1h2.4l-2.4 2.4h2.4"/></svg>';   /* « zzz » dessiné : l'émoji 💤 ou ⏸ d'Android sort en couleur */
+const PAUSE_SVG='<svg viewBox="0 0 31 20" width="1.45em" height=".95em" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-.12em"><g transform="translate(2.6 0) skewX(-8)"><path d="M1.5 7.5h8.5L1.5 17.5h8.5"/><path d="M13 5h6.5L13 13h6.5"/><path d="M22.5 3h5L22.5 9.5h5"/></g></svg>';   /* forme de l'émoji 💤 (trois Z épais, du grand au petit en montant), dessinée de la couleur du texte */
 const ONEDRIVE_M=new Set(['read','write','pick','spLogin','spRead','spWrite','spCreate','sendToOneDrive']);
 function andCall(m,arg){if(ONEDRIVE_M.has(m)&&offHours())return Promise.reject(new Error('horsplage:'+offHoursTxt()));return andCallRaw(m,arg);}
 function andCallRaw(m,arg){return new Promise((res,rej)=>{const id=++andSeq;andCalls[id]={res,rej};try{AND.request(id,m,arg==null?'':String(arg));}catch(e){delete andCalls[id];rej(e);}});}
@@ -2898,6 +2898,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-13 20:05',type:'web',v:'2.12.6',items:['Téléphone\u00a0: le «\u00a0zzz\u00a0» prend la forme de l’émoji 💤 (trois Z épais qui montent), toujours de la couleur du texte.']},
  {d:'2026-10-13 19:55',type:'web',v:'2.12.5',items:['Téléphone\u00a0: hors des heures de travail, un petit «\u00a0zzz\u00a0» dessiné, de la couleur du texte, remplace le symbole pause (émoji orange sur Android).']},
  {d:'2026-10-13 19:45',type:'web',v:'2.12.4',items:['Téléphone\u00a0: le menu ⋮ indique la version de l’Application web Chromium sur le téléphone et celle déposée dans OneDrive pour le PC (à jour, ou quand la nouvelle sera déposée).','Téléphone\u00a0: le symbole pause (hors des heures de travail) est dessiné en blanc au lieu de l’émoji orange d’Android.']},
  {d:'2026-10-13 19:35',type:'web',v:'2.12.3',items:['PC\u00a0: menu volant, une fois ouvert, toute la page est grisée, rubrique de départ (ou bandeau des notes) comprise. Pour ranger dans la rubrique ou entre les notes, il suffit de rester dedans.']},
