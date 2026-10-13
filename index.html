@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013162310">
+<meta name="taches-page" content="20261013164857">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -112,7 +112,7 @@ body.dragging,body.dragging *{user-select:none!important;cursor:grabbing!importa
 #list .card.retard .lnk{background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.4)}
 #list .card.retard .insec{color:rgba(255,255,255,.85)}
 #list .card.retard .insec::before{box-shadow:0 0 0 1.5px #fff}
-#list .card.retard .tools button{color:#fff}
+#list .card.retard .tools{background:#8e2c24;box-shadow:0 1px 4px rgba(0,0,0,.3)}#list .card.retard .tools button{color:#fff}   /* barre de survol : fond rouge foncé, sinon boutons blancs sur blanc */
 .card.late.urgent{border-color:#c4524a;border-left-color:#c4524a;background:color-mix(in srgb,#c4524a 16%,var(--bg))}
 .urg{flex:none;border:none;background:none;padding:0;width:1.05rem;height:1.05rem;margin-top:.25rem;border-radius:50%;font-size:.8rem;font-weight:800;line-height:1.05rem;text-align:center;color:var(--muted);opacity:0}
 .row:hover>.urg{opacity:.6}
@@ -512,7 +512,7 @@ body.mobile button:focus{outline:none}   /* au doigt, pas de cadre de focus (ora
 .inote .fmtb .hint{font-size:.7rem;color:var(--muted);align-self:center;margin-left:.3rem}
 .lanelabel{font-size:.8rem;color:var(--muted);padding-left:.3rem}
 .drag-ghost{position:fixed;z-index:30;pointer-events:none;opacity:.92;transform:rotate(1.2deg);box-shadow:0 8px 24px rgba(0,0,0,.18);margin:0}
-.drag-ghost.mini{width:auto!important;max-width:15rem;opacity:.95;transform:rotate(-2deg) scale(.9);transform-origin:right top}
+.drag-ghost.mini{opacity:.95;transform:scale(var(--gs,.5)) rotate(-1.5deg);transform-origin:left top}   /* même allure, en plus petit */
 .card{background:color-mix(in srgb,var(--c) 13%,var(--bg));border:1px solid color-mix(in srgb,var(--c) 28%,transparent);border-left:4px solid var(--c);border-radius:8px;padding:.4rem .6rem .45rem .25rem;transition:opacity .3s,transform .3s}
 .card .row{padding-left:calc(var(--lv,0) * 1.15rem)}
 .card .row+.row{margin-top:.05rem}
@@ -2368,8 +2368,10 @@ document.addEventListener('pointermove',e=>{
   pd.ghost.style.left=(e.clientX-pd.dx)+'px';pd.ghost.style.top=(e.clientY-pd.dy)+'px';
   const src=items[idx(pd.srcId)];
   const flying=src&&src.kind==='t'&&src.level===0&&flyMove('task',pd.srcId,pd.el.closest('.section,.urglane'),e.clientX,e.clientY);
-  pd.ghost.classList.toggle('mini',flying===true);
-  if(flying===true){pd.ghost.style.left=(e.clientX-pd.ghost.offsetWidth-14)+'px';pd.ghost.style.top=(e.clientY-16)+'px';clearDrop();dropTarget=null;return;}   /* petite, à gauche du pointeur : elle ne cache pas les cibles */
+  /* une fois le menu ouvert, l'étiquette reste petite jusqu'au lâcher (sinon elle change de taille à chaque passage) */
+  if(flying===true&&!pd.mini){pd.mini=Math.min(1,230/pd.ghost.offsetWidth);pd.ghost.style.setProperty('--gs',pd.mini);pd.ghost.classList.add('mini');}
+  if(pd.mini){pd.ghost.style.left=(e.clientX-pd.ghost.offsetWidth*pd.mini-14)+'px';pd.ghost.style.top=(e.clientY-pd.ghost.offsetHeight*pd.mini/2)+'px';}
+  if(flying===true){clearDrop();dropTarget=null;return;}   /* petite, à gauche du pointeur : elle ne cache pas les cibles */
   if(e.clientY<70)scrollBy(0,-14);else if(e.clientY>innerHeight-50)scrollBy(0,14);
   const res=computeTarget(document.elementFromPoint(e.clientX,e.clientY),e.clientY);
   clearDrop();dropTarget=res?res.tgt:null;
@@ -2906,6 +2908,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-13 19:15',type:'web',v:'2.12.1',items:['PC\u00a0: menu volant, l’étiquette attrapée garde son allure en plus petit, et reste petite jusqu’au lâcher.','PC\u00a0: sur une étiquette en retard (rouge), les boutons de survol («\u00a0!\u00a0», 📅, ×) sont de nouveau visibles.']},
  {d:'2026-10-13 19:00',type:'web',v:'2.12',items:['PC\u00a0: menu volant. Une note glissée hors du bandeau, ou une étiquette glissée hors de sa rubrique, grise la page et fait apparaître les rubriques en arc\u00a0; survoler une rubrique déploie ses tâches. Lâcher sur une rubrique\u00a0: la note devient tâche, l’étiquette y est rangée. Sur une tâche\u00a0: sous-tâche, ou pour une note, au choix, commentaire.','PC\u00a0: pour une étiquette, le menu propose aussi «\u00a0Urgentes\u00a0». La zone de départ reste claire et marche comme avant\u00a0; lâcher ailleurs ou Échap ne change rien.']},
  {d:'2026-10-13 17:50',type:'web',v:'2.11',items:['PC\u00a0: Entrée valide l’étiquette au lieu d’en créer une nouvelle\u00a0; pour ajouter une ligne en dessous (tâche ou sous-tâche), Alt+Entrée.']},
  {d:'2026-10-13 17:40',type:'web',v:'2.10.3',items:['PC\u00a0: au bout d’une longue liste du clic droit, un coup de molette de plus ne referme plus le menu.']},
