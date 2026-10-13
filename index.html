@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261012204820">
+<meta name="taches-page" content="20261013071837">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -609,11 +609,11 @@ aside.open{transform:none}
     <form method="dialog">
       <label class="mopt"><input type="checkbox" id="oUrgTop"> Urgentes regroupées en haut</label>
       <label class="mopt"><input type="checkbox" id="oFilters"> Afficher les filtres (urgentes, à relancer, personnes)</label>
-      <button type="button" class="mitem" id="oUpdate">Vérifier la mise à jour de l’appli</button>
+      <button type="button" class="mitem" id="oUpdate">Vérifier la mise à jour du Compagnon Android</button>
       <button type="button" class="mitem" id="oFile">Choisir un autre fichier</button>
       <button type="button" class="mitem" id="oNews">Quoi de neuf ?</button>
-      <button type="button" class="mitem" id="oCopyAll">Copier tout le contenu (sauvegarde)</button>
       <button type="button" class="mitem" id="oSp">Accès direct à OneDrive</button>
+      <button type="button" class="mitem" id="oCopyAll">Copier tout le contenu (sauvegarde de secours)</button>
       <p class="ameta" id="oInfo"></p>
       <p class="ameta ooff" id="oOff" hidden></p>
       <button type="button" class="oforce" id="oForce" hidden>envoyer quand même…</button>
@@ -2467,6 +2467,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-13 09:20',type:'web',v:13,items:['Menu ⋮\u00a0: «\u00a0Copier tout le contenu\u00a0» descend tout en bas (roue de secours)\u202f; «\u00a0Vérifier la mise à jour du Compagnon Android\u00a0» dit maintenant de quoi il s’agit.']},
  {d:'2026-10-12 23:00',type:'web',v:12,items:['Heures de travail\u00a0: en dehors de 9\u00a0h – 18\u00a0h\u00a030 du lundi au vendredi (et les jours fériés, les vacances de Noël, du 14 juillet au 15 août), le téléphone ne touche plus à OneDrive. Tu peux tout faire\u00a0; les modifications restent sur le téléphone (⏸ en haut) et partent au premier usage dans les heures. En cas de vraie urgence\u00a0: «\u00a0envoyer quand même…\u00a0», tout en bas du menu ⋮.']},
  {d:'2026-10-12 21:50',type:'web',v:11,items:['Le Compagnon dépose chaque nouvelle version de l’application web dans ton dossier Tâches (taches.html, à côté de taches.md)\u202f: le PC n’a rien à télécharger, ni à aller chercher sur internet. Quand une version plus récente y arrive, un bandeau sur le PC propose de recharger la page.']},
  {d:'2026-10-12 21:20',type:'web',v:10,items:['Noms et numéros de version\u00a0: l’«\u00a0Application web Chromium\u00a0» (tout ce que tu vois et utilises, dans Edge ou Chrome, mise à jour toute seule) et le «\u00a0Compagnon Android\u00a0» (l’appli du téléphone, à installer depuis ⋮). Les deux numéros figurent dans ⋮ au téléphone et dans «\u00a0Quoi de neuf\u00a0?\u00a0».']},
