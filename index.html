@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013174912">
+<meta name="taches-page" content="20261013180332">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -630,7 +630,7 @@ aside.open{transform:none}
   <button id="openBtn" title="Ouvrir un fichier .md existant">Ouvrir…</button>
   <button id="newBtn" title="Enregistrer la liste dans un nouveau fichier">Créer…</button>
   <button id="setBtn" title="Réglages">⚙</button>
-  <button id="newsBtn" title="Notes de version : ce qui a changé">Quoi de neuf ?</button>
+  <button id="newsBtn" title="Ce qui a changé">Notes de version</button>
   <button id="helpBtn" title="Raccourcis">?</button>
 </header>
 <div id="help" hidden>
@@ -721,7 +721,7 @@ aside.open{transform:none}
       <div class="mrb"><button type="button" id="tCancel">Annuler</button><span class="sp"></span><button type="submit" class="primary" id="tOk">Créer la tâche</button></div>
     </form>
   </dialog>
-  <dialog id="news"><form method="dialog"><div class="nwhd"><strong>Quoi de neuf ?</strong><button class="nwx" aria-label="Fermer">✕</button></div><p class="nwintro"><strong>Application web Chromium</strong> : tout ce que tu vois et utilises, à ouvrir dans Edge ou Chrome (Chromium est leur socle commun, celui qui fait aussi tourner le Compagnon) ; se met à jour toute seule (tirer pour actualiser au téléphone, recharger la page au PC).<br><strong>Compagnon Android</strong> : l’appli du téléphone qui fait tourner l’application web et lui prête les fichiers, la connexion, le vibreur ; se met à jour depuis le menu ⋮.<br><span id="nwver"></span></p><div id="nwlist"></div></form></dialog>
+  <dialog id="news"><form method="dialog"><div class="nwhd"><strong>Notes de version</strong><button class="nwx" aria-label="Fermer">✕</button></div><p class="nwintro"><strong>Application web Chromium</strong> : tout ce que tu vois et utilises, à ouvrir dans Edge ou Chrome (Chromium est leur socle commun, celui qui fait aussi tourner le Compagnon) ; se met à jour toute seule (tirer pour actualiser au téléphone, recharger la page au PC).<br><strong>Compagnon Android</strong> : l’appli du téléphone qui fait tourner l’application web et lui prête les fichiers, la connexion, le vibreur ; se met à jour depuis le menu ⋮.<br><span id="nwver"></span></p><div id="nwlist"></div></form></dialog>
   <dialog id="mOver"><form method="dialog"><p id="mOverTxt"></p><button class="wait" value="attendre">Ça peut attendre</button><button type="button" class="go" id="mOverGo">envoyer maintenant malgré tout</button></form></dialog>
   <dialog id="mMenu">
     <form method="dialog">
@@ -729,7 +729,7 @@ aside.open{transform:none}
       <label class="mopt"><input type="checkbox" id="oFilters"> Afficher les filtres (urgentes, à relancer, personnes)</label>
       <button type="button" class="mitem" id="oUpdate">Vérifier la mise à jour du Compagnon Android</button>
       <button type="button" class="mitem" id="oFile">Choisir un autre fichier</button>
-      <button type="button" class="mitem" id="oNews">Quoi de neuf ?</button>
+      <button type="button" class="mitem" id="oNews">Notes de version</button>
       <button type="button" class="mitem" id="oSp">Accès direct à OneDrive</button>
       <button type="button" class="mitem" id="oCopyAll">Copier tout le contenu (sauvegarde de secours)</button>
       <p class="ameta" id="oInfo"></p>
@@ -2899,6 +2899,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-13 21:10',type:'web',v:'2.12.11',items:['«\u00a0Quoi de neuf\u00a0?\u00a0» s’appelle désormais «\u00a0Notes de version\u00a0», au PC comme au téléphone.','Téléphone\u00a0: dans le menu ⋮, la version déposée dans OneDrive pour le PC n’affiche plus que son numéro.']},
  {d:'2026-10-13 21:00',type:'web',v:'2.12.10',items:['PC\u00a0: une nouvelle tâche hors rubrique (Alt+T, ou «\u00a0Nouvelle tâche\u00a0» du «\u00a0+\u00a0» rond) vient en dernier, comme dans les rubriques\u00a0; les nouvelles notes restent en premier.']},
  {d:'2026-10-13 20:45',type:'web',v:'2.12.9',items:['Téléphone\u00a0: «\u00a0envoyer quand même…\u00a0» dépose aussi la nouvelle version de l’application web dans OneDrive pour le PC (avant, seules les tâches partaient)\u00a0; le lien apparaît aussi quand seule cette copie attend.']},
  {d:'2026-10-13 20:30',type:'web',v:'2.12.8',items:['Téléphone\u00a0: «\u00a0zzz\u00a0» vectorisé directement depuis l’émoji 💤 (contours relevés sur l’image), toujours de la couleur du texte.']},
@@ -3774,7 +3775,7 @@ let mUpdChecked=0,mVerTxt='',mAndV=0;
 /* versions : l'application web du téléphone et celle déposée dans OneDrive pour le PC peuvent différer */
 function mVerLines(){
   const od=settings.webv,cmp=od?vcmp(od,WEB_V):-1;
-  const odTxt=!mDirect?'non déposée (accès direct désactivé)':!od?'pas encore déposée'+(offHours()?' · dépôt '+nextWorkTxt():''):'v'+od+(cmp>=0?' (à jour)':offHours()?' · v'+WEB_V+' déposée '+nextWorkTxt():' · v'+WEB_V+' déposée à la prochaine actualisation');
+  const odTxt=!mDirect?'non déposée (accès direct désactivé)':!od?'pas encore déposée':'v'+od;   /* le numéro seulement (choix de François) */
   return ['Application web Chromium\u00a0:','– sur ce téléphone\u00a0: v'+WEB_V,'– dans OneDrive, pour le PC\u00a0: '+odTxt,mVerTxt||''].filter(Boolean).join('\n');
 }
 async function mCheckUpdate(force){
