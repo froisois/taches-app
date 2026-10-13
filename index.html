@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013174505">
+<meta name="taches-page" content="20261013174912">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -1917,7 +1917,7 @@ function renderFilters(){
 function quickAdd(){
   const fh=items.findIndex(x=>x.kind==='h'),end=fh<0?items.length:fh;
   for(let k=0;k<end;k++){const x=items[k];if(x.kind==='t'&&x.level===0&&x.state==='afaire'&&!x.text.trim()&&blockEnd(k)===k+1){render();focusItem(x.id);txtEl(x.id).scrollIntoView({block:'center'});return;}}
-  const n={id:uid(),kind:'t',text:'',level:0,state:'afaire',created:todayISO()};items.splice(0,0,n);render();focusItem(n.id,0);
+  const n={id:uid(),kind:'t',text:'',level:0,state:'afaire',created:todayISO()};items.splice(end,0,n);render();focusItem(n.id,0);   /* en dernier (choix de François) ; les notes, elles, viennent en premier */
   txtEl(n.id).scrollIntoView({block:'center',behavior:'smooth'});
 }
 /* une tâche (avec ses sous-tâches, son commentaire, ses liens) devient sous-tâche d'une autre, à la fin de celle-ci */
@@ -2899,6 +2899,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-13 21:00',type:'web',v:'2.12.10',items:['PC\u00a0: une nouvelle tâche hors rubrique (Alt+T, ou «\u00a0Nouvelle tâche\u00a0» du «\u00a0+\u00a0» rond) vient en dernier, comme dans les rubriques\u00a0; les nouvelles notes restent en premier.']},
  {d:'2026-10-13 20:45',type:'web',v:'2.12.9',items:['Téléphone\u00a0: «\u00a0envoyer quand même…\u00a0» dépose aussi la nouvelle version de l’application web dans OneDrive pour le PC (avant, seules les tâches partaient)\u00a0; le lien apparaît aussi quand seule cette copie attend.']},
  {d:'2026-10-13 20:30',type:'web',v:'2.12.8',items:['Téléphone\u00a0: «\u00a0zzz\u00a0» vectorisé directement depuis l’émoji 💤 (contours relevés sur l’image), toujours de la couleur du texte.']},
  {d:'2026-10-13 20:15',type:'web',v:'2.12.7',items:['Téléphone\u00a0: «\u00a0zzz\u00a0» redessiné d’après l’émoji 💤 (mêmes tailles, mêmes inclinaisons)\u00a0: Z moyen penché en bas à gauche, grand Z au milieu en haut, petit Z droit à droite.']},
