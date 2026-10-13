@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013122335">
+<meta name="taches-page" content="20261013131312">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -70,7 +70,17 @@ body.dragging,body.dragging *{user-select:none!important;cursor:grabbing!importa
 .fab.pulse{animation:fabPulse .32s ease-out}
 @keyframes fabPulse{0%{transform:scale(1)}35%{transform:scale(.93)}75%{transform:scale(1.03)}100%{transform:scale(1)}}
 .fab:hover{background:var(--accent);filter:brightness(1.1)}
-#fab{display:grid;place-items:center}#fab svg{display:block}
+#fab{display:grid;place-items:center}#fab svg{display:block;transition:transform .22s cubic-bezier(.34,1.4,.64,1)}
+#fab.open svg{transform:rotate(45deg)}
+/* choix au clic sur le « + » : deux pastilles qui se déploient au-dessus */
+#fabMenu{position:fixed;right:1.6rem;bottom:5.6rem;z-index:8;display:flex;flex-direction:column;align-items:flex-end;gap:.6rem}
+#fabMenu[hidden]{display:none}
+.fabo{display:flex;align-items:center;gap:.55rem;border:none;background:none;padding:0;cursor:pointer;opacity:0;transform:translateY(14px) scale(.6);animation:fabIn .2s cubic-bezier(.34,1.4,.64,1) forwards}
+.fabo:nth-child(1){animation-delay:.05s}
+.fabo span{font-size:.85rem;background:var(--panel,var(--bg));color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:.2rem .55rem;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.fabo i{display:grid;place-items:center;width:2.6rem;height:2.6rem;margin-right:.4rem;border-radius:50%;background:var(--accent);color:var(--bg);box-shadow:0 3px 10px rgba(0,0,0,.2)}
+.fabo:hover i{filter:brightness(1.12)}.fabo:hover span{color:var(--accent)}
+@keyframes fabIn{to{opacity:1;transform:none}}
 .cdate{flex:none;font-size:.72rem;color:var(--muted);line-height:1.55rem;margin-left:.25rem;white-space:nowrap;opacity:.85}
 .links{display:flex;flex-wrap:wrap;gap:.25rem;margin:.2rem 0 .1rem}
 .lnk{display:inline-flex;align-items:center;gap:.25rem;max-width:100%;font-size:.78rem;line-height:1.35;padding:.05rem .5rem;border-radius:999px;background:color-mix(in srgb,var(--c) 18%,var(--bg));color:var(--fg);text-decoration:none;border:1px solid color-mix(in srgb,var(--c) 30%,transparent);white-space:nowrap;cursor:pointer!important}
@@ -117,6 +127,7 @@ body.dragging .tools{display:none!important}
 .halo.retard{animation:haloPulse 1.6s ease-in-out infinite,bangBeat 1.6s ease-in-out infinite}
 @keyframes bangBeat{0%,100%{transform:scale(1)}12%{transform:scale(1.22)}24%{transform:scale(.96)}36%{transform:scale(1.12)}50%{transform:scale(1)}}
 @media (prefers-reduced-motion:reduce){.halo.halo-vif,.halo.retard{animation:none}}
+body:not(.mobile) .halo.halo-vif,body:not(.mobile) .halo.retard{animation:none}   /* PC : les animations permanentes dérangent le dessin des curseurs d'Edge */
 .dueb{flex:none;border:none;background:none;padding:0 .15rem;font-size:.8rem;line-height:1.5rem}
 .colb{flex:none;width:.8rem;height:.8rem;margin:0 .2rem;padding:0;border-radius:50%;border:1px solid rgba(0,0,0,.15);background:conic-gradient(#4a7cc4,#3a9363,#c49a1c,#d17636,#c4524a,#c45b8d,#8762bd,#4a7cc4)}
 .palette{position:fixed;z-index:40;display:flex;flex-wrap:wrap;gap:.35rem;max-width:250px;padding:.45rem;border-radius:8px;background:var(--panel);border:1px solid var(--line);box-shadow:0 4px 16px rgba(0,0,0,.18)}
@@ -153,7 +164,7 @@ body.filtering .ghost,body.filtering .vider,body.filtering .newsec{display:none!
 #settings legend{font-size:.85rem;color:var(--muted);padding:0 .3rem}
 #settings .rb{display:flex;gap:.5rem;justify-content:flex-end;margin-top:.6rem}
 /* ---------- vue téléphone ---------- */
-body.mobile>header,body.mobile #help,body.mobile #banner,body.mobile main,body.mobile aside,body.mobile #fab{display:none!important}
+body.mobile>header,body.mobile #help,body.mobile #banner,body.mobile main,body.mobile aside,body.mobile #fab,body.mobile #fabMenu{display:none!important}
 #m{max-width:640px;margin:0 auto;padding:0 0 6rem;--c:#2f6f5e}
 #m[hidden]{display:none}
 .mh{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:.6rem;padding:.6rem 1rem;background:var(--bg);border-bottom:1px solid var(--line)}
@@ -676,7 +687,8 @@ aside.open{transform:none}
   <div class="hhead"><strong id="htitle">Historique</strong><input id="hq" placeholder="Rechercher…"><button id="htrash" title="Tâches et notes supprimées depuis moins de 30 jours">Corbeille</button><button id="hclose">Fermer</button></div>
   <div id="hlist"></div>
 </aside>
-<button class="fab" id="fab" title="Nouvelle note (Alt+N) · nouvelle tâche hors rubrique : Alt+T" aria-label="Nouvelle note"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+<div id="fabMenu" hidden><button type="button" class="fabo" id="fabNote" title="Alt+N"><span>Nouvelle note</span><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 4.5h15v9.5l-5.5 5.5H4.5z"/><path d="M14 19.5V14h5.5"/><path d="M8 9h8M8 12.5h4"/></svg></i></button><button type="button" class="fabo" id="fabTask" title="Hors rubrique · Alt+T"><span>Nouvelle tâche</span><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M8.2 12.3l2.6 2.6 5-5.2"/></svg></i></button></div>
+<button class="fab" id="fab" title="Nouvelle note ou nouvelle tâche (Alt+N, Alt+T)" aria-label="Nouveau"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
 <div id="toast"></div>
 
 <script>
@@ -2026,7 +2038,12 @@ document.addEventListener('keydown',e=>{
   else if(e.key==='Escape'){if(filter&&!(document.activeElement&&document.activeElement.matches&&document.activeElement.matches('.txt,.cmt,input'))){filter=null;render();}if(pd&&pd.started){stopDrag(false);pd=null;justDragged=true;setTimeout(()=>justDragged=false,50);}$('#hist').classList.remove('open');}
 });
 $('#histBtn').onclick=()=>{const h=$('#hist');h.classList.toggle('open');if(h.classList.contains('open')){renderHist();$('#hq').focus();}};
-$('#fab').onclick=newNote;
+function fabToggle(open){const m=$('#fabMenu'),f=$('#fab');if(open==null)open=m.hidden;m.hidden=!open;f.classList.toggle('open',open);if(open)m.querySelectorAll('.fabo').forEach(b=>{b.style.animation='none';void b.offsetWidth;b.style.animation='';});}
+$('#fab').onclick=e=>{e.stopPropagation();fabToggle();};
+$('#fabNote').onclick=e=>{e.stopPropagation();fabToggle(false);newNote();};
+$('#fabTask').onclick=e=>{e.stopPropagation();fabToggle(false);quickAdd();};
+document.addEventListener('click',e=>{if(!$('#fabMenu').hidden&&!e.target.closest('#fabMenu,#fab'))fabToggle(false);});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#fabMenu').hidden)fabToggle(false);});
 $('#setBtn').onclick=()=>{
   let d=$('#settings');
   if(!d){d=document.createElement('dialog');d.id='settings';d.innerHTML=`<h3>Réglages</h3>
@@ -2526,6 +2543,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-13 15:25',type:'web',v:'2.8',items:['PC\u00a0: un clic sur le «\u00a0+\u00a0» rond déploie deux pastilles, «\u00a0Nouvelle note\u00a0» et «\u00a0Nouvelle tâche\u00a0» (Alt+N et Alt+T marchent toujours).','PC\u00a0: plus de pulsation sur les tâches (elle perturbait l’affichage des curseurs d’Edge)\u202f; le halo reste, fixe. Le téléphone garde ses pulsations.']},
  {d:'2026-10-13 14:25',type:'web',v:'2.7',items:['PC\u00a0: les étiquettes se comportent comme les notes\u00a0: une main au survol pour les attraper, un double-clic pour écrire dedans.','PC\u00a0: les notes peuvent prendre toute la largeur du bandeau.','PC\u00a0: «\u00a0Nouvelle version disponible\u00a0» devient un bouton compact au contour arc-en-ciel\u00a0: un clic, et la page se recharge avec la nouvelle version.']},
  {d:'2026-10-13 14:00',type:'web',v:'2.6.4',items:['PC\u00a0: retour aux curseurs en forme de main d’Edge.','PC\u00a0: nouvelle note avec le «\u00a0+\u00a0» en pointillés, en bas à gauche du bandeau des notes, comme pour une nouvelle tâche (toujours aussi Alt+N et le bouton rond).']},
  {d:'2026-10-13 12:10',type:'web',v:'2.6.3',items:['PC\u00a0: les curseurs en forme de main (pour attraper et glisser une étiquette ou une note) sont dessinés par l’application, avec leur contour noir\u00a0: ceux d’Edge s’affichaient parfois tout blancs.']},
