@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013074648">
+<meta name="taches-page" content="20261013090740">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -95,6 +95,12 @@ body.dragging .tools{display:none!important}
 .due.soon{border-color:#c4524a;color:#c4524a;font-weight:600}
 .due.over{background:#c4524a;color:#fff}
 .urg.auto{box-shadow:0 0 0 2px color-mix(in srgb,#c4524a 35%,transparent)}
+/* halo d'échéance : épaisseur et intensité selon l'imminence (--hz de 0 à 1), pulsation la veille, le jour même et après */
+.halo{box-shadow:0 0 0 calc(1.5px + 3.5px * var(--hz,0)) color-mix(in srgb,#c4524a calc(18% + 47% * var(--hz,0)),transparent)!important}
+.halo.halo-vif{animation:haloPulse 1.6s ease-in-out infinite}
+.mbang.halo{margin:.1rem .25rem 0 .2rem}.urg.halo{margin-left:.2rem;margin-right:.3rem!important}
+@keyframes haloPulse{0%,100%{box-shadow:0 0 0 calc(1.5px + 3.5px * var(--hz,0)) color-mix(in srgb,#c4524a calc(18% + 47% * var(--hz,0)),transparent)}50%{box-shadow:0 0 0 calc(3px + 5px * var(--hz,0)) color-mix(in srgb,#c4524a 12%,transparent)}}
+@media (prefers-reduced-motion:reduce){.halo.halo-vif{animation:none}}
 .dueb{flex:none;border:none;background:none;padding:0 .15rem;font-size:.8rem;line-height:1.5rem}
 .colb{flex:none;width:.8rem;height:.8rem;margin:0 .2rem;padding:0;border-radius:50%;border:1px solid rgba(0,0,0,.15);background:conic-gradient(#4a7cc4,#3a9363,#c49a1c,#d17636,#c4524a,#c45b8d,#8762bd,#4a7cc4)}
 .palette{position:fixed;z-index:40;display:flex;flex-wrap:wrap;gap:.35rem;max-width:250px;padding:.45rem;border-radius:8px;background:var(--panel);border:1px solid var(--line);box-shadow:0 4px 16px rgba(0,0,0,.18)}
@@ -769,6 +775,12 @@ const RELANCE_JOURS=7;
 function addDays(iso,n){const d=new Date(iso+'T12:00');d.setDate(d.getDate()+n);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 const ECHEANCE_JOURS=7;
 function daysTo(iso){return Math.round((new Date(iso+'T12:00')-new Date(todayISO()+'T12:00'))/864e5);}
+/* halo d'urgence : d'autant plus marqué que l'échéance approche (0 à 7 jours avant, 1 le jour même et après) */
+function dueHalo(el,it){
+  if(!dueSoon(it))return;const n=daysTo(it.due),h=Math.max(0,Math.min(1,1-n/ECHEANCE_JOURS));
+  el.classList.add('halo');if(n<=1)el.classList.add('halo-vif');el.style.setProperty('--hz',h.toFixed(2));
+  el.title=(el.title?el.title+' · ':'')+(n<0?'échéance dépassée':n===0?'échéance aujourd’hui':n===1?'échéance demain':'échéance dans '+n+' jours');
+}
 function dueSoon(it){return it.kind==='t'&&it.due&&!(it.level===0&&it.state==='fait')&&!it.checked&&daysTo(it.due)<=ECHEANCE_JOURS;}
 function isUrgent(it){return !!it.urgent||!!dueSoon(it);}
 /* ordre d'affichage : urgentes à la main, puis urgentes par échéance (la plus proche d'abord), puis le reste */
@@ -1120,7 +1132,7 @@ function makeRow(it){
   }
   row.append(m);
   const tools=document.createElement('span');tools.className='tools';
-  const ug=document.createElement('button');ug.className='urg'+(isUrgent(it)?' on':'')+(!it.urgent&&dueSoon(it)?' auto':'');ug.textContent='!';ug.tabIndex=-1;ug.title=it.urgent?'Urgente — clic pour retirer (Alt+U)':dueSoon(it)?'Urgente car l’échéance approche — change ou retire l’échéance pour l’enlever':'Marquer comme urgente (Alt+U)';if(isUrgent(it))row.insertBefore(ug,m);else tools.append(ug);
+  const ug=document.createElement('button');ug.className='urg'+(isUrgent(it)?' on':'')+(!it.urgent&&dueSoon(it)?' auto':'');ug.textContent='!';ug.tabIndex=-1;ug.title=it.urgent?'Urgente — clic pour retirer (Alt+U)':dueSoon(it)?'Urgente car l’échéance approche — change ou retire l’échéance pour l’enlever':'Marquer comme urgente (Alt+U)';dueHalo(ug,it);if(isUrgent(it))row.insertBefore(ug,m);else tools.append(ug);
   if(it.level===0){const cb=document.createElement('button');cb.className='colb';cb.tabIndex=-1;cb.title='Couleur de l’étiquette';tools.append(cb);}
   if(!it.note&&noteOpen!==it.id)tools.append(mkAddc());
   if(!it.due){const db=document.createElement('button');db.className='dueb';db.textContent='📅';db.tabIndex=-1;db.title='Fixer une échéance (urgente automatiquement 7 jours avant)';tools.append(db);}
@@ -2317,7 +2329,7 @@ function mCard(i,withSec){
   if(AND){const k=document.createElement('button');k.className='mchk'+(it.state==='fait'?' on':'');k.title=it.state==='fait'?'Remettre à faire':'Marquer comme faite';
     k.onclick=ev=>{ev.stopPropagation();const f=it.state==='fait';mEdit(it.id,x=>{x.state=f?'afaire':'fait';},f?'Remise dans « À faire »':'Faite');
       if(!f&&!mstore.get('taches-astuce-glisser'))setTimeout(()=>{const t=$('#toast');if(t.classList.contains('undo')&&t.classList.contains('show'))return;mstore.set('taches-astuce-glisser',1);toast('Astuce : glisse une tâche faite sur le côté pour la ranger dans l’historique');},2800);};t.append(k);}
-  if(isUrgent(it)&&it.state!=='fait'){const b=document.createElement('span');b.className='mbang';b.textContent='!';t.append(b);}
+  if(isUrgent(it)&&it.state!=='fait'){const b=document.createElement('span');b.className='mbang';b.textContent='!';dueHalo(b,it);t.append(b);}
   const tx=document.createElement('span');tx.className='t';decorate(tx,it.text);t.append(tx);
   c.append(t);
   if(it.note){const n=document.createElement('div');n.className='mnote';n.innerHTML=fmtView(it.note);c.append(n);}
@@ -2467,6 +2479,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-13 11:15',type:'web',v:'2.5',items:['Halo d’échéance sur le «\u00a0!\u00a0» des tâches urgentes, au PC comme au téléphone\u00a0: d’autant plus large et plus rouge que l’échéance approche (une semaine avant\u00a0: léger\u202f; la veille, le jour même et au-delà\u00a0: il pulse).']},
  {d:'2026-10-13 09:50',type:'web',v:'2.4.2',items:['Nouvelle numérotation, la même pour les deux\u00a0: 1 pour les débuts, 2 depuis que le Compagnon Android lit et écrit directement le fichier (12 octobre). Deuxième chiffre\u00a0: une nouvelle fonction (ou de nouveaux pictogrammes pour le Compagnon)\u202f; troisième\u00a0: une retouche. Ton Compagnon actuel est la 2.2.']},
  {d:'2026-10-13 09:20',type:'web',v:'2.4.1',items:['Menu ⋮\u00a0: «\u00a0Copier tout le contenu\u00a0» descend tout en bas (roue de secours)\u202f; «\u00a0Vérifier la mise à jour du Compagnon Android\u00a0» dit maintenant de quoi il s’agit.']},
  {d:'2026-10-12 23:00',type:'web',v:'2.4',items:['Heures de travail\u00a0: en dehors de 9\u00a0h – 18\u00a0h\u00a030 du lundi au vendredi (et les jours fériés, les vacances de Noël, du 14 juillet au 15 août), le téléphone ne touche plus à OneDrive. Tu peux tout faire\u00a0; les modifications restent sur le téléphone (⏸ en haut) et partent au premier usage dans les heures. En cas de vraie urgence\u00a0: «\u00a0envoyer quand même…\u00a0», tout en bas du menu ⋮.']},
