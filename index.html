@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013071837">
+<meta name="taches-page" content="20261013073913">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -868,7 +868,7 @@ function parse(md){
       const k=sm[1].toLowerCase().replace(/[\s-]/g,''),v=sm[2];
       if(k==='email'||k==='courriel'){if(v)st.email=v;}
       else if(k==='dossier'){if(v)st.dossier=v;}
-      else if(k==='versionweb'){const n=parseInt(v,10);if(n>0)st.webv=n;}
+      else if(k==='versionweb'){if(/^\d+(\.\d+){1,2}$/.test(v.trim()))st.webv=v.trim();}   /* ancienne numérotation (un seul nombre) ignorée */
       else if(k==='archivage'){const n=parseInt(v,10);if(!isNaN(n))st.archivage=n;}
       else if(k==='règle'||k==='regle'){if(v)(st.regles||(st.regles=[])).push(v);}
       else if(k==='onedrive'){const m=/^(.*?)\s+=\s+(https?:\/\/\S+)$/.exec(v);if(m)(st.onedrive||(st.onedrive=[])).push({local:m[1].replace(/^"(.*)"$/,'$1'),web:cleanWeb(m[2])});}
@@ -1063,7 +1063,7 @@ function merge3(B,M,T){
   const st={};const bs=B.settings||{},ms=M.settings||{},ts=T.settings||{};
   for(const f of ['email','dossier','onedrive','archivage','regles']){const j=x=>x==null?'':JSON.stringify(x);const mv=j(ms[f]),tv=j(ts[f]),bv=j(bs[f]);
     const v=mv===tv?ms[f]:(mv===bv?ts[f]:(tv===bv?ms[f]:(conflicts++,ms[f])));if(v!=null&&v!=='')st[f]=v;}
-  {const w=Math.max(ms.webv||0,ts.webv||0);if(w)st.webv=w;}
+  {const w=vcmp(ms.webv,ts.webv)>=0?ms.webv:ts.webv;if(w)st.webv=w;}
   /* notes : par identifiant, texte et date fusionnés comme les champs des tâches */
   const nB=new Map((B.notes||[]).map(n=>[n.id,n])),nM=new Map((M.notes||[]).map(n=>[n.id,n])),nT=new Map((T.notes||[]).map(n=>[n.id,n]));
   const nsame=(a,b)=>a.text===b.text&&(a.at||'')===(b.at||'');const nts=[],nNew=[];
@@ -2467,24 +2467,25 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
- {d:'2026-10-13 09:20',type:'web',v:13,items:['Menu ⋮\u00a0: «\u00a0Copier tout le contenu\u00a0» descend tout en bas (roue de secours)\u202f; «\u00a0Vérifier la mise à jour du Compagnon Android\u00a0» dit maintenant de quoi il s’agit.']},
- {d:'2026-10-12 23:00',type:'web',v:12,items:['Heures de travail\u00a0: en dehors de 9\u00a0h – 18\u00a0h\u00a030 du lundi au vendredi (et les jours fériés, les vacances de Noël, du 14 juillet au 15 août), le téléphone ne touche plus à OneDrive. Tu peux tout faire\u00a0; les modifications restent sur le téléphone (⏸ en haut) et partent au premier usage dans les heures. En cas de vraie urgence\u00a0: «\u00a0envoyer quand même…\u00a0», tout en bas du menu ⋮.']},
- {d:'2026-10-12 21:50',type:'web',v:11,items:['Le Compagnon dépose chaque nouvelle version de l’application web dans ton dossier Tâches (taches.html, à côté de taches.md)\u202f: le PC n’a rien à télécharger, ni à aller chercher sur internet. Quand une version plus récente y arrive, un bandeau sur le PC propose de recharger la page.']},
- {d:'2026-10-12 21:20',type:'web',v:10,items:['Noms et numéros de version\u00a0: l’«\u00a0Application web Chromium\u00a0» (tout ce que tu vois et utilises, dans Edge ou Chrome, mise à jour toute seule) et le «\u00a0Compagnon Android\u00a0» (l’appli du téléphone, à installer depuis ⋮). Les deux numéros figurent dans ⋮ au téléphone et dans «\u00a0Quoi de neuf\u00a0?\u00a0».']},
- {d:'2026-10-12 19:50',type:'web',v:9,items:['Notes de version : « Quoi de neuf ? » dans le menu ⋮ du téléphone et en haut du PC. Après une actualisation qui apporte du neuf, un message propose de les lire.']},
+ {d:'2026-10-13 09:40',type:'web',v:'2.4.2',items:['Nouvelle numérotation de l’application web\u00a0: 1 pour les débuts (PC, puis téléphone), 2 depuis que le Compagnon Android lit et écrit directement le fichier (12 octobre). Deuxième chiffre\u00a0: une nouvelle fonction\u202f; troisième\u00a0: une retouche. Le Compagnon garde sa numérotation à lui.']},
+ {d:'2026-10-13 09:20',type:'web',v:'2.4.1',items:['Menu ⋮\u00a0: «\u00a0Copier tout le contenu\u00a0» descend tout en bas (roue de secours)\u202f; «\u00a0Vérifier la mise à jour du Compagnon Android\u00a0» dit maintenant de quoi il s’agit.']},
+ {d:'2026-10-12 23:00',type:'web',v:'2.4',items:['Heures de travail\u00a0: en dehors de 9\u00a0h – 18\u00a0h\u00a030 du lundi au vendredi (et les jours fériés, les vacances de Noël, du 14 juillet au 15 août), le téléphone ne touche plus à OneDrive. Tu peux tout faire\u00a0; les modifications restent sur le téléphone (⏸ en haut) et partent au premier usage dans les heures. En cas de vraie urgence\u00a0: «\u00a0envoyer quand même…\u00a0», tout en bas du menu ⋮.']},
+ {d:'2026-10-12 21:50',type:'web',v:'2.3',items:['Le Compagnon dépose chaque nouvelle version de l’application web dans ton dossier Tâches (taches.html, à côté de taches.md)\u202f: le PC n’a rien à télécharger, ni à aller chercher sur internet. Quand une version plus récente y arrive, un bandeau sur le PC propose de recharger la page.']},
+ {d:'2026-10-12 21:20',type:'web',v:'2.2.2',items:['Noms et numéros de version\u00a0: l’«\u00a0Application web Chromium\u00a0» (tout ce que tu vois et utilises, dans Edge ou Chrome, mise à jour toute seule) et le «\u00a0Compagnon Android\u00a0» (l’appli du téléphone, à installer depuis ⋮). Les deux numéros figurent dans ⋮ au téléphone et dans «\u00a0Quoi de neuf\u00a0?\u00a0».']},
+ {d:'2026-10-12 19:50',type:'web',v:'2.2.1',items:['Notes de version : « Quoi de neuf ? » dans le menu ⋮ du téléphone et en haut du PC. Après une actualisation qui apporte du neuf, un message propose de les lire.']},
  {d:'2026-10-12 19:35',type:'appli',v:43,items:['Création des fichiers d’archive annuels sur OneDrive (nécessaire à l’archivage automatique).']},
- {d:'2026-10-12 19:35',type:'web',v:8,items:['Corbeille : tâches et notes supprimées gardées 30 jours, récupérables à leur place (téléphone : section « Corbeille » en bas ; PC : bouton « Corbeille » de l’historique).','Archives annuelles automatiques : les tâches faites une année partent le 1ᵉʳ janvier de l’année d’après la suivante dans Tâches/Archives/taches-AAAA.md. Recherche possible dans les années précédentes depuis l’historique du téléphone.']},
+ {d:'2026-10-12 19:35',type:'web',v:'2.2',items:['Corbeille : tâches et notes supprimées gardées 30 jours, récupérables à leur place (téléphone : section « Corbeille » en bas ; PC : bouton « Corbeille » de l’historique).','Archives annuelles automatiques : les tâches faites une année partent le 1ᵉʳ janvier de l’année d’après la suivante dans Tâches/Archives/taches-AAAA.md. Recherche possible dans les années précédentes depuis l’historique du téléphone.']},
  {d:'2026-10-12 19:05',type:'appli',v:42,items:['Vibrations : elles marchent enfin (prise en main d’une tâche, survol d’une rubrique, corbeille, tirer pour actualiser).']},
- {d:'2026-10-12 18:10',type:'web',v:7,items:['Téléphone : en déplaçant une tâche ou une note, une bande « Supprimer » apparaît en haut de l’écran ; lâcher dessus supprime (annulable).']},
- {d:'2026-10-12 17:40',type:'web',v:6,items:['PC : notes à la taille de leur texte, la plus récente en premier, rangées à la souris ; créer une note avec « + Note », le bouton rond ou Alt+N (tâche hors rubrique : Alt+T) ; gras Ctrl+B, italique Ctrl+I ; copier une note.','Une note devenue tâche garde sa date (« jeudi », « le 15 ») en échéance.','Urgentes : « en haut » (rangée à part) ou « dans leur rubrique », sur le PC et dans le menu ⋮ du téléphone ; cases des urgentes en rouge au PC.','Glisser une tâche au milieu d’une autre en fait une sous-tâche (PC) ; au téléphone, maintenir sur une rubrique puis lâcher sur une tâche.','Historique sur le téléphone, en bas de l’écran, avec recherche.']},
- {d:'2026-10-12 15:40',type:'web',v:5,items:['Accès direct à OneDrive : le téléphone lit et écrit le fichier en ligne, sans passer par l’appli OneDrive (fin des copies fantômes). En cas de modification simultanée, les deux versions sont fusionnées.']},
+ {d:'2026-10-12 18:10',type:'web',v:'2.1.1',items:['Téléphone : en déplaçant une tâche ou une note, une bande « Supprimer » apparaît en haut de l’écran ; lâcher dessus supprime (annulable).']},
+ {d:'2026-10-12 17:40',type:'web',v:'2.1',items:['PC : notes à la taille de leur texte, la plus récente en premier, rangées à la souris ; créer une note avec « + Note », le bouton rond ou Alt+N (tâche hors rubrique : Alt+T) ; gras Ctrl+B, italique Ctrl+I ; copier une note.','Une note devenue tâche garde sa date (« jeudi », « le 15 ») en échéance.','Urgentes : « en haut » (rangée à part) ou « dans leur rubrique », sur le PC et dans le menu ⋮ du téléphone ; cases des urgentes en rouge au PC.','Glisser une tâche au milieu d’une autre en fait une sous-tâche (PC) ; au téléphone, maintenir sur une rubrique puis lâcher sur une tâche.','Historique sur le téléphone, en bas de l’écran, avec recherche.']},
+ {d:'2026-10-12 15:40',type:'web',v:'2.0',items:['Accès direct à OneDrive : le téléphone lit et écrit le fichier en ligne, sans passer par l’appli OneDrive (fin des copies fantômes). En cas de modification simultanée, les deux versions sont fusionnées.']},
  {d:'2026-10-12 14:50',type:'appli',v:41,items:['Adresse OneDrive copiée sous forme de lien de partage acceptée.']},
  {d:'2026-10-12 13:50',type:'appli',v:40,items:['Connexion directe à OneDrive (fenêtre de connexion Microsoft ordinaire).']},
- {d:'2026-10-12 12:00',type:'web',v:4,items:['Empreinte du fichier (#xxxx) au PC et dans ⋮ au téléphone : la même des deux côtés = même fichier, même état.','Liens Teams ouverts directement dans l’application Teams au PC.','Tâches faites rangées dans l’historique au bout de 7 jours (réglable dans ⚙).','Toutes les sous-tâches cochées : la tâche est faite ; une sous-tâche décochée la remet à faire.','Règles de rubrique dans ⚙ (sous-tâches ajoutées, copie dans une autre rubrique).']},
- {d:'2026-10-11 22:00',type:'web',v:3,items:['Téléphone : appui long sur une tâche pour la déplacer vers une autre rubrique ou dans sa rubrique ; notes rangées ou transformées en tâche de la même façon.','Tirer pour actualiser façon Gmail, avec arc-en-ciel quand une nouvelle version arrive.','Feuille de note : pictogrammes, gras, italique, liste, copier en un clic.']},
+ {d:'2026-10-12 12:00',type:'web',v:'1.3',items:['Empreinte du fichier (#xxxx) au PC et dans ⋮ au téléphone : la même des deux côtés = même fichier, même état.','Liens Teams ouverts directement dans l’application Teams au PC.','Tâches faites rangées dans l’historique au bout de 7 jours (réglable dans ⚙).','Toutes les sous-tâches cochées : la tâche est faite ; une sous-tâche décochée la remet à faire.','Règles de rubrique dans ⚙ (sous-tâches ajoutées, copie dans une autre rubrique).']},
+ {d:'2026-10-11 22:00',type:'web',v:'1.2',items:['Téléphone : appui long sur une tâche pour la déplacer vers une autre rubrique ou dans sa rubrique ; notes rangées ou transformées en tâche de la même façon.','Tirer pour actualiser façon Gmail, avec arc-en-ciel quand une nouvelle version arrive.','Feuille de note : pictogrammes, gras, italique, liste, copier en un clic.']},
  {d:'2026-10-11 12:00',type:'appli',v:29,items:['Copier une note avec sa mise en forme.','Nouvelle icône (cases de l’appli), raccourci « Nouvelle note ».']},
- {d:'2026-10-10 18:00',type:'web',v:2,items:['Version téléphone : tout sur un seul écran (notes, urgentes, rubriques, en attente), fiche de tâche, notes de couloir.']},
- {d:'2026-10-08 18:00',type:'web',v:1,items:['Première version : tableau des tâches au PC (À faire, En attente, Fait), rubriques, liens vers e-mails et fichiers, enregistrement dans taches.md.']}
+ {d:'2026-10-10 18:00',type:'web',v:'1.1',items:['Version téléphone : tout sur un seul écran (notes, urgentes, rubriques, en attente), fiche de tâche, notes de couloir.']},
+ {d:'2026-10-08 18:00',type:'web',v:'1.0',items:['Première version : tableau des tâches au PC (À faire, En attente, Fait), rubriques, liens vers e-mails et fichiers, enregistrement dans taches.md.']}
 ];
 /* après une mise à jour : « Quoi de neuf ? » avec la première nouveauté, toucher pour tout voir */
 function newsToast(){
@@ -2494,7 +2495,8 @@ function newsToast(){
   t.classList.add('undo');t.onclick=()=>{t.onclick=null;t.classList.remove('undo','show');openNews();};
 }
 function newsDot(){const b=document.getElementById('newsBtn');if(b){b.classList.toggle('dot',newsUnseen().length>0);b.title='Notes de version · Application web Chromium v'+WEB_V;}}
-const WEB_V=Math.max(...NOUVEAUTES.filter(e=>e.type==='web').map(e=>e.v));
+const WEB_V=NOUVEAUTES.find(e=>e.type==='web').v;   /* « 2.4.2 » : majeure (grand tournant).mineure (nouvelle fonction).retouche ; la plus récente en tête de liste */
+function vcmp(a,b){const x=String(a||'0').split('.').map(Number),y=String(b||'0').split('.').map(Number);for(let i=0;i<Math.max(x.length,y.length);i++){const d=(x[i]||0)-(y[i]||0);if(d)return d;}return 0;}
 function newsSeen(){return mstore.get('taches-nouveautes-vues')||NOUVEAUTES[1].d;}   /* première fois : seule la dernière nouveauté compte comme neuve */
 function newsUnseen(){const v=newsSeen();return NOUVEAUTES.filter(e=>e.d>v);}
 function openNews(){
@@ -2556,7 +2558,7 @@ async function copyHtml(){
   if(offHours())return false;
   if(!AND||!backend||!backend.direct)return false;
   const me=(document.querySelector('meta[name=taches-page]')||{}).content||'';if(!/^\d{14}$/.test(me))return false;
-  if(mstore.get('taches-html-copie')===me&&(settings.webv||0)>=WEB_V)return false;
+  if(mstore.get('taches-html-copie')===me&&vcmp(settings.webv,WEB_V)>=0)return false;
   const url=settings.dossier?oneDriveURL(settings.dossier.replace(/[\\/]+$/,'')+'\\taches.html'):null;if(!url)return false;
   const r=await fetch(location.pathname+'?v='+Date.now(),{cache:'no-store'});if(!r.ok)return false;
   const html=await r.text(),stamp=t=>((t||'').match(/<meta name="taches-page" content="(\d{14})">/)||[])[1]||'';
@@ -2567,14 +2569,14 @@ async function copyHtml(){
   if(there>me)return false;   /* le dossier a déjà plus récent */
   if(there<me){if(cur==null)await spCall('spCreate',JSON.stringify({url,text:html}));else await spCall('spWrite',JSON.stringify({url,text:html,etag}));}
   mstore.set('taches-html-copie',me);
-  if((settings.webv||0)<WEB_V){settings.webv=WEB_V;changed();}
+  if(vcmp(settings.webv,WEB_V)<0){settings.webv=WEB_V;changed();}
   return true;
 }
 /* au PC : une version plus récente attend dans le dossier */
 function pcVersionCheck(){
   if(MOBILE)return;const b=document.getElementById('vbanner');if(!b)return;
-  const w=settings.webv||0;b.hidden=!(w>WEB_V);
-  if(w>WEB_V)b.innerHTML='<strong>Nouvelle version de l’application web Chromium (v'+w+')</strong> arrivée dans ton dossier Tâches. Recharge la page (F5) pour l’utiliser\u00a0; ton travail en cours est déjà enregistré. Tu as actuellement la v'+WEB_V+'.';
+  const w=settings.webv||'0';const newer=vcmp(w,WEB_V)>0;b.hidden=!newer;
+  if(newer)b.innerHTML='<strong>Nouvelle version de l’application web Chromium (v'+w+')</strong> arrivée dans ton dossier Tâches. Recharge la page (F5) pour l’utiliser\u00a0; ton travail en cours est déjà enregistré. Tu as actuellement la v'+WEB_V+'.';
 }
 /* recherche dans les archives des années précédentes (lues à la demande) */
 let mArchLoaded=null;
