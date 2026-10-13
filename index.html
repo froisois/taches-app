@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013165141">
+<meta name="taches-page" content="20261013165713">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -576,8 +576,7 @@ aside.open{transform:none}
 #toast.show{opacity:.92}
 /* ---------- menu volant pendant un glisser (PC) : rubriques en arc, puis tâches de la rubrique survolée ---------- */
 #fly{position:fixed;inset:0;z-index:28;pointer-events:none;animation:flyIn .16s ease-out}
-#fly .fv{position:absolute;background:rgba(24,26,34,.6);pointer-events:none}
-#fly .fhole{position:absolute;border-radius:12px;box-shadow:0 0 0 3px rgba(255,255,255,.55);pointer-events:none}
+#fly .fv{position:absolute;inset:0;background:rgba(24,26,34,.6);pointer-events:none}
 #fly .fp,#fly .ft{pointer-events:auto}
 @keyframes flyIn{from{opacity:0}to{opacity:1}}
 #fly .fl{position:absolute;color:#fff;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;opacity:.7;white-space:nowrap;pointer-events:none}
@@ -642,7 +641,7 @@ aside.open{transform:none}
     <li><kbd>Tab</kbd> / <kbd>Maj</kbd>+<kbd>Tab</kbd> faire / défaire une sous-tâche</li>
     <li><kbd>Ctrl</kbd>+<kbd>Entrée</kbd> ou clic sur le rond : cocher. Une sous-tâche reste barrée dans sa tâche ; la tâche passe dans « Fait » (re-cliquer la ressort). « Vider » range les tâches faites de la rubrique dans l’historique</li>
     <li>Glisser une tâche depuis n’importe quel endroit (la main) ; <strong>double-clic</strong> pour écrire dedans ; une fois dans la tâche, la souris sélectionne le texte. Une sous-tâche se glisse par sa poignée ⋮⋮, une rubrique par son titre. Lâchée au milieu d’une autre tâche (qui s’encadre), une tâche en devient la sous-tâche. <kbd>Échap</kbd> annule le glisser</li>
-    <li><strong>Menu volant</strong> : une tâche glissée hors de sa rubrique, ou une note hors du bandeau des notes, grise la page et fait apparaître les rubriques en arc (plus « Urgentes » pour une tâche) ; survoler une rubrique déploie ses tâches. Lâcher sur une rubrique : la note devient tâche, la tâche y est rangée ; sur une tâche : sous-tâche (et pour une note, au choix, commentaire). La zone de départ reste claire et fonctionne comme d’habitude ; ailleurs ou <kbd>Échap</kbd> : rien ne change</li>
+    <li><strong>Menu volant</strong> : une tâche glissée hors de sa rubrique, ou une note hors du bandeau des notes, grise la page et fait apparaître les rubriques en arc (plus « Urgentes » pour une tâche) ; survoler une rubrique déploie ses tâches. Lâcher sur une rubrique : la note devient tâche, la tâche y est rangée ; sur une tâche : sous-tâche (et pour une note, au choix, commentaire). Une fois le menu ouvert, toute la page est grisée (pour ranger dans sa rubrique ou entre les notes, rester dedans) ; ailleurs ou <kbd>Échap</kbd> : rien ne change</li>
     <li><strong>Clic droit</strong> sur une tâche, une sous-tâche, une note, un titre de rubrique ou une case vide : toutes les actions (état, urgence, échéance, rubrique, couleur, sous-tâche, commentaire, lien, dupliquer, copier, supprimer…). Au clavier pendant l’écriture : touche Menu ou <kbd>Maj</kbd>+<kbd>F10</kbd>. Pendant l’écriture, le clic droit garde le menu d’Edge (correcteur)</li>
     <li><kbd>Alt</kbd>+<kbd>←</kbd> / <kbd>Alt</kbd>+<kbd>→</kbd> passer la tâche dans la colonne précédente / suivante</li>
     <li><kbd>Alt</kbd>+<kbd>↑</kbd> / <kbd>Alt</kbd>+<kbd>↓</kbd> monter / descendre dans la colonne</li>
@@ -2264,8 +2263,7 @@ let fly=null;
 function flyOpen(kind,srcId,home){
   flyClose();const box=document.createElement('div');box.id='fly';document.body.append(box);
   fly={kind,srcId,home,box,sec:null,pend:null,pendT:0,hot:null,zone:null,ts:0,list:[],raf:0,x:0,y:0,inHome:false};
-  fly.veil=[0,1,2,3].map(()=>{const v=document.createElement('div');v.className='fv';box.append(v);return v;});   /* voile en quatre bandes autour de la zone de départ, qui reste claire */
-  const hole=document.createElement('div');hole.className='fhole';box.append(hole);fly.hole=hole;flyHole();
+  const v=document.createElement('div');v.className='fv';box.append(v);   /* toute la page grisée, zone de départ comprise (choix de François : plus clair) */
   const cols=sectionColors(),hs=items.filter(x=>x.kind==='h'),secs=hs.map(h=>({id:h.id,text:h.text,c:cols['#'+h.id]||CARD_COLOR})).concat([{id:'',text:'Hors rubrique',c:'#6b7080',none:true}]);
   const si=items[idx(srcId)];if(kind==='task'&&si&&!si.urgent&&!dueSoon(si))secs.unshift({id:'!urg',text:'Urgentes',c:'#c4524a',urg:true});   /* comme la rangée « Urgentes » : la rendre urgente sans la changer de rubrique */
   const cur=kind==='task'?(()=>{const h=headingOf(idx(srcId));return h?h.id:'';})():null;
@@ -2279,16 +2277,10 @@ function flyOpen(kind,srcId,home){
     if(!sc.none){const i=document.createElement('i');i.style.background=sc.c;p.append(i);}
     p.append(document.createTextNode(sc.text));box.append(p);if(k===0){lb.style.left=(x+8)+'px';lb.style.top=(y-46)+'px';}});
   const h=document.createElement('div');h.className='fh';
-  h.textContent=kind==='note'?'Lâcher sur une rubrique\u00a0: nouvelle tâche · sur une tâche\u00a0: commentaire ou sous-tâche · ailleurs\u00a0: rien · dans le bandeau des notes\u00a0: les ranger'
-    :'Lâcher sur une rubrique\u00a0: l’y ranger · sur une tâche\u00a0: en faire une sous-tâche · ailleurs\u00a0: rien · dans sa rubrique (restée claire)\u00a0: comme d’habitude · Échap\u00a0: annuler';
+  h.textContent=kind==='note'?'Lâcher sur une rubrique\u00a0: nouvelle tâche · sur une tâche\u00a0: commentaire ou sous-tâche · ailleurs\u00a0: rien'
+    :'Lâcher sur une rubrique\u00a0: l’y ranger · sur une tâche\u00a0: en faire une sous-tâche · ailleurs\u00a0: rien · Échap\u00a0: annuler';
   box.append(h);
   const loop=()=>{if(!fly)return;flyScroll();if(fly.pend!=null&&Date.now()-fly.pendT>140){const q=fly.pend;fly.pend=null;flyShowSec(q);}fly.raf=requestAnimationFrame(loop);};   /* pointeur immobile sur une autre rubrique : on bascule quand même */fly.raf=requestAnimationFrame(loop);
-}
-function flyHole(){
-  const r=fly.home.getBoundingClientRect(),L=r.left-6,T=r.top-6,W=r.width+12,Hh=r.height+12,h=fly.hole.style;h.left=L+'px';h.top=T+'px';h.width=W+'px';h.height=Hh+'px';
-  const set=(v,l,t,w,hh)=>{v.style.left=l+'px';v.style.top=t+'px';v.style.width=Math.max(0,w)+'px';v.style.height=Math.max(0,hh)+'px';};
-  const [a,b,c,d]=fly.veil,VW=innerWidth,VH=innerHeight;
-  set(a,0,0,VW,T);set(b,0,T+Hh,VW,VH-T-Hh);set(c,0,T,L,Hh);set(d,L+W,T,VW-L-W,Hh);
 }
 function flyClose(){if(!fly)return;cancelAnimationFrame(fly.raf);fly.box.remove();fly=null;}
 function flyTasks(secId){
@@ -2332,11 +2324,8 @@ function flyMove(kind,srcId,homeEl,x,y){
   const inR=(r,m)=>x>=r.left-m&&x<=r.right+m&&y>=r.top-m&&y<=r.bottom+m;
   const hr=homeEl&&homeEl.getBoundingClientRect(),inHome=hr&&inR(hr,0);
   if(!fly){if(!homeEl||inHome)return false;flyOpen(kind,srcId,homeEl);}
-  fly.x=x;fly.y=y;flyHole();
+  fly.x=x;fly.y=y;
   const el=document.elementFromPoint(x,y),p=el&&el.closest&&el.closest('#fly .fp'),t=el&&el.closest&&el.closest('#fly .ft');
-  /* zone de départ (restée claire) : on y range comme d'habitude, le menu reste ouvert */
-  fly.inHome=!!(inHome&&!p&&!t);
-  if(fly.inHome){fly.hot=null;fly.onPill=false;fly.pend=null;fly.box.querySelectorAll('.ft.on').forEach(d=>d.classList.remove('on'));return 'home';}
   if(p){const s=p.dataset.sec;
     if(s!==fly.sec){if(fly.sec==null||!fly.list.length){flyShowSec(s);}
       else{if(fly.pend!==s){fly.pend=s;fly.pendT=Date.now();}if(Date.now()-fly.pendT>140){fly.pend=null;flyShowSec(s);}}}
@@ -2908,6 +2897,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-13 19:35',type:'web',v:'2.12.3',items:['PC\u00a0: menu volant, une fois ouvert, toute la page est grisée, rubrique de départ (ou bandeau des notes) comprise. Pour ranger dans la rubrique ou entre les notes, il suffit de rester dedans.']},
  {d:'2026-10-13 19:25',type:'web',v:'2.12.2',items:['PC\u00a0: on parle partout de «\u00a0tâche\u00a0» au lieu d’«\u00a0étiquette\u00a0» (messages, menu clic droit, aide).']},
  {d:'2026-10-13 19:15',type:'web',v:'2.12.1',items:['PC\u00a0: menu volant, la tâche attrapée garde son allure en plus petit, et reste petite jusqu’au lâcher.','PC\u00a0: sur une tâche en retard (rouge), les boutons de survol («\u00a0!\u00a0», 📅, ×) sont de nouveau visibles.']},
  {d:'2026-10-13 19:00',type:'web',v:'2.12',items:['PC\u00a0: menu volant. Une note glissée hors du bandeau, ou une tâche glissée hors de sa rubrique, grise la page et fait apparaître les rubriques en arc\u00a0; survoler une rubrique déploie ses tâches. Lâcher sur une rubrique\u00a0: la note devient tâche, la tâche y est rangée. Sur une tâche\u00a0: sous-tâche, ou pour une note, au choix, commentaire.','PC\u00a0: pour une tâche, le menu propose aussi «\u00a0Urgentes\u00a0». La zone de départ reste claire et marche comme avant\u00a0; lâcher ailleurs ou Échap ne change rien.']},
