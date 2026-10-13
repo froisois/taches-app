@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013132802">
+<meta name="taches-page" content="20261013132931">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -101,7 +101,7 @@ body.dragging,body.dragging *{user-select:none!important;cursor:grabbing!importa
 .relok:hover{background:#b7791f;color:#fff}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(196,82,74,.55)}50%{box-shadow:0 0 0 5px rgba(196,82,74,0)}}
 .card.late{border-color:#b7791f;border-left-color:#b7791f;background:color-mix(in srgb,#b7791f 13%,var(--bg))}
-#list .card.retard{border:3px solid transparent;border-left-width:6px;background:linear-gradient(color-mix(in srgb,#c4524a 16%,var(--bg)),color-mix(in srgb,#c4524a 16%,var(--bg))) padding-box,repeating-linear-gradient(-45deg,#1d1d1f 0 6px,#c4524a 6px 12px) border-box}   /* échéance dépassée : hachures noir-rouge, signal fixe */
+#list .card.retard{background:repeating-linear-gradient(-45deg,color-mix(in srgb,#c4524a 24%,var(--bg)) 0 10px,color-mix(in srgb,#c4524a 12%,var(--bg)) 10px 20px)}   /* échéance dépassée : fond hachuré rouge, signal fixe */
 .card.late.urgent{border-color:#c4524a;border-left-color:#c4524a;background:color-mix(in srgb,#c4524a 16%,var(--bg))}
 .urg{flex:none;border:none;background:none;padding:0;width:1.05rem;height:1.05rem;margin-top:.25rem;border-radius:50%;font-size:.8rem;font-weight:800;line-height:1.05rem;text-align:center;color:var(--muted);opacity:0}
 .row:hover>.urg{opacity:.6}
@@ -2544,6 +2544,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-13 15:40',type:'web',v:'2.8.3',items:['PC\u00a0: une tâche dont l’échéance est dépassée a maintenant un fond hachuré rouge (au lieu du contour hachuré noir-rouge).']},
  {d:'2026-10-13 15:35',type:'web',v:'2.8.2',items:['Les tâches à échéance aujourd’hui passent aussi avant les urgentes marquées à la main (après celles dont l’échéance est dépassée).']},
  {d:'2026-10-13 15:30',type:'web',v:'2.8.1',items:['PC\u00a0: une tâche dont l’échéance est dépassée a un contour hachuré noir et rouge.','La pastille «\u00a0échéance aujourd’hui\u00a0» passe en rouge plein, comme celle d’une échéance dépassée (PC et téléphone).']},
  {d:'2026-10-13 15:25',type:'web',v:'2.8',items:['PC\u00a0: un clic sur le «\u00a0+\u00a0» rond déploie deux pastilles, «\u00a0Nouvelle note\u00a0» et «\u00a0Nouvelle tâche\u00a0» (Alt+N et Alt+T marchent toujours).','PC\u00a0: plus de pulsation sur les tâches (elle perturbait l’affichage des curseurs d’Edge)\u202f; le halo reste, fixe. Le téléphone garde ses pulsations.']},
