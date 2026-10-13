@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013164857">
+<meta name="taches-page" content="20261013165141">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -101,9 +101,9 @@ body.dragging,body.dragging *{user-select:none!important;cursor:grabbing!importa
 .relok:hover{background:#b7791f;color:#fff}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(196,82,74,.55)}50%{box-shadow:0 0 0 5px rgba(196,82,74,0)}}
 .card.late{border-color:#b7791f;border-left-color:#b7791f;background:color-mix(in srgb,#b7791f 13%,var(--bg))}
-/* échéance dépassée (PC) : étiquette pleine rouge, texte blanc, signal fixe */
+/* échéance dépassée (PC) : tâche pleine rouge, texte blanc, signal fixe */
 #list .card.retard{background:#c4524a;border-color:#a8392f;border-left-color:#8e2c24;color:#fff;box-shadow:0 0 0 3px rgba(196,82,74,.22),0 0 18px 5px rgba(196,82,74,.45)}
-#list .card.jour{box-shadow:0 0 0 2px rgba(196,82,74,.16),0 0 12px 3px rgba(196,82,74,.3)}   /* halo fixe autour de l'étiquette : fort si l'échéance est dépassée, plus léger le jour même */
+#list .card.jour{box-shadow:0 0 0 2px rgba(196,82,74,.16),0 0 12px 3px rgba(196,82,74,.3)}   /* halo fixe autour de la tâche : fort si l'échéance est dépassée, plus léger le jour même */
 #list .card.retard .txt,#list .card.retard .row.t .txt{color:#fff}
 #list .card.retard .cmt,#list .card.retard .cdate{color:rgba(255,255,255,.82)}
 #list .card.retard .chk{border-color:#fff;background:transparent}
@@ -637,26 +637,26 @@ aside.open{transform:none}
 <div id="help" hidden>
   <ul>
     <li>Gros <kbd>+</kbd> en bas à droite ou <kbd>Alt</kbd>+<kbd>N</kbd> : note rapide hors rubrique, tout en haut</li>
-    <li><kbd>Entrée</kbd> valide l’étiquette ; <kbd>Alt</kbd>+<kbd>Entrée</kbd> ajoute une ligne en dessous (sur une ligne vide décalée, la ressort en nouvelle étiquette)</li>
+    <li><kbd>Entrée</kbd> valide la tâche ; <kbd>Alt</kbd>+<kbd>Entrée</kbd> ajoute une ligne en dessous (sur une ligne vide décalée, la ressort en nouvelle tâche)</li>
     <li><kbd>Maj</kbd>+<kbd>Entrée</kbd> ou ✎ au survol : commentaire de la tâche ; dedans, <kbd>Entrée</kbd> va à la ligne, <kbd>Échap</kbd> revient à la tâche, le vider le supprime</li>
     <li><kbd>Tab</kbd> / <kbd>Maj</kbd>+<kbd>Tab</kbd> faire / défaire une sous-tâche</li>
-    <li><kbd>Ctrl</kbd>+<kbd>Entrée</kbd> ou clic sur le rond : cocher. Une sous-tâche reste barrée dans son étiquette ; l’étiquette passe dans « Fait » (re-cliquer la ressort). « Vider » range les étiquettes faites de la rubrique dans l’historique</li>
-    <li>Glisser une étiquette depuis n’importe quel endroit (la main) ; <strong>double-clic</strong> pour écrire dedans ; une fois dans l’étiquette, la souris sélectionne le texte. Une sous-tâche se glisse par sa poignée ⋮⋮, une rubrique par son titre. Lâchée au milieu d’une autre étiquette (qui s’encadre), une étiquette en devient la sous-tâche. <kbd>Échap</kbd> annule le glisser</li>
-    <li><strong>Menu volant</strong> : une étiquette glissée hors de sa rubrique, ou une note hors du bandeau des notes, grise la page et fait apparaître les rubriques en arc (plus « Urgentes » pour une étiquette) ; survoler une rubrique déploie ses tâches. Lâcher sur une rubrique : la note devient tâche, l’étiquette y est rangée ; sur une tâche : sous-tâche (et pour une note, au choix, commentaire). La zone de départ reste claire et fonctionne comme d’habitude ; ailleurs ou <kbd>Échap</kbd> : rien ne change</li>
-    <li><strong>Clic droit</strong> sur une étiquette, une sous-tâche, une note, un titre de rubrique ou une case vide : toutes les actions (état, urgence, échéance, rubrique, couleur, sous-tâche, commentaire, lien, dupliquer, copier, supprimer…). Au clavier pendant l’écriture : touche Menu ou <kbd>Maj</kbd>+<kbd>F10</kbd>. Pendant l’écriture, le clic droit garde le menu d’Edge (correcteur)</li>
-    <li><kbd>Alt</kbd>+<kbd>←</kbd> / <kbd>Alt</kbd>+<kbd>→</kbd> passer l’étiquette dans la colonne précédente / suivante</li>
+    <li><kbd>Ctrl</kbd>+<kbd>Entrée</kbd> ou clic sur le rond : cocher. Une sous-tâche reste barrée dans sa tâche ; la tâche passe dans « Fait » (re-cliquer la ressort). « Vider » range les tâches faites de la rubrique dans l’historique</li>
+    <li>Glisser une tâche depuis n’importe quel endroit (la main) ; <strong>double-clic</strong> pour écrire dedans ; une fois dans la tâche, la souris sélectionne le texte. Une sous-tâche se glisse par sa poignée ⋮⋮, une rubrique par son titre. Lâchée au milieu d’une autre tâche (qui s’encadre), une tâche en devient la sous-tâche. <kbd>Échap</kbd> annule le glisser</li>
+    <li><strong>Menu volant</strong> : une tâche glissée hors de sa rubrique, ou une note hors du bandeau des notes, grise la page et fait apparaître les rubriques en arc (plus « Urgentes » pour une tâche) ; survoler une rubrique déploie ses tâches. Lâcher sur une rubrique : la note devient tâche, la tâche y est rangée ; sur une tâche : sous-tâche (et pour une note, au choix, commentaire). La zone de départ reste claire et fonctionne comme d’habitude ; ailleurs ou <kbd>Échap</kbd> : rien ne change</li>
+    <li><strong>Clic droit</strong> sur une tâche, une sous-tâche, une note, un titre de rubrique ou une case vide : toutes les actions (état, urgence, échéance, rubrique, couleur, sous-tâche, commentaire, lien, dupliquer, copier, supprimer…). Au clavier pendant l’écriture : touche Menu ou <kbd>Maj</kbd>+<kbd>F10</kbd>. Pendant l’écriture, le clic droit garde le menu d’Edge (correcteur)</li>
+    <li><kbd>Alt</kbd>+<kbd>←</kbd> / <kbd>Alt</kbd>+<kbd>→</kbd> passer la tâche dans la colonne précédente / suivante</li>
     <li><kbd>Alt</kbd>+<kbd>↑</kbd> / <kbd>Alt</kbd>+<kbd>↓</kbd> monter / descendre dans la colonne</li>
-    <li>« + Nouvelle rubrique » en bas, ou <kbd>#</kbd> + espace en début de ligne : nouvelle rubrique ; × au survol de son titre : la supprimer (ses étiquettes vont dans « Hors rubrique ») ; clic sur sa pastille : couleur de la rubrique et de ses étiquettes. Une étiquette peut avoir sa propre couleur (pastille multicolore au survol)</li>
+    <li>« + Nouvelle rubrique » en bas, ou <kbd>#</kbd> + espace en début de ligne : nouvelle rubrique ; × au survol de son titre : la supprimer (ses tâches vont dans « Hors rubrique ») ; clic sur sa pastille : couleur de la rubrique et de ses tâches. Une tâche peut avoir sa propre couleur (pastille multicolore au survol)</li>
     <li>Ce qui suit « &nbsp;:&nbsp;» dans une ligne s’affiche en gris</li>
     <li>× au survol ou <kbd>Alt</kbd>+<kbd>Suppr</kbd> : supprimer une tâche (et ses sous-tâches) sans la valider ni l’archiver</li>
-    <li>🔗 au survol, ou coller une adresse web / un chemin de fichier dans la tâche, ou glisser un lien sur l’étiquette : relier une ressource. Un clic sur la pastille l’ouvre</li>
-    <li>« En attente » : relance prévue 7 jours après l’arrivée dans la colonne ; clic sur ⏰ pour choisir une autre date. Passé la date, l’étiquette vire au rouge</li>
+    <li>🔗 au survol, ou coller une adresse web / un chemin de fichier dans la tâche, ou glisser un lien sur la tâche : relier une ressource. Un clic sur la pastille l’ouvre</li>
+    <li>« En attente » : relance prévue 7 jours après l’arrivée dans la colonne ; clic sur ⏰ pour choisir une autre date. Passé la date, la tâche vire au rouge</li>
     <li>Une tâche laissée vide disparaît d’elle-même quand tu la quittes ; <kbd>Échap</kbd> la supprime aussi tout de suite</li>
-    <li><strong>!</strong> au survol ou <kbd>Alt</kbd>+<kbd>U</kbd> : marquer une tâche urgente (étiquette rouge) ; re-cliquer pour retirer</li>
+    <li><strong>!</strong> au survol ou <kbd>Alt</kbd>+<kbd>U</kbd> : marquer une tâche urgente (tâche rouge) ; re-cliquer pour retirer</li>
     <li>📅 au survol : échéance. Sept jours avant, la tâche devient urgente toute seule ; clic sur la pastille pour changer ou effacer la date</li>
     <li>« En attente » : « + qui ? » pour noter la personne attendue (les noms déjà utilisés sont proposés)</li>
     <li>En haut : <strong>!</strong> « urgentes en haut » (rangée à part, avec le nom de leur rubrique) ou « dans leur rubrique » ; filtres « à relancer » ou une personne attendue, re-cliquer ou <kbd>Échap</kbd> pour tout réafficher</li>
-    <li>Glisser un e-mail, une pièce jointe d’e-mail, un lien ou du texte : sur une étiquette, il s’y ajoute ; ailleurs, il crée une étiquette (dans la case visée, sinon « À faire » de la rubrique, sinon « Hors rubrique »)</li>
+    <li>Glisser un e-mail, une pièce jointe d’e-mail, un lien ou du texte : sur une tâche, il s’y ajoute ; ailleurs, il crée une tâche (dans la case visée, sinon « À faire » de la rubrique, sinon « Hors rubrique »)</li>
     <li>Coller la réponse JSON de l’Afficheur Graph (tâches To Do) dans une tâche, par exemple après Alt+T : importe les tâches non terminées</li>
     <li><kbd>Retour arrière</kbd> en début de ligne : décaler, fusionner ou supprimer</li>
     <li><kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Ctrl</kbd>+<kbd>Y</kbd> annuler / rétablir</li>
@@ -782,7 +782,7 @@ const NOSEC='(sans rubrique)';
 const COLORS={bleu:'#5b8fd6',vert:'#7a8f2e',orange:'#d17636',violet:'#8762bd',jaune:'#c49a1c',rose:'#c45b8d',rouge:'#c4524a',turquoise:'#2f9ba0',gris:'#8a877f'};
 const AUTO=['bleu','vert','orange','violet','jaune','rose','turquoise','rouge'];
 const CYCLE=Object.keys(COLORS);
-const CARD_COLOR='#2f6f5e';  /* vert sapin, celui des boutons et de l'icône */ /* couleur commune des étiquettes, quelle que soit la rubrique */
+const CARD_COLOR='#2f6f5e';  /* vert sapin, celui des boutons et de l'icône */ /* couleur commune des tâches, quelle que soit la rubrique */
 const STATES=[{k:'afaire',l:'À faire'},{k:'attente',l:'En attente / à relancer'},{k:'fait',l:'Fait'}];
 const SKEYS=STATES.map(s=>s.k);
 document.documentElement.style.setProperty('--ncol',STATES.length);
@@ -1221,7 +1221,7 @@ function makeRow(it){
   if(it.kind==='h'){
     const d=document.createElement('button');d.className='dot';d.title='Couleur de la rubrique';d.tabIndex=-1;row.append(d,t);
     const tl=document.createElement('span');tl.className='tools';const x=document.createElement('button');x.className='hdel';x.textContent='×';x.tabIndex=-1;
-    x.title='Supprimer la rubrique (ses étiquettes passent dans « Hors rubrique ») · Ctrl+Z pour annuler';tl.append(x);row.append(tl);
+    x.title='Supprimer la rubrique (ses tâches passent dans « Hors rubrique ») · Ctrl+Z pour annuler';tl.append(x);row.append(tl);
     if(!it.text)t.dataset.ph='Nom de la rubrique…';
     return row;
   }
@@ -1250,12 +1250,12 @@ function makeRow(it){
   row.append(m);
   const tools=document.createElement('span');tools.className='tools';
   const ug=document.createElement('button');ug.className='urg'+(isUrgent(it)?' on':'')+(!it.urgent&&dueSoon(it)?' auto':'');ug.textContent='!';ug.tabIndex=-1;ug.title=it.urgent?'Urgente — clic pour retirer (Alt+U)':dueSoon(it)?'Urgente car l’échéance approche — change ou retire l’échéance pour l’enlever':'Marquer comme urgente (Alt+U)';dueHalo(ug,it);if(isUrgent(it))row.insertBefore(ug,m);else tools.append(ug);
-  if(it.level===0){const cb=document.createElement('button');cb.className='colb';cb.tabIndex=-1;cb.title='Couleur de l’étiquette';tools.append(cb);}
+  if(it.level===0){const cb=document.createElement('button');cb.className='colb';cb.tabIndex=-1;cb.title='Couleur de la tâche';tools.append(cb);}
   if(!it.note&&noteOpen!==it.id)tools.append(mkAddc());
   if(!it.due){const db=document.createElement('button');db.className='dueb';db.textContent='📅';db.tabIndex=-1;db.title='Fixer une échéance (urgente automatiquement 7 jours avant)';tools.append(db);}
   const al=document.createElement('button');al.className='addl';al.textContent='🔗';al.title='Relier un e-mail, un document ou une page (ou colle directement un lien ou un chemin dans la tâche)';al.tabIndex=-1;tools.append(al);
   const x=document.createElement('button');x.className='del';x.textContent='×';x.tabIndex=-1;
-  x.title=(it.level===0?'Supprimer l’étiquette':'Supprimer la sous-tâche')+' sans la valider (Alt+Suppr) · Ctrl+Z pour annuler';tools.append(x);row.append(tools);
+  x.title=(it.level===0?'Supprimer la tâche':'Supprimer la sous-tâche')+' sans la valider (Alt+Suppr) · Ctrl+Z pour annuler';tools.append(x);row.append(tools);
   if(it.created){
     if(it.level===0){const d=document.createElement('span');d.className='cdate';d.textContent=shortDate(it.created);d.title='Créée le '+fmtDate(it.created).toLowerCase();row.append(d);}
     else row.title='Créée le '+fmtDate(it.created).toLowerCase();
@@ -1291,7 +1291,7 @@ function render(){
     }
     sec.append(wrap);list.append(sec);card=null;
   };
-  /* urgentes en haut : une rangée à part, chaque étiquette garde le nom de sa rubrique */
+  /* urgentes en haut : une rangée à part, chaque tâche garde le nom de sa rubrique */
   let ucells=null;
   if(items.some(inUrgLane)){
     const sec=document.createElement('section');sec.className='section urglane';sec.style.setProperty('--c','#c4524a');
@@ -1323,12 +1323,12 @@ function render(){
   list.querySelectorAll('.cell').forEach(c=>{
     if(c.dataset.urg)return;
     if(c.dataset.state==='fait'){
-      if(c.children.length){const v=document.createElement('button');v.className='vider';v.textContent='Vider → historique';v.title='Ranger les étiquettes faites de cette rubrique dans l’historique';v.tabIndex=-1;v.dataset.sec=c.dataset.sec;c.append(v);}
+      if(c.children.length){const v=document.createElement('button');v.className='vider';v.textContent='Vider → historique';v.title='Ranger les tâches faites de cette rubrique dans l’historique';v.tabIndex=-1;v.dataset.sec=c.dataset.sec;c.append(v);}
       return;
     }
-    const g=document.createElement('button');g.className='ghost';g.textContent='+';g.title='Nouvelle étiquette';g.tabIndex=-1;g.dataset.sec=c.dataset.sec;g.dataset.state=c.dataset.state;c.append(g);
+    const g=document.createElement('button');g.className='ghost';g.textContent='+';g.title='Nouvelle tâche';g.tabIndex=-1;g.dataset.sec=c.dataset.sec;g.dataset.state=c.dataset.state;c.append(g);
   });
-  list.querySelectorAll('.card>.insec').forEach(b=>b.parentNode.append(b));   /* nom de la rubrique en bas de l'étiquette */
+  list.querySelectorAll('.card>.insec').forEach(b=>b.parentNode.append(b));   /* nom de la rubrique en bas de la tâche */
   list.querySelectorAll('.section').forEach(sec=>{if((filter||sec.classList.contains('urglane'))&&!sec.querySelector('.card'))sec.style.display='none';});
   document.body.classList.toggle('filtering',!!filter);renderFilters();
   renderInbox();pcVersionCheck();
@@ -1349,7 +1349,7 @@ function wrapSel(ta,m){
   ta.focus();ta.dispatchEvent(new Event('input',{bubbles:true}));
 }
 const isBullet=l=>/^\s*[-*•]\s+/.test(l),unBullet=l=>l.replace(/^\s*[-*•]\s+/,'').trim();
-/* note → étiquette : 1re ligne = intitulé, lignes à puces = sous-tâches, le reste = commentaire */
+/* note → tâche : 1re ligne = intitulé, lignes à puces = sous-tâches, le reste = commentaire */
 function noteSplit(text){
   const ls=(text||'').split('\n').map(l=>l.replace(/\s+$/,'')).filter(l=>l.trim());
   const rest=ls.slice(1);
@@ -1467,14 +1467,14 @@ async function copyText(v,b){
   b.classList.add('done');clearTimeout(b._t);b._t=setTimeout(()=>b.classList.remove('done'),1400);toast('Note copiée');
 }
 function fmtStamp(at){const [d,h]=at.split(' ');return new Date(d+'T12:00').toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'})+(h?', '+h.replace(':',' h '):'');}
-/* une note devient une étiquette (1re ligne = titre, reste = commentaire), ou s'ajoute au commentaire d'une étiquette */
+/* une note devient une tâche (1re ligne = titre, reste = commentaire), ou s'ajoute au commentaire d'une tâche */
 function noteToTask(nid,secId,state){
   const n=notes.find(x=>x.id===nid);if(!n)return;const sp=noteSplit(n.text);if(!sp.title)return;
   snapshot();textSnapFor=null;notes=notes.filter(x=>x!==n);
   const t={id:uid(),kind:'t',level:0,state:state||'afaire',created:(n.at||'').slice(0,10)||todayISO(),text:sp.title};if(sp.note)t.note=sp.note;
   const dt=dateIn(n.text);if(dt&&t.state!=='fait')t.due=dt.d;   /* « jeudi », « le 15 »… : échéance reprise, comme au téléphone */
   const pos=laneEndOf(secId);items.splice(pos,0,t,...sp.subs.map(x=>({id:uid(),kind:'t',level:1,text:x,created:t.created})));commit();
-  toast('Note devenue étiquette'+(t.due?' · échéance '+shortDate(t.due)+' (« '+dt.w+' »)':'')+' · Ctrl+Z pour annuler');
+  toast('Note devenue tâche'+(t.due?' · échéance '+shortDate(t.due)+' (« '+dt.w+' »)':'')+' · Ctrl+Z pour annuler');
 }
 function noteToComment(nid,taskId){
   const n=notes.find(x=>x.id===nid),it=items[idx(taskId)];if(!n||!it)return;
@@ -1482,7 +1482,7 @@ function noteToComment(nid,taskId){
   snapshot();textSnapFor=null;notes=notes.filter(x=>x!==n);it.note=(it.note?it.note.replace(/\s+$/,'')+'\n':'')+d.slice(8,10)+'/'+d.slice(5,7)+' : '+n.text;
   commit();toast('Note ajoutée au commentaire · Ctrl+Z pour annuler');
 }
-/* une note devient sous-tâche d'une étiquette (ses puces aussi) ; le reste de son texte va au commentaire de l'étiquette */
+/* une note devient sous-tâche d'une tâche (ses puces aussi) ; le reste de son texte va au commentaire de la tâche */
 function noteToSub(nid,taskId){
   const n=notes.find(x=>x.id===nid),i=idx(taskId),it=items[i];if(!n||!it)return;const sp=noteSplit(n.text);if(!sp.title)return;
   snapshot();textSnapFor=null;notes=notes.filter(x=>x!==n);
@@ -1627,7 +1627,7 @@ function emptyDone(secId){
   const start=secId?idx(secId)+1:0,end=laneEndOf(secId);
   snapshot();textSnapFor=null;let n=0;
   for(let k=end-1;k>=start;k--){const x=items[k];if(x.kind==='t'&&x.level===0&&x.state==='fait')n+=archiveAt(k);}
-  commit();toast(n+' étiquette'+(n>1?'s':'')+' rangée'+(n>1?'s':'')+' dans l’historique · Ctrl+Z pour annuler');
+  commit();toast(n+' tâche'+(n>1?'s':'')+' rangée'+(n>1?'s':'')+' dans l’historique · Ctrl+Z pour annuler');
 }
 function restoreEntry(eid){if(restoreCore(eid)){commit();toast('Remis dans la liste');}}
 function restoreCore(eid,fromTrash){
@@ -1675,7 +1675,7 @@ function deleteSection(id){
   const e=blockEnd(i),moved=items.splice(i,e-i).slice(1);
   const fh=items.findIndex(x=>x.kind==='h');items.splice(fh<0?items.length:fh,0,...moved);
   const n=moved.filter(x=>x.kind==='t'&&x.level===0&&x.text.trim()).length;
-  commit();toast(n?'Rubrique supprimée, '+n+' étiquette'+(n>1?'s':'')+' placée'+(n>1?'s':'')+' dans « Hors rubrique » · Ctrl+Z pour annuler':'Rubrique supprimée · Ctrl+Z pour annuler');
+  commit();toast(n?'Rubrique supprimée, '+n+' tâche'+(n>1?'s':'')+' placée'+(n>1?'s':'')+' dans « Hors rubrique » · Ctrl+Z pour annuler':'Rubrique supprimée · Ctrl+Z pour annuler');
 }
 function isBlankH(i){const it=items[i];return it&&it.kind==='h'&&!it.text.trim()&&blockEnd(i)===i+1;}
 function isBlank(i){const it=items[i];return it&&it.kind==='t'&&!it.text.trim()&&!(it.note||'').trim()&&!(it.links&&it.links.length)&&blockEnd(i)===i+1;}
@@ -1705,7 +1705,7 @@ function askLink(id){const u=prompt('Lien à relier à cette tâche\u00a0:\n– 
 
 /* ---------- menu clic droit (PC) ----------
    Entrées : {l:libellé, k:raccourci, on(), chk:true/false (case), radio, sub:()=>[entrées], el:()=>élément, input:{ph,on(v)}, danger, off:désactivée} ; '-' = séparateur.
-   Pendant l'écriture dans une étiquette ou une note, le clic droit garde le menu d'Edge (correcteur, couper, coller). */
+   Pendant l'écriture dans une tâche ou une note, le clic droit garde le menu d'Edge (correcteur, couper, coller). */
 let ctxEl=null;
 function ctxClose(){document.querySelectorAll('.cmenu').forEach(m=>m.remove());ctxEl=null;}
 function ctxBuild(entries,x,y,parent){
@@ -1787,14 +1787,14 @@ function copyBlock(id){const i=idx(id);if(i<0)return;const e=blockEnd(i),base=it
   navigator.clipboard.writeText(t).then(()=>toast('Texte copié'),()=>toast('Copie impossible'));}
 function promoteSub(id){const i=idx(id);if(i<0||items[i].level===0)return;const t=topIdx(i),e=blockEnd(i);snapshot();
   const blk=items.splice(i,e-i),dl=blk[0].level;blk.forEach(x=>x.level-=dl);const x=blk[0];x.state=x.checked?'fait':'afaire';delete x.checked;
-  items.splice(blockEnd(idx(items[t].id)),0,...blk);normalize();render();changed();toast('Devenue une étiquette à part · Ctrl+Z pour annuler');}
+  items.splice(blockEnd(idx(items[t].id)),0,...blk);normalize();render();changed();toast('Devenue une tâche à part · Ctrl+Z pour annuler');}
 function cardEntries(id,x,y){
   const i=idx(id),it=items[i];if(!it)return [];
   if(it.kind==='t'&&it.level>0)return [
     {l:it.checked?'Décocher':'Cocher',k:'Ctrl+Entrée',on:()=>toggle(id,false)},
     {l:'Urgente',chk:!!it.urgent,k:'Alt+U',on:()=>toggleUrgent(id,false)},
     {l:it.due?'Échéance ('+shortDate(it.due)+')…':'Échéance…',on:()=>dueTo(id,x,y)},
-    '-',{l:'En faire une étiquette à part',on:()=>promoteSub(id)},
+    '-',{l:'En faire une tâche à part',on:()=>promoteSub(id)},
     '-',{l:'Supprimer la sous-tâche',k:'Alt+Suppr',danger:true,on:()=>removeTask(id,false)}];
   const h=headingOf(i);
   const out=[
@@ -1814,7 +1814,7 @@ function cardEntries(id,x,y){
     {l:'Dupliquer',on:()=>duplicateBlock(id)},
     {l:'Copier le texte',on:()=>copyBlock(id)});
   if(it.state==='fait')out.push({l:'Ranger dans l’historique',on:()=>{const k=idx(id);if(k<0)return;snapshot();archiveAt(k);commit();toast('Rangée dans l’historique · Ctrl+Z pour annuler');}});
-  out.push('-',{l:'Supprimer l’étiquette',k:'Alt+Suppr',danger:true,on:()=>removeTask(id,false)});
+  out.push('-',{l:'Supprimer la tâche',k:'Alt+Suppr',danger:true,on:()=>removeTask(id,false)});
   return out;
 }
 function headEntries(id){const h=items[idx(id)];return [
@@ -1850,7 +1850,7 @@ document.addEventListener('contextmenu',e=>{
   const en=ctxFor(t,e.clientX,e.clientY);if(!en||!en.length)return;
   e.preventDefault();ctxOpen(en,e.clientX,e.clientY);
 });
-/* au clavier : touche Menu ou Maj+F10 pendant l'écriture dans une étiquette */
+/* au clavier : touche Menu ou Maj+F10 pendant l'écriture dans une tâche */
 document.addEventListener('keydown',e=>{
   if(MOBILE||ctxEl)return;if(!(e.key==='ContextMenu'||(e.shiftKey&&e.key==='F10')))return;
   const a=document.activeElement,row=a&&a.closest&&a.closest('#list .row');if(!row)return;
@@ -1911,7 +1911,7 @@ function renderFilters(){
   for(const c of chips){
     const n=count(c);const on=filter&&filter.t===c.t&&filter.v===c.v;if(!n&&!on)continue;
     const b=document.createElement('button');b.className='fchip'+(on?' on':'')+(c.t!=='who'?' f-'+c.t:'');b.textContent=c.l+' '+n;
-    b.title=on?'Retirer le filtre (Échap)':'N’afficher que ces étiquettes';
+    b.title=on?'Retirer le filtre (Échap)':'N’afficher que ces tâches';
     b.onclick=()=>{filter=on?null:{t:c.t,v:c.v};render();};box.append(b);
   }
 }
@@ -2040,7 +2040,7 @@ list.addEventListener('keydown',e=>{
   if(k==='Enter'&&e.shiftKey){e.preventDefault();openNote(i);return;}
   if(e.altKey&&!mod&&e.code==='KeyU'){e.preventDefault();toggleUrgent(id,true);return;}
   if(k==='Delete'&&e.altKey){e.preventDefault();removeTask(id,true);return;}
-  /* Entrée valide l'étiquette (choix de François : elle créait sans cesse des tâches inutiles) ; Alt+Entrée ajoute une ligne en dessous */
+  /* Entrée valide la tâche (choix de François : elle créait sans cesse des tâches inutiles) ; Alt+Entrée ajoute une ligne en dessous */
   if(k==='Enter'&&e.altKey){e.preventDefault();split(i,el);return;}
   if(k==='Enter'){e.preventDefault();if(isBlankH(i)){items.splice(i,1);render();return;}if(isBlank(i)){dropBlank(id);return;}el.blur();return;}
   if(k==='Tab'){e.preventDefault();indent(i,e.shiftKey?-1:1);return;}
@@ -2084,7 +2084,7 @@ document.addEventListener('drop',e=>{
     if(mails){e.preventDefault();newCardsIn(sec,'afaire',mails.map(m=>({text:m.attach?m.label.replace(/\.[a-z0-9]{2,5}$/i,''):m.label,links:[{url:m.url,label:m.label}]})));return;}
     if(uri&&isLinkish(uri)){e.preventDefault();const u=cleanLink(uri);newCardsIn(sec,'afaire',[{text:labelOf(u),links:[{url:u,label:labelOf(u)}]}]);return;}
   }
-  if(dragId||!e.dataTransfer||e.defaultPrevented)return;if(e.target.closest&&e.target.closest('#list .card'))return;e.preventDefault();showReport(dropReport(e.dataTransfer,'hors étiquette'));});
+  if(dragId||!e.dataTransfer||e.defaultPrevented)return;if(e.target.closest&&e.target.closest('#list .card'))return;e.preventDefault();showReport(dropReport(e.dataTransfer,'hors tâche'));});
 document.addEventListener('dragenter',e=>{if(!dragId&&e.dataTransfer)e.preventDefault();});
 function dropReport(dt,where){
   const r=['Reçu le '+new Date().toLocaleString('fr-FR')+' ('+where+') sur '+(navigator.userAgent.match(/(Edg|Chrome|Firefox)\/[\d.]+/)||['?'])[0],'effectAllowed : '+dt.effectAllowed,'Types : '+[...dt.types].join(', ')];
@@ -2126,7 +2126,7 @@ function newCardsIn(secId,state,cards){
   if(!cards.length)return;snapshot();textSnapFor=null;
   let pos=laneEndOf(secId);const made=[];
   for(const c of cards){const n={id:uid(),kind:'t',level:0,state:state||'afaire',created:todayISO(),text:c.text,links:c.links||[]};if(c.note)n.note=c.note;items.splice(pos++,0,n);made.push(n);}
-  commit();toast(made.length>1?made.length+' étiquettes créées':'Étiquette créée');
+  commit();toast(made.length>1?made.length+' tâches créées':'Tâche créée');
 }
 list.addEventListener('drop',e=>{
   const dt=e.dataTransfer;if(!dt||dragId)return;const id=dropTaskId(e.target),cell=!id&&dropCell(e.target);if(!id&&!cell)return;
@@ -2138,9 +2138,9 @@ list.addEventListener('drop',e=>{
   if(id){
     if(mails){mails.forEach(m=>addLink(id,m.url,m.label));return;}
     if(uri&&isLinkish(uri)){addLink(id,uri);return;}
-    showReport(dropReport(dt,'sur une étiquette'));return;
+    showReport(dropReport(dt,'sur une tâche'));return;
   }
-  /* dépôt dans une case vide de colonne : on crée des étiquettes */
+  /* dépôt dans une case vide de colonne : on crée des tâches */
   const sec=cell.dataset.sec,state=cell.dataset.state;
   if(mails){newCardsIn(sec,state,mails.map(m=>({text:m.attach?m.label.replace(/\.[a-z0-9]{2,5}$/i,''):m.label,links:[{url:m.url,label:m.label}]})));return;}
   if(uri&&isLinkish(uri)){newCardsIn(sec,state,[{text:labelOf(cleanLink(uri)),links:[{url:cleanLink(uri),label:labelOf(cleanLink(uri))}]}]);return;}
@@ -2256,10 +2256,10 @@ function stopDrag(apply){
   if(apply&&id&&t)dropBlock(id,t);
 }
 
-/* ---------- menu volant (PC) : en attrapant une note ou une étiquette et en quittant sa zone (bandeau des notes, rubrique
-   de l'étiquette), la page se grise et les rubriques flottent en arc ; survoler une rubrique déploie ses tâches.
-   Lâcher : sur une rubrique (nouvelle tâche, ou étiquette rangée), sur une tâche (note : commentaire ou sous-tâche ;
-   étiquette : sous-tâche), ailleurs (rien). Revenir dans la zone de départ referme le menu. ---------- */
+/* ---------- menu volant (PC) : en attrapant une note ou une tâche et en quittant sa zone (bandeau des notes, rubrique
+   de la tâche), la page se grise et les rubriques flottent en arc ; survoler une rubrique déploie ses tâches.
+   Lâcher : sur une rubrique (nouvelle tâche, ou tâche rangée), sur une tâche (note : commentaire ou sous-tâche ;
+   tâche : sous-tâche), ailleurs (rien). Revenir dans la zone de départ referme le menu. ---------- */
 let fly=null;
 function flyOpen(kind,srcId,home){
   flyClose();const box=document.createElement('div');box.id='fly';document.body.append(box);
@@ -2368,7 +2368,7 @@ document.addEventListener('pointermove',e=>{
   pd.ghost.style.left=(e.clientX-pd.dx)+'px';pd.ghost.style.top=(e.clientY-pd.dy)+'px';
   const src=items[idx(pd.srcId)];
   const flying=src&&src.kind==='t'&&src.level===0&&flyMove('task',pd.srcId,pd.el.closest('.section,.urglane'),e.clientX,e.clientY);
-  /* une fois le menu ouvert, l'étiquette reste petite jusqu'au lâcher (sinon elle change de taille à chaque passage) */
+  /* une fois le menu ouvert, la tâche reste petite jusqu'au lâcher (sinon elle change de taille à chaque passage) */
   if(flying===true&&!pd.mini){pd.mini=Math.min(1,230/pd.ghost.offsetWidth);pd.ghost.style.setProperty('--gs',pd.mini);pd.ghost.classList.add('mini');}
   if(pd.mini){pd.ghost.style.left=(e.clientX-pd.ghost.offsetWidth*pd.mini-14)+'px';pd.ghost.style.top=(e.clientY-pd.ghost.offsetHeight*pd.mini/2)+'px';}
   if(flying===true){clearDrop();dropTarget=null;return;}   /* petite, à gauche du pointeur : elle ne cache pas les cibles */
@@ -2855,7 +2855,7 @@ function mRender(){
     shown+=wait.length;
     list.append(mSection('#attente','En attente',wait.length,'#8a8f98',box=>{for(const i of wait)box.append(mCard(i,true));},'mwait'));
   }
-  if(!shown&&!(notes.length&&!filter)){const e=document.createElement('div');e.className='mempty';e.textContent=filter?'Aucune étiquette pour ce filtre.':'Rien pour l’instant.';list.append(e);}
+  if(!shown&&!(notes.length&&!filter)){const e=document.createElement('div');e.className='mempty';e.textContent=filter?'Aucune tâche pour ce filtre.':'Rien pour l’instant.';list.append(e);}
   /* historique : replié par défaut, en bas */
   if(done.length&&!filter){if(mState.closed['#hist']===undefined)mState.closed['#hist']=true;
     list.append(mSection('#hist','Historique',done.length,'#8a8f98',box=>mHistFill(box,false),'mhistsec'));}
@@ -2908,25 +2908,26 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
- {d:'2026-10-13 19:15',type:'web',v:'2.12.1',items:['PC\u00a0: menu volant, l’étiquette attrapée garde son allure en plus petit, et reste petite jusqu’au lâcher.','PC\u00a0: sur une étiquette en retard (rouge), les boutons de survol («\u00a0!\u00a0», 📅, ×) sont de nouveau visibles.']},
- {d:'2026-10-13 19:00',type:'web',v:'2.12',items:['PC\u00a0: menu volant. Une note glissée hors du bandeau, ou une étiquette glissée hors de sa rubrique, grise la page et fait apparaître les rubriques en arc\u00a0; survoler une rubrique déploie ses tâches. Lâcher sur une rubrique\u00a0: la note devient tâche, l’étiquette y est rangée. Sur une tâche\u00a0: sous-tâche, ou pour une note, au choix, commentaire.','PC\u00a0: pour une étiquette, le menu propose aussi «\u00a0Urgentes\u00a0». La zone de départ reste claire et marche comme avant\u00a0; lâcher ailleurs ou Échap ne change rien.']},
- {d:'2026-10-13 17:50',type:'web',v:'2.11',items:['PC\u00a0: Entrée valide l’étiquette au lieu d’en créer une nouvelle\u00a0; pour ajouter une ligne en dessous (tâche ou sous-tâche), Alt+Entrée.']},
+ {d:'2026-10-13 19:25',type:'web',v:'2.12.2',items:['PC\u00a0: on parle partout de «\u00a0tâche\u00a0» au lieu d’«\u00a0étiquette\u00a0» (messages, menu clic droit, aide).']},
+ {d:'2026-10-13 19:15',type:'web',v:'2.12.1',items:['PC\u00a0: menu volant, la tâche attrapée garde son allure en plus petit, et reste petite jusqu’au lâcher.','PC\u00a0: sur une tâche en retard (rouge), les boutons de survol («\u00a0!\u00a0», 📅, ×) sont de nouveau visibles.']},
+ {d:'2026-10-13 19:00',type:'web',v:'2.12',items:['PC\u00a0: menu volant. Une note glissée hors du bandeau, ou une tâche glissée hors de sa rubrique, grise la page et fait apparaître les rubriques en arc\u00a0; survoler une rubrique déploie ses tâches. Lâcher sur une rubrique\u00a0: la note devient tâche, la tâche y est rangée. Sur une tâche\u00a0: sous-tâche, ou pour une note, au choix, commentaire.','PC\u00a0: pour une tâche, le menu propose aussi «\u00a0Urgentes\u00a0». La zone de départ reste claire et marche comme avant\u00a0; lâcher ailleurs ou Échap ne change rien.']},
+ {d:'2026-10-13 17:50',type:'web',v:'2.11',items:['PC\u00a0: Entrée valide la tâche au lieu d’en créer une nouvelle\u00a0; pour ajouter une ligne en dessous (tâche ou sous-tâche), Alt+Entrée.']},
  {d:'2026-10-13 17:40',type:'web',v:'2.10.3',items:['PC\u00a0: au bout d’une longue liste du clic droit, un coup de molette de plus ne referme plus le menu.']},
  {d:'2026-10-13 17:35',type:'web',v:'2.10.2',items:['Téléphone\u00a0: hors des heures de travail, message court sur la carte de version\u00a0: «\u00a0Copie pour le PC\u00a0: dépôt demain à 9\u00a0h\u00a0».']},
  {d:'2026-10-13 17:30',type:'web',v:'2.10.1',items:['Téléphone\u00a0: l’arc-en-ciel fête maintenant le dépôt de la nouvelle version dans OneDrive pour le PC (le même événement que le bouton arc-en-ciel du PC)\u00a0; une version installée sur le téléphone seulement a droit à la pastille verte habituelle et à une carte au contour vert.','Téléphone\u00a0: hors des heures de travail, la carte indique quand la copie pour le PC sera déposée (par exemple «\u00a0dépôt demain à 9\u00a0h\u00a0»)\u00a0; la fête a lieu à ce moment-là.']},
  {d:'2026-10-13 17:15',type:'web',v:'2.10',items:['Téléphone\u00a0: chaque nouvelle version est fêtée par la pastille arc-en-ciel, même quand le Compagnon Android la trouve tout seul au retour dans l’appli (avant, il rechargeait sans rien dire).','Téléphone\u00a0: après chaque nouvelle version, une carte au contour arc-en-ciel, en écho au bouton du PC\u00a0: «\u00a0Nouvelle version installée\u00a0», le numéro, la version précédente, la nouveauté principale, et ce que devient la copie pour le PC (déposée dans OneDrive, en cours, ou en pause hors des heures de travail).']},
  {d:'2026-10-13 17:00',type:'web',v:'2.9.2',items:['PC\u00a0: dans le clic droit, faire défiler une longue liste (par exemple «\u00a0Ajouter à une tâche\u00a0») à la molette ne referme plus le menu.','PC\u00a0: le menu clic droit apparaît en douceur, comme celui d’Edge.']},
  {d:'2026-10-13 16:50',type:'web',v:'2.9.1',items:['PC\u00a0: le «\u00a0+\u00a0» rond propose aussi «\u00a0Nouvelle rubrique\u00a0», au-dessus de «\u00a0Nouvelle note\u00a0» et «\u00a0Nouvelle tâche\u00a0».']},
- {d:'2026-10-13 16:30',type:'web',v:'2.9',items:['PC\u00a0: menu clic droit sur une étiquette (état, urgente, échéance, relance, changer de rubrique ou en créer une, couleur, sous-tâche, commentaire, lien, dupliquer, copier, ranger, supprimer), une sous-tâche, une note, un titre de rubrique ou une case vide.','PC\u00a0: au survol d’une étiquette, il ne reste que «\u00a0!\u00a0», 📅 et ×\u202f; le reste est dans le clic droit. Pendant l’écriture, le clic droit garde le menu d’Edge (correcteur d’orthographe).']},
- {d:'2026-10-13 15:55',type:'web',v:'2.8.5',items:['PC\u00a0: halo rouge autour de toute l’étiquette quand l’échéance est dépassée (en plus du rouge plein) ou tombe aujourd’hui (plus léger). Il est fixe, sans pulsation.']},
- {d:'2026-10-13 15:45',type:'web',v:'2.8.4',items:['PC\u00a0: une tâche dont l’échéance est dépassée devient entièrement rouge, texte en blanc (les hachures gênaient la lecture).','PC\u00a0: dans la rangée «\u00a0Urgentes\u00a0», le nom de la rubrique passe en bas de l’étiquette, sans cadre, précédé d’une pastille à la couleur de la rubrique.']},
+ {d:'2026-10-13 16:30',type:'web',v:'2.9',items:['PC\u00a0: menu clic droit sur une tâche (état, urgente, échéance, relance, changer de rubrique ou en créer une, couleur, sous-tâche, commentaire, lien, dupliquer, copier, ranger, supprimer), une sous-tâche, une note, un titre de rubrique ou une case vide.','PC\u00a0: au survol d’une tâche, il ne reste que «\u00a0!\u00a0», 📅 et ×\u202f; le reste est dans le clic droit. Pendant l’écriture, le clic droit garde le menu d’Edge (correcteur d’orthographe).']},
+ {d:'2026-10-13 15:55',type:'web',v:'2.8.5',items:['PC\u00a0: halo rouge autour de toute la tâche quand l’échéance est dépassée (en plus du rouge plein) ou tombe aujourd’hui (plus léger). Il est fixe, sans pulsation.']},
+ {d:'2026-10-13 15:45',type:'web',v:'2.8.4',items:['PC\u00a0: une tâche dont l’échéance est dépassée devient entièrement rouge, texte en blanc (les hachures gênaient la lecture).','PC\u00a0: dans la rangée «\u00a0Urgentes\u00a0», le nom de la rubrique passe en bas de la tâche, sans cadre, précédé d’une pastille à la couleur de la rubrique.']},
  {d:'2026-10-13 15:40',type:'web',v:'2.8.3',items:['PC\u00a0: une tâche dont l’échéance est dépassée a maintenant un fond hachuré rouge (au lieu du contour hachuré noir-rouge).']},
  {d:'2026-10-13 15:35',type:'web',v:'2.8.2',items:['Les tâches à échéance aujourd’hui passent aussi avant les urgentes marquées à la main (après celles dont l’échéance est dépassée).']},
  {d:'2026-10-13 15:30',type:'web',v:'2.8.1',items:['PC\u00a0: une tâche dont l’échéance est dépassée a un contour hachuré noir et rouge.','La pastille «\u00a0échéance aujourd’hui\u00a0» passe en rouge plein, comme celle d’une échéance dépassée (PC et téléphone).']},
  {d:'2026-10-13 15:25',type:'web',v:'2.8',items:['PC\u00a0: un clic sur le «\u00a0+\u00a0» rond déploie deux pastilles, «\u00a0Nouvelle note\u00a0» et «\u00a0Nouvelle tâche\u00a0» (Alt+N et Alt+T marchent toujours).','PC\u00a0: plus de pulsation sur les tâches (elle perturbait l’affichage des curseurs d’Edge)\u202f; le halo reste, fixe. Le téléphone garde ses pulsations.']},
- {d:'2026-10-13 14:25',type:'web',v:'2.7',items:['PC\u00a0: les étiquettes se comportent comme les notes\u00a0: une main au survol pour les attraper, un double-clic pour écrire dedans.','PC\u00a0: les notes peuvent prendre toute la largeur du bandeau.','PC\u00a0: «\u00a0Nouvelle version disponible\u00a0» devient un bouton compact au contour arc-en-ciel\u00a0: un clic, et la page se recharge avec la nouvelle version.']},
+ {d:'2026-10-13 14:25',type:'web',v:'2.7',items:['PC\u00a0: les tâches se comportent comme les notes\u00a0: une main au survol pour les attraper, un double-clic pour écrire dedans.','PC\u00a0: les notes peuvent prendre toute la largeur du bandeau.','PC\u00a0: «\u00a0Nouvelle version disponible\u00a0» devient un bouton compact au contour arc-en-ciel\u00a0: un clic, et la page se recharge avec la nouvelle version.']},
  {d:'2026-10-13 14:00',type:'web',v:'2.6.4',items:['PC\u00a0: retour aux curseurs en forme de main d’Edge.','PC\u00a0: nouvelle note avec le «\u00a0+\u00a0» en pointillés, en bas à gauche du bandeau des notes, comme pour une nouvelle tâche (toujours aussi Alt+N et le bouton rond).']},
- {d:'2026-10-13 12:10',type:'web',v:'2.6.3',items:['PC\u00a0: les curseurs en forme de main (pour attraper et glisser une étiquette ou une note) sont dessinés par l’application, avec leur contour noir\u00a0: ceux d’Edge s’affichaient parfois tout blancs.']},
+ {d:'2026-10-13 12:10',type:'web',v:'2.6.3',items:['PC\u00a0: les curseurs en forme de main (pour attraper et glisser une tâche ou une note) sont dessinés par l’application, avec leur contour noir\u00a0: ceux d’Edge s’affichaient parfois tout blancs.']},
  {d:'2026-10-13 11:50',type:'web',v:'2.6.2',items:['Urgentes\u00a0: celles dont l’échéance est dépassée passent en tête, avant les urgentes marquées à la main, et leur pastille «\u00a0!\u00a0» bat comme un cœur.','PC\u00a0: le «\u00a0+\u00a0» rond est bien centré\u202f; le bandeau de nouvelle version a un contour arc-en-ciel qui tourne, en écho à l’arc-en-ciel du téléphone.']},
  {d:'2026-10-13 11:20',type:'web',v:'2.6.1',items:['PC\u00a0: «\u00a0Quoi de neuf\u00a0?\u00a0» s’ouvrait de façon invisible et bloquait la page (Échap la refermait). Corrigé.']},
  {d:'2026-10-13 11:13',type:'web',v:'2.6',items:['À relancer\u00a0: les tâches en attente dont la date de relance est passée passent en ambre (plus en rouge\u00a0: ce n’est pas une urgence, juste un tiers à relancer). Au téléphone, elles remontent dans une section «\u00a0À relancer\u00a0» sous les urgentes\u202f; au PC, elles restent en tête de la colonne «\u00a0En attente\u00a0».','Bouton «\u00a0✓ Relancé\u00a0»\u00a0: prochaine relance dans une semaine, et «\u00a0relancé le …\u00a0» noté dans le commentaire.']},
@@ -3110,7 +3111,7 @@ function mEdit(id,fn,undoMsg){
   snapshot();fn(items[i],i);normalize();changed();mRender();
   if(undoMsg)mUndoToast(undoMsg);
 }
-/* une étiquette faite part dans l'historique (glisser la carte, ou bouton de la fiche) */
+/* une tâche faite part dans l'historique (glisser la carte, ou bouton de la fiche) */
 function mArchive(id){
   const i=idx(id);if(i<0)return;
   snapshot();archiveAt(i);normalize();changed();mRender();mUndoToast('Rangée dans l’historique');
@@ -3344,7 +3345,7 @@ function mFillAct(){
   mDatePill('aDue',it.due);setv($('#aNote'),it.note);
   if(ro)$('#aNote').hidden=!it.note;else $('#aNote').hidden=false;
   const subs=items.slice(i+1,blockEnd(i));
-  /* liens de l'étiquette et de ses sous-tâches, cliquables */
+  /* liens de la tâche et de ses sous-tâches, cliquables */
   const lk=$('#aLinks');lk.innerHTML='';const all=[it,...subs].flatMap(x=>x.links||[]);if(all.length)lk.append(mLinks(all));
   $('#aMeta').textContent=[it.created?'Créée le '+shortDate(it.created):'',it.state==='fait'?(it.doneDate?'faite le '+shortDate(it.doneDate):'faite'):''].filter(Boolean).join(' · ');
   const sig=JSON.stringify([ro,subs.map(x=>[x.id,x.text,x.level,!!x.checked])]);
