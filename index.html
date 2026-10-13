@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013115632">
+<meta name="taches-page" content="20261013122335">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -21,7 +21,13 @@ button.primary{border-color:var(--accent);color:var(--accent)}
 .banner,#help{max-width:1240px;margin:.8rem auto 0;border:1px solid var(--line);border-radius:8px;font-size:.88rem}
 .banner{padding:.55rem .8rem;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
 .banner[hidden],#help[hidden]{display:none}
-.vban{display:block;border:3px solid transparent;background:linear-gradient(color-mix(in srgb,var(--accent) 8%,var(--bg)),color-mix(in srgb,var(--accent) 8%,var(--bg))) padding-box,conic-gradient(from var(--arc,0deg),#e8463c,#f2a33a,#f3d43f,#5cc46a,#3aa7e0,#7a5ce0,#d65cc0,#e8463c) border-box;animation:arcTurn 3.5s linear infinite}
+.vban{display:flex;justify-content:center;border:none;background:none;padding:0;margin:.7rem auto 0}
+/* bouton de nouvelle version : encre sombre, contour arc-en-ciel qui tourne (les couleurs ressortent sur le sombre) */
+.vbtn{display:inline-flex;align-items:baseline;gap:.55rem;padding:.42rem 1.05rem;border-radius:999px;border:2.5px solid transparent;color:#fff;font-size:.88rem;cursor:pointer;
+  background:linear-gradient(#232733,#232733) padding-box,conic-gradient(from var(--arc,0deg),#e8463c,#f2a33a,#f3d43f,#5cc46a,#3aa7e0,#7a5ce0,#d65cc0,#e8463c) border-box;
+  animation:arcTurn 3.5s linear infinite;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.vbtn:hover{background:linear-gradient(#2f3442,#2f3442) padding-box,conic-gradient(from var(--arc,0deg),#e8463c,#f2a33a,#f3d43f,#5cc46a,#3aa7e0,#7a5ce0,#d65cc0,#e8463c) border-box;animation-duration:1.6s}
+.vbtn .vb1{font-weight:600}.vbtn .vb2{font-weight:700;letter-spacing:.01em}.vbtn .vb3{opacity:.65;font-size:.8rem}
 @property --arc{syntax:'<angle>';inherits:false;initial-value:0deg}
 @keyframes arcTurn{to{--arc:360deg}}
 @media (prefers-reduced-motion:reduce){.vban{animation:none}}
@@ -54,7 +60,8 @@ main{max-width:1240px;margin:0 auto;padding:1rem 1rem 30vh;min-height:60vh;curso
 .vider{align-self:flex-end;font-size:.75rem;padding:.05rem .5rem;color:var(--muted);opacity:.7}
 .vider:hover{opacity:1}
 .card{cursor:grab}
-.card .txt,.card .cmt{cursor:text}
+.card .txt,.card .cmt{cursor:grab}
+.card.editing .txt,.card.editing .cmt{cursor:text}
 body.dragging,body.dragging *{user-select:none!important;cursor:grabbing!important}
 .drag-src{opacity:.3!important}
 .fab{position:fixed;right:1.6rem;bottom:1.6rem;z-index:8;width:3.4rem;height:3.4rem;border-radius:50%;border:none;padding:0;background:var(--accent);color:var(--bg);font-size:2rem;line-height:3.3rem;box-shadow:0 4px 14px rgba(0,0,0,.2)}
@@ -444,11 +451,11 @@ body.mobile button:focus{outline:none}   /* au doigt, pas de cadre de focus (ora
 #inbox.empty{padding:.35rem .8rem}
 #inbox.empty .ihd{margin:0}
 /* chaque note prend la largeur de sa plus longue ligne (plafonnée) et la hauteur de son texte */
-.inote{position:relative;width:max-content;min-width:9rem;max-width:min(34rem,100%);min-height:3.3rem;padding:.35rem 2.6rem .45rem .6rem;border:1px solid var(--line);border-left:4px solid var(--note-bar);border-radius:8px;background:var(--note-bg);cursor:grab}
+.inote{position:relative;width:max-content;min-width:9rem;max-width:100%;min-height:3.3rem;padding:.35rem 2.6rem .45rem .6rem;border:1px solid var(--line);border-left:4px solid var(--note-bar);border-radius:8px;background:var(--note-bg);cursor:grab}
 .inote.dragging{opacity:.4}
 .inote .when{font-size:.72rem;color:var(--muted)}
 .inote .tx{white-space:pre-wrap;word-break:break-word;font-size:.9rem;outline:none;line-height:1.35}
-.inote textarea.tx{display:block;field-sizing:content;min-width:max(12rem,100%);box-sizing:border-box;max-width:min(31rem,calc(100vw - 6rem));min-height:1.4em;resize:none;border:none;padding:0 .15rem;margin:0 -.15rem;font:inherit;font-size:.9rem;line-height:1.35;color:inherit;background:var(--bg);border-radius:4px;cursor:text}
+.inote textarea.tx{display:block;field-sizing:content;min-width:max(12rem,100%);box-sizing:border-box;max-width:calc(100vw - 8rem);min-height:1.4em;resize:none;border:none;padding:0 .15rem;margin:0 -.15rem;font:inherit;font-size:.9rem;line-height:1.35;color:inherit;background:var(--bg);border-radius:4px;cursor:text}
 .inote.editing{cursor:default;box-shadow:0 0 0 2px color-mix(in srgb,var(--note-bar) 60%,transparent)}
 .inote .x,.inote .cp{position:absolute;top:.15rem;border:none;background:none;padding:0 .2rem;color:var(--muted);opacity:0;font-size:.95rem;line-height:1.3}
 .inote .x{right:.25rem}
@@ -546,7 +553,7 @@ aside.open{transform:none}
     <li><kbd>Maj</kbd>+<kbd>Entrée</kbd> ou ✎ au survol : commentaire de la tâche ; dedans, <kbd>Entrée</kbd> va à la ligne, <kbd>Échap</kbd> revient à la tâche, le vider le supprime</li>
     <li><kbd>Tab</kbd> / <kbd>Maj</kbd>+<kbd>Tab</kbd> faire / défaire une sous-tâche</li>
     <li><kbd>Ctrl</kbd>+<kbd>Entrée</kbd> ou clic sur le rond : cocher. Une sous-tâche reste barrée dans son étiquette ; l’étiquette passe dans « Fait » (re-cliquer la ressort). « Vider » range les étiquettes faites de la rubrique dans l’historique</li>
-    <li>Glisser une étiquette depuis n’importe quel endroit ; un clic sans bouger place simplement le curseur ; une fois dans l’étiquette, la souris sélectionne le texte. Une sous-tâche se glisse par sa poignée ⋮⋮, une rubrique par son titre. Lâchée au milieu d’une autre étiquette (qui s’encadre), une étiquette en devient la sous-tâche. <kbd>Échap</kbd> annule le glisser</li>
+    <li>Glisser une étiquette depuis n’importe quel endroit (la main) ; <strong>double-clic</strong> pour écrire dedans ; une fois dans l’étiquette, la souris sélectionne le texte. Une sous-tâche se glisse par sa poignée ⋮⋮, une rubrique par son titre. Lâchée au milieu d’une autre étiquette (qui s’encadre), une étiquette en devient la sous-tâche. <kbd>Échap</kbd> annule le glisser</li>
     <li><kbd>Alt</kbd>+<kbd>←</kbd> / <kbd>Alt</kbd>+<kbd>→</kbd> passer l’étiquette dans la colonne précédente / suivante</li>
     <li><kbd>Alt</kbd>+<kbd>↑</kbd> / <kbd>Alt</kbd>+<kbd>↓</kbd> monter / descendre dans la colonne</li>
     <li>« + Nouvelle rubrique » en bas, ou <kbd>#</kbd> + espace en début de ligne : nouvelle rubrique ; × au survol de son titre : la supprimer (ses étiquettes vont dans « Hors rubrique ») ; clic sur sa pastille : couleur de la rubrique et de ses étiquettes. Une étiquette peut avoir sa propre couleur (pastille multicolore au survol)</li>
@@ -1942,6 +1949,20 @@ function computeTarget(t,y){
   if(cell&&!cell.dataset.urg)return {el:cell,tgt:{cell:{sec:cell.dataset.sec,state:cell.dataset.state}}};
   return null;
 }
+/* comme les notes : un clic ne place pas le curseur d'écriture (la main sert à attraper) ; double-clic pour écrire dedans */
+function cardEditing(card){const a=document.activeElement;return !!(card&&a&&a.matches&&a.matches('.txt,.cmt')&&card.contains(a));}
+list.addEventListener('mousedown',e=>{
+  const t=e.target.closest&&e.target.closest('#list .card .txt,#list .card .cmt');if(!t||e.button!==0)return;
+  if(!cardEditing(t.closest('.card'))&&e.detail<2)e.preventDefault();
+},true);
+list.addEventListener('dblclick',e=>{
+  const t=e.target.closest&&e.target.closest('#list .card .txt,#list .card .cmt');if(!t)return;
+  if(document.activeElement!==t)t.focus();
+  const r=document.caretRangeFromPoint&&document.caretRangeFromPoint(e.clientX,e.clientY);
+  if(r&&t.contains(r.startContainer)){const sel=getSelection();sel.removeAllRanges();sel.addRange(r);}
+});
+document.addEventListener('focusin',()=>{document.querySelectorAll('#list .card.editing').forEach(c=>c.classList.remove('editing'));const c=document.activeElement&&document.activeElement.closest&&document.activeElement.closest('#list .card');if(c&&document.activeElement.matches('.txt,.cmt'))c.classList.add('editing');});
+document.addEventListener('focusout',()=>setTimeout(()=>{if(!document.activeElement||!document.activeElement.closest||!document.activeElement.closest('#list .card.editing'))document.querySelectorAll('#list .card.editing').forEach(c=>c.classList.remove('editing'));},0));
 list.addEventListener('pointerdown',e=>{
   if(e.button!==0)return;
   const b=e.target.closest('button,input');if(b)return;
@@ -2505,6 +2526,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-13 14:25',type:'web',v:'2.7',items:['PC\u00a0: les étiquettes se comportent comme les notes\u00a0: une main au survol pour les attraper, un double-clic pour écrire dedans.','PC\u00a0: les notes peuvent prendre toute la largeur du bandeau.','PC\u00a0: «\u00a0Nouvelle version disponible\u00a0» devient un bouton compact au contour arc-en-ciel\u00a0: un clic, et la page se recharge avec la nouvelle version.']},
  {d:'2026-10-13 14:00',type:'web',v:'2.6.4',items:['PC\u00a0: retour aux curseurs en forme de main d’Edge.','PC\u00a0: nouvelle note avec le «\u00a0+\u00a0» en pointillés, en bas à gauche du bandeau des notes, comme pour une nouvelle tâche (toujours aussi Alt+N et le bouton rond).']},
  {d:'2026-10-13 12:10',type:'web',v:'2.6.3',items:['PC\u00a0: les curseurs en forme de main (pour attraper et glisser une étiquette ou une note) sont dessinés par l’application, avec leur contour noir\u00a0: ceux d’Edge s’affichaient parfois tout blancs.']},
  {d:'2026-10-13 11:50',type:'web',v:'2.6.2',items:['Urgentes\u00a0: celles dont l’échéance est dépassée passent en tête, avant les urgentes marquées à la main, et leur pastille «\u00a0!\u00a0» bat comme un cœur.','PC\u00a0: le «\u00a0+\u00a0» rond est bien centré\u202f; le bandeau de nouvelle version a un contour arc-en-ciel qui tourne, en écho à l’arc-en-ciel du téléphone.']},
@@ -2625,7 +2647,10 @@ async function copyHtml(){
 function pcVersionCheck(){
   if(MOBILE)return;const b=document.getElementById('vbanner');if(!b)return;
   const w=settings.webv||'0';const newer=vcmp(w,WEB_V)>0;b.hidden=!newer;
-  if(newer)b.innerHTML='<strong>Nouvelle version de l’application web Chromium (v'+w+')</strong> arrivée dans ton dossier Tâches. Recharge la page (F5) pour l’utiliser\u00a0; ton travail en cours est déjà enregistré. Tu as actuellement la v'+WEB_V+'.';
+  if(newer){b.innerHTML='';const k=document.createElement('button');k.type='button';k.className='vbtn';
+    k.innerHTML='<span class="vb1">Nouvelle version disponible</span><span class="vb2">v'+w+'</span><span class="vb3">actuelle\u00a0: v'+WEB_V+'</span>';
+    k.title='Cliquer pour l’utiliser (recharge la page\u00a0; ton travail est déjà enregistré)';
+    k.onclick=async()=>{k.disabled=true;if(dirty&&backend){try{clearTimeout(saveTimer);await syncSave();}catch(e){}}location.reload();};b.append(k);}
 }
 /* recherche dans les archives des années précédentes (lues à la demande) */
 let mArchLoaded=null;
