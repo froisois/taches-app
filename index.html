@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013153435">
+<meta name="taches-page" content="20261013154250">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -607,7 +607,7 @@ aside.open{transform:none}
 <div id="help" hidden>
   <ul>
     <li>Gros <kbd>+</kbd> en bas à droite ou <kbd>Alt</kbd>+<kbd>N</kbd> : note rapide hors rubrique, tout en haut</li>
-    <li><kbd>Entrée</kbd> nouvelle ligne ; sur une ligne vide décalée, <kbd>Entrée</kbd> la ressort (nouvelle étiquette)</li>
+    <li><kbd>Entrée</kbd> valide l’étiquette ; <kbd>Alt</kbd>+<kbd>Entrée</kbd> ajoute une ligne en dessous (sur une ligne vide décalée, la ressort en nouvelle étiquette)</li>
     <li><kbd>Maj</kbd>+<kbd>Entrée</kbd> ou ✎ au survol : commentaire de la tâche ; dedans, <kbd>Entrée</kbd> va à la ligne, <kbd>Échap</kbd> revient à la tâche, le vider le supprime</li>
     <li><kbd>Tab</kbd> / <kbd>Maj</kbd>+<kbd>Tab</kbd> faire / défaire une sous-tâche</li>
     <li><kbd>Ctrl</kbd>+<kbd>Entrée</kbd> ou clic sur le rond : cocher. Une sous-tâche reste barrée dans son étiquette ; l’étiquette passe dans « Fait » (re-cliquer la ressort). « Vider » range les étiquettes faites de la rubrique dans l’historique</li>
@@ -2000,7 +2000,9 @@ list.addEventListener('keydown',e=>{
   if(k==='Enter'&&e.shiftKey){e.preventDefault();openNote(i);return;}
   if(e.altKey&&!mod&&e.code==='KeyU'){e.preventDefault();toggleUrgent(id,true);return;}
   if(k==='Delete'&&e.altKey){e.preventDefault();removeTask(id,true);return;}
-  if(k==='Enter'){e.preventDefault();split(i,el);return;}
+  /* Entrée valide l'étiquette (choix de François : elle créait sans cesse des tâches inutiles) ; Alt+Entrée ajoute une ligne en dessous */
+  if(k==='Enter'&&e.altKey){e.preventDefault();split(i,el);return;}
+  if(k==='Enter'){e.preventDefault();if(isBlankH(i)){items.splice(i,1);render();return;}if(isBlank(i)){dropBlank(id);return;}el.blur();return;}
   if(k==='Tab'){e.preventDefault();indent(i,e.shiftKey?-1:1);return;}
   if(e.altKey&&(k==='ArrowLeft'||k==='ArrowRight')){e.preventDefault();setState(i,k==='ArrowLeft'?-1:1);return;}
   if(e.altKey&&(k==='ArrowUp'||k==='ArrowDown')){e.preventDefault();const off=getCaret(el);snapshot();textSnapFor=null;if(moveBlock(i,k==='ArrowUp'?-1:1)){render();focusItem(id,off);changed();}else undoStack.pop();return;}
@@ -2750,6 +2752,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-13 17:50',type:'web',v:'2.11',items:['PC\u00a0: Entrée valide l’étiquette au lieu d’en créer une nouvelle\u00a0; pour ajouter une ligne en dessous (tâche ou sous-tâche), Alt+Entrée.']},
  {d:'2026-10-13 17:40',type:'web',v:'2.10.3',items:['PC\u00a0: au bout d’une longue liste du clic droit, un coup de molette de plus ne referme plus le menu.']},
  {d:'2026-10-13 17:35',type:'web',v:'2.10.2',items:['Téléphone\u00a0: hors des heures de travail, message court sur la carte de version\u00a0: «\u00a0Copie pour le PC\u00a0: dépôt demain à 9\u00a0h\u00a0».']},
  {d:'2026-10-13 17:30',type:'web',v:'2.10.1',items:['Téléphone\u00a0: l’arc-en-ciel fête maintenant le dépôt de la nouvelle version dans OneDrive pour le PC (le même événement que le bouton arc-en-ciel du PC)\u00a0; une version installée sur le téléphone seulement a droit à la pastille verte habituelle et à une carte au contour vert.','Téléphone\u00a0: hors des heures de travail, la carte indique quand la copie pour le PC sera déposée (par exemple «\u00a0dépôt demain à 9\u00a0h\u00a0»)\u00a0; la fête a lieu à ce moment-là.']},
