@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013132931">
+<meta name="taches-page" content="20261013134449">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -101,7 +101,17 @@ body.dragging,body.dragging *{user-select:none!important;cursor:grabbing!importa
 .relok:hover{background:#b7791f;color:#fff}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(196,82,74,.55)}50%{box-shadow:0 0 0 5px rgba(196,82,74,0)}}
 .card.late{border-color:#b7791f;border-left-color:#b7791f;background:color-mix(in srgb,#b7791f 13%,var(--bg))}
-#list .card.retard{background:repeating-linear-gradient(-45deg,color-mix(in srgb,#c4524a 24%,var(--bg)) 0 10px,color-mix(in srgb,#c4524a 12%,var(--bg)) 10px 20px)}   /* échéance dépassée : fond hachuré rouge, signal fixe */
+/* échéance dépassée (PC) : étiquette pleine rouge, texte blanc, signal fixe */
+#list .card.retard{background:#c4524a;border-color:#a8392f;border-left-color:#8e2c24;color:#fff}
+#list .card.retard .txt,#list .card.retard .row.t .txt{color:#fff}
+#list .card.retard .cmt,#list .card.retard .cdate{color:rgba(255,255,255,.82)}
+#list .card.retard .chk{border-color:#fff;background:transparent}
+#list .card.retard .urg.on{background:#fff;color:#c4524a;box-shadow:0 0 0 3px rgba(255,255,255,.35)!important}
+#list .card.retard .due.over{background:#fff;color:#c4524a;border-color:#fff}
+#list .card.retard .lnk{background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.4)}
+#list .card.retard .insec{color:rgba(255,255,255,.85)}
+#list .card.retard .insec::before{box-shadow:0 0 0 1.5px #fff}
+#list .card.retard .tools button{color:#fff}
 .card.late.urgent{border-color:#c4524a;border-left-color:#c4524a;background:color-mix(in srgb,#c4524a 16%,var(--bg))}
 .urg{flex:none;border:none;background:none;padding:0;width:1.05rem;height:1.05rem;margin-top:.25rem;border-radius:50%;font-size:.8rem;font-weight:800;line-height:1.05rem;text-align:center;color:var(--muted);opacity:0}
 .row:hover>.urg{opacity:.6}
@@ -495,7 +505,8 @@ body.mobile button:focus{outline:none}   /* au doigt, pas de cadre de focus (ora
 .row.t.urgent .chk.on,.card.urgent>.row.top .chk.on{background:#c4524a}
 .section.urglane .lanehd{display:flex;align-items:center;gap:.45rem;font-weight:650;font-size:1.05rem;color:#c4524a;padding:.1rem .3rem .2rem;border-bottom:2px solid color-mix(in srgb,#c4524a 40%,transparent);margin-bottom:.5rem}
 .section.urglane .lanehd::before{content:"";width:.85rem;height:.85rem;border-radius:50%;background:#c4524a}
-.card .insec{display:inline-block;font-size:.7rem;color:color-mix(in srgb,var(--c) 75%,var(--fg));border:1px solid color-mix(in srgb,var(--c) 40%,transparent);border-radius:999px;padding:0 .45rem;margin:0 0 .15rem 1.6rem}
+.card .insec{display:flex;align-items:center;gap:.35rem;font-size:.72rem;color:var(--muted);margin:.3rem 0 .05rem 1.6rem}
+.card .insec::before{content:"";flex:none;width:.5rem;height:.5rem;border-radius:50%;background:var(--sc,var(--c))}
 .useg{display:inline-flex;align-items:center;gap:0;font-size:.78rem;border:1px solid color-mix(in srgb,#c4524a 45%,transparent);border-radius:999px;overflow:hidden;white-space:nowrap}
 .useg span{color:#c4524a;font-weight:700;padding:.1rem .2rem .1rem .55rem}
 .useg button{border:none;background:none;border-radius:0;padding:.1rem .55rem;font-size:.78rem;color:var(--muted)}
@@ -1231,7 +1242,7 @@ function render(){
     if(it.level===0||!card){
       const up=ucells&&inUrgLane(it);
       card=document.createElement('div');card.className='card'+(isLate(it)?' late':'')+(isUrgent(it)?' urgent':'')+(up?' inurg':'')+(dueSoon(it)&&daysTo(it.due)<0?' retard':'');card.style.setProperty('--c',COLORS[it.color]||(cur_h&&COLORS[cur_h.color])||CARD_COLOR);card.dataset.id=it.id;
-      if(up){const b=document.createElement('div');b.className='insec';b.textContent=cur_h?cur_h.text:'Hors rubrique';card.append(b);}
+      if(up){const b=document.createElement('div');b.className='insec';b.textContent=cur_h?cur_h.text:'Hors rubrique';b.style.setProperty('--sc',cur_h?(cols['#'+cur_h.id]||CARD_COLOR):'var(--muted)');card.append(b);}
       ((up?ucells:cells)[it.state]||(up?ucells:cells).afaire).append(card);}
     card.append(makeRow(it));
   }
@@ -1250,6 +1261,7 @@ function render(){
     }
     const g=document.createElement('button');g.className='ghost';g.textContent='+';g.title='Nouvelle étiquette';g.tabIndex=-1;g.dataset.sec=c.dataset.sec;g.dataset.state=c.dataset.state;c.append(g);
   });
+  list.querySelectorAll('.card>.insec').forEach(b=>b.parentNode.append(b));   /* nom de la rubrique en bas de l'étiquette */
   list.querySelectorAll('.section').forEach(sec=>{if((filter||sec.classList.contains('urglane'))&&!sec.querySelector('.card'))sec.style.display='none';});
   document.body.classList.toggle('filtering',!!filter);renderFilters();
   renderInbox();pcVersionCheck();
@@ -2544,6 +2556,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-13 15:45',type:'web',v:'2.8.4',items:['PC\u00a0: une tâche dont l’échéance est dépassée devient entièrement rouge, texte en blanc (les hachures gênaient la lecture).','PC\u00a0: dans la rangée «\u00a0Urgentes\u00a0», le nom de la rubrique passe en bas de l’étiquette, sans cadre, précédé d’une pastille à la couleur de la rubrique.']},
  {d:'2026-10-13 15:40',type:'web',v:'2.8.3',items:['PC\u00a0: une tâche dont l’échéance est dépassée a maintenant un fond hachuré rouge (au lieu du contour hachuré noir-rouge).']},
  {d:'2026-10-13 15:35',type:'web',v:'2.8.2',items:['Les tâches à échéance aujourd’hui passent aussi avant les urgentes marquées à la main (après celles dont l’échéance est dépassée).']},
  {d:'2026-10-13 15:30',type:'web',v:'2.8.1',items:['PC\u00a0: une tâche dont l’échéance est dépassée a un contour hachuré noir et rouge.','La pastille «\u00a0échéance aujourd’hui\u00a0» passe en rouge plein, comme celle d’une échéance dépassée (PC et téléphone).']},
