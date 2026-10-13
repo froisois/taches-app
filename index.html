@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013144505">
+<meta name="taches-page" content="20261013144901">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -146,7 +146,8 @@ body:not(.mobile) .halo.halo-vif,body:not(.mobile) .halo.retard{animation:none} 
 .palette button{width:1.25rem;height:1.25rem;padding:0;border-radius:50%;border:2px solid transparent}
 .palette button.cur{border-color:var(--fg)}
 .row.t .tools>.colb,.row.t .tools>.addc,.row.t .tools>.addl{display:none}   /* au survol : !, 📅, × ; le reste au clic droit */
-.cmenu{position:fixed;z-index:60;min-width:13.5rem;max-width:19rem;max-height:80vh;overflow:auto;padding:.3rem;border-radius:10px;background:var(--panel,var(--bg));border:1px solid var(--line);box-shadow:0 8px 26px rgba(0,0,0,.2);font-size:.88rem}
+@keyframes cmIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.cmenu{animation:cmIn .14s cubic-bezier(.2,.8,.3,1);position:fixed;z-index:60;min-width:13.5rem;max-width:19rem;max-height:80vh;overflow:auto;padding:.3rem;border-radius:10px;background:var(--panel,var(--bg));border:1px solid var(--line);box-shadow:0 8px 26px rgba(0,0,0,.2);font-size:.88rem}
 .ctxi{display:flex;align-items:center;gap:.4rem;width:100%;border:none;background:none;text-align:left;padding:.34rem .5rem;border-radius:6px;color:var(--fg);font:inherit;cursor:default}
 .ctxi:hover,.ctxi:focus,.ctxi.open{background:color-mix(in srgb,var(--accent) 12%,var(--bg));outline:none}
 .ctxi:disabled{opacity:.45}
@@ -1679,7 +1680,7 @@ function ctxBuild(entries,x,y,parent){
 }
 function ctxOpen(entries,x,y){ctxClose();ctxEl=ctxBuild(entries,x,y,null);const f=ctxEl.querySelector('.ctxi:not(:disabled)');if(f)f.focus();}
 document.addEventListener('pointerdown',e=>{if(ctxEl&&!e.target.closest('.cmenu'))ctxClose();},true);
-window.addEventListener('blur',ctxClose);window.addEventListener('resize',ctxClose);document.addEventListener('scroll',ctxClose,true);
+window.addEventListener('blur',ctxClose);window.addEventListener('resize',ctxClose);document.addEventListener('scroll',e=>{if(!(e.target.closest&&e.target.closest('.cmenu')))ctxClose();},true);
 document.addEventListener('keydown',e=>{
   if(!ctxEl)return;const a=document.activeElement,menu=a&&a.closest&&a.closest('.cmenu');
   if(e.key==='Escape'){e.preventDefault();e.stopPropagation();ctxClose();return;}
@@ -2729,6 +2730,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-13 17:00',type:'web',v:'2.9.2',items:['PC\u00a0: dans le clic droit, faire défiler une longue liste (par exemple «\u00a0Ajouter à une tâche\u00a0») à la molette ne referme plus le menu.','PC\u00a0: le menu clic droit apparaît en douceur, comme celui d’Edge.']},
  {d:'2026-10-13 16:50',type:'web',v:'2.9.1',items:['PC\u00a0: le «\u00a0+\u00a0» rond propose aussi «\u00a0Nouvelle rubrique\u00a0», au-dessus de «\u00a0Nouvelle note\u00a0» et «\u00a0Nouvelle tâche\u00a0».']},
  {d:'2026-10-13 16:30',type:'web',v:'2.9',items:['PC\u00a0: menu clic droit sur une étiquette (état, urgente, échéance, relance, changer de rubrique ou en créer une, couleur, sous-tâche, commentaire, lien, dupliquer, copier, ranger, supprimer), une sous-tâche, une note, un titre de rubrique ou une case vide.','PC\u00a0: au survol d’une étiquette, il ne reste que «\u00a0!\u00a0», 📅 et ×\u202f; le reste est dans le clic droit. Pendant l’écriture, le clic droit garde le menu d’Edge (correcteur d’orthographe).']},
  {d:'2026-10-13 15:55',type:'web',v:'2.8.5',items:['PC\u00a0: halo rouge autour de toute l’étiquette quand l’échéance est dépassée (en plus du rouge plein) ou tombe aujourd’hui (plus léger). Il est fixe, sans pulsation.']},
