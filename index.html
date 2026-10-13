@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013181335">
+<meta name="taches-page" content="20261013225928">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -130,6 +130,12 @@ body.dragging .tools{display:none!important}
 .due:hover{border-color:var(--c);color:var(--fg)}
 .due.soon{border-color:#c4524a;color:#c4524a;font-weight:600}
 .due.over{background:#c4524a;color:#fff}
+.due.near{border-color:#e07f60;color:#c4643f;font-weight:600}   /* bientôt (J-4 à J-7) : corail pâle, pas urgent */
+.card.important{border-left:4px solid #c4524a}   /* importante (à la main) : la case et le « ! » rouges, sans fond ni halo */
+.card.important>.row.top .chk{border-color:#c4524a}
+.card.bientot{border-left:4px solid #e8896b;background:color-mix(in srgb,#e8896b 10%,var(--bg))}
+.card.vieux1{background:color-mix(in srgb,#b8945a 9%,var(--bg))}.card.vieux2{background:color-mix(in srgb,#b8945a 19%,var(--bg))}   /* patine : sans échéance, en attente depuis 2 puis 4 semaines */
+.card .age{display:inline-block;margin:.2rem .3rem 0 0;font-size:.72rem;color:#8a6d3b}
 .urg.auto{box-shadow:0 0 0 2px color-mix(in srgb,#c4524a 35%,transparent)}
 /* halo d'échéance : épaisseur et intensité selon l'imminence (--hz de 0 à 1), pulsation la veille, le jour même et après */
 .halo{box-shadow:0 0 0 calc(1.5px + 3.5px * var(--hz,0)) color-mix(in srgb,#c4524a calc(18% + 47% * var(--hz,0)),transparent)!important}
@@ -230,6 +236,10 @@ body.mobile>header,body.mobile #help,body.mobile #banner,body.mobile main,body.m
 .mchip.red{border-color:#c4524a;color:#c4524a;font-weight:600}
 .mchip.redf{background:#c4524a;border-color:#c4524a;color:#fff;font-weight:600}
 .mchip.amb{background:#b7791f;border-color:#b7791f;color:#fff;font-weight:600}
+.mchip.near{border-color:#e07f60;color:#c4643f;font-weight:600}.mchip.age{color:#8a6d3b;border-color:color-mix(in srgb,#b8945a 45%,transparent)}
+.mcard.important{border-color:#c4524a}.mcard.important .mchk{border-color:#c4524a}
+.mcard.bientot{border-color:#e8896b;background:color-mix(in srgb,#e8896b 10%,var(--bg))}
+.mcard.vieux1{background:color-mix(in srgb,#b8945a 9%,var(--bg))}.mcard.vieux2{background:color-mix(in srgb,#b8945a 19%,var(--bg))}
 .mrelb{font-size:.78rem;padding:.12rem .7rem;border-radius:999px;border:1.5px solid #b7791f;background:var(--bg);color:#b7791f;font-weight:650;margin-left:auto}
 .mchip.who{background:var(--c);border-color:var(--c);color:#fff;font-weight:700}
 .mmore{font-size:.76rem;color:var(--muted);margin-top:.3rem}
@@ -647,8 +657,8 @@ aside.open{transform:none}
     <li><kbd>Tab</kbd> / <kbd>Maj</kbd>+<kbd>Tab</kbd> faire / défaire une sous-tâche</li>
     <li><kbd>Ctrl</kbd>+<kbd>Entrée</kbd> ou clic sur le rond : cocher. Une sous-tâche reste barrée dans sa tâche ; la tâche passe dans « Fait » (re-cliquer la ressort). « Vider » range les tâches faites de la rubrique dans l’historique</li>
     <li>Glisser une tâche depuis n’importe quel endroit (la main) ; <strong>double-clic</strong> pour écrire dedans ; une fois dans la tâche, la souris sélectionne le texte. Une sous-tâche se glisse par sa poignée ⋮⋮, une rubrique par son titre. Lâchée au milieu d’une autre tâche (qui s’encadre), une tâche en devient la sous-tâche. <kbd>Échap</kbd> annule le glisser</li>
-    <li><strong>Menu volant</strong> : une tâche glissée hors de sa rubrique, ou une note hors du bandeau des notes, grise la page et fait apparaître les rubriques en arc (plus « Urgentes » pour une tâche) ; survoler une rubrique déploie ses tâches. Lâcher sur une rubrique : la note devient tâche, la tâche y est rangée ; sur une tâche : sous-tâche (et pour une note, au choix, commentaire). Une fois le menu ouvert, toute la page est grisée (pour ranger dans sa rubrique ou entre les notes, rester dedans) ; ailleurs ou <kbd>Échap</kbd> : rien ne change</li>
-    <li><strong>Clic droit</strong> sur une tâche, une sous-tâche, une note, un titre de rubrique ou une case vide : toutes les actions (état, urgence, échéance, rubrique, couleur, sous-tâche, commentaire, lien, dupliquer, copier, supprimer…). Au clavier pendant l’écriture : touche Menu ou <kbd>Maj</kbd>+<kbd>F10</kbd>. Pendant l’écriture, le clic droit garde le menu d’Edge (correcteur)</li>
+    <li><strong>Menu volant</strong> : une tâche glissée hors de sa rubrique, ou une note hors du bandeau des notes, grise la page et fait apparaître les rubriques en arc (plus « Importante » pour une tâche) ; survoler une rubrique déploie ses tâches. Lâcher sur une rubrique : la note devient tâche, la tâche y est rangée ; sur une tâche : sous-tâche (et pour une note, au choix, commentaire). Une fois le menu ouvert, toute la page est grisée (pour ranger dans sa rubrique ou entre les notes, rester dedans) ; ailleurs ou <kbd>Échap</kbd> : rien ne change</li>
+    <li><strong>Clic droit</strong> sur une tâche, une sous-tâche, une note, un titre de rubrique ou une case vide : toutes les actions (état, importante, échéance, rubrique, couleur, sous-tâche, commentaire, lien, dupliquer, copier, supprimer…). Au clavier pendant l’écriture : touche Menu ou <kbd>Maj</kbd>+<kbd>F10</kbd>. Pendant l’écriture, le clic droit garde le menu d’Edge (correcteur)</li>
     <li><kbd>Alt</kbd>+<kbd>←</kbd> / <kbd>Alt</kbd>+<kbd>→</kbd> passer la tâche dans la colonne précédente / suivante</li>
     <li><kbd>Alt</kbd>+<kbd>↑</kbd> / <kbd>Alt</kbd>+<kbd>↓</kbd> monter / descendre dans la colonne</li>
     <li>« + Nouvelle rubrique » en bas, ou <kbd>#</kbd> + espace en début de ligne : nouvelle rubrique ; × au survol de son titre : la supprimer (ses tâches vont dans « Hors rubrique ») ; clic sur sa pastille : couleur de la rubrique et de ses tâches. Une tâche peut avoir sa propre couleur (pastille multicolore au survol)</li>
@@ -657,10 +667,11 @@ aside.open{transform:none}
     <li>🔗 au survol, ou coller une adresse web / un chemin de fichier dans la tâche, ou glisser un lien sur la tâche : relier une ressource. Un clic sur la pastille l’ouvre</li>
     <li>« En attente » : relance prévue 7 jours après l’arrivée dans la colonne ; clic sur ⏰ pour choisir une autre date. Passé la date, la tâche vire au rouge</li>
     <li>Une tâche laissée vide disparaît d’elle-même quand tu la quittes ; <kbd>Échap</kbd> la supprime aussi tout de suite</li>
-    <li><strong>!</strong> au survol ou <kbd>Alt</kbd>+<kbd>U</kbd> : marquer une tâche urgente (tâche rouge) ; re-cliquer pour retirer</li>
-    <li>📅 au survol : échéance. Sept jours avant, la tâche devient urgente toute seule ; clic sur la pastille pour changer ou effacer la date</li>
+    <li><strong>!</strong> au survol ou <kbd>Alt</kbd>+<kbd>I</kbd> : marquer une tâche <strong>importante</strong> (case et « ! » rouges) ; re-cliquer pour retirer</li>
+    <li>📅 au survol : échéance. Dès J-7, la tâche est signalée en corail ; à J-3 elle devient <strong>urgente</strong> (rouge, halo) ; dépassée, rouge plein. Seuils réglables dans ⚙. Les tâches datées passent avant les autres, par date. Clic sur la pastille pour changer ou effacer la date</li>
+    <li>Une tâche à faire sans échéance prend une <strong>patine</strong> au bout de 2 semaines, plus marquée à 4 (« depuis 3 sem. ») : elle attend</li>
     <li>« En attente » : « + qui ? » pour noter la personne attendue (les noms déjà utilisés sont proposés)</li>
-    <li>En haut : <strong>!</strong> « urgentes en haut » (rangée à part, avec le nom de leur rubrique) ou « dans leur rubrique » ; filtres « à relancer » ou une personne attendue, re-cliquer ou <kbd>Échap</kbd> pour tout réafficher</li>
+    <li>En haut : <strong>!</strong> « priorités en haut » (rangée à part : urgentes, puis importantes, avec le nom de leur rubrique) ou « dans leur rubrique » ; filtres « à relancer » ou une personne attendue, re-cliquer ou <kbd>Échap</kbd> pour tout réafficher</li>
     <li>Glisser un e-mail, une pièce jointe d’e-mail, un lien ou du texte : sur une tâche, il s’y ajoute ; ailleurs, il crée une tâche (dans la case visée, sinon « À faire » de la rubrique, sinon « Hors rubrique »)</li>
     <li>Coller la réponse JSON de l’Afficheur Graph (tâches To Do) dans une tâche, par exemple après Alt+T : importe les tâches non terminées</li>
     <li><kbd>Retour arrière</kbd> en début de ligne : décaler, fusionner ou supprimer</li>
@@ -698,7 +709,7 @@ aside.open{transform:none}
     <form method="dialog" id="aForm">
       <p class="ameta" id="aMeta"></p>
       <textarea id="aText" rows="2" placeholder="Intitulé"></textarea>
-      <div class="arow1"><div class="aseg" id="aState"></div><span class="sp"></span><button type="button" id="aUrg" class="ico aurg" title="Urgente" aria-label="Urgente">!</button><span class="dpill" id="aDueP"><button type="button" class="dbtn" id="aDueB" title="Échéance" aria-label="Échéance"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span class="dv"></span></button><button type="button" class="dx" id="aDueX" title="Retirer la date" aria-label="Retirer la date"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button><input id="aDue" type="date" class="dhid" tabindex="-1"></span></div>
+      <div class="arow1"><div class="aseg" id="aState"></div><span class="sp"></span><button type="button" id="aUrg" class="ico aurg" title="Importante" aria-label="Importante">!</button><span class="dpill" id="aDueP"><button type="button" class="dbtn" id="aDueB" title="Échéance" aria-label="Échéance"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span class="dv"></span></button><button type="button" class="dx" id="aDueX" title="Retirer la date" aria-label="Retirer la date"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button><input id="aDue" type="date" class="dhid" tabindex="-1"></span></div>
       <div id="aWait" class="arow1"><input id="aWho" list="aPeople" placeholder="Attendu de…"><datalist id="aPeople"></datalist><span class="dpill" id="aRelP"><button type="button" class="dbtn" id="aRelB" title="Relance" aria-label="Relance"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><span class="dv"></span></button><button type="button" class="dx" id="aRelX" title="Retirer la date" aria-label="Retirer la date"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button><input id="aRel" type="date" class="dhid" tabindex="-1"></span></div>
       <div class="ntool" id="aTool"><button type="button" id="aBold" class="ico" title="Gras" aria-label="Gras"><b>B</b></button><button type="button" id="aItal" class="ico" title="Italique" aria-label="Italique"><i>I</i></button><button type="button" id="aBullet" class="ico" title="Liste à puces" aria-label="Liste à puces"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="7" r="1.2" fill="currentColor" stroke="none"/><circle cx="5" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="5" cy="17" r="1.2" fill="currentColor" stroke="none"/><path d="M9.5 7H20M9.5 12H20M9.5 17H20"/></svg></button></div>
       <div class="nwrap"><textarea id="aNote" rows="3" placeholder="Commentaire"></textarea><button type="button" id="aCopy" class="ico ccopy" title="Copier le commentaire" aria-label="Copier le commentaire"><span class="i1"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2.2"/><path d="M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5"/></svg></span><span class="i2"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></button></div>
@@ -731,8 +742,8 @@ aside.open{transform:none}
   <dialog id="mOver"><form method="dialog"><p id="mOverTxt"></p><button class="wait" value="attendre">Ça peut attendre</button><button type="button" class="go" id="mOverGo">envoyer maintenant malgré tout</button></form></dialog>
   <dialog id="mMenu">
     <form method="dialog">
-      <label class="mopt"><input type="checkbox" id="oUrgTop"> Urgentes regroupées en haut</label>
-      <label class="mopt"><input type="checkbox" id="oFilters"> Afficher les filtres (urgentes, à relancer, personnes)</label>
+      <label class="mopt"><input type="checkbox" id="oUrgTop"> Priorités regroupées en haut</label>
+      <label class="mopt"><input type="checkbox" id="oFilters"> Afficher les filtres (priorités, à relancer, personnes)</label>
       <button type="button" class="mitem" id="oUpdate">Vérifier la mise à jour du Compagnon Android</button>
       <button type="button" class="mitem" id="oFile">Choisir un autre fichier</button>
       <button type="button" class="mitem" id="oNews">Notes de version</button>
@@ -793,7 +804,7 @@ const SKEYS=STATES.map(s=>s.k);
 document.documentElement.style.setProperty('--ncol',STATES.length);
 
 /* Exemple neutre affiché tant qu'aucun fichier n'est ouvert (aucune donnée réelle) */
-const SEED=`- [ ] Rappeler le fournisseur de pupitres {urgent} {créé 2026-10-10}
+const SEED=`- [ ] Rappeler le fournisseur de pupitres {important} {créé 2026-10-10}
 
 # Commandes
 - [ ] Cordes pour la classe de violon : voir bon de commande papier {créé 2026-10-06}
@@ -892,18 +903,27 @@ function addLink(id,raw,label){
 }
 const RELANCE_JOURS=7;
 function addDays(iso,n){const d=new Date(iso+'T12:00');d.setDate(d.getDate()+n);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
-const ECHEANCE_JOURS=7;
+/* urgent = le calendrier presse (échéance dépassée, du jour, ou à J-3) ; bientôt = J-4 à J-7 (corail, pas urgent) ;
+   important = ce que l'on marque soi-même ({important}). Seuils réglables dans ⚙. */
+function seuilUrg(){return settings.urgJ!=null?settings.urgJ:3;}
+function seuilBientot(){return Math.max(seuilUrg(),settings.bientotJ!=null?settings.bientotJ:7);}
+function dueActive(it){return it.kind==='t'&&!!it.due&&!(it.level===0&&it.state==='fait')&&!it.checked;}
+function dueNear(it){if(!dueActive(it))return false;const n=daysTo(it.due);return n>seuilUrg()&&n<=seuilBientot();}
+/* tâche qui attend sans échéance : patine à 2 puis 4 semaines */
+function ageLevel(it){if(!(it.kind==='t'&&it.level===0&&it.state==='afaire'&&!it.due&&!it.important&&it.created))return 0;const n=-daysTo(it.created);return n>=28?2:n>=14?1:0;}
+function ageTxt(it){const n=-daysTo(it.created),w=Math.floor(n/7);return 'depuis '+w+'\u00a0sem.';}
 function daysTo(iso){return Math.round((new Date(iso+'T12:00')-new Date(todayISO()+'T12:00'))/864e5);}
 /* halo d'urgence : d'autant plus marqué que l'échéance approche (0 à 7 jours avant, 1 le jour même et après) */
 function dueHalo(el,it){
-  if(!dueSoon(it))return;const n=daysTo(it.due),h=Math.max(0,Math.min(1,1-n/ECHEANCE_JOURS));
+  if(!dueSoon(it))return;const n=daysTo(it.due),h=Math.max(0,Math.min(1,1-n/(seuilUrg()+1)));
   el.classList.add('halo');if(n<=1)el.classList.add('halo-vif');if(n<0)el.classList.add('retard');el.style.setProperty('--hz',h.toFixed(2));
   el.title=(el.title?el.title+' · ':'')+(n<0?'échéance dépassée':n===0?'échéance aujourd’hui':n===1?'échéance demain':'échéance dans '+n+' jours');
 }
-function dueSoon(it){return it.kind==='t'&&it.due&&!(it.level===0&&it.state==='fait')&&!it.checked&&daysTo(it.due)<=ECHEANCE_JOURS;}
-function isUrgent(it){return !!it.urgent||!!dueSoon(it);}
-/* ordre d'affichage : urgentes à la main, puis urgentes par échéance (la plus proche d'abord), puis le reste */
-function urgKey(it){if(!isUrgent(it))return '3';const n=it.due&&dueSoon(it)?daysTo(it.due):null;if(n!=null&&n<=0)return '0'+it.due;return it.urgent?'1':'2'+(it.due||'');}   /* échéance dépassée ou du jour, puis urgente à la main, puis échéance la plus proche */
+function dueSoon(it){return dueActive(it)&&daysTo(it.due)<=seuilUrg();}
+function isUrgent(it){return !!dueSoon(it);}
+function isPrio(it){return !!it.important||isUrgent(it);}   /* rangée « Priorités » : urgentes et importantes */
+/* ordre d'affichage : échéance dépassée ou du jour, puis urgentes (J-1 à J-3), puis importantes, puis les autres datées par date, puis sans échéance (ordre du fichier) */
+function urgKey(it){const n=dueActive(it)?daysTo(it.due):null;if(n!=null&&n<=0)return '0'+it.due;if(n!=null&&n<=seuilUrg())return '1'+it.due;if(it.important)return '2';if(n!=null)return '3'+it.due;return '4';}
 /* en attente : relances dues (la plus ancienne d'abord), puis même ordre */
 function waitKey(it){return isLate(it)?'0'+(it.relance||''):'1'+urgKey(it);}
 function sortIdx(arr,key){return arr.map((i,k)=>[key(items[i]),k,i]).sort((a,b)=>a[0]<b[0]?-1:a[0]>b[0]?1:a[1]-b[1]).map(z=>z[2]);}
@@ -1003,6 +1023,8 @@ function parse(md){
       else if(k==='dossier'){if(v)st.dossier=v;}
       else if(k==='versionweb'){if(/^\d+(\.\d+){1,2}$/.test(v.trim()))st.webv=v.trim();}   /* ancienne numérotation (un seul nombre) ignorée */
       else if(k==='archivage'){const n=parseInt(v,10);if(!isNaN(n))st.archivage=n;}
+      else if(k==='urgenteà'||k==='urgente'){const n=parseInt(v.replace(/^J/i,'').replace('-',''),10);if(!isNaN(n))st.urgJ=Math.max(0,n);}
+      else if(k==='bientôtà'||k==='bientôt'||k==='bientotà'){const n=parseInt(v.replace(/^J/i,'').replace('-',''),10);if(!isNaN(n))st.bientotJ=Math.max(0,n);}
       else if(k==='règle'||k==='regle'){if(v)(st.regles||(st.regles=[])).push(v);}
       else if(k==='onedrive'){const m=/^(.*?)\s+=\s+(https?:\/\/\S+)$/.exec(v);if(m)(st.onedrive||(st.onedrive=[])).push({local:m[1].replace(/^"(.*)"$/,'$1'),web:cleanWeb(m[2])});}
       continue;
@@ -1048,11 +1070,11 @@ function parse(md){
     let cSec=null,cPath=[];
     const xm=/^(.*?)\s*⟨(.*)⟩\s*$/.exec(body);
     if(xm){body=xm[1];const segs=xm[2].split(' › ');cSec=segs[0]===NOSEC?'':segs[0];cPath=segs.slice(1);}
-    let state,doneDate,created,relance,due,color,waitFor,tid,urgent=false;
+    let state,doneDate,created,relance,due,color,waitFor,tid,important=false;
     for(;;){
       const tm=/^(.*?)\s*\{([^{}]+)\}\s*$/.exec(body);if(!tm)break;
       const inner=tm[2].trim();let m;
-      if(/^urgente?$/i.test(inner))urgent=true;
+      if(/^(important|importante|urgente?)$/i.test(inner))important=true;   /* {urgent} : ancienne marque, relue comme importante */
       else if((m=/^id\s+([a-z0-9]+)$/i.exec(inner)))tid=m[1];
       else if((m=/^attend\s+(.+)$/i.exec(inner)))waitFor=m[1].trim();
       else if((m=/^couleur\s+([a-z]+)$/i.exec(inner))&&COLORS[m[1].toLowerCase()])color=m[1].toLowerCase();
@@ -1062,6 +1084,7 @@ function parse(md){
       else break;
       body=tm[1];
     }
+    {const sb=body.replace(/\s*\\?\{(important|urgent)\\?\}/gi,'');if(sb!==body){body=sb;important=true;}}   /* marque écrite par une ancienne version comme du texte */
     body=clean(body);
     if(!body)continue;
     if(mode==='h'){
@@ -1069,7 +1092,7 @@ function parse(md){
       else cur.items.push({kind:'t',text:body,checked,created,level:Math.max(1,Math.min(level,cur.items[cur.items.length-1].level+1))});
     }else if(checked&&level===0){
       cur=null;(inTrash?tr:dn).push({id:uid(),date:todayISO(),section,path:[],items:[{kind:'t',text:body,level:0,checked:true,created}]});
-    }else{const o={id:tid||null,kind:'t',text:body,level,checked,_p:1};if(state)o.state=state;if(doneDate)o.doneDate=doneDate;if(relance)o.relance=relance;if(created)o.created=created;if(urgent)o.urgent=true;if(due)o.due=due;if(color&&level===0)o.color=color;if(waitFor&&level===0)o.waitFor=waitFor;its.push(o);}
+    }else{const o={id:tid||null,kind:'t',text:body,level,checked,_p:1};if(state)o.state=state;if(doneDate)o.doneDate=doneDate;if(relance)o.relance=relance;if(created)o.created=created;if(important)o.important=true;if(due)o.due=due;if(color&&level===0)o.color=color;if(waitFor&&level===0)o.waitFor=waitFor;its.push(o);}
   }
   /* lignes sans {id} : identifiant déduit du contenu (rubrique, parents, texte, date de création, rang en cas de doublon) */
   {const occ={},path=[];let sec='';
@@ -1083,7 +1106,7 @@ function parse(md){
   {const occ={};for(const n of nt){if(n.id)continue;const k='n|'+n.at+'|'+n.text.split('\n')[0];occ[k]=(occ[k]||0)+1;n.id=hashId(k+'|'+occ[k]);}}
   return {items:its,done:dn,settings:st,notes:nt,trash:tr};
 }
-function tokens(x){return (x.level===0&&x.state&&x.state!=='afaire'?' {'+x.state+(x.state==='fait'&&x.doneDate?' '+x.doneDate:'')+(x.state==='attente'&&x.relance?' '+x.relance:'')+'}':'')+(x.level===0&&x.waitFor?' {attend '+x.waitFor+'}':'')+(x.level===0&&x.color?' {couleur '+x.color+'}':'')+(x.urgent?' {urgent}':'')+(x.due?' {échéance '+x.due+'}':'')+(x.created?' {créé '+x.created+'}':'')+(x.id&&x.kind!=='hist'?' {id '+x.id+'}':'');}
+function tokens(x){return (x.important?' {important}':'')+(x.level===0&&x.state&&x.state!=='afaire'?' {'+x.state+(x.state==='fait'&&x.doneDate?' '+x.doneDate:'')+(x.state==='attente'&&x.relance?' '+x.relance:'')+'}':'')+(x.level===0&&x.waitFor?' {attend '+x.waitFor+'}':'')+(x.level===0&&x.color?' {couleur '+x.color+'}':'')+(x.due?' {échéance '+x.due+'}':'')+(x.created?' {créé '+x.created+'}':'')+(x.id&&x.kind!=='hist'?' {id '+x.id+'}':'');}
 function lineOf(x){return '  '.repeat(x.level)+'- ['+(x.checked?'x':' ')+'] '+x.text+tokens(x);}
 function linkLines(x,L,lvl){for(const l of x.links||[])L.push('  '.repeat(lvl+1)+'🔗 ['+(l.label||labelOf(l.url)).replace(/[\[\]]/g,'')+'](<'+l.url+'>)');}
 function noteLines(x,L,lvl){if(x.note&&x.note.trim())for(const l of x.note.replace(/\s+$/,'').split('\n'))L.push('  '.repeat(lvl+1)+'> '+l);}
@@ -1113,12 +1136,14 @@ function serialize(){
   }
   if(done.length){L.push('','# ✓ Historique');doneLines(sortedDone(),L);}
   if(trash.length){L.push('','# 🗑 Corbeille');doneLines([...trash].sort((a,b)=>b.date.localeCompare(a.date)),L);}
-  if(settings.email||settings.dossier||(settings.onedrive&&settings.onedrive.length)||settings.archivage!=null||(settings.regles&&settings.regles.length)||settings.webv){
+  if(settings.email||settings.dossier||(settings.onedrive&&settings.onedrive.length)||settings.archivage!=null||(settings.regles&&settings.regles.length)||settings.webv||settings.urgJ!=null||settings.bientotJ!=null){
     L.push('','# ⚙ Réglages');
     if(settings.email)L.push('- e-mail : '+settings.email);
     if(settings.dossier)L.push('- dossier : '+settings.dossier);
     for(const m of settings.onedrive||[])L.push('- onedrive : '+m.local+' = '+m.web);
     if(settings.archivage!=null)L.push('- archivage : '+settings.archivage+' jours');
+    if(settings.urgJ!=null)L.push('- urgente à : J-'+settings.urgJ);
+    if(settings.bientotJ!=null)L.push('- bientôt à : J-'+settings.bientotJ);
     for(const r of settings.regles||[])L.push('- règle : '+r);
     if(settings.webv)L.push('- version web : '+settings.webv);
   }
@@ -1129,8 +1154,8 @@ function serialize(){
    base = dernière version lue ou écrite ; mine = l'état en mémoire ; theirs = le fichier tel qu'il est maintenant.
    Par identifiant : champs fusionnés un à un, position (parent + précédent) prise du côté qui l'a changée.
    Conflit (même champ changé des deux côtés) : la version de cet appareil l'emporte, et le conflit est compté. */
-const MFIELDS=['kind','text','checked','state','doneDate','relance','created','urgent','due','color','waitFor','note','links'];
-function mval(o,f){const v=o?o[f]:undefined;if(f==='links')return v&&v.length?JSON.stringify(v):'';if(f==='checked'||f==='urgent')return !!v;return v==null?'':v;}
+const MFIELDS=['kind','text','checked','state','doneDate','relance','created','important','due','color','waitFor','note','links'];
+function mval(o,f){const v=o?o[f]:undefined;if(f==='links')return v&&v.length?JSON.stringify(v):'';if(f==='checked'||f==='important')return !!v;return v==null?'':v;}
 function mindex(list){
   const m=new Map();let head='',lastHeadId=null;const stack=[];const lastChild={};
   for(const it of list){
@@ -1218,7 +1243,7 @@ function decorate(el,text){
 function editable(t){try{t.contentEditable='plaintext-only';}catch(e){t.contentEditable='true';}t.spellcheck=true;}
 function makeRow(it){
   const row=document.createElement('div');
-  row.className='row '+it.kind+(it.kind==='t'&&isUrgent(it)?' urgent':'')+(it.kind==='t'&&it.level===0?' top':'')+(it.checked?' checked':'');
+  row.className='row '+it.kind+(it.kind==='t'&&isPrio(it)?' urgent':'')+(it.kind==='t'&&it.level===0?' top':'')+(it.checked?' checked':'');
   row.dataset.id=it.id;row.style.setProperty('--lv',it.level);
   const h=document.createElement('span');h.className='handle';h.textContent='⋮⋮';h.title='Glisser pour déplacer';row.append(h);
   const t=document.createElement('div');t.className='txt';editable(t);
@@ -1236,10 +1261,11 @@ function makeRow(it){
   if(it.note||noteOpen===it.id){const n=document.createElement('div');n.className='cmt';editable(n);n.dataset.ph='Commentaire…';n.textContent=it.note||'';m.append(n);}
   if(it.links&&it.links.length)m.append(mkLinks(it.links,true));
   if(it.due){
-    const n=daysTo(it.due),c=document.createElement('button');c.className='due'+(dueSoon(it)?' soon':'')+(n<=0&&dueSoon(it)?' over':'');c.tabIndex=-1;c.dataset.d=it.due;
-    c.textContent='📅 '+(n<0?'échéance dépassée ('+shortDate(it.due)+')':n===0?'échéance aujourd’hui':n===1?'échéance demain':'échéance le '+shortDate(it.due)+(n<=ECHEANCE_JOURS?' · J-'+n:''));
-    c.title='Clic : changer ou effacer l’échéance';m.append(c);
+    const n=daysTo(it.due),c=document.createElement('button');c.className='due'+(dueSoon(it)?' soon':'')+(dueNear(it)?' near':'')+(n<=0&&dueSoon(it)?' over':'');c.tabIndex=-1;c.dataset.d=it.due;
+    c.textContent='📅 '+(n<0?'échéance dépassée ('+shortDate(it.due)+')':n===0?'échéance aujourd’hui':n===1?'échéance demain':'échéance le '+shortDate(it.due)+(n<=seuilBientot()?' · J-'+n:''));
+    c.title='Clic : changer ou effacer l’échéance';dueHalo(c,it);m.append(c);
   }
+  if(it.level===0&&ageLevel(it)){const g=document.createElement('span');g.className='age';g.textContent=ageTxt(it);g.title='Sans échéance, à faire depuis le '+shortDate(it.created);m.append(g);}
   let meta=null;
   if(it.level===0&&it.state==='attente'){
     meta=document.createElement('div');meta.className='meta';m.append(meta);
@@ -1254,10 +1280,10 @@ function makeRow(it){
   }
   row.append(m);
   const tools=document.createElement('span');tools.className='tools';
-  const ug=document.createElement('button');ug.className='urg'+(isUrgent(it)?' on':'')+(!it.urgent&&dueSoon(it)?' auto':'');ug.textContent='!';ug.tabIndex=-1;ug.title=it.urgent?'Urgente — clic pour retirer (Alt+U)':dueSoon(it)?'Urgente car l’échéance approche — change ou retire l’échéance pour l’enlever':'Marquer comme urgente (Alt+U)';dueHalo(ug,it);if(isUrgent(it))row.insertBefore(ug,m);else tools.append(ug);
+  const ug=document.createElement('button');ug.className='urg'+(it.important?' on':'');ug.textContent='!';ug.tabIndex=-1;ug.title=it.important?'Importante — clic pour retirer (Alt+I)':'Marquer comme importante (Alt+I)';if(it.important)row.insertBefore(ug,m);else tools.append(ug);
   if(it.level===0){const cb=document.createElement('button');cb.className='colb';cb.tabIndex=-1;cb.title='Couleur de la tâche';tools.append(cb);}
   if(!it.note&&noteOpen!==it.id)tools.append(mkAddc());
-  if(!it.due){const db=document.createElement('button');db.className='dueb';db.textContent='📅';db.tabIndex=-1;db.title='Fixer une échéance (urgente automatiquement 7 jours avant)';tools.append(db);}
+  if(!it.due){const db=document.createElement('button');db.className='dueb';db.textContent='📅';db.tabIndex=-1;db.title='Fixer une échéance (urgente à J-'+seuilUrg()+', signalée dès J-'+seuilBientot()+')';tools.append(db);}
   const al=document.createElement('button');al.className='addl';al.textContent='🔗';al.title='Relier un e-mail, un document ou une page (ou colle directement un lien ou un chemin dans la tâche)';al.tabIndex=-1;tools.append(al);
   const x=document.createElement('button');x.className='del';x.textContent='×';x.tabIndex=-1;
   x.title=(it.level===0?'Supprimer la tâche':'Supprimer la sous-tâche')+' sans la valider (Alt+Suppr) · Ctrl+Z pour annuler';tools.append(x);row.append(tools);
@@ -1300,7 +1326,7 @@ function render(){
   let ucells=null;
   if(items.some(inUrgLane)){
     const sec=document.createElement('section');sec.className='section urglane';sec.style.setProperty('--c','#c4524a');
-    const hd=document.createElement('div');hd.className='lanehd';hd.textContent='Urgentes';sec.append(hd);
+    const hd=document.createElement('div');hd.className='lanehd';hd.textContent='Priorités';sec.append(hd);
     const wrap=document.createElement('div');wrap.className='cells';ucells={};
     for(const s of STATES){const c=document.createElement('div');c.className='cell';c.dataset.state=s.k;c.dataset.urg='1';wrap.append(c);ucells[s.k]=c;}
     sec.append(wrap);list.append(sec);
@@ -1313,7 +1339,7 @@ function render(){
     else if(skip)continue;
     if(it.level===0||!card){
       const up=ucells&&inUrgLane(it);
-      card=document.createElement('div');card.className='card'+(isLate(it)?' late':'')+(isUrgent(it)?' urgent':'')+(up?' inurg':'')+(dueSoon(it)&&daysTo(it.due)<0?' retard':'')+(dueSoon(it)&&daysTo(it.due)===0?' jour':'');card.style.setProperty('--c',COLORS[it.color]||(cur_h&&COLORS[cur_h.color])||CARD_COLOR);card.dataset.id=it.id;
+      card=document.createElement('div');const al=ageLevel(it);card.className='card'+(isLate(it)?' late':'')+(isUrgent(it)?' urgent':it.important?' important':'')+(dueNear(it)&&!it.important?' bientot':'')+(al?' vieux vieux'+al:'')+(up?' inurg':'')+(dueSoon(it)&&daysTo(it.due)<0?' retard':'')+(dueSoon(it)&&daysTo(it.due)===0?' jour':'');card.style.setProperty('--c',COLORS[it.color]||(cur_h&&COLORS[cur_h.color])||CARD_COLOR);card.dataset.id=it.id;
       if(up){const b=document.createElement('div');b.className='insec';b.textContent=cur_h?cur_h.text:'Hors rubrique';b.style.setProperty('--sc',cur_h?(cols['#'+cur_h.id]||CARD_COLOR):'var(--muted)');card.append(b);}
       ((up?ucells:cells)[it.state]||(up?ucells:cells).afaire).append(card);}
     card.append(makeRow(it));
@@ -1694,9 +1720,8 @@ function dropBlank(id){
 }
 function toggleUrgent(id,viaKey){
   const it=items[idx(id)];if(!it||it.kind!=='t')return;const a=activeInfo();
-  if(!it.urgent&&dueSoon(it)){toast('Urgente à cause de l’échéance proche : change ou retire l’échéance pour l’enlever');return;}
-  snapshot();textSnapFor=null;if(it.urgent)delete it.urgent;else it.urgent=true;
-  render();if(viaKey&&a)focusItem(a.id,a.off);changed();
+  snapshot();textSnapFor=null;if(it.important)delete it.important;else it.important=true;
+  render();if(viaKey&&a)focusItem(a.id,a.off);changed();toast(it.important?'Importante':'N’est plus importante');
 }
 function pickDate(e,val,cb,allowEmpty){
   const inp=document.createElement('input');inp.type='date';inp.value=val||'';
@@ -1797,7 +1822,7 @@ function cardEntries(id,x,y){
   const i=idx(id),it=items[i];if(!it)return [];
   if(it.kind==='t'&&it.level>0)return [
     {l:it.checked?'Décocher':'Cocher',k:'Ctrl+Entrée',on:()=>toggle(id,false)},
-    {l:'Urgente',chk:!!it.urgent,k:'Alt+U',on:()=>toggleUrgent(id,false)},
+    {l:'Importante',chk:!!it.important,k:'Alt+I',on:()=>toggleUrgent(id,false)},
     {l:it.due?'Échéance ('+shortDate(it.due)+')…':'Échéance…',on:()=>dueTo(id,x,y)},
     '-',{l:'En faire une tâche à part',on:()=>promoteSub(id)},
     '-',{l:'Supprimer la sous-tâche',k:'Alt+Suppr',danger:true,on:()=>removeTask(id,false)}];
@@ -1805,7 +1830,7 @@ function cardEntries(id,x,y){
   const out=[
     ...['afaire','attente','fait'].map(st=>({l:STATE_L[st],radio:it.state===st,on:()=>setStateOf(id,st)})),
     '-',
-    {l:'Urgente',chk:!!it.urgent,k:'Alt+U',on:()=>toggleUrgent(id,false)},
+    {l:'Importante',chk:!!it.important,k:'Alt+I',on:()=>toggleUrgent(id,false)},
     {l:it.due?'Échéance ('+shortDate(it.due)+')…':'Échéance…',on:()=>dueTo(id,x,y)}];
   if(it.state==='attente')out.push({l:'Relance'+(it.relance?' ('+shortDate(it.relance)+')':'')+'…',on:()=>relTo(id,x,y)});
   out.push('-',
@@ -1890,7 +1915,7 @@ function editWho(btn,id){
 let filter=null; /* {t:'urgent'|'late'|'who', v} */
 function cardMatch(i,f){
   const e=blockEnd(i),top=items[i];
-  if(f.t==='urgent'){for(let k=i;k<e;k++)if(items[k].kind==='t'&&isUrgent(items[k])&&!(top.state==='fait'))return true;return false;}
+  if(f.t==='urgent'){for(let k=i;k<e;k++)if(items[k].kind==='t'&&isPrio(items[k])&&!(top.state==='fait'))return true;return false;}
   if(f.t==='late')return isLate(top);
   if(f.t==='who')return top.state==='attente'&&top.waitFor===f.v;
   return true;
@@ -1898,15 +1923,15 @@ function cardMatch(i,f){
 /* urgentes regroupées en haut (réglage de cet appareil, par défaut oui) */
 function urgTop(){try{return localStorage.getItem('taches-urg-haut')!=='0';}catch(e){return true;}}
 function setUrgTop(v){try{localStorage.setItem('taches-urg-haut',v?'1':'0');}catch(e){}}
-function inUrgLane(it){return urgTop()&&it.kind==='t'&&it.level===0&&it.state!=='fait'&&isUrgent(it);}
+function inUrgLane(it){return urgTop()&&it.kind==='t'&&it.level===0&&it.state!=='fait'&&isPrio(it);}
 function matchFilter(i){return !filter||cardMatch(i,filter);}
 function renderFilters(){
   const box=$('#filters');box.innerHTML='';
   const tops=items.map((x,i)=>i).filter(i=>items[i].kind==='t'&&items[i].level===0);
   const count=f=>tops.filter(i=>cardMatch(i,f)).length;
-  if(tops.some(i=>isUrgent(items[i])&&items[i].state!=='fait')||!urgTop()){
-    const u=document.createElement('span');u.className='useg';u.title='Où afficher les tâches urgentes';
-    u.innerHTML='<span>!</span><button type="button" data-v="1">urgentes en haut</button><button type="button" data-v="0">dans leur rubrique</button>';
+  if(tops.some(i=>isPrio(items[i])&&items[i].state!=='fait')||!urgTop()){
+    const u=document.createElement('span');u.className='useg';u.title='Où afficher les priorités (tâches urgentes et importantes)';
+    u.innerHTML='<span>!</span><button type="button" data-v="1">priorités en haut</button><button type="button" data-v="0">dans leur rubrique</button>';
     u.querySelectorAll('button').forEach(b=>{b.classList.toggle('on',(b.dataset.v==='1')===urgTop());b.onclick=()=>{setUrgTop(b.dataset.v==='1');render();};});
     box.append(u);
   }
@@ -1944,7 +1969,7 @@ function dropBlock(srcId,tgt){
   if(src.kind==='h'&&tgt.cell)return;
   /* lâchée dans la rangée Urgentes : elle devient urgente et change de colonne, sans quitter sa rubrique */
   if(tgt.into){const top=taskIntoTask(srcId,tgt.id);if(top){commit();toast('Devenue sous-tâche de «\u00a0'+top.text+'\u00a0» · Ctrl+Z pour annuler');}return;}
-  if(tgt.cell&&tgt.cell.urg){if(src.level!==0)return;snapshot();src.state=tgt.cell.state;if(!isUrgent(src))src.urgent=true;commit();return;}
+  if(tgt.cell&&tgt.cell.urg){if(src.level!==0)return;snapshot();src.state=tgt.cell.state;if(!isPrio(src))src.important=true;commit();return;}
   const wasUp=inUrgLane(src);
   snapshot();
   const blk=items.splice(i,e-i);
@@ -1961,9 +1986,9 @@ function dropBlock(srcId,tgt){
     else{pos=tgt.after?blockEnd(ti):ti;lv=target.level;if(lv===0)state=target.state;}
   }
   if(src.kind!=='h'){const dl=lv-src.level;blk.forEach(x=>x.level+=dl);if(lv===0)blk[0].state=state||blk[0].state||'afaire';}
-  if(tgt.urg&&lv===0&&!isUrgent(blk[0]))blk[0].urgent=true;
+  if(tgt.urg&&lv===0&&!isPrio(blk[0]))blk[0].important=true;
   items.splice(pos,0,...blk);commit();
-  if(wasUp&&!tgt.urg&&inUrgLane(blk[0])){const h=headingOf(idx(blk[0].id));toast('Rangée dans «\u00a0'+(h?h.text:'Hors rubrique')+'\u00a0» · toujours urgente, donc affichée en haut');}
+  if(wasUp&&!tgt.urg&&inUrgLane(blk[0])){const h=headingOf(idx(blk[0].id));toast('Rangée dans «\u00a0'+(h?h.text:'Hors rubrique')+'\u00a0» · toujours prioritaire, donc affichée en haut');}
 }
 
 /* ---------- événements de la liste ---------- */
@@ -2043,7 +2068,7 @@ list.addEventListener('keydown',e=>{
   const id=el.closest('.row').dataset.id,i=idx(id),k=e.key,mod=e.ctrlKey||e.metaKey;
   if(k==='Enter'&&mod){e.preventDefault();toggle(id,true);return;}
   if(k==='Enter'&&e.shiftKey){e.preventDefault();openNote(i);return;}
-  if(e.altKey&&!mod&&e.code==='KeyU'){e.preventDefault();toggleUrgent(id,true);return;}
+  if(e.altKey&&!mod&&(e.code==='KeyI'||e.code==='KeyU')){e.preventDefault();toggleUrgent(id,true);return;}   /* Alt+I (Alt+U, l'ancien, marche encore) */
   if(k==='Delete'&&e.altKey){e.preventDefault();removeTask(id,true);return;}
   /* Entrée valide la tâche (choix de François : elle créait sans cesse des tâches inutiles) ; Alt+Entrée ajoute une ligne en dessous */
   if(k==='Enter'&&e.altKey){e.preventDefault();split(i,el);return;}
@@ -2173,7 +2198,7 @@ function importTodo(res){
     const body=t.body&&t.body.content?(t.body.contentType==='html'?strip(t.body.content):t.body.content.trim()):'';
     if(body)card.note=body;
     if(t.dueDateTime&&t.dueDateTime.dateTime)card.due=t.dueDateTime.dateTime.slice(0,10);
-    if(t.importance==='high')card.urgent=true;
+    if(t.importance==='high')card.important=true;
     const lr=(t.linkedResources||[]).filter(r=>r.webUrl).map(r=>({url:r.webUrl,label:r.displayName||labelOf(r.webUrl)}));if(lr.length)card.links=lr;
     fresh.push(card);
     for(const c of (t.checklistItems||[]))fresh.push({id:uid(),kind:'t',level:1,text:c.displayName||'',checked:!!c.isChecked,created:(c.createdDateTime||'').slice(0,10)||created});
@@ -2271,7 +2296,7 @@ function flyOpen(kind,srcId,home){
   fly={kind,srcId,home,box,sec:null,pend:null,pendT:0,hot:null,zone:null,ts:0,list:[],raf:0,x:0,y:0,inHome:false};
   const v=document.createElement('div');v.className='fv';box.append(v);   /* toute la page grisée, zone de départ comprise (choix de François : plus clair) */
   const cols=sectionColors(),hs=items.filter(x=>x.kind==='h'),secs=hs.map(h=>({id:h.id,text:h.text,c:cols['#'+h.id]||CARD_COLOR})).concat([{id:'',text:'Hors rubrique',c:'#6b7080',none:true}]);
-  const si=items[idx(srcId)];if(kind==='task'&&si&&!si.urgent&&!dueSoon(si))secs.unshift({id:'!urg',text:'Urgentes',c:'#c4524a',urg:true});   /* comme la rangée « Urgentes » : la rendre urgente sans la changer de rubrique */
+  const si=items[idx(srcId)];if(kind==='task'&&si&&!si.important)secs.unshift({id:'!urg',text:'Importante',c:'#c4524a',urg:true});   /* la marquer importante sans la changer de rubrique */
   const cur=kind==='task'?(()=>{const h=headingOf(idx(srcId));return h?h.id:'';})():null;
   const H=innerHeight,n=secs.length,gap=Math.max(38,Math.min(58,(H-170)/n)),cy=H/2,x0=Math.max(220,Math.round(innerWidth*.26));
   const bow=t=>Math.round(Math.min(46,10+n*5)*t*t);   /* arc léger : les extrémités reculent un peu, quel que soit le nombre de rubriques */
@@ -2351,7 +2376,7 @@ function flyDrop(){
     else if(f.onPill)noteToTask(f.srcId,f.pill,'afaire');
   }else{
     if(f.hot)dropBlock(f.srcId,{id:f.hot,into:true});
-    else if(f.onPill&&f.pill==='!urg'){toggleUrgent(f.srcId);toast('Devenue urgente · Ctrl+Z pour annuler');}
+    else if(f.onPill&&f.pill==='!urg'){toggleUrgent(f.srcId);toast('Devenue importante · Ctrl+Z pour annuler');}
     else if(f.onPill){const h=headingOf(idx(f.srcId));if((h?h.id:'')!==f.pill)moveToSec(f.srcId,f.pill);}
   }
   return true;
@@ -2414,6 +2439,8 @@ $('#setBtn').onclick=()=>{
     <label>Dossier OneDrive sur ce PC<input id="sLocal" placeholder="C:\\Users\\…\\OneDrive - …"></label>
     <label>Adresse web de ce dossier<input id="sWeb" placeholder="https://…-my.sharepoint.com/personal/…/Documents"></label></fieldset>
     <label>Ranger dans l’historique les tâches faites depuis (jours ; 0 = jamais)<input id="sArch" type="number" min="0" placeholder="7"></label>
+    <label>Une échéance rend la tâche urgente à J-…<input id="sUrgJ" type="number" min="0" placeholder="3"></label>
+    <label>et la signale (corail) dès J-…<input id="sBientotJ" type="number" min="0" placeholder="7"></label>
     <label>Règles des rubriques (une par ligne)<textarea id="sRules" rows="4" placeholder="Commandes = Demande de devis ; Bon de commande&#10;Conventions = → Calendrier"></textarea></label>
     <p class="muted" style="margin:.2rem 0 0;font-size:.8rem">Quand une tâche arrive dans la rubrique (créée ou déplacée) : les sous-tâches listées sont ajoutées ; « → Rubrique » en crée une copie dans cette rubrique.</p>
     <div class="rb"><button id="sSave" class="primary">Enregistrer</button><button id="sCancel">Annuler</button></div>`;
@@ -2424,6 +2451,7 @@ $('#setBtn').onclick=()=>{
       settings={...settings};if(em)settings.email=em;else delete settings.email;if(dir)settings.dossier=dir;else delete settings.dossier;
       if(lo&&/^https?:\/\//.test(we))settings.onedrive=[{local:lo,web:we}];else if(!lo&&!we)delete settings.onedrive;
       {const a=d.querySelector('#sArch').value.trim();if(a==='')delete settings.archivage;else settings.archivage=Math.max(0,parseInt(a,10)||0);}
+      for(const [f,k] of [['#sUrgJ','urgJ'],['#sBientotJ','bientotJ']]){const a=d.querySelector(f).value.trim();if(a==='')delete settings[k];else settings[k]=Math.max(0,parseInt(a,10)||0);}
       {const rl=d.querySelector('#sRules').value.split('\n').map(s=>s.trim()).filter(Boolean);if(rl.length)settings.regles=rl;else delete settings.regles;}
       rulesInit();
       d.close();render();changed();toast('Réglages enregistrés');
@@ -2431,7 +2459,7 @@ $('#setBtn').onclick=()=>{
   }
   d.querySelector('#sEmail').value=settings.email||'';d.querySelector('#sDir').value=settings.dossier||'';
   const od=(settings.onedrive||[])[0]||{};d.querySelector('#sLocal').value=od.local||'';d.querySelector('#sWeb').value=od.web||'';
-  d.querySelector('#sArch').value=settings.archivage==null?'':settings.archivage;d.querySelector('#sRules').value=(settings.regles||[]).join('\n');
+  d.querySelector('#sArch').value=settings.archivage==null?'':settings.archivage;d.querySelector('#sUrgJ').value=settings.urgJ==null?'':settings.urgJ;d.querySelector('#sBientotJ').value=settings.bientotJ==null?'':settings.bientotJ;d.querySelector('#sRules').value=(settings.regles||[]).join('\n');
   d.showModal();
 };
 $('#hclose').onclick=()=>$('#hist').classList.remove('open');
@@ -2727,7 +2755,7 @@ function mInfo(){
   el.className=Date.now()-c.readAt>12*3600e3?'stale':'';
 }
 function mChip(txt,cls){const s=document.createElement('span');s.className='mchip'+(cls?' '+cls:'');s.textContent=txt;return s;}
-function mDue(it){const n=daysTo(it.due),soon=dueSoon(it);return mChip('📅 '+(n<0?shortDate(it.due):n===0?'aujourd’hui':n===1?'demain':n<=ECHEANCE_JOURS?'J-'+n:shortDate(it.due)),soon?(n<=0?'redf':'red'):'');}
+function mDue(it){const n=daysTo(it.due),soon=dueSoon(it);const c=mChip('📅 '+(n<0?shortDate(it.due):n===0?'aujourd’hui':n===1?'demain':n<=seuilBientot()?'J-'+n:shortDate(it.due)),soon?(n<=0?'redf':'red'):dueNear(it)?'near':'');dueHalo(c,it);return c;}
 function mIsFile(l){return isRel(l.url)||isPath(l.url)||/sharepoint\.com|onedrive|^ms-/i.test(l.url)||(/deeplink\/read\//.test(l.url)&&/\.[a-z0-9]{2,5}$/i.test(l.label||''));}
 function mLinks(links){
   const d=document.createElement('div');d.className='mlinks';
@@ -2744,14 +2772,14 @@ function mLinks(links){
 }
 function mCard(i,withSec){
   const it=items[i],e=blockEnd(i),subs=items.slice(i+1,e);
-  const c=document.createElement('div');c.className='mcard'+(isUrgent(it)?' urgent':'')+(isLate(it)?' late':'')+(it.state==='fait'?' fait':'');
+  const c=document.createElement('div');const al=ageLevel(it);c.className='mcard'+(isUrgent(it)?' urgent':it.important?' important':'')+(dueNear(it)&&!it.important?' bientot':'')+(al?' vieux vieux'+al:'')+(isLate(it)?' late':'')+(it.state==='fait'?' fait':'');
   c.dataset.id=it.id;
   const h=headingOf(i);c.style.setProperty('--c',COLORS[it.color]||(h&&COLORS[h.color])||CARD_COLOR);
   const t=document.createElement('div');t.className='mct';
   if(AND){const k=document.createElement('button');k.className='mchk'+(it.state==='fait'?' on':'');k.title=it.state==='fait'?'Remettre à faire':'Marquer comme faite';
     k.onclick=ev=>{ev.stopPropagation();const f=it.state==='fait';mEdit(it.id,x=>{x.state=f?'afaire':'fait';},f?'Remise dans « À faire »':'Faite');
       if(!f&&!mstore.get('taches-astuce-glisser'))setTimeout(()=>{const t=$('#toast');if(t.classList.contains('undo')&&t.classList.contains('show'))return;mstore.set('taches-astuce-glisser',1);toast('Astuce : glisse une tâche faite sur le côté pour la ranger dans l’historique');},2800);};t.append(k);}
-  if(isUrgent(it)&&it.state!=='fait'){const b=document.createElement('span');b.className='mbang';b.textContent='!';dueHalo(b,it);t.append(b);}
+  if(it.important&&it.state!=='fait'){const b=document.createElement('span');b.className='mbang';b.textContent='!';b.title='Importante';t.append(b);}
   const tx=document.createElement('span');tx.className='t';decorate(tx,it.text);t.append(tx);
   c.append(t);
   if(it.note){const n=document.createElement('div');n.className='mnote';n.innerHTML=fmtView(it.note);c.append(n);}
@@ -2759,7 +2787,7 @@ function mCard(i,withSec){
     const box=document.createElement('div');box.className='msubs';
     const nDone=subs.filter(x=>x.checked).length;
     for(const x of subs.filter(x=>!x.checked)){
-      const r=document.createElement('div');r.className='msub'+(x.checked?' done':'')+(isUrgent(x)?' urgent':'');r.style.setProperty('--lv',x.level-1);
+      const r=document.createElement('div');r.className='msub'+(x.checked?' done':'')+(isPrio(x)?' urgent':'');r.style.setProperty('--lv',x.level-1);
       const bx=document.createElement('span');bx.className='bx';bx.textContent=x.checked?'☑':'☐';
       if(AND){bx.classList.add('tap');bx.onclick=ev=>{ev.stopPropagation();mSubToggle(x.id);};}
       const w=document.createElement('div');const tt=document.createElement('span');tt.className='tx';tt.textContent=x.text;w.append(tt);
@@ -2775,6 +2803,7 @@ function mCard(i,withSec){
   if(it.state==='attente'&&it.relance){const late=isLate(it);ch.append(mChip('⏰ '+shortDate(it.relance),late?'amb':''));
     if(late&&AND){const b=document.createElement('button');b.className='mrelb';b.textContent='✓ Relancé';b.onclick=ev=>{ev.stopPropagation();mEdit(it.id,x=>relanceDone(x),'Relancé · prochaine relance le '+shortDate(addDays(todayISO(),RELANCE_JOURS)));};ch.append(b);}}
   if(it.due&&it.state!=='fait')ch.append(mDue(it));
+  if(ageLevel(it))ch.append(mChip(ageTxt(it),'age'));
   const all=[it,...subs].flatMap(x=>x.links||[]);
   if(all.length){const f=all.some(mIsFile);ch.append(mChip((f?'📎':'🔗')+(all.length>1?' '+all.length:'')));}
   if(ch.children.length)c.append(ch);
@@ -2801,7 +2830,7 @@ function mRender(){
   const tops=items.map((x,i)=>i).filter(i=>items[i].kind==='t'&&items[i].level===0);
   const fb=$('#mFilters');fb.innerHTML='';
   if(mState.filters){
-    const chips=[{t:'urgent',l:'! Urgentes'},{t:'late',l:'⏰ À relancer'}];
+    const chips=[{t:'urgent',l:'! Priorités'},{t:'late',l:'⏰ À relancer'}];
     for(const n of [...new Set(tops.filter(i=>items[i].state==='attente'&&items[i].waitFor).map(i=>items[i].waitFor))].sort((a,b)=>a.localeCompare(b,'fr')))chips.push({t:'who',v:n,l:'⏳ '+n});
     for(const ch of chips){
       const n=tops.filter(i=>cardMatch(i,ch)).length,on=filter&&filter.t===ch.t&&filter.v===ch.v;if(!n&&!on)continue;
@@ -2832,14 +2861,14 @@ function mRender(){
   /* urgentes d'abord (affichage seulement : l'ordre du fichier ne change pas) */
   const urgentFirst=arr=>sortIdx(arr,urgKey);
   /* urgentes : une section à part, avant les rubriques (rubrique d'origine en puce) */
-  const urg=urgTop()?urgentFirst(groups.flatMap(g=>g.todo.filter(i=>isUrgent(items[i])))):[];
+  const urg=urgTop()?urgentFirst(groups.flatMap(g=>g.todo.filter(i=>isPrio(items[i])))):[];
   let shown=urg.length;
-  if(urg.length)list.append(mSection('#urgent','Urgentes',urg.length,'#c4524a',box=>{for(const i of urg)box.append(mCard(i,true));},'murg'));
+  if(urg.length)list.append(mSection('#urgent','Priorités',urg.length,'#c4524a',box=>{for(const i of urg)box.append(mCard(i,true));},'murg'));
   /* à relancer : juste sous les urgentes, en ambre ; elles quittent « En attente » le temps d'être relancées */
   const rel=sortIdx(tops.filter(i=>isLate(items[i])&&matchFilter(i)),waitKey);
   if(rel.length){shown+=rel.length;list.append(mSection('#relancer','À relancer',rel.length,'#b7791f',box=>{for(const i of rel)box.append(mCard(i,true));},'mrel'));}
   for(const g of groups){
-    if(urgTop())g.todo=g.todo.filter(i=>!isUrgent(items[i]));
+    if(urgTop())g.todo=g.todo.filter(i=>!isPrio(items[i]));
     const n=g.todo.length+g.done.length;if(!n)continue;shown+=n;
     list.append(mSection(g.h?g.h.text:'',g.h?g.h.text:'Hors rubrique',g.todo.length||'',(g.h&&COLORS[g.h.color])||CARD_COLOR,box=>{
       for(const i of g.todo)box.append(mCard(i));
@@ -2905,6 +2934,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-14 01:30',type:'web',v:'2.13',t:'Urgent et important',items:['Deux mots pour deux choses\u00a0: une tâche est «\u00a0urgente\u00a0» quand le calendrier presse (échéance dépassée, du jour, ou à J-3), «\u00a0importante\u00a0» quand tu la marques toi-même («\u00a0!\u00a0», Alt+I). La rangée du haut s’appelle «\u00a0Priorités\u00a0»\u00a0: les urgentes d’abord, puis les importantes.','Échéances\u00a0: dès J-7 la tâche est signalée en corail (sans être urgente), à J-3 elle devient urgente (rouge et halo). Seuils réglables dans ⚙. Dans chaque case, les tâches datées passent avant les autres, par date.','Une tâche à faire sans échéance prend une patine au bout de 2 semaines, plus marquée à 4 («\u00a0depuis 3\u00a0sem.\u00a0»).','Dans taches.md, la marque {urgent} devient {important} (mise à jour toute seule).']},
  {d:'2026-10-13 21:30',type:'web',v:'2.12.12',items:['Notes de version regroupées\u00a0: une carte par version mineure avec un titre court et sa nouveauté\u00a0; ses retouches sont repliées dessous («\u00a0▸ 11 retouches\u00a0»). Après une mise à jour, la carte annonce la nouveauté plutôt que la dernière retouche.']},
  {d:'2026-10-13 21:10',type:'web',v:'2.12.11',items:['«\u00a0Quoi de neuf\u00a0?\u00a0» s’appelle désormais «\u00a0Notes de version\u00a0», au PC comme au téléphone.','Téléphone\u00a0: dans le menu ⋮, la version déposée dans OneDrive pour le PC n’affiche plus que son numéro.']},
  {d:'2026-10-13 21:00',type:'web',v:'2.12.10',items:['PC\u00a0: une nouvelle tâche hors rubrique (Alt+T, ou «\u00a0Nouvelle tâche\u00a0» du «\u00a0+\u00a0» rond) vient en dernier, comme dans les rubriques\u00a0; les nouvelles notes restent en premier.']},
@@ -3189,7 +3219,7 @@ function mDragInit(c){
 function mDragStart(c,x,y){
   if(c.classList.contains('mnotec'))return mDragStartNote(c,x,y);
   const id=c.dataset.id,i=idx(id);if(i<0||document.querySelector('dialog[open]'))return;
-  const it=items[i],h=headingOf(i),cur=h?h.id:'',reorder=it.state==='afaire'&&!isUrgent(it);
+  const it=items[i],h=headingOf(i),cur=h?h.id:'',reorder=it.state==='afaire'&&!isPrio(it);
   buzz('click');
   const ov=document.createElement('div');ov.id='mDrag';
   const col=document.createElement('div');col.className='dcol';
@@ -3203,7 +3233,7 @@ function mDragStart(c,x,y){
       if(reorder){
         const lst=document.createElement('div');lst.className='dlist';lst.style.setProperty('--c',b.style.getPropertyValue('--c')==='var(--fg)'?CARD_COLOR:b.style.getPropertyValue('--c'));
         const hi=hd?idx(hd.id):-1,end=hd?blockEnd(hi):laneEndOf(null);
-        for(let k=hi+1;k<end;k++){const x=items[k];if(x.kind!=='t'||x.level!==0||x.state!=='afaire'||isUrgent(x))continue;
+        for(let k=hi+1;k<end;k++){const x=items[k];if(x.kind!=='t'||x.level!==0||x.state!=='afaire'||isPrio(x))continue;
           const r=document.createElement('div');
           if(x.id===id){r.className='dslot';anchor=r;}else{r.className='drow';r.dataset.id=x.id;}
           r.textContent=x.text;lst.append(r);}
@@ -3318,7 +3348,7 @@ function mDragEnd(cancel){
   const i=idx(d.id);if(i<0)return;
   /* l'ordre a-t-il changé ? */
   const before=nx&&nx.dataset.id,after=!nx&&pv&&pv.dataset.id;
-  const sameNext=(()=>{let k=blockEnd(i);while(k<items.length&&!(items[k].kind==='h'||(items[k].level===0&&items[k].state==='afaire'&&!isUrgent(items[k]))))k++;return k<items.length&&items[k].kind!=='h'?items[k].id:null;})();
+  const sameNext=(()=>{let k=blockEnd(i);while(k<items.length&&!(items[k].kind==='h'||(items[k].level===0&&items[k].state==='afaire'&&!isPrio(items[k]))))k++;return k<items.length&&items[k].kind!=='h'?items[k].id:null;})();
   if(before?before===sameNext:!sameNext)return;
   mMoveBlock(d.id,before?{before}:{after},'Déplacée');
 }
@@ -3373,7 +3403,7 @@ function mFillAct(){
   $('#aWait').hidden=it.state!=='attente';
   setv($('#aWho'),it.waitFor);mDatePill('aRel',it.relance);
   const dl=$('#aPeople');dl.innerHTML='';for(const n of peopleNames()){const o=document.createElement('option');o.value=n;dl.append(o);}
-  $('#aUrg').classList.toggle('on',!!isUrgent(it));
+  $('#aUrg').classList.toggle('on',!!it.important);
   mDatePill('aDue',it.due);setv($('#aNote'),it.note);
   if(ro)$('#aNote').hidden=!it.note;else $('#aNote').hidden=false;
   const subs=items.slice(i+1,blockEnd(i));
@@ -3448,8 +3478,7 @@ function mInitAct(){
   field('#aDue',(it,v)=>{if(v!==(it.due||''))mEdit(it.id,x=>{if(v)x.due=v;else delete x.due;});});
   field('#aNote',(it,v)=>{v=v.replace(/\s+$/,'');if(v!==(it.note||''))mEdit(it.id,x=>{if(v)x.note=v;else delete x.note;});});
   $('#aUrg').onclick=()=>{const it=items[idx(mActId)];if(!it)return;
-    if(!it.urgent&&dueSoon(it)){toast('Urgente à cause de l’échéance proche : change ou retire l’échéance pour l’enlever');return;}
-    mEdit(it.id,x=>{if(x.urgent)delete x.urgent;else x.urgent=true;});};
+    mEdit(it.id,x=>{if(x.important)delete x.important;else x.important=true;},it.important?'N’est plus importante':'Importante');};
   const addSub=()=>{const v=$('#aNewSub').value.replace(/\s+/g,' ').trim();if(!v)return;$('#aNewSub').value='';
     mEdit(mActId,(it,i)=>{items.splice(blockEnd(i),0,{id:uid(),kind:'t',text:v,level:1,created:todayISO()});});};
   $('#aNewSub').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();addSub();}};
