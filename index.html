@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261014064947">
+<meta name="taches-page" content="20261014091702">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -3985,6 +3985,128 @@ body:not(.mobile) #mSecNew {
   border-color: var(--accent);
   color: var(--accent);
 }
+
+/* téléphone : fenêtre « Nouvelle version installée » (claire, rappel vert sapin ; arc-en-ciel autour quand la copie pour le PC est déposée) */
+#vmod {
+  width: min(26rem, calc(100vw - 2rem));
+  max-height: 82vh;
+  padding: 0;
+  border: 3px solid var(--accent);
+  border-radius: 16px;
+  background: var(--panel, var(--bg));
+  color: var(--fg);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  overflow: visible;
+}
+#vmod::backdrop {
+  background: rgba(20, 22, 28, 0.5);
+}
+#vmod.fete {
+  border-color: transparent;
+  background:
+    linear-gradient(var(--panel, var(--bg)), var(--panel, var(--bg))) padding-box,
+    conic-gradient(from var(--arc, 0deg), #e8463c, #f2a33a, #f3d43f, #5cc46a, #3aa7e0, #7a5ce0, #d65cc0, #e8463c)
+      border-box;
+  animation: arcTurn 3.5s linear infinite;
+}
+#vmod form {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(82vh - 6px);
+}
+#vmod .vmh {
+  padding: 1rem 1.1rem 0.6rem;
+  border-bottom: 1px solid var(--line);
+}
+#vmod .vmt {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--accent);
+}
+#vmod .vmv {
+  margin-top: 0.15rem;
+  font-weight: 600;
+}
+#vmod .vmp {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+#vmod .vmb {
+  overflow: auto;
+  padding: 0.4rem 1.1rem 0.6rem;
+}
+#vmod .vmb h4 {
+  margin: 0.7rem 0 0.25rem;
+  font-size: 0.9rem;
+  color: var(--accent);
+}
+#vmod .vmb ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+#vmod .vmb li {
+  margin: 0.2rem 0;
+}
+#vmod .vme {
+  color: var(--muted);
+}
+#vmod .vmf {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 1.1rem 0.9rem;
+  border-top: 1px solid var(--line);
+}
+#vmod .vmc {
+  flex: 1;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+#vmod .vmc.ok {
+  color: var(--accent);
+  font-weight: 600;
+}
+#vmod .vmok {
+  margin-left: auto;
+  font: inherit;
+  font-weight: 600;
+  padding: 0.5rem 1.6rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--bg);
+}
+#vmod .spark {
+  position: absolute;
+  left: 1.5rem;
+  bottom: 1.5rem;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px;
+  border-radius: 50%;
+  background: hsl(var(--r), 90%, 60%);
+  opacity: 0;
+  animation: vspark 0.9s var(--d) ease-out forwards;
+  pointer-events: none;
+}
+
+/* retour visuel (PC) : tâche créée ou déplacée, un halo vert qui s'éteint */
+#list .card.flash {
+  animation: cardFlash 1.8s ease-out;
+}
+@keyframes cardFlash {
+  0%,
+  25% {
+    box-shadow:
+      0 0 0 3px var(--accent),
+      0 0 18px 4px color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
 </style>
 </head>
 <body>
@@ -4635,6 +4757,20 @@ function setCaret(el, off) {
 }
 function txtEl(id) {
   return document.querySelector(`.row[data-id="${id}"] .txt`);
+}
+/* retour visuel (PC) : la tâche créée, déplacée ou complétée vient à l'écran et s'illumine un instant */
+function flash(id) {
+  requestAnimationFrame(() => {
+    const r0 = document.querySelector('#list .row[data-id="' + id + '"]'),
+      c = r0 && r0.closest('.card');
+    if (!c) return;
+    const r = c.getBoundingClientRect();
+    if (r.top < 90 || r.bottom > innerHeight - 20) c.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    c.classList.remove('flash');
+    void c.offsetWidth;
+    c.classList.add('flash');
+    setTimeout(() => c.classList.remove('flash'), 2000);
+  });
 }
 function focusItem(id, off) {
   const el = txtEl(id);
@@ -6329,6 +6465,7 @@ function noteToTask(nid, secId, state) {
   const pos = laneEndOf(secId);
   items.splice(pos, 0, t, ...sp.subs.map(x => ({ id: uid(), kind: 't', level: 1, text: x, created: t.created })));
   commit();
+  flash(t.id);
   toast(
     'Note devenue tâche' +
       (t.due ? ' · échéance ' + shortDate(t.due) + ' (« ' + dt.w + ' »)' : '') +
@@ -6345,6 +6482,7 @@ function noteToComment(nid, taskId) {
   notes = notes.filter(x => x !== n);
   it.note = (it.note ? it.note.replace(/\s+$/, '') + '\n' : '') + d.slice(8, 10) + '/' + d.slice(5, 7) + ' : ' + n.text;
   commit();
+  flash(it.id);
   toast('Note ajoutée au commentaire · Ctrl+Z pour annuler');
 }
 /* une note devient sous-tâche d'une tâche (ses puces aussi) ; le reste de son texte va au commentaire de la tâche */
@@ -6369,6 +6507,7 @@ function noteToSub(nid, taskId) {
     it.note =
       (it.note ? it.note.replace(/\s+$/, '') + '\n' : '') + d.slice(8, 10) + '/' + d.slice(5, 7) + ' : ' + sp.note;
   commit();
+  flash(it.id);
   toast('Note devenue sous-tâche de « ' + it.text + ' » · Ctrl+Z pour annuler');
 }
 let histTrash = false;
@@ -6438,6 +6577,7 @@ function renderHist() {
         if (recoverCore(e.id)) {
           commit();
           renderHist();
+          if (e.section !== NOTESEC) flash(restoreCore.last);
           toast(e.section === NOTESEC ? 'Note récupérée' : 'Récupérée · remise à sa place');
         }
       } else restoreEntry(e.id);
@@ -6752,6 +6892,7 @@ function emptyDone(secId) {
 function restoreEntry(eid) {
   if (restoreCore(eid)) {
     commit();
+    flash(restoreCore.last);
     toast('Remis dans la liste');
   }
 }
@@ -6789,23 +6930,21 @@ function restoreCore(eid, fromTrash) {
     const fh = items.findIndex(x => x.kind === 'h');
     insertAt = fh < 0 ? items.length : fh;
   }
-  items.splice(
-    insertAt,
-    0,
-    ...d.items.map((x, k) => ({
-      id: uid(),
-      kind: 't',
-      text: x.text,
-      note: x.note || '',
-      links: x.links,
-      created: x.created,
-      due: x.due,
-      color: x.color,
-      waitFor: x.waitFor,
-      level: x.level + base,
-      checked: k === 0 ? false : !!x.checked
-    }))
-  );
+  const nouveaux = d.items.map((x, k) => ({
+    id: uid(),
+    kind: 't',
+    text: x.text,
+    note: x.note || '',
+    links: x.links,
+    created: x.created,
+    due: x.due,
+    color: x.color,
+    waitFor: x.waitFor,
+    level: x.level + base,
+    checked: k === 0 ? false : !!x.checked
+  }));
+  items.splice(insertAt, 0, ...nouveaux);
+  restoreCore.last = nouveaux[0] && nouveaux[0].id; /* pour le retour visuel */
   if (fromTrash) trash = trash.filter(x => x.id !== eid);
   else done = done.filter(x => x.id !== eid);
   return true;
@@ -7219,6 +7358,7 @@ function moveToSec(id, sec) {
   const it = items[idx(id)];
   if (!it) return;
   dropBlock(id, { cell: { sec, state: it.state } });
+  flash(id);
   const h = sec ? items[idx(sec)] : null;
   toast('Rangée dans « ' + (h ? h.text : 'Hors rubrique') + ' » · Ctrl+Z pour annuler');
 }
@@ -7235,6 +7375,7 @@ function moveToNewSec(id, name) {
   const it = items[idx(id)];
   dropBlock(id, { cell: { sec: h.id, state: it.state } });
   undoStack.pop(); /* un seul Ctrl+Z annule rubrique et déplacement */
+  flash(id);
   toast('Nouvelle rubrique « ' + name + ' » · Ctrl+Z pour annuler');
 }
 function setStateOf(id, st) {
@@ -7309,6 +7450,7 @@ function duplicateBlock(id) {
   normalize();
   render();
   changed();
+  flash(cp[0].id);
   toast('Dupliquée · Ctrl+Z pour annuler');
 }
 function copyBlock(id) {
@@ -7783,6 +7925,7 @@ function dropBlock(srcId, tgt) {
     const top = taskIntoTask(srcId, tgt.id);
     if (top) {
       commit();
+      flash(top.id);
       toast('Devenue sous-tâche de «\u00a0' + top.text + '\u00a0» · Ctrl+Z pour annuler');
     }
     return;
@@ -8456,6 +8599,7 @@ function newCardsIn(secId, state, cards) {
     made.push(n);
   }
   commit();
+  for (const n of made) flash(n.id);
   toast(made.length > 1 ? made.length + ' tâches créées' : 'Tâche créée');
 }
 list.addEventListener('drop', e => {
@@ -10773,6 +10917,16 @@ function mHistFill(box, tr) {
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES = [
   {
+    d: '2026-10-14 11:20',
+    type: 'web',
+    v: '2.17',
+    t: 'Fenêtre de nouvelle version, retour visuel au PC',
+    items: [
+      'Téléphone\u00a0: une nouvelle version s’annonce dans une vraie fenêtre, au centre, fond grisé, avec toutes ses notes (défilantes) et un bouton OK. Contour vert sapin, arc-en-ciel quand la copie pour le PC est déposée dans OneDrive.',
+      'PC\u00a0: une tâche créée (e-mail ou texte glissé, note transformée), déplacée, dupliquée ou restaurée s’illumine un instant, et la page défile jusqu’à elle si elle est hors de vue.'
+    ]
+  },
+  {
     d: '2026-10-14 09:30',
     type: 'web',
     v: '2.16',
@@ -11681,14 +11835,95 @@ function vcHide() {
   const c = document.getElementById('vcard');
   if (c) c.classList.remove('show');
 }
+/* nouvelle version installée : une vraie fenêtre (fond grisé, au centre), toutes les notes de la version, bouton OK.
+   La carte (vcRender) ne sert plus qu'à annoncer un dépôt pour le PC fait plus tard, sans nouvelle version. */
 function vcOpen(prev) {
   vc.prev = prev || '';
-  vc.news = newsUnseen().length > 0;
   vc.copy = !mDirect ? null : offHours() ? 'pause' : 'wait';
-  vcShow();
+  vc.modal = true;
+  let d = document.getElementById('vmod');
+  if (!d) {
+    d = document.createElement('dialog');
+    d.id = 'vmod';
+    document.body.append(d);
+    d.addEventListener('close', () => {
+      vc.modal = false;
+      mstore.set('taches-nouveautes-vues', NOUVEAUTES[0].d);
+      newsDot();
+    });
+  }
+  vmRender();
+  if (!d.open) d.showModal();
+}
+function vmRender() {
+  const d = document.getElementById('vmod');
+  if (!d) return;
+  const el = (tag, k, t) => {
+    const e = document.createElement(tag);
+    if (k) e.className = k;
+    if (t != null) e.textContent = t;
+    return e;
+  };
+  const f = el('form');
+  f.method = 'dialog';
+  const h = el('div', 'vmh');
+  h.append(el('div', 'vmt', 'Nouvelle version installée'), el('div', 'vmv', 'Application web Chromium v' + WEB_V));
+  if (vc.prev && vc.prev !== WEB_V) h.append(el('div', 'vmp', 'précédente\u00a0: v' + vc.prev));
+  const b = el('div', 'vmb'),
+    u = newsUnseen();
+  for (const e of u) {
+    const s = el('section');
+    s.append(
+      el(
+        'h4',
+        null,
+        (e.type === 'appli' ? 'Compagnon Android v' + compName(e.v) : 'v' + e.v) + (e.t ? ' · ' + e.t : '')
+      )
+    );
+    const ul = el('ul');
+    for (const x of e.items) ul.append(el('li', null, x));
+    s.append(ul);
+    b.append(s);
+  }
+  if (!u.length) b.append(el('p', 'vme', 'Petites corrections et améliorations.'));
+  const cp = {
+    wait: '◌ Copie pour le PC\u00a0: dépôt dans OneDrive…',
+    ok: '✓ Déposée dans OneDrive pour le PC',
+    pause: 'Copie pour le PC\u00a0: dépôt ' + nextWorkTxt()
+  }[vc.copy];
+  const ft = el('div', 'vmf');
+  if (cp) {
+    const c = el('div', 'vmc' + (vc.copy === 'ok' ? ' ok' : ''), cp);
+    if (vc.copy === 'pause') c.insertAdjacentHTML('afterbegin', PAUSE_SVG + ' ');
+    ft.append(c);
+  }
+  const ok = el('button', 'vmok', 'OK');
+  ok.value = 'ok';
+  ft.append(ok);
+  f.append(h, b, ft);
+  d.replaceChildren(f);
+  d.classList.toggle('fete', vc.copy === 'ok');
 }
 /* résultat du dépôt de taches.html : met la carte à jour, ou l'ouvre si le dépôt arrive plus tard (premier usage dans les heures) */
 function vcCopy(r) {
+  if (vc.modal) {
+    /* fenêtre de nouvelle version ouverte : la ligne de copie s'y met à jour, et l'arc-en-ciel l'entoure au dépôt */
+    if (r === 'deposee') vc.copy = 'ok';
+    else if (vc.copy === 'wait') vc.copy = null;
+    vmRender();
+    if (r === 'deposee') {
+      const d = document.getElementById('vmod');
+      for (let k = 0; k < 12; k++) {
+        const s = document.createElement('i');
+        s.className = 'spark';
+        s.style.setProperty('--r', k * 30 + (k % 2) * 10 + 'deg');
+        s.style.setProperty('--d', (k % 3) * 50 + 'ms');
+        d.append(s);
+      }
+      buzz([12, 50, 12, 50, 30]);
+    }
+    return;
+  }
   if (r === 'deposee') {
     vc.copy = 'ok';
     if (!vc.on) {
