@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261014210821">
+<meta name="taches-page" content="20261014213006">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -2701,9 +2701,10 @@ body.mobile [contenteditable='true'] {
 }
 #mDrag .dghost {
   position: fixed;
+  z-index: 3;
   left: 0;
   top: 0;
-  max-width: 75vw;
+  max-width: 62vw;
   padding: 0.55rem 0.85rem;
   border-radius: 10px;
   background: var(--panel);
@@ -4315,37 +4316,42 @@ body.mobile:has(dialog:modal) {
   opacity: 1;
   color: var(--accent);
 }
-/* téléphone, glisser une note : « Archiver » (à gauche) et « Supprimer » (à droite) se partagent le haut de l'écran */
-#mDrag .dtrash.half {
-  left: 50%;
+
+/* glisser une carte sur le côté : ce qui va se passer apparaît derrière elle */
+.swiping {
+  position: relative;
+  z-index: 1;
 }
-#mDrag .darch {
+.swbg {
   position: absolute;
-  left: 0;
-  right: 50%;
-  top: 0;
-  height: 4.2rem;
+  z-index: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
+  padding: 0 1rem;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--accent) 22%, var(--bg));
   color: var(--accent);
   font-size: 0.9rem;
   font-weight: 600;
-  background: linear-gradient(color-mix(in srgb, var(--accent) 12%, var(--bg)), transparent);
   transition:
-    background 0.12s,
-    color 0.12s;
+    background 0.15s,
+    color 0.15s;
 }
-#mDrag .darch svg {
+.swbg.right {
+  justify-content: flex-end;
+}
+.swbg span {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
   transition: transform 0.15s;
 }
-#mDrag .darch.hov {
+.swbg.go {
   background: var(--accent);
   color: #fff;
 }
-#mDrag .darch.hov svg {
-  transform: scale(1.2) translateY(2px);
+.swbg.go span {
+  transform: scale(1.08);
 }
 </style>
 </head>
@@ -11362,6 +11368,12 @@ function mRender() {
                 mOpenNote(n.id);
               };
               mDragInit(c);
+              mSwipeAct(c, 'Archiver', () => {
+                if (archiveNote(n.id)) {
+                  mRender();
+                  mUndoToast('Note archivée dans l’historique');
+                }
+              });
             }
             box.append(c);
           }
@@ -11683,10 +11695,20 @@ function mHistFill(box, tr) {
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES = [
   {
+    d: '2026-10-14 23:45',
+    type: 'web',
+    v: '2.20.2',
+    items: [
+      'Téléphone\u00a0: pour archiver une note, glisse-la sur le côté, comme une tâche faite\u00a0: elle suit le doigt, «\u00a0Archiver\u00a0» apparaît derrière elle et s’allume au-delà d’un tiers de la largeur.',
+      'Tâche faite glissée sur le côté\u00a0: même présentation («\u00a0Ranger dans l’historique\u00a0» derrière la carte).',
+      'Appui long\u00a0: «\u00a0Supprimer\u00a0» reprend toute la largeur en haut\u00a0; la carte qu’on déplace reste sous le doigt, même près du bord.'
+    ]
+  },
+  {
     d: '2026-10-14 23:00',
     type: 'web',
     v: '2.20.1',
-    items: ['Téléphone\u00a0: en glissant une note, «\u00a0Archiver\u00a0» apparaît en haut à côté de «\u00a0Supprimer\u00a0».']
+    items: ['Téléphone\u00a0: archiver une note en la glissant (essai, remplacé le soir même).']
   },
   {
     d: '2026-10-14 21:55',
@@ -13020,11 +13042,26 @@ function mArchive(id) {
   mRender();
   mUndoToast('Rangée dans l’historique');
 }
+/* glisser sur le côté (téléphone) : la carte suit le doigt, en place ; derrière elle apparaît ce qui va se passer.
+   Au-delà d'un tiers de la largeur : l'action ; sinon la carte revient. Tâche faite → historique ; note → archivée. */
+const SW_ICON =
+  '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="5" rx="1.2"/><path d="M5 9v10h14V9M10 13h4"/></svg>';
 function mSwipe(c, id) {
+  mSwipeAct(c, 'Ranger dans l’historique', () => mArchive(id));
+}
+function mSwipeAct(c, label, act) {
   let x0 = null,
     y0 = 0,
     dx = 0,
-    mode = null;
+    mode = null,
+    bg = null,
+    go = false;
+  const lim = () => c.offsetWidth * 0.33;
+  const clean = () => {
+    if (bg) bg.remove();
+    bg = null;
+    c.classList.remove('swiping');
+  };
   c.addEventListener(
     'touchstart',
     e => {
@@ -13033,6 +13070,7 @@ function mSwipe(c, id) {
       y0 = e.touches[0].clientY;
       dx = 0;
       mode = null;
+      go = false;
     },
     { passive: true }
   );
@@ -13043,7 +13081,7 @@ function mSwipe(c, id) {
       if (mDrag) {
         x0 = null;
         c.style.transform = '';
-        c.style.opacity = '';
+        clean();
         return;
       }
       const t = e.touches[0];
@@ -13052,11 +13090,31 @@ function mSwipe(c, id) {
       if (!mode) {
         if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy) * 1.5) mode = 'h';
         else if (Math.abs(dy) > 12) mode = 'v';
+        if (mode === 'h') {
+          /* fond révélé derrière la carte, à sa place exacte */
+          const P = c.parentNode;
+          if (getComputedStyle(P).position === 'static') P.style.position = 'relative';
+          bg = document.createElement('div');
+          bg.className = 'swbg';
+          bg.innerHTML = '<span>' + SW_ICON + label + '</span>';
+          bg.style.top = c.offsetTop + 'px';
+          bg.style.left = c.offsetLeft + 'px';
+          bg.style.width = c.offsetWidth + 'px';
+          bg.style.height = c.offsetHeight + 'px';
+          P.insertBefore(bg, c);
+          c.classList.add('swiping');
+        }
       }
       if (mode !== 'h') return;
       c.style.transition = 'none';
       c.style.transform = 'translateX(' + dx + 'px)';
-      c.style.opacity = String(Math.max(0.15, 1 - Math.abs(dx) / c.offsetWidth));
+      bg.classList.toggle('right', dx < 0);
+      const g = Math.abs(dx) > lim();
+      if (g !== go) {
+        go = g;
+        bg.classList.toggle('go', g);
+        if (g) buzz('tick');
+      }
     },
     { passive: true }
   );
@@ -13068,15 +13126,18 @@ function mSwipe(c, id) {
     setTimeout(() => {
       delete c.dataset.swiped;
     }, 400);
-    if (Math.abs(dx) > c.offsetWidth * 0.35) {
+    if (Math.abs(dx) > lim()) {
       c.style.transition = 'transform .18s,opacity .18s';
       c.style.transform = 'translateX(' + (dx > 0 ? '' : '-') + '110%)';
       c.style.opacity = '0';
-      setTimeout(() => mArchive(id), 170);
+      setTimeout(() => {
+        clean();
+        act();
+      }, 170);
     } else {
-      c.style.transition = 'transform .18s,opacity .18s';
+      c.style.transition = 'transform .18s';
       c.style.transform = '';
-      c.style.opacity = '';
+      setTimeout(clean, 180);
     }
   });
 }
@@ -13304,15 +13365,6 @@ function mDragOpen(ov, col, g, anchor, st, x, y) {
   tr.innerHTML =
     '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 12.5h9l1-12.5M10 11v5.5M14 11v5.5"/></svg><span>Supprimer</span>';
   ov.append(tr, col, g);
-  /* note : « Archiver » à côté de « Supprimer » (dans l'historique, d'où on peut la remettre) */
-  if (st.kind === 'note') {
-    tr.classList.add('half');
-    const ar = document.createElement('div');
-    ar.className = 'darch';
-    ar.innerHTML =
-      '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="5" rx="1.2"/><path d="M5 9v10h14V9M10 13h4"/></svg><span>Archiver</span>';
-    ov.append(ar);
-  }
   document.body.append(ov);
   /* la rubrique de la tâche (ou sa place) arrive sous le doigt */
   const T = tr.offsetHeight,
@@ -13330,12 +13382,9 @@ function mDragOpen(ov, col, g, anchor, st, x, y) {
 function mDragMove(x, y) {
   const d = mDrag;
   if (!d) return;
+  /* la carte fantôme reste sous le doigt (le doigt tient son bord gauche), quitte à dépasser de l'écran à droite */
   d.g.style.transform =
-    'translate(' +
-    Math.max(8, Math.min(innerWidth - d.g.offsetWidth - 8, x - d.g.offsetWidth / 2)) +
-    'px,' +
-    (y - d.g.offsetHeight - 28) +
-    'px)';
+    'translate(' + Math.max(-d.g.offsetWidth + 60, x - 36) + 'px,' + (y - d.g.offsetHeight - 22) + 'px)';
   if (Math.hypot(x - d.sx, y - d.sy) > 12) d.moved = true;
   /* défilement de la colonne près des bords */
   const T0 = d.col.offsetTop;
