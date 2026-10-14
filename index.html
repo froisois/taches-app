@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261014002203">
+<meta name="taches-page" content="20261014003744">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -232,6 +232,8 @@ body.mobile>header,body.mobile #help,body.mobile #banner,body.mobile main,body.m
 .mct .note{font-weight:400}
 .mbang{flex:none;width:1.1rem;height:1.1rem;border-radius:50%;background:#c4524a;color:#fff;font-size:.75rem;font-weight:800;text-align:center;line-height:1.1rem;margin-top:.1rem}
 .mchips{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.35rem}
+.mct .mtdue{flex:none;margin-top:.1rem;font-weight:600}.msub .minl{margin-left:.4rem;vertical-align:.05em}
+.mchip.halo,.due.halo{box-shadow:0 0 0 calc(1px + 1.5px * var(--hz,0)) color-mix(in srgb,#c4524a calc(15% + 35% * var(--hz,0)),transparent)!important}   /* halo plus fin sur les pastilles d'échéance */
 .mchip{font-size:.74rem;padding:.05rem .5rem;border-radius:999px;border:1px solid color-mix(in srgb,var(--c) 35%,transparent);color:var(--muted);white-space:nowrap}
 .mchip.red{border-color:#c4524a;color:#c4524a;font-weight:600}
 .mchip.redf{background:#c4524a;border-color:#c4524a;color:#fff;font-weight:600}
@@ -2832,6 +2834,7 @@ function mCard(i,withSec){
       if(!f&&!mstore.get('taches-astuce-glisser'))setTimeout(()=>{const t=$('#toast');if(t.classList.contains('undo')&&t.classList.contains('show'))return;mstore.set('taches-astuce-glisser',1);toast('Astuce : glisse une tâche faite sur le côté pour la ranger dans l’historique');},2800);};t.append(k);}
   if(it.important&&it.state!=='fait'){const b=document.createElement('span');b.className='mbang';b.textContent='!';b.title='Importante';t.append(b);}
   const tx=document.createElement('span');tx.className='t';decorate(tx,it.text);t.append(tx);
+  if(it.due&&it.state!=='fait'){const dc=mDue(it);dc.classList.add('mtdue');t.append(dc);}   /* échéance de la tâche : à côté de son intitulé, pas sous les sous-tâches */
   c.append(t);
   if(it.note){const n=document.createElement('div');n.className='mnote';n.innerHTML=fmtView(it.note);c.append(n);}
   if(subs.length){
@@ -2842,7 +2845,7 @@ function mCard(i,withSec){
       const bx=document.createElement('span');bx.className='bx';bx.textContent=x.checked?'☑':'☐';
       if(AND){bx.classList.add('tap');bx.onclick=ev=>{ev.stopPropagation();mSubToggle(x.id);};}
       const w=document.createElement('div');const tt=document.createElement('span');tt.className='tx';tt.textContent=x.text;w.append(tt);
-      if(x.due&&!x.checked){const cc=document.createElement('div');cc.className='mchips';cc.append(mDue(x));w.append(cc);}
+      if(x.due&&!x.checked){const dc=mDue(x);dc.classList.add('minl');w.append(dc);}   /* échéance de la sous-tâche : sur sa ligne */
       r.append(bx,w);box.append(r);
     }
     if(nDone){const m=document.createElement('div');m.className='msubdone';m.textContent='+\u00a0'+nDone+(nDone>1?' faites':' faite');box.append(m);}
@@ -2853,7 +2856,6 @@ function mCard(i,withSec){
   if(it.state==='attente'&&it.waitFor)ch.append(mChip('⏳ '+it.waitFor,'who'));
   if(it.state==='attente'&&it.relance){const late=isLate(it);ch.append(mChip('⏰ '+shortDate(it.relance),late?'amb':''));
     if(late&&AND){const b=document.createElement('button');b.className='mrelb';b.textContent='✓ Relancé';b.onclick=ev=>{ev.stopPropagation();mEdit(it.id,x=>relanceDone(x),'Relancé · prochaine relance le '+shortDate(addDays(todayISO(),RELANCE_JOURS)));};ch.append(b);}}
-  if(it.due&&it.state!=='fait')ch.append(mDue(it));
   if(ageLevel(it))ch.append(mChip(ageTxt(it),'age'));
   const all=[it,...subs].flatMap(x=>x.links||[]);
   if(all.length){const f=all.some(mIsFile);ch.append(mChip((f?'📎':'🔗')+(all.length>1?' '+all.length:'')));}
@@ -2993,6 +2995,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-14 02:50',type:'web',v:'2.14.2',items:['Téléphone\u00a0: l’échéance d’une tâche s’affiche à côté de son intitulé (et non plus sous les sous-tâches), celle d’une sous-tâche au bout de sa ligne\u00a0; halo plus fin autour des pastilles d’échéance.']},
  {d:'2026-10-14 02:40',type:'web',v:'2.14.1',items:['Téléphone\u00a0: dans la fiche d’une tâche, chaque sous-tâche montre son échéance\u00a0; la toucher permet de la changer ou de l’effacer, et 📅 d’en fixer une.']},
  {d:'2026-10-14 02:15',type:'web',v:'2.14',t:'Affichage par échéance',items:['Troisième affichage, «\u00a0📅 par échéance\u00a0» (à côté de «\u00a0priorités en haut / dans leur rubrique\u00a0» au PC, dans ⋮ au téléphone)\u00a0: les tâches à faire et en attente rangées en bandes, en retard, aujourd’hui et cette semaine, semaine prochaine, plus tard, sans échéance (les plus anciennes d’abord), chacune avec le nom de sa rubrique.','PC\u00a0: glisser une tâche dans une autre bande change sa date (début de la bande\u00a0; «\u00a0Sans échéance\u00a0» la retire)\u00a0; au milieu d’une tâche, elle en devient une sous-tâche.']},
  {d:'2026-10-14 01:30',type:'web',v:'2.13',t:'Urgent et important',items:['Deux mots pour deux choses\u00a0: une tâche est «\u00a0urgente\u00a0» quand le calendrier presse (échéance dépassée, du jour, ou à J-3), «\u00a0importante\u00a0» quand tu la marques toi-même («\u00a0!\u00a0», Alt+I). La rangée du haut s’appelle «\u00a0Priorités\u00a0»\u00a0: les urgentes d’abord, puis les importantes.','Échéances\u00a0: dès J-7 la tâche est signalée en corail (sans être urgente), à J-3 elle devient urgente (rouge et halo). Seuils réglables dans ⚙. Dans chaque case, les tâches datées passent avant les autres, par date.','Une tâche à faire sans échéance prend une patine au bout de 2 semaines, plus marquée à 4 («\u00a0depuis 3\u00a0sem.\u00a0»).','Dans taches.md, la marque {urgent} devient {important} (mise à jour toute seule).']},
