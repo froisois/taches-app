@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261014091702">
+<meta name="taches-page" content="20261014115821">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -3997,6 +3997,17 @@ body:not(.mobile) #mSecNew {
   color: var(--fg);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
   overflow: visible;
+}
+/* fenêtre ouverte : le fond ne défile plus sous le doigt (le toucher sur l'en-tête ou le pied faisait bouger la page derrière) */
+html:has(body.mobile dialog:modal) {
+  overflow: hidden;
+}
+body.mobile:has(dialog:modal) {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+#vmod .vmb {
+  overscroll-behavior: contain;
 }
 #vmod::backdrop {
   background: rgba(20, 22, 28, 0.5);
@@ -10143,7 +10154,7 @@ function offHoursTxt() {
 }
 const PAUSE_SVG =
   '<svg viewBox="0 0 102.0 80.7" width="1.26em" height="1em" fill="currentColor" aria-hidden="true" style="vertical-align:-.15em"><path d="M30.6 30.1 28.6 29.9 26.4 30.5 4.9 38.6 1.8 40.3 1.1 41.0 0.2 42.7 0.0 44.0 0.5 46.3 1.9 47.9 3.7 48.9 4.6 49.1 5.9 49.0 8.9 48.0 18.2 44.3 20.1 44.0 20.4 44.4 19.9 47.1 12.1 74.5 12.1 76.8 12.5 78.0 14.0 79.7 15.4 80.4 18.3 80.6 19.9 80.3 41.9 72.0 45.4 70.1 46.3 69.0 46.9 67.7 46.9 65.1 45.9 63.4 44.9 62.5 42.2 61.5 41.0 61.6 26.9 67.0 26.4 66.9 26.1 66.4 26.2 65.2 33.8 39.0 34.5 35.7 34.5 34.3 33.7 32.2 32.4 30.9ZM98.3 24.7 96.7 24.2 94.6 24.2 79.0 25.5 78.0 25.9 76.7 27.2 76.3 28.3 76.5 29.9 77.3 31.1 78.9 31.9 80.2 32.1 87.9 31.3 88.7 31.5 89.1 32.0 78.4 49.4 78.1 50.5 78.3 51.8 78.9 52.9 80.3 54.0 82.8 54.3 91.1 53.4 97.9 53.0 99.9 52.5 101.5 51.3 101.9 50.3 101.8 48.5 101.5 47.9 99.9 46.6 97.3 46.4 89.5 47.1 89.0 46.5 89.4 45.3 99.6 28.8 99.7 26.5ZM66.5 0.8 64.5 0.1 63.1 0.0 39.7 3.9 35.9 4.7 34.3 5.7 33.2 6.8 32.5 8.8 32.9 11.6 34.5 13.5 35.8 14.3 37.8 14.6 40.6 14.3 51.6 12.3 52.7 12.4 53.1 12.9 53.0 13.5 52.2 14.6 46.7 25.8 45.2 28.3 38.5 41.9 38.2 43.0 38.4 45.2 39.3 46.8 40.7 48.1 42.8 49.0 44.1 49.1 58.1 46.6 62.3 46.1 64.1 45.6 68.3 45.1 71.7 44.3 72.7 43.8 74.8 41.8 75.3 40.1 74.9 37.2 73.8 35.7 71.4 34.5 69.3 34.4 55.6 36.7 54.8 36.6 54.5 36.2 55.1 34.2 68.7 7.5 69.1 5.7 68.9 3.9 68.1 2.4Z"/></svg>'; /* « zzz » vectorisé depuis l'émoji 💤 d'Android (contours relevés sur l'image, OpenCV), de la couleur du texte */
-const ONEDRIVE_M = new Set(['read', 'write', 'pick', 'spLogin', 'spRead', 'spWrite', 'spCreate', 'sendToOneDrive']);
+const ONEDRIVE_M = new Set(['read', 'write', 'pick', 'spLogin', 'spRead', 'spWrite', 'spCreate', 'spUpload', 'sendToOneDrive']);
 function andCall(m, arg) {
   if (ONEDRIVE_M.has(m) && offHours()) return Promise.reject(new Error('horsplage:' + offHoursTxt()));
   return andCallRaw(m, arg);
@@ -10917,6 +10928,26 @@ function mHistFill(box, tr) {
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES = [
   {
+    d: '2026-10-14 14:00',
+    type: 'appli',
+    v: 44,
+    t: 'Pièces jointes envoyées toutes seules',
+    items: [
+      'Un fichier partagé vers Tâches part directement dans le dossier «\u00a0Pièces jointes\u00a0» de OneDrive (accès direct), sans ouvrir d’autre appli. Hors des heures de travail, il attend sur le téléphone.'
+    ]
+  },
+  {
+    d: '2026-10-14 14:00',
+    type: 'web',
+    v: '2.18',
+    t: 'Pièces jointes sans détour (téléphone)',
+    items: [
+      'Téléphone (Compagnon Android 2.3)\u00a0: le fichier partagé est joint à la tâche et déposé tout seul dans «\u00a0Pièces jointes\u00a0». Si le nom est déjà pris, «\u00a0(2)\u00a0» est ajouté et le lien suit.',
+      'Hors des heures de travail, il attend sur le téléphone et part à la première actualisation dans les heures.',
+      'Fenêtre de nouvelle version\u00a0: la page derrière ne bouge plus sous le doigt.'
+    ]
+  },
+  {
     d: '2026-10-14 11:20',
     type: 'web',
     v: '2.17',
@@ -11503,7 +11534,8 @@ const COMPAGNON = [
   [40, '2.0'],
   [41, '2.0.1'],
   [42, '2.1'],
-  [43, '2.2']
+  [43, '2.2'],
+  [44, '2.3']
 ];
 function compName(b) {
   b = +b;
@@ -11739,6 +11771,66 @@ async function archiveOld(force) {
    Le PC n'a pas à aller chercher le programme sur internet (choix de François) : le Compagnon, qui reçoit chaque
    nouvelle version, en dépose une copie à côté de taches.md, et OneDrive l'amène au PC. « - version web : N » dans
    taches.md dit au PC quelle version l'attend dans le dossier (bandeau « recharge la page »). */
+/* ---------- pièces jointes partagées au téléphone : envoyées dans « Pièces jointes » par l'accès direct ----------
+   File d'attente (taches-pj-attente) : { key (fichier gardé par le Compagnon), rel (lien écrit dans la tâche), id (tâche) }.
+   Hors des heures de travail, le fichier attend sur le téléphone ; il part à la première lecture dans les heures. */
+const PJ_DIR = 'Pièces jointes';
+function pjClean(n) {
+  return (n || '').replace(/[\\/:*?"<>|]/g, '-').trim() || 'fichier';
+}
+function pjQueue(f) {
+  let q = [];
+  try {
+    q = JSON.parse(mstore.get('taches-pj-attente') || '[]');
+  } catch (e) {}
+  if (f) {
+    f(q);
+    mstore.set('taches-pj-attente', JSON.stringify(q));
+  }
+  return q;
+}
+let pjBusy = null;
+function pjFlush() {
+  if (pjBusy) return pjBusy;
+  pjBusy = pjFlushRun().finally(() => (pjBusy = null));
+  return pjBusy;
+}
+async function pjFlushRun() {
+  if (!AND || offHours() || !backend || !backend.direct || !settings.dossier) return 0;
+  let n = 0;
+  for (const p of pjQueue()) {
+    const holders = items.filter(it => (it.links || []).some(l => l.url === p.rel));
+    if (!holders.length) {
+      /* tâche ou lien supprimés entre-temps : rien à envoyer */
+      await andCallRaw('dropKept', p.key).catch(() => {});
+    } else {
+      const want = p.rel.split('/').pop(),
+        url = oneDriveURL(settings.dossier.replace(/[\\/]+$/, '') + '\\' + PJ_DIR + '\\' + want);
+      if (!url) return n;
+      let got;
+      try {
+        got = await spCall('spUpload', JSON.stringify({ url, key: p.key }));
+      } catch (e) {
+        if (!/^perdu:/.test(e.message)) throw e;
+        got = null; /* fichier disparu du téléphone : on retire de la file */
+      }
+      if (got && got !== want) {
+        /* nom déjà pris dans le dossier : « nom (2).pdf » ; le lien suit */
+        for (const it of holders)
+          for (const l of it.links)
+            if (l.url === p.rel) {
+              if (l.label === want) l.label = got;
+              l.url = PJ_DIR + '/' + got;
+            }
+        changed();
+      }
+      if (got) n++;
+    }
+    pjQueue(q => q.splice(q.findIndex(x => x.key === p.key), 1));
+  }
+  if (n) mRender();
+  return n;
+}
 async function copyHtml() {
   if (offHours()) return false;
   if (!AND || !backend || !backend.direct) return false;
@@ -13773,7 +13865,9 @@ async function mRefresh() {
     return 'err';
   }
   mInfo();
-  archiveOld()
+  pjFlush()
+    .catch(() => {})
+    .then(() => archiveOld())
     .catch(() => {})
     .then(() => copyHtmlVu())
     .catch(() => {});
@@ -14076,10 +14170,25 @@ async function mAttSave(joinId) {
   ok.disabled = true;
   const was = ok.textContent;
   ok.textContent = 'Copie…';
-  let rel = null;
-  try {
-    rel = await andCall('sendToOneDrive', name);
-  } catch (e) {
+  let rel = null,
+    key = null;
+  /* Compagnon 2.3 et plus, accès direct : le fichier part tout seul dans « Pièces jointes » (maintenant, ou à la reprise des heures de travail) */
+  if (backend.direct)
+    try {
+      key = await andCallRaw('keepFile', name);
+      rel = PJ_DIR + '/' + pjClean(name);
+    } catch (e) {
+      if (!/m[ée]thode inconnue/.test(e.message)) {
+        toast('Fichier non gardé\u202f: ' + e.message);
+        ok.disabled = false;
+        ok.textContent = was;
+        return;
+      }
+    }
+  if (!rel)
+    try {
+      rel = await andCall('sendToOneDrive', name);
+    } catch (e) {
     toast(
       /m[ée]thode inconnue/.test(e.message)
         ? 'Mets d’abord l’appli à jour (menu ⋮)'
@@ -14091,6 +14200,7 @@ async function mAttSave(joinId) {
   if (!rel) return;
   const link = { url: rel, label: rel.split('/').pop() };
   snapshot();
+  let tid = joinId;
   if (joinId) {
     const it = items[idx(joinId)];
     if (!it) return;
@@ -14100,13 +14210,28 @@ async function mAttSave(joinId) {
     mState.sec = sec;
     const n = { id: uid(), kind: 't', text: title, level: 0, state: 'afaire', created: todayISO(), links: [link] };
     items.splice(laneEndOf(sec || null), 0, n);
+    tid = n.id;
   }
   normalize();
   changed();
   mAttInfo = null;
   $('#mAtt').close();
   mRender();
-  toast(joinId ? 'Fichier joint à «\u00a0' + items[idx(joinId)].text + '\u00a0»' : 'Tâche créée avec le fichier');
+  const what = joinId ? 'Fichier joint à «\u00a0' + items[idx(joinId)].text + '\u00a0»' : 'Tâche créée avec le fichier';
+  if (!key) {
+    toast(what);
+    return;
+  }
+  pjQueue(q => q.push({ key, rel, id: tid }));
+  if (offHours()) {
+    toast(what + '\u00a0; il partira dans OneDrive ' + nextWorkTxt(), 5000);
+    return;
+  }
+  toast(what + '\u00a0; envoi dans OneDrive…');
+  pjFlush().then(
+    n => n && toast(what + '\u00a0: déposé dans OneDrive'),
+    e => toast('Fichier gardé sur le téléphone, envoi reporté\u202f: ' + e.message.replace(/^\w+:/, ''), 5000)
+  );
 }
 function mInitAtt() {
   document.querySelectorAll('#mAtt .ntabs button').forEach(b => (b.onclick = () => mAttPanel(b.dataset.p)));
@@ -14323,7 +14448,9 @@ async function mStartApp() {
   setTimeout(housekeeping, 0);
   setTimeout(
     () =>
-      archiveOld()
+      pjFlush()
+        .catch(() => {})
+        .then(() => archiveOld())
         .catch(e => toast('Archivage annuel reporté\u00a0: ' + e.message.replace(/^\w+:/, '')))
         .then(() => copyHtmlVu())
         .catch(() => {}),

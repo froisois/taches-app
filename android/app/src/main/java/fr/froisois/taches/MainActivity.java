@@ -240,6 +240,26 @@ public class MainActivity extends Activity {
                 case "sendToOneDrive":
                     envoyerOneDrive(id, arg);
                     break;
+                case "keepFile":
+                    garderFichier(id, arg);
+                    break;
+                case "dropKept":
+                    io.execute(() -> { new File(attente(), propre(arg)).delete(); repondre(id, true, ""); });
+                    break;
+                case "spUpload":
+                    reseau.execute(() -> {
+                        try {
+                            JSONObject o = new JSONObject(arg);
+                            File f = new File(attente(), propre(o.getString("key")));
+                            if (!f.exists()) { repondre(id, false, "perdu:fichier introuvable sur le téléphone"); return; }
+                            String n = OneDriveWeb.deposer(MainActivity.this, o.getString("url"), f);
+                            f.delete();
+                            repondre(id, true, n);
+                        }
+                        catch (OneDriveWeb.Exc e) { repondre(id, false, e.code + ":" + e.getMessage()); }
+                        catch (Exception e) { repondre(id, false, "reseau:" + message(e)); }
+                    });
+                    break;
                 case "openAttachment":
                     ouvrirPieceJointe(id, arg);
                     break;
@@ -739,6 +759,36 @@ public class MainActivity extends Activity {
                 if (doc == null) throw new Exception("création du fichier refusée");
                 copierVers(doc);
                 repondre(id, true, PJ + "/" + nomDocument(doc, n));
+            } catch (Exception e) {
+                repondre(id, false, message(e));
+            }
+        });
+    }
+
+    /** Fichiers partagés en attente d'envoi dans OneDrive (gardés jusqu'à l'envoi, même hors des heures de travail). */
+    private File attente() {
+        File d = new File(getFilesDir(), "pj-attente");
+        d.mkdirs();
+        return d;
+    }
+
+    /** Met de côté le fichier reçu, pour l'envoyer dans « Pièces jointes » par l'accès direct ; renvoie sa clé. */
+    private void garderFichier(int id, String nom) {
+        if (partage == null) { repondre(id, false, "aucun fichier reçu"); return; }
+        final File src = partage;
+        io.execute(() -> {
+            try {
+                String cle = System.currentTimeMillis() + "-" + propre(nom);
+                File f = new File(attente(), cle);
+                if (!src.renameTo(f)) {
+                    try (InputStream in = new java.io.FileInputStream(src); OutputStream o = new FileOutputStream(f)) {
+                        byte[] buf = new byte[65536]; int k;
+                        while ((k = in.read(buf)) > 0) o.write(buf, 0, k);
+                    }
+                    src.delete();
+                }
+                partage = null; partageNom = null;
+                repondre(id, true, cle);
             } catch (Exception e) {
                 repondre(id, false, message(e));
             }

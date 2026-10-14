@@ -106,6 +106,11 @@ final class OneDriveWeb {
 
     /** Crée un fichier qui n'existe pas encore (et son dossier au besoin) ; refuse d'écraser un fichier existant (conflit). */
     static void creer(Context c, String url, String texte) throws Exception {
+        byte[] b = texte.getBytes(StandardCharsets.UTF_8);
+        creerFlux(c, url, new java.io.ByteArrayInputStream(b), b.length);
+    }
+
+    private static void creerFlux(Context c, String url, InputStream in, long taille) throws Exception {
         String[] d = decoupe(url);
         String chemin = d[1];
         int k = chemin.lastIndexOf('/');
@@ -124,13 +129,36 @@ final class OneDriveWeb {
                 + "')/Files/AddUsingPath(decodedurl='" + Uri.encode(nom.replace("'", "''")) + "',overwrite=false)", "POST");
         h.setRequestProperty("Accept", "application/json;odata=nometadata");
         h.setRequestProperty("X-RequestDigest", digest);
-        byte[] b = texte.getBytes(StandardCharsets.UTF_8);
         h.setDoOutput(true);
-        h.setFixedLengthStreamingMode(b.length);
-        try (OutputStream o = h.getOutputStream()) { o.write(b); }
+        h.setFixedLengthStreamingMode(taille);
+        try (OutputStream o = h.getOutputStream()) {
+            byte[] buf = new byte[65536]; int n;
+            while ((n = in.read(buf)) > 0) o.write(buf, 0, n);
+        }
         int r = h.getResponseCode();
         if (r == 409 || r == 400 && dejaLa(h)) throw new Exc("conflit", "le fichier existe déjà");
         verifie(h);
+    }
+
+    /**
+     * Dépose un fichier du téléphone (pièce jointe) ; si le nom est pris, « nom (2).ext », « nom (3).ext »…
+     * Renvoie le nom retenu.
+     */
+    static String deposer(Context c, String url, java.io.File fichier) throws Exception {
+        int k = url.lastIndexOf('/');
+        String base = url.substring(0, k + 1), nom = Uri.decode(url.substring(k + 1)), racine = nom, ext = "";
+        int pt = nom.lastIndexOf('.');
+        if (pt > 0) { racine = nom.substring(0, pt); ext = nom.substring(pt); }
+        for (int i = 1; i <= 50; i++) {
+            String n = i == 1 ? nom : racine + " (" + i + ")" + ext;
+            try (InputStream in = new java.io.FileInputStream(fichier)) {
+                creerFlux(c, base + Uri.encode(n), in, fichier.length());
+                return n;
+            } catch (Exc e) {
+                if (!"conflit".equals(e.code)) throw e;
+            }
+        }
+        throw new Exc("conflit", "trop de fichiers du même nom");
     }
 
     private static boolean dejaLa(HttpURLConnection h) {
