@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261014174738">
+<meta name="taches-page" content="20261014180213">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -4254,6 +4254,12 @@ body.mobile:has(dialog:modal) {
   border-top: 1px solid var(--line);
   z-index: 2;
 }
+#toast .tact {
+  margin-left: 0.3rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
 </style>
 </head>
 <body>
@@ -4843,6 +4849,21 @@ function toast(msg, ms) {
   t.classList.add('show');
   clearTimeout(toast.t);
   toast.t = setTimeout(() => t.classList.remove('show'), ms || 2600);
+}
+/* message avec une action à toucher (téléphone) : « … · Envoyer quand même… » */
+function toastAct(msg, label, fn, ms) {
+  toast(msg, ms || 6000);
+  const t = $('#toast'),
+    b = document.createElement('span');
+  b.className = 'tact';
+  b.textContent = label;
+  t.append(' ', b);
+  t.classList.add('undo');
+  t.onclick = () => {
+    t.onclick = null;
+    t.classList.remove('undo', 'show');
+    fn();
+  };
 }
 /* commentaires : on garde **gras** et *italique* (mis en forme à l'affichage) */
 function cleanNote(s) {
@@ -10077,9 +10098,16 @@ async function syncSave() {
           : 'Fusionné avec des modifications faites ailleurs'
       );
     }
+    const noP = s => (s || '').replace(/^- issu de : [0-9a-f]{8}\n/m, ''),
+      p0 = settings.parent;
     if (cur && cur.trim()) settings.parent = hash8(cur); /* ce qu'on écrit part de la version lue */
-    const at = rev,
-      out = serialize();
+    const at = rev;
+    let out = serialize();
+    if (noP(out) === noP(cur)) {
+      /* rien de changé à part l'empreinte : on n'écrit pas */
+      settings.parent = p0;
+      out = cur;
+    }
     if (out !== cur) {
       try {
         await backend.write(out);
@@ -11422,6 +11450,14 @@ function mHistFill(box, tr) {
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES = [
+  {
+    d: '2026-10-14 20:10',
+    type: 'web',
+    v: '2.19.4',
+    items: [
+      'Téléphone\u00a0: tirer pour actualiser hors des heures de travail affiche «\u00a0Envoyer quand même…\u00a0» dans le message\u00a0; le toucher ouvre la même fenêtre que dans le menu ⋮.'
+    ]
+  },
   {
     d: '2026-10-14 20:00',
     type: 'web',
@@ -14508,7 +14544,12 @@ async function mCheckPage(force, later) {
 async function mRefresh() {
   if ((await mCheckPage(true, true)) === 'page') return 'page';
   if (offHours()) {
-    toast(offHoursTxt() + (dirty ? ' · tes modifications sont gardées sur le téléphone' : ''), 5000);
+    toastAct(
+      offHoursTxt() + (dirty ? ' · tes modifications sont gardées sur le téléphone' : ''),
+      'Envoyer quand même…',
+      () => mOverAsk(),
+      7000
+    );
     mInfo();
     return 'pause';
   }
@@ -15254,6 +15295,9 @@ function initMobile() {
   };
   $('#oForce').onclick = () => {
     $('#mMenu').close();
+    mOverAsk();
+  };
+  window.mOverAsk = () => {
     const now = mNow();
     $('#mOverTxt').textContent =
       'Il est ' +
