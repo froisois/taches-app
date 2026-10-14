@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261014063659">
+<meta name="taches-page" content="20261014064947">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -3922,6 +3922,69 @@ body:not(.mobile) #mFabMenu,
 body:not(.mobile) #mSecNew {
   display: none;
 }
+
+/* fiche d'une tâche en mode « nouvelle tâche » : rubrique, raccourcis de date, Annuler / Ajouter */
+#mAct .anew,
+#mAct.nouveau .aedit {
+  display: none;
+}
+#mAct.nouveau .anew {
+  display: flex;
+}
+#mAct .anew button {
+  font: inherit;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: none;
+  color: var(--fg);
+}
+#mAct .anew .primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+}
+.asec {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.2rem 0 0.4rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.asec select {
+  flex: 1;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--fg);
+  padding: 0.35rem 0.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+}
+.aquick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.1rem 0 0.4rem;
+}
+.aquick:empty {
+  display: none;
+}
+.aquick button {
+  font: inherit;
+  font-size: 0.8rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: none;
+  color: var(--muted);
+}
+.aquick .auto {
+  border-color: var(--accent);
+  color: var(--accent);
+}
 </style>
 </head>
 <body>
@@ -3998,7 +4061,9 @@ body:not(.mobile) #mSecNew {
     <form method="dialog" id="aForm">
       <p class="ameta" id="aMeta"></p>
       <textarea id="aText" rows="2" placeholder="Intitulé"></textarea>
+      <label class="arow asec" id="aSecRow" hidden><span>Rubrique</span><select id="aSec"></select></label>
       <div class="arow1"><div class="aseg" id="aState"></div><span class="sp"></span><button type="button" id="aUrg" class="ico aurg" title="Importante" aria-label="Importante">!</button><span class="dpill" id="aDueP"><button type="button" class="dbtn" id="aDueB" title="Échéance" aria-label="Échéance"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span class="dv"></span></button><button type="button" class="dx" id="aDueX" title="Retirer la date" aria-label="Retirer la date"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button><input id="aDue" type="date" class="dhid" tabindex="-1"></span></div>
+      <div class="aquick" id="aQuick"></div>
       <div id="aWait" class="arow1"><input id="aWho" list="aPeople" placeholder="Attendu de…"><datalist id="aPeople"></datalist><span class="dpill" id="aRelP"><button type="button" class="dbtn" id="aRelB" title="Relance" aria-label="Relance"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><span class="dv"></span></button><button type="button" class="dx" id="aRelX" title="Retirer la date" aria-label="Retirer la date"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button><input id="aRel" type="date" class="dhid" tabindex="-1"></span></div>
       <div class="ntool" id="aTool"><button type="button" id="aBold" class="ico" title="Gras" aria-label="Gras"><b>B</b></button><button type="button" id="aItal" class="ico" title="Italique" aria-label="Italique"><i>I</i></button><button type="button" id="aBullet" class="ico" title="Liste à puces" aria-label="Liste à puces"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="7" r="1.2" fill="currentColor" stroke="none"/><circle cx="5" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="5" cy="17" r="1.2" fill="currentColor" stroke="none"/><path d="M9.5 7H20M9.5 12H20M9.5 17H20"/></svg></button></div>
       <div class="nwrap"><textarea id="aNote" rows="3" placeholder="Commentaire"></textarea><button type="button" id="aCopy" class="ico ccopy" title="Copier le commentaire" aria-label="Copier le commentaire"><span class="i1"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2.2"/><path d="M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5"/></svg></span><span class="i2"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></button></div>
@@ -4006,7 +4071,8 @@ body:not(.mobile) #mSecNew {
       <div class="arow" id="aNewRow"><input id="aNewSub" placeholder="+ Sous-tâche" enterkeyhint="done"></div>
       <div id="aLinks"></div>
       <button type="button" class="mitem" id="aArch" hidden>Ranger dans l’historique</button>
-      <div class="nbar"><button type="button" id="aDel" class="ico adel" title="Supprimer la tâche" aria-label="Supprimer la tâche"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v5.5M14 11v5.5"/></svg></button><span class="sp"></span><button type="submit" class="ico ok" id="aOk" title="Fermer" aria-label="Fermer"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></div>
+      <div class="nbar anew"><button type="button" id="aCancel">Annuler</button><span class="sp"></span><button type="button" class="primary" id="aAdd">Ajouter</button></div>
+      <div class="nbar aedit"><button type="button" id="aDel" class="ico adel" title="Supprimer la tâche" aria-label="Supprimer la tâche"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v5.5M14 11v5.5"/></svg></button><span class="sp"></span><button type="submit" class="ico ok" id="aOk" title="Fermer" aria-label="Fermer"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></div>
     </form>
   </dialog>
   <dialog id="mAtt">
@@ -4630,6 +4696,9 @@ function dueNear(it) {
 /* tâche qui attend sans échéance : patine à 2 puis 4 semaines */
 /* date de création ; les tâches plus anciennes que l'outil (sans {créé}) datent au plus tard de sa naissance, le 8 octobre 2026 */
 const NAISSANCE = '2026-10-08';
+/* téléphone : tâche en cours de création dans la fiche (pas encore écrite dans le fichier) */
+let mDraftId = null,
+  mDraftAuto = false;
 function createdOf(it) {
   return it.created || NAISSANCE;
 }
@@ -4756,10 +4825,7 @@ function bandTops() {
     if (it.kind === 't' && it.level === 0 && it.state !== 'fait' && matchFilter(i)) by[bandOf(it)].push(i);
   });
   for (const k in by)
-    by[k] = sortIdx(
-      by[k],
-      k === 'sans' ? it => (it.important ? '0' : '1') + createdOf(it) : it => it.due + urgKey(it)
-    );
+    by[k] = sortIdx(by[k], k === 'sans' ? it => (it.important ? '0' : '1') + createdOf(it) : it => it.due + urgKey(it));
   return by;
 }
 /* ---------- Markdown ---------- */
@@ -5103,7 +5169,12 @@ function doneLines(list, L) {
 }
 function serialize() {
   const L = [];
-  for (const it of items) {
+  for (let k = 0; k < items.length; k++) {
+    const it = items[k];
+    if (mDraftId && it.id === mDraftId) {
+      k = blockEnd(k) - 1; /* tâche en cours de création au téléphone : pas encore dans le fichier */
+      continue;
+    }
     if (it.kind === 'h') {
       if (L.length) L.push('');
       L.push('# ' + it.text + (it.color ? ' {couleur ' + it.color + '}' : '') + ' {id ' + it.id + '}');
@@ -10702,6 +10773,17 @@ function mHistFill(box, tr) {
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES = [
   {
+    d: '2026-10-14 09:30',
+    type: 'web',
+    v: '2.16',
+    t: 'Créer une tâche dans sa fiche (téléphone)',
+    items: [
+      'Téléphone\u00a0: «\u00a0Nouvelle tâche\u00a0» ouvre la fiche complète\u00a0: rubrique, à faire ou en attente, importante, échéance, commentaire, sous-tâches (celles des règles de la rubrique apparaissent dès que l’intitulé est saisi). Annuler ou Ajouter.',
+      'Une date dans l’intitulé («\u00a0jeudi\u00a0», «\u00a0le 15\u00a0»…) devient l’échéance d’office.',
+      'Fiche d’une tâche sans échéance\u00a0: raccourcis aujourd’hui, demain, vendredi, lundi, autre date.'
+    ]
+  },
+  {
     d: '2026-10-14 08:50',
     type: 'web',
     v: '2.15.1',
@@ -12397,6 +12479,25 @@ function mFillAct() {
   }
   $('#aUrg').classList.toggle('on', !!it.important);
   mDatePill('aDue', it.due);
+  mFillQuick(it, ro);
+  /* mode « nouvelle tâche » : choix de la rubrique, Annuler / Ajouter */
+  const neuf = it.id === mDraftId;
+  d.classList.toggle('nouveau', neuf);
+  $('#aSecRow').hidden = !neuf;
+  if (neuf) {
+    const sel = $('#aSec'),
+      h = headingOf(i);
+    sel.innerHTML = '';
+    const opt = (v, t) => {
+      const o = document.createElement('option');
+      o.value = v;
+      o.textContent = t;
+      sel.append(o);
+    };
+    opt('', 'Hors rubrique');
+    for (const x of items.filter(x => x.kind === 'h')) opt(x.id, x.text);
+    sel.value = h ? h.id : '';
+  }
   setv($('#aNote'), it.note);
   if (ro) $('#aNote').hidden = !it.note;
   else $('#aNote').hidden = false;
@@ -12406,12 +12507,14 @@ function mFillAct() {
   lk.innerHTML = '';
   const all = [it, ...subs].flatMap(x => x.links || []);
   if (all.length) lk.append(mLinks(all));
-  $('#aMeta').textContent = [
-    it.created ? 'Créée le ' + shortDate(it.created) : '',
-    it.state === 'fait' ? (it.doneDate ? 'faite le ' + shortDate(it.doneDate) : 'faite') : ''
-  ]
-    .filter(Boolean)
-    .join(' · ');
+  $('#aMeta').textContent = neuf
+    ? 'Nouvelle tâche'
+    : [
+        it.created ? 'Créée le ' + shortDate(it.created) : '',
+        it.state === 'fait' ? (it.doneDate ? 'faite le ' + shortDate(it.doneDate) : 'faite') : ''
+      ]
+        .filter(Boolean)
+        .join(' · ');
   const sig = JSON.stringify([ro, subs.map(x => [x.id, x.text, x.level, !!x.checked, x.due || ''])]);
   if (sig === mSubSig) return;
   mSubSig = sig;
@@ -12775,11 +12878,130 @@ function mInitAct() {
     $('#mAct').close();
   };
   $('#mAct').addEventListener('close', () => {
+    if (mDraftId) {
+      const ta = $('#aText'),
+        it = items[idx(mDraftId)];
+      if (it && ta.value.trim() && !it.text.trim())
+        it.text = ta.value.replace(/\s+/g, ' ').trim(); /* fermée sans avoir quitté le champ */
+      mDraftEnd(true);
+    }
     mActId = null;
   });
+  $('#aCancel').onclick = () => {
+    mDraftEnd(false);
+    $('#mAct').close();
+  };
+  $('#aAdd').onclick = () => {
+    const it = items[idx(mActId)],
+      v = $('#aText').value.replace(/\s+/g, ' ').trim();
+    if (!v) {
+      $('#aText').focus();
+      toast('Donne d’abord un intitulé à la tâche');
+      return;
+    }
+    if (it && v !== it.text) it.text = v;
+    $('#mAct').close();
+  };
+  $('#aSec').onchange = () => {
+    const i = idx(mActId);
+    if (i < 0) return;
+    const v = $('#aSec').value,
+      blk = items.splice(i, blockEnd(i) - i);
+    items.splice(laneEndOf(v || null), 0, ...blk);
+    mState.sec = v;
+    mstore.set(MKEY + '-ui', mState);
+    normalize();
+    mRender();
+    mFillAct();
+  };
+  /* nouvelle tâche : une date dans l'intitulé (« jeudi », « le 15 »…) devient l'échéance, tant qu'on n'en a pas choisi une */
+  $('#aText').addEventListener('input', () => {
+    const it = items[idx(mActId)];
+    if (!it || it.id !== mDraftId || (it.due && !mDraftAuto)) return;
+    const dt = dateIn($('#aText').value);
+    if (dt) {
+      it.due = dt.d;
+      mDraftAuto = true;
+    } else if (mDraftAuto) {
+      delete it.due;
+      mDraftAuto = false;
+    }
+    mDatePill('aDue', it.due);
+    mFillQuick(it, false);
+  });
 }
-/* ---------- nouvelle tâche (bouton + d'une rubrique) ---------- */
+/* ---------- nouvelle tâche : la fiche elle-même, en mode « nouvelle tâche » ----------
+   La tâche est créée tout de suite (pour que la fiche, les sous-tâches et les règles de rubrique marchent comme d'habitude)
+   mais n'est écrite dans le fichier qu'une fois ajoutée (mDraftId, voir serialize). Annuler la retire. */
 function mNewTask(secId) {
+  if (!backend) {
+    mPick();
+    return;
+  }
+  if (!AND) return mNewTaskSheet(secId);
+  const sec = secId != null && (secId === '' || idx(secId) >= 0) ? secId : '';
+  const n = { id: uid(), kind: 't', text: '', level: 0, state: 'afaire', created: todayISO() };
+  items.splice(laneEndOf(sec || null), 0, n);
+  normalize();
+  mDraftId = n.id;
+  mDraftAuto = false;
+  mRender();
+  mOpenAct(n.id);
+  setTimeout(() => $('#aText').focus(), 60);
+}
+/* ajoutée (ou fiche refermée avec un intitulé) : elle entre dans le fichier ; sans intitulé, elle disparaît */
+function mDraftEnd(keep) {
+  const id = mDraftId;
+  if (!id) return;
+  const i = idx(id);
+  mDraftId = null;
+  mDraftAuto = false;
+  if (i < 0) return;
+  if (keep && items[i].text.trim()) {
+    changed();
+    mRender();
+    toast('Tâche ajoutée');
+  } else {
+    items.splice(i, blockEnd(i) - i);
+    normalize();
+    mRender();
+  }
+}
+/* raccourcis de date (fiche) : aujourd'hui, demain, vendredi, lundi, autre… */
+function mQuickDates() {
+  const t = todayISO(),
+    dow = new Date(t + 'T12:00').getDay(),
+    toFri = (5 - dow + 7) % 7 || 7,
+    toMon = (1 - dow + 7) % 7 || 7;
+  return [
+    ['aujourd’hui', t],
+    ['demain', addDays(t, 1)],
+    [toFri < 7 ? 'vendredi' : 'vendredi prochain', addDays(t, toFri)],
+    ['lundi', addDays(t, toMon)]
+  ];
+}
+function mFillQuick(it, ro) {
+  const q = $('#aQuick');
+  q.innerHTML = '';
+  q.onpointerdown = e =>
+    e.preventDefault(); /* ne pas retirer le clavier de l'intitulé : sinon la fiche se redessine avant le toucher */
+  q.onmousedown = e => e.preventDefault();
+  if (ro || it.due || it.state === 'fait') return;
+  for (const [l, d] of mQuickDates()) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = '📅 ' + l;
+    b.onclick = () => mEdit(it.id, x => (x.due = d));
+    q.append(b);
+  }
+  const o = document.createElement('button');
+  o.type = 'button';
+  o.textContent = 'autre date…';
+  o.onclick = () => $('#aDueB').click();
+  q.append(o);
+}
+/* version navigateur du téléphone (sans le Compagnon) : l'ancienne feuille, qui prépare un e-mail */
+function mNewTaskSheet(secId) {
   if (!backend) {
     mPick();
     return;
