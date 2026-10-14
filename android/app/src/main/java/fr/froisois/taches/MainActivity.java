@@ -335,6 +335,17 @@ public class MainActivity extends Activity {
                         repondre(id, true, "");
                     } catch (Exception e) { repondre(id, false, message(e)); }
                     break;
+                case "paste":
+                    // presse-papiers : le texte copié (Android ne le donne qu'à l'appli au premier plan, ce qui est le cas ici)
+                    runOnUiThread(() -> {
+                        try {
+                            ClipboardManager cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                            ClipData c = cm.getPrimaryClip();
+                            CharSequence s = c != null && c.getItemCount() > 0 ? c.getItemAt(0).coerceToText(MainActivity.this) : "";
+                            repondre(id, true, s == null ? "" : s.toString());
+                        } catch (Exception e) { repondre(id, false, message(e)); }
+                    });
+                    break;
                 case "copy":
                     // presse-papiers : texte brut + version mise en forme (gras, italique) pour les applis qui la comprennent
                     runOnUiThread(() -> {
