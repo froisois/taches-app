@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261014124625">
+<meta name="taches-page" content="20261014163854">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -4439,6 +4439,8 @@ const SEED = `- [ ] Rappeler le fournisseur de pupitres {important} {créé 2026
 - [x] Inventaire des pupitres ⟨Commandes⟩
 `;
 
+/* l'exemple est affiché (aucun fichier encore lu dans ce navigateur) : il n'est jamais écrit ni fusionné dans un fichier */
+let seedShown = false;
 let items = [],
   done = [],
   settings = {},
@@ -9793,7 +9795,7 @@ function staleEcho(cur) {
 function backup() {
   remember(baseText);
   try {
-    localStorage.setItem(LS, JSON.stringify({ items, done, settings, notes, trash, dirty, base: baseText }));
+    localStorage.setItem(LS, JSON.stringify({ items, done, settings, notes, trash, dirty, base: baseText, seed: seedShown }));
   } catch (e) {}
 }
 /* ---------- règles des rubriques, sous-tâches qui font la tâche, rangement automatique ---------- */
@@ -10105,6 +10107,7 @@ async function saveFile() {
     if (backend) await syncSave();
     return;
   }
+  if (seedShown) return; /* l'exemple ne s'écrit jamais dans un fichier */
   if (!fileHandle || !permOK) {
     setStatus();
     return;
@@ -10124,6 +10127,7 @@ async function loadFile() {
   normalize();
   baseText = t;
   dirty = false;
+  seedShown = false;
   setTimeout(housekeeping, 0);
   backup();
   render();
@@ -10140,7 +10144,7 @@ async function resume() {
       return;
     }
     hideBanner();
-    if (dirty) {
+    if (dirty && !seedShown) {
       await saveFile();
       toast('Modifications enregistrées dans ' + fileHandle.name);
     } else await loadFile();
@@ -10153,8 +10157,10 @@ const TYPES = [{ description: 'Liste Markdown', accept: { 'text/markdown': ['.md
 async function openFile() {
   try {
     const [h] = await showOpenFilePicker({ types: TYPES });
-    const wasDirty =
-      dirty; /* des modifications pas encore enregistrées : on les fusionne dans le fichier choisi au lieu de les perdre */
+    /* des modifications pas encore enregistrées : on les fusionne dans le fichier choisi au lieu de les perdre ;
+       mais jamais l'exemple (navigateur où aucun fichier n'a encore été lu) : le fichier est seulement lu */
+    const wasDirty = dirty && !seedShown;
+    if (seedShown) dirty = false;
     fileHandle = h;
     await idbSet('handle', h);
     snapshot();
@@ -10185,6 +10191,16 @@ async function newFile() {
     await idbSet('handle', h);
     permOK = true;
     baseText = null;
+    if (seedShown) {
+      /* nouvelle liste : vide, pas l'exemple */
+      items = [];
+      done = [];
+      notes = [];
+      trash = [];
+      seedShown = false;
+      normalize();
+      render();
+    }
     hideBanner();
     await saveFile();
     toast('Liste enregistrée dans ' + h.name);
@@ -11323,6 +11339,14 @@ function mHistFill(box, tr) {
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES = [
+  {
+    d: '2026-10-14 18:45',
+    type: 'web',
+    v: '2.19.1',
+    items: [
+      'PC\u00a0: sur un ordinateur où la page n’a encore jamais lu de fichier, «\u00a0Ouvrir…\u00a0» lit taches.md sans rien y écrire. L’exemple affiché au premier lancement n’est plus jamais enregistré ni mélangé au fichier\u00a0; «\u00a0Créer…\u00a0» part d’une liste vide.'
+    ]
+  },
   {
     d: '2026-10-14 14:45',
     type: 'web',
@@ -15261,6 +15285,7 @@ function initMobile() {
     rulesInit();
     dirty = !!b.dirty;
     baseText = b.base == null ? null : b.base;
+    seedShown = !!b.seed;
   } else {
     const p = parse(SEED);
     items = p.items;
@@ -15268,7 +15293,8 @@ function initMobile() {
     settings = p.settings || {};
     notes = p.notes || [];
     trash = p.trash || [];
-    dirty = true;
+    dirty = false;
+    seedShown = true;
   }
   normalize();
   render();
@@ -15290,7 +15316,7 @@ function initMobile() {
     if (perm === 'granted') {
       permOK = true;
       backend = pcBackend;
-      if (dirty) await saveFile();
+      if (dirty && !seedShown) await saveFile();
       else await loadFile().catch(() => {});
     } else showBanner('resume');
   } else showBanner('choose');
