@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261014215335">
+<meta name="taches-page" content="20261014222512">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -4394,6 +4394,230 @@ body.mobile:has(dialog:modal) {
   font-size: 0.85rem;
   color: var(--accent);
 }
+
+/* ---------- menu ⋮ du téléphone (2.21) : affichage, état de la synchronisation, notes de version ; le reste dans « Plus d'options » ---------- */
+#mMenu {
+  padding: 0.8rem 1rem 0.6rem;
+  margin-top: 0.75rem;
+  margin-bottom: auto;
+  max-height: calc(100dvh - 1.5rem);
+}
+#mMenu .msync .oforce[hidden],
+#mMenu .ms2[hidden] {
+  display: none;
+}
+#mMenu .mmh {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+#mMenu .mmx {
+  display: grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  margin: -0.4rem -0.5rem -0.4rem 0;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: var(--muted);
+}
+#mMenu .mseg {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  padding: 3px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--fg) 7%, var(--bg));
+}
+#mMenu .mseg button {
+  font: inherit;
+  font-size: 0.82rem;
+  line-height: 1.2;
+  padding: 0.55rem 0.3rem;
+  border: none;
+  border-radius: 9px;
+  background: none;
+  color: var(--fg);
+  transition:
+    background 0.18s,
+    color 0.18s,
+    transform 0.12s;
+}
+#mMenu .mseg button:active {
+  transform: scale(0.96);
+}
+#mMenu .mseg button.on {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+#mMenu .mswitch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding: 0.75rem 0.1rem 0.7rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.95rem;
+}
+#mMenu .mswitch small {
+  display: block;
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+#mMenu .mswitch input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+#mMenu .mswitch i {
+  flex: none;
+  position: relative;
+  width: 2.6rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--fg) 18%, var(--bg));
+  transition: background 0.2s;
+}
+#mMenu .mswitch i::after {
+  content: '';
+  position: absolute;
+  top: 0.15rem;
+  left: 0.15rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: transform 0.22s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+#mMenu .mswitch input:checked + i {
+  background: var(--accent);
+}
+#mMenu .mswitch input:checked + i::after {
+  transform: translateX(1.1rem);
+}
+#mMenu .msync {
+  margin: 0.75rem 0 0.2rem;
+  padding: 0.6rem 0.7rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+#mMenu .msync.ok {
+  background: color-mix(in srgb, var(--accent) 10%, var(--bg));
+}
+#mMenu .msync.off {
+  background: color-mix(in srgb, #8a8f98 14%, var(--bg));
+}
+#mMenu .msync.err {
+  background: color-mix(in srgb, #c4524a 12%, var(--bg));
+  color: #c4524a;
+}
+#mMenu .ms1 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+#mMenu .msi {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  font-weight: 700;
+}
+#mMenu .msync.ok .msi {
+  background: var(--accent);
+  color: #fff;
+}
+#mMenu .msync.off .msi {
+  color: var(--fg);
+}
+#mMenu .msync.err .msi {
+  background: #c4524a;
+  color: #fff;
+}
+#mMenu .ms2 {
+  margin: 0.25rem 0 0 2rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+#mMenu .msync .oforce {
+  display: block;
+  margin: 0.35rem 0 0 2rem;
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+}
+#mMenu .mnews {
+  position: relative;
+  border-bottom: 1px solid var(--line);
+}
+#mMenu .mnews::after,
+#mMenu .madv summary::after {
+  content: '›';
+  position: absolute;
+  right: 0.2rem;
+  color: var(--muted);
+  font-size: 1.2rem;
+  line-height: 1;
+}
+#mMenu .mnews::after {
+  top: 50%;
+  transform: translateY(-50%);
+}
+#mMenu .mnews.dot::before {
+  content: '';
+  position: absolute;
+  right: 1.2rem;
+  top: 50%;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-top: -0.25rem;
+  border-radius: 50%;
+  background: var(--accent);
+}
+#mMenu .madv summary {
+  position: relative;
+  list-style: none;
+  padding: 0.75rem 0 0.6rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  cursor: pointer;
+}
+#mMenu .madv summary::-webkit-details-marker {
+  display: none;
+}
+#mMenu .madv summary::after {
+  top: 0.7rem;
+  transition: transform 0.2s;
+}
+#mMenu .madv[open] summary::after {
+  transform: rotate(90deg);
+}
+#mMenu .madv .mitem {
+  font-size: 0.9rem;
+  padding: 0.6rem 0;
+}
+#mMenu .madv .ameta {
+  white-space: pre-line;
+  margin: 0.6rem 0 0.3rem;
+}
 </style>
 </head>
 <body>
@@ -4509,19 +4733,20 @@ body.mobile:has(dialog:modal) {
   <dialog id="mOver"><form method="dialog"><p id="mOverTxt"></p><button class="wait" value="attendre">Ça peut attendre</button><button type="button" class="go" id="mOverGo">envoyer maintenant malgré tout</button></form></dialog>
   <dialog id="mMenu">
     <form method="dialog">
-      <label class="mopt"><input type="checkbox" id="oUrgTop"> Priorités regroupées en haut</label>
-      <label class="mopt"><input type="checkbox" id="oDate"> Afficher par échéance</label>
-      <label class="mopt"><input type="checkbox" id="oFilters"> Afficher les filtres (priorités, à relancer, personnes)</label>
-      <button type="button" class="mitem" id="oUpdate">Vérifier la mise à jour du Compagnon Android</button>
-      <button type="button" class="mitem" id="oFile">Choisir un autre fichier</button>
-      <button type="button" class="mitem" id="oNews">Notes de version</button>
-      <button type="button" class="mitem" id="oSp">Accès direct à OneDrive</button>
-      <button type="button" class="mitem" id="oJournal">Copier le journal de synchronisation</button>
-      <button type="button" class="mitem" id="oCopyAll">Copier tout le contenu (sauvegarde de secours)</button>
-      <p class="ameta" id="oInfo"></p>
-      <p class="ameta ooff" id="oOff" hidden></p>
-      <button type="button" class="oforce" id="oForce" hidden>envoyer quand même…</button>
-      <div class="mrb"><button type="submit" class="primary">Fermer</button></div>
+      <div class="mmh"><span>Affichage</span><button type="submit" class="mmx" aria-label="Fermer" title="Fermer"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button></div>
+      <div class="mseg" id="oView"><button type="button" data-v="prio" title="Les priorités regroupées en haut">Priorités</button><button type="button" data-v="rub" title="Chaque tâche dans sa rubrique">Rubriques</button><button type="button" data-v="date" title="Par date d’échéance">Échéances</button></div>
+      <input type="checkbox" id="oUrgTop" hidden><input type="checkbox" id="oDate" hidden>
+      <label class="mswitch"><span>Filtres<small>priorités, à relancer, personnes</small></span><input type="checkbox" id="oFilters" role="switch"><i></i></label>
+      <div class="msync" id="oSync"><div class="ms1" id="oSync1"></div><p class="ms2" id="oOff" hidden></p><button type="button" class="oforce" id="oForce" hidden>Envoyer quand même…</button></div>
+      <button type="button" class="mitem mnews" id="oNews">Notes de version</button>
+      <details class="madv" id="oAdv"><summary>Plus d’options</summary>
+        <button type="button" class="mitem" id="oUpdate">Vérifier la mise à jour du Compagnon Android</button>
+        <button type="button" class="mitem" id="oSp">Accès direct à OneDrive</button>
+        <button type="button" class="mitem" id="oFile">Choisir un autre fichier</button>
+        <button type="button" class="mitem" id="oJournal">Copier le journal de synchronisation</button>
+        <button type="button" class="mitem" id="oCopyAll">Copier tout le contenu (sauvegarde de secours)</button>
+        <p class="ameta" id="oInfo"></p>
+      </details>
     </form>
   </dialog>
   <dialog id="mNote">
@@ -11748,6 +11973,18 @@ function mHistFill(box, tr) {
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES = [
   {
+    d: '2026-10-15 00:45',
+    type: 'web',
+    v: '2.21',
+    t: 'Menu du téléphone rangé',
+    items: [
+      'Affichage en un seul choix à trois positions (Priorités · Rubriques · Échéances), comme au PC\u00a0; les filtres en interrupteur.',
+      'L’état de la synchronisation en une carte\u00a0: à jour, en pause (avec «\u00a0Envoyer quand même…\u00a0» bien visible) ou erreur.',
+      'Notes de version marquées d’un point quand il y a du nouveau\u00a0; le reste (mise à jour du Compagnon, accès direct, fichier, journal, sauvegarde, versions) rangé dans «\u00a0Plus d’options\u00a0».',
+      'Menu ancré en haut, fermé par la croix ou en touchant à côté.'
+    ]
+  },
+  {
     d: '2026-10-15 00:05',
     type: 'web',
     v: '2.20.4',
@@ -15719,19 +15956,45 @@ function initMobile() {
   mInitAct();
   $('#mMenuBtn').onclick = () => {
     {
-      const off = offHours();
+      /* état de la synchronisation, en une carte : enregistré / en pause (et envoyer quand même) / erreur */
+      const off = offHours(),
+        s1 = $('#oSync1'),
+        sy = $('#oSync');
+      sy.className = 'msync' + (saveErr ? ' err' : off ? ' off' : ' ok');
+      s1.innerHTML = '';
+      const ic = document.createElement('span');
+      ic.className = 'msi';
+      if (saveErr) ic.textContent = '!';
+      else if (off) ic.innerHTML = PAUSE_SVG;
+      else
+        ic.innerHTML =
+          '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+      const tx = document.createElement('span');
+      tx.textContent = !AND
+        ? 'Version navigateur (lecture seule)'
+        : !mName
+          ? 'Aucun fichier choisi'
+          : saveErr
+            ? 'Non enregistré\u00a0: ' + saveErr
+            : off
+              ? 'En pause jusqu’à ' + nextWorkTxt()
+              : dirty || saving
+                ? 'Enregistrement…'
+                : 'À jour' + (savedAt ? ' · enregistré ' + mAgo(savedAt) : '');
+      s1.append(ic, tx);
       $('#oOff').hidden = !off;
       if (off)
-        $('#oOff').textContent =
-          offHoursTxt() +
-          (dirty
-            ? '. Tes modifications sont gardées sur le téléphone et partiront à ce moment-là, dès que tu ouvriras l’appli.'
-            : '.');
-      $('#oForce').hidden = !(off && (dirty || mCopyDue()));
+        $('#oOff').textContent = dirty
+          ? 'Tes modifications sont gardées sur le téléphone et partiront à ce moment-là.'
+          : 'Rien n’est lu ni envoyé hors des heures de travail.';
+      $('#oForce').hidden = !(off && AND && mName);
     }
     $('#oFilters').checked = !!mState.filters;
     $('#oUrgTop').checked = urgTop();
     $('#oDate').checked = dateView();
+    mViewSeg();
+    $('#oAdv').open = false;
+    $('#oNews').classList.toggle('dot', newsUnseen().length > 0);
     $('#oUpdate').hidden = !AND;
     $('#oFile').hidden = !AND || !mName || mDirect;
     $('#oSp').hidden = !AND;
@@ -15753,6 +16016,24 @@ function initMobile() {
     $('#mMenu').showModal();
     if (document.activeElement) document.activeElement.blur();
   };
+  /* affichage : un seul choix à trois positions, comme au PC */
+  window.mViewSeg = () => {
+    const v = dateView() ? 'date' : urgTop() ? 'prio' : 'rub';
+    document.querySelectorAll('#oView button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
+  };
+  document.querySelectorAll('#oView button').forEach(
+    b =>
+      (b.onclick = () => {
+        const v = b.dataset.v;
+        setDateView(v === 'date');
+        if (v !== 'date') setUrgTop(v === 'prio');
+        $('#oUrgTop').checked = urgTop();
+        $('#oDate').checked = dateView();
+        mViewSeg();
+        buzz('tick');
+        mRender();
+      })
+  );
   $('#oUrgTop').onchange = () => {
     if ($('#oUrgTop').checked) {
       setDateView(false);
