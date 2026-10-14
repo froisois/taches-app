@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261014180213">
+<meta name="taches-page" content="20261014183250">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -4382,6 +4382,7 @@ body.mobile:has(dialog:modal) {
       <button type="button" class="mitem" id="oFile">Choisir un autre fichier</button>
       <button type="button" class="mitem" id="oNews">Notes de version</button>
       <button type="button" class="mitem" id="oSp">Accès direct à OneDrive</button>
+      <button type="button" class="mitem" id="oJournal">Copier le journal de synchronisation</button>
       <button type="button" class="mitem" id="oCopyAll">Copier tout le contenu (sauvegarde de secours)</button>
       <p class="ameta" id="oInfo"></p>
       <p class="ameta ooff" id="oOff" hidden></p>
@@ -5594,7 +5595,23 @@ function mindex(list) {
   }
   return m;
 }
+/* mêmes valeurs par défaut que normalize() pour les listes relues du fichier : sans cela, une tâche « à faire » vaut
+   'afaire' ici et rien dans la base relue, et la fusion croit que cet appareil l'a modifiée (bogue du 14/10 : une
+   tâche cochée au PC était décochée par le téléphone à la synchronisation suivante) */
+function normItems(list) {
+  return (list || []).map(x => {
+    if (x.kind !== 't' || x.level) return x;
+    const y = { ...x, checked: false };
+    if (!SKEYS.includes(y.state)) y.state = 'afaire';
+    if (y.state !== 'fait') delete y.doneDate;
+    if (y.state !== 'attente') delete y.relance;
+    return y;
+  });
+}
 function merge3(B, M, T) {
+  B = { ...B, items: normItems(B.items) };
+  M = { ...M, items: normItems(M.items) };
+  T = { ...T, items: normItems(T.items) };
   const iB = mindex(B.items),
     iM = mindex(M.items),
     iT = mindex(T.items);
@@ -9731,9 +9748,14 @@ $('#setBtn').onclick = () => {
     <label>et la signale (corail) dès J-…<input id="sBientotJ" type="number" min="0" placeholder="7"></label>
     <label>Règles des rubriques (une par ligne)<textarea id="sRules" rows="4" placeholder="Commandes = Demande de devis ; Bon de commande&#10;Conventions = → Calendrier"></textarea></label>
     <p class="muted" style="margin:.2rem 0 0;font-size:.8rem">Quand une tâche arrive dans la rubrique (créée ou déplacée) : les sous-tâches listées sont ajoutées ; « → Rubrique » en crée une copie dans cette rubrique.</p>
-    <div class="rb"><button id="sSave" class="primary">Enregistrer</button><button id="sCancel">Annuler</button></div>`;
+    <div class="rb"><button id="sSave" class="primary">Enregistrer</button><button id="sCancel">Annuler</button><button id="sJournal" style="margin-left:auto">Copier le journal de synchronisation</button></div>`;
     document.body.append(d);
     d.querySelector('#sCancel').onclick = () => d.close();
+    d.querySelector('#sJournal').onclick = e => {
+      e.preventDefault();
+      copyText(sjText() || '(journal vide)', e.target);
+      toast('Journal de synchronisation copié : colle-le à Claude');
+    };
     d.querySelector('#sSave').onclick = () => {
       snapshot();
       const dir = d
@@ -9875,14 +9897,73 @@ function hash8(s) {
   return h.toString(16).padStart(8, '0');
 }
 function lostAncestor(cur) {
+  /* seulement le cas sûr : notre version et le fichier partent de la même version A (deux écritures en parallèle) ;
+     A est alors l'ancêtre commun exact */
   if (baseText == null || !cur || cur === baseText) return null;
-  const m = /^- issu de : ([0-9a-f]{8})\s*$/m.exec(cur);
-  if (!m || m[1] === hash8(baseText)) return null;
-  const a = seenTexts.find(x => x !== baseText && hash8(x) === m[1]);
+  const pc = parentOf(cur),
+    pb = parentOf(baseText);
+  if (!pc || pc !== pb || pc === hash8(baseText)) return null;
+  const a = seenTexts.find(x => x !== baseText && hash8(x) === pc);
   return a || null;
 }
 function staleEcho(cur) {
-  return cur !== baseText && seenTexts.includes(cur);
+  if (cur === baseText || !seenTexts.includes(cur)) return false;
+  /* écrit à partir de notre version : pas un écho périmé, même s'il ressemble à une version déjà vue (coché, décoché, recoché…) */
+  if (baseText != null && parentOf(cur) === hash8(baseText)) return false;
+  return true;
+}
+function parentOf(t) {
+  const m = /^- issu de : ([0-9a-f]{8})\s*$/m.exec(t || '');
+  return m ? m[1] : '';
+}
+/* ---------- journal de synchronisation (diagnostic) : gardé dans ce navigateur, copiable depuis ⚙ (PC) ou ⋮ (téléphone) ---------- */
+function sjCount() {
+  return items.filter(x => x.kind === 't' && x.level === 0 && x.state === 'fait').length;
+}
+function sjLog(ev, o) {
+  try {
+    const L = JSON.parse(localStorage.getItem('taches-journal') || '[]');
+    const d = new Date();
+    L.push(
+      [
+        d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' }) +
+          ' ' +
+          d.toLocaleTimeString('fr-FR'),
+        MOBILE ? 'tél' : 'PC',
+        'v' + WEB_V,
+        ev,
+        'base ' + (baseText == null ? '∅' : hash8(baseText)),
+        'faites ' + sjCount() + (dirty ? ' · à enregistrer' : '')
+      ]
+        .concat(o ? Object.entries(o).map(([k, v]) => k + ' ' + v) : [])
+        .join(' | ')
+    );
+    while (L.length > 120) L.shift();
+    localStorage.setItem('taches-journal', JSON.stringify(L));
+  } catch (e) {}
+}
+function sjText() {
+  try {
+    return JSON.parse(localStorage.getItem('taches-journal') || '[]').join('\n');
+  } catch (e) {
+    return '';
+  }
+}
+/* différences d'état (faite / pas faite) entre base, cet appareil et le fichier : pour comprendre une fusion */
+function sjDiff(B, M, T) {
+  const st = x => (x ? (x.kind === 't' && x.level === 0 ? x.state : x.checked ? 'x' : '-') : '∅');
+  const ix = L => new Map((L || []).filter(x => x.id).map(x => [x.id, x]));
+  const b = ix(normItems(B.items)),
+    m = ix(normItems(M.items)),
+    t = ix(normItems(T.items)),
+    out = [];
+  for (const id of new Set([...m.keys(), ...t.keys()])) {
+    const vb = st(b.get(id)),
+      vm = st(m.get(id)),
+      vt = st(t.get(id));
+    if (vm !== vt) out.push(((m.get(id) || t.get(id)).text || '').slice(0, 18) + ' ' + vb + '/' + vm + '/' + vt);
+  }
+  return out.slice(0, 6).join(' ; ') || '–';
 }
 function backup() {
   remember(baseText);
@@ -10037,7 +10118,15 @@ function housekeeping() {
       ' dans l’historique'
   );
 }
+let sjFaites = -1;
 function changed() {
+  {
+    const n = sjCount();
+    if (n !== sjFaites) {
+      if (sjFaites >= 0) sjLog('modifié ici', { faites: sjFaites + ' → ' + n });
+      sjFaites = n;
+    }
+  }
   if (rulesTick()) {
     if (MOBILE) {
       if (typeof mRender === 'function') mRender();
@@ -10083,10 +10172,18 @@ async function syncSave() {
   saving = true;
   try {
     let cur = await backend.read();
-    if (staleEcho(cur)) cur = baseText;
+    const echo = staleEcho(cur);
+    sjLog('lecture avant écriture', { fichier: hash8(cur), 'issu de': parentOf(cur) || '–', écho: echo ? 'oui' : 'non' });
+    if (echo) cur = baseText;
     if (baseText != null && cur !== baseText && cur.trim()) {
       const anc = lostAncestor(cur);
-      const r = merge3(parse(anc || baseText), { items, done, settings, notes, trash }, parse(cur));
+      const BB = parse(anc || baseText),
+        TT = parse(cur);
+      sjLog('fusion', {
+        depuis: anc ? 'ancêtre ' + hash8(anc) : 'base',
+        'base/ici/fichier': sjDiff(BB, { items }, TT)
+      });
+      const r = merge3(BB, { items, done, settings, notes, trash }, TT);
       applyModel(r);
       toast(
         r.conflicts
@@ -10098,16 +10195,17 @@ async function syncSave() {
           : 'Fusionné avec des modifications faites ailleurs'
       );
     }
-    const noP = s => (s || '').replace(/^- issu de : [0-9a-f]{8}\n/m, ''),
-      p0 = settings.parent;
-    if (cur && cur.trim()) settings.parent = hash8(cur); /* ce qu'on écrit part de la version lue */
+    /* rien de changé par rapport au fichier lu (à son empreinte « issu de » près) : on n'écrit pas */
+    const pCur = parentOf(cur);
+    if (pCur) settings.parent = pCur;
+    else delete settings.parent;
     const at = rev;
     let out = serialize();
-    if (noP(out) === noP(cur)) {
-      /* rien de changé à part l'empreinte : on n'écrit pas */
-      settings.parent = p0;
-      out = cur;
+    if (out !== cur) {
+      if (cur && cur.trim()) settings.parent = hash8(cur); /* ce qu'on écrit part de la version lue */
+      out = serialize();
     }
+    sjLog(out !== cur ? 'écriture' : 'rien à écrire', { écrit: hash8(out), 'issu de': parentOf(out) || '–' });
     if (out !== cur) {
       try {
         await backend.write(out);
@@ -10154,6 +10252,11 @@ async function checkExternal(force) {
       return;
     }
     if (dirty || (!force && editing())) return;
+    sjLog('relue (modifiée ailleurs)', {
+      fichier: hash8(cur),
+      'issu de': parentOf(cur) || '–',
+      'base/ici/fichier': sjDiff(parse(baseText || ''), { items }, parse(cur))
+    });
     if (lostAncestor(cur)) {
       /* notre dernière écriture a été écrasée : fusion et réécriture, au lieu de la perdre */
       dirty = true;
@@ -11450,6 +11553,15 @@ function mHistFill(box, tr) {
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES = [
+  {
+    d: '2026-10-14 20:50',
+    type: 'web',
+    v: '2.19.5',
+    items: [
+      'Synchronisation\u00a0: une tâche cochée sur un appareil n’est plus décochée par l’autre à la synchronisation suivante (erreur dans la fusion, présente depuis plusieurs jours).',
+      'Journal de synchronisation\u00a0: «\u00a0Copier le journal de synchronisation\u00a0» (⚙ au PC, ⋮ au téléphone), pour comprendre un problème s’il en reste.'
+    ]
+  },
   {
     d: '2026-10-14 20:10',
     type: 'web',
@@ -14225,6 +14337,7 @@ async function mCopyText(v, b, raw) {
     toast('Copie impossible');
     return;
   }
+  if (!b) return true;
   b.classList.add('done');
   clearTimeout(b._t);
   b._t = setTimeout(() => b.classList.remove('done'), 1400);
@@ -14567,6 +14680,12 @@ async function mRefresh() {
   }
   try {
     const cur = await backend.fresh();
+    sjLog('actualisation', {
+      fichier: hash8(cur),
+      'issu de': parentOf(cur) || '–',
+      écho: staleEcho(cur) ? 'oui' : 'non',
+      'base/ici/fichier': sjDiff(parse(baseText || ''), { items }, parse(cur))
+    });
     if (cur === baseText || staleEcho(cur)) {
     } /* déjà à jour : la coche suffit */ else if (!cur.trim())
       return (toast('Le fichier est vide : rien n’a été remplacé'), 'err');
@@ -15181,6 +15300,7 @@ async function mStartApp() {
     setTimeout(housekeeping, 0);
     return;
   } /* hors des heures : la dernière version connue, rien n'est lu */
+  sjLog('démarrage de l’appli', { 'hors heures': offHours() ? 'oui' : 'non' });
   if (dirty) {
     await syncSave();
     mRender();
@@ -15188,6 +15308,12 @@ async function mStartApp() {
   }
   try {
     const cur = await backend.read();
+    sjLog('démarrage', {
+      fichier: hash8(cur),
+      'issu de': parentOf(cur) || '–',
+      écho: staleEcho(cur) ? 'oui' : 'non',
+      'base/ici/fichier': sjDiff(parse(baseText || ''), { items }, parse(cur))
+    });
     if (cur !== baseText && !staleEcho(cur) && lostAncestor(cur)) {
       dirty = true;
       await syncSave();
@@ -15311,6 +15437,7 @@ function initMobile() {
   };
   $('#mOverGo').onclick = async () => {
     $('#mOver').close();
+    sjLog('envoyer quand même');
     mOverride = Date.now() + 120e3;
     await syncSave();
     /* la copie de l'application web pour le PC part aussi (et la version notée dans taches.md, ce qui demande un second enregistrement) */
@@ -15334,6 +15461,11 @@ function initMobile() {
   $('#mOver').addEventListener('click', e => {
     if (e.target === $('#mOver')) $('#mOver').close();
   });
+  $('#oJournal').onclick = () => {
+    $('#mMenu').close();
+    mCopyText(sjText() || '(journal vide)', null, true);
+    toast('Journal de synchronisation copié : colle-le à Claude');
+  };
   $('#oNews').onclick = () => {
     $('#mMenu').close();
     openNews();
