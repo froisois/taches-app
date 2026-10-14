@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261014185011">
+<meta name="taches-page" content="20261014192935">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -4259,6 +4259,49 @@ body.mobile:has(dialog:modal) {
   font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 2px;
+}
+/* téléphone : nouvelle version en cours de chargement (après la fête), l'écran attend */
+#mNewLoad {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  background: rgba(20, 22, 28, 0.35);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+#mNewLoad.on {
+  opacity: 1;
+}
+#mNewLoad > div {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.8rem 1.1rem;
+  border-radius: 14px;
+  border: 2px solid var(--accent);
+  background: var(--panel, var(--bg));
+  color: var(--fg);
+  font-size: 0.95rem;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+}
+#mNewLoad i {
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  border: 2.5px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  border-top-color: var(--accent);
+  animation: mReloadTurn 0.8s linear infinite;
+}
+@keyframes mReloadTurn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.mpull.gone {
+  opacity: 0 !important;
+  transition: opacity 0.2s !important;
 }
 </style>
 </head>
@@ -11554,6 +11597,14 @@ function mHistFill(box, tr) {
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES = [
   {
+    d: '2026-10-14 21:35',
+    type: 'web',
+    v: '2.19.6',
+    items: [
+      'Téléphone\u00a0: après la coche verte d’une nouvelle version, «\u00a0Chargement de la nouvelle version…\u00a0» s’affiche le temps qu’elle arrive\u00a0; tirer de nouveau ne fait plus tourner la coche.'
+    ]
+  },
+  {
     d: '2026-10-14 20:50',
     type: 'web',
     v: '2.19.5',
@@ -14752,8 +14803,17 @@ async function mPartyReload() {
   buzz(12);
   await new Promise(r => setTimeout(r, 900));
   mstore.set('taches-page-maj', WEB_V);
+  /* le chargement de la nouvelle page peut prendre quelques secondes : on le dit, et l'écran ne réagit plus en attendant */
+  mReloading = true;
+  if (ind) ind.classList.add('gone');
+  const w = document.createElement('div');
+  w.id = 'mNewLoad';
+  w.innerHTML = '<div><i></i><span>Chargement de la nouvelle version…</span></div>';
+  document.body.append(w);
+  requestAnimationFrame(() => w.classList.add('on'));
   location.reload();
 }
+let mReloading = false;
 function mInitPull() {
   /* tirer pour actualiser : l'écran suit le doigt (avec résistance), la flèche tourne avec lui, dans un sens comme dans l'autre */
   const ind = document.createElement('div');
@@ -14822,7 +14882,8 @@ function mInitPull() {
         scrollY > 0 ||
         e.touches.length !== 1 ||
         document.querySelector('dialog[open]') ||
-        ind.classList.contains('spin')
+        ind.classList.contains('spin') ||
+        mReloading
           ? null
           : e.touches[0].clientY;
       x0 = y0 == null ? 0 : e.touches[0].clientX;
