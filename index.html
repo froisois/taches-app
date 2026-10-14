@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261013233531">
+<meta name="taches-page" content="20261014002203">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -299,10 +299,12 @@ button.ico.aurg.on{background:#c4524a;border-color:#c4524a;color:#fff}
 .arow button{flex:none;font-size:.9rem;padding:.45rem .8rem}
 #aUrg.on{background:#c4524a;border-color:#c4524a;color:#fff;font-weight:700}
 .ahd{font-size:.85rem;margin-top:.6rem}
-.asub{display:flex;align-items:center;gap:.5rem;padding:.3rem 0;padding-left:calc(var(--lv) * 1.1rem);border-bottom:1px solid var(--line)}
+.asub{position:relative;display:flex;align-items:center;gap:.5rem;padding:.3rem 0;padding-left:calc(var(--lv) * 1.1rem);border-bottom:1px solid var(--line)}
 .asub .bx{flex:none;font-size:1.15rem;border:none;background:none;padding:0 .1rem;color:var(--fg)}
 .asub .tx{flex:1;min-width:0;word-break:break-word}
 .asub.done .tx{text-decoration:line-through;color:var(--muted)}
+.asub .adue{flex:none;font-size:.78rem;padding:.1rem .45rem;border-radius:999px;border:1px solid var(--line);background:none;color:var(--muted);white-space:nowrap}.asub .adue.add{border:none;font-size:.95rem;padding:0 .2rem;opacity:.6}
+.asub .adi{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 .asub .x{flex:none;border:none;background:none;color:var(--muted);font-size:1.1rem;padding:0 .3rem}
 .mrb .sp{flex:1}
 .adel{color:#c4524a;border-color:color-mix(in srgb,#c4524a 50%,transparent)}
@@ -2991,6 +2993,7 @@ function mHistFill(box,tr){
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES=[
+ {d:'2026-10-14 02:40',type:'web',v:'2.14.1',items:['Téléphone\u00a0: dans la fiche d’une tâche, chaque sous-tâche montre son échéance\u00a0; la toucher permet de la changer ou de l’effacer, et 📅 d’en fixer une.']},
  {d:'2026-10-14 02:15',type:'web',v:'2.14',t:'Affichage par échéance',items:['Troisième affichage, «\u00a0📅 par échéance\u00a0» (à côté de «\u00a0priorités en haut / dans leur rubrique\u00a0» au PC, dans ⋮ au téléphone)\u00a0: les tâches à faire et en attente rangées en bandes, en retard, aujourd’hui et cette semaine, semaine prochaine, plus tard, sans échéance (les plus anciennes d’abord), chacune avec le nom de sa rubrique.','PC\u00a0: glisser une tâche dans une autre bande change sa date (début de la bande\u00a0; «\u00a0Sans échéance\u00a0» la retire)\u00a0; au milieu d’une tâche, elle en devient une sous-tâche.']},
  {d:'2026-10-14 01:30',type:'web',v:'2.13',t:'Urgent et important',items:['Deux mots pour deux choses\u00a0: une tâche est «\u00a0urgente\u00a0» quand le calendrier presse (échéance dépassée, du jour, ou à J-3), «\u00a0importante\u00a0» quand tu la marques toi-même («\u00a0!\u00a0», Alt+I). La rangée du haut s’appelle «\u00a0Priorités\u00a0»\u00a0: les urgentes d’abord, puis les importantes.','Échéances\u00a0: dès J-7 la tâche est signalée en corail (sans être urgente), à J-3 elle devient urgente (rouge et halo). Seuils réglables dans ⚙. Dans chaque case, les tâches datées passent avant les autres, par date.','Une tâche à faire sans échéance prend une patine au bout de 2 semaines, plus marquée à 4 («\u00a0depuis 3\u00a0sem.\u00a0»).','Dans taches.md, la marque {urgent} devient {important} (mise à jour toute seule).']},
  {d:'2026-10-13 21:30',type:'web',v:'2.12.12',items:['Notes de version regroupées\u00a0: une carte par version mineure avec un titre court et sa nouveauté\u00a0; ses retouches sont repliées dessous («\u00a0▸ 11 retouches\u00a0»). Après une mise à jour, la carte annonce la nouveauté plutôt que la dernière retouche.']},
@@ -3468,7 +3471,7 @@ function mFillAct(){
   /* liens de la tâche et de ses sous-tâches, cliquables */
   const lk=$('#aLinks');lk.innerHTML='';const all=[it,...subs].flatMap(x=>x.links||[]);if(all.length)lk.append(mLinks(all));
   $('#aMeta').textContent=[it.created?'Créée le '+shortDate(it.created):'',it.state==='fait'?(it.doneDate?'faite le '+shortDate(it.doneDate):'faite'):''].filter(Boolean).join(' · ');
-  const sig=JSON.stringify([ro,subs.map(x=>[x.id,x.text,x.level,!!x.checked])]);
+  const sig=JSON.stringify([ro,subs.map(x=>[x.id,x.text,x.level,!!x.checked,x.due||''])]);
   if(sig===mSubSig)return;mSubSig=sig;
   const box=$('#aSubs');box.innerHTML='';
   for(const x of subs){
@@ -3478,6 +3481,14 @@ function mFillAct(){
     const tx=document.createElement('input');tx.className='tx';tx.value=x.text;tx.disabled=ro;
     tx.onchange=()=>{const v=tx.value.replace(/\s+/g,' ').trim();if(v&&v!==x.text)mEdit(x.id,y=>{y.text=v;});};
     r.append(bx,tx);
+    /* échéance de la sous-tâche : pastille (toucher pour changer ou effacer), ou 📅 pour en fixer une */
+    {const db=document.createElement('button');db.type='button';db.disabled=ro;
+      if(x.due&&!x.checked){const n=daysTo(x.due);db.className='adue mchip'+(dueSoon(x)?(n<=0?' redf':' red'):dueNear(x)?' near':'');db.textContent=n<0?shortDate(x.due):n===0?'aujourd’hui':n===1?'demain':shortDate(x.due);db.title='Échéance de la sous-tâche';}
+      else{db.className='adue add';db.textContent='📅';db.title='Fixer une échéance à la sous-tâche';db.setAttribute('aria-label','Échéance');}
+      const di=document.createElement('input');di.type='date';di.className='adi';di.value=x.due||'';di.tabIndex=-1;
+      di.onchange=()=>{const v=di.value;if(v!==(x.due||''))mEdit(x.id,y=>{if(v)y.due=v;else delete y.due;},v?'Échéance de la sous-tâche\u00a0: '+shortDate(v):'Échéance de la sous-tâche retirée');};
+      db.onclick=()=>{try{di.showPicker();}catch(e){di.focus();di.click();}};
+      r.append(db,di);}
     if(!ro){const del=document.createElement('button');del.type='button';del.className='x';del.textContent='×';del.title='Supprimer la sous-tâche';
       del.onclick=()=>mEdit(x.id,(y,k)=>{trashBlock(k);items.splice(k,blockEnd(k)-k);},'Sous-tâche supprimée');r.append(del);}
     box.append(r);
