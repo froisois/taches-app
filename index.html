@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261014120021">
+<meta name="taches-page" content="20261014124625">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -4118,6 +4118,100 @@ body.mobile:has(dialog:modal) {
     box-shadow: 0 0 0 0 transparent;
   }
 }
+
+/* notes : liens reliés, dépôt d'un lien, retour visuel */
+.inote .links {
+  margin-top: 0.3rem;
+}
+.inote.link-over {
+  outline: 2px dashed var(--accent);
+  outline-offset: 2px;
+}
+#inbox .inote.flash {
+  animation: cardFlash 1.8s ease-out;
+}
+/* choix au lâcher d'une tâche sur une autre (PC : menu ; téléphone : fenêtre) */
+.cmenu .ctxh {
+  padding: 0.3rem 0.8rem 0.35rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  max-width: 18rem;
+}
+.ctxi small {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+#fly .fp.fnote {
+  font-weight: 600;
+  color: var(--muted);
+}
+#fly .fp.fnote.on {
+  color: #fff;
+}
+/* téléphone : glisser une tâche sur « En faire une note » */
+#mDrag .dtonote {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex: none;
+  padding: 0.7rem 1rem;
+  margin-bottom: 0.35rem;
+  border-radius: 12px;
+  border: 1.5px dashed var(--note-bar);
+  background: var(--note-bg);
+  color: var(--fg);
+  font-weight: 600;
+  transition: transform 0.12s;
+}
+#mDrag .dtonote.hov {
+  border-style: solid;
+  background: var(--note-bar);
+  color: #fff;
+  transform: scale(1.03);
+}
+/* téléphone : que faire d'une tâche lâchée sur une autre */
+#mInto {
+  width: min(24rem, calc(100vw - 2rem));
+  padding: 0.4rem 1.1rem 0.3rem;
+  border: 3px solid var(--accent);
+  border-radius: 16px;
+  background: var(--panel, var(--bg));
+  color: var(--fg);
+}
+#mInto::backdrop {
+  background: rgba(20, 22, 28, 0.5);
+}
+#mInto .mit {
+  margin: 0.6rem 0 0.3rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+#mInto .mitem small {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+#mInto .mino {
+  border-bottom: none;
+  color: var(--muted);
+  text-align: center;
+}
+#nLinks .mlinks {
+  align-items: center;
+  margin: 0 0 0.4rem;
+}
+#nLinks .nlx {
+  margin-left: -0.25rem;
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-size: 1.05rem;
+  padding: 0 0.35rem;
+}
+.mnotec .mlinks {
+  pointer-events: auto;
+}
 </style>
 </head>
 <body>
@@ -4205,7 +4299,7 @@ body.mobile:has(dialog:modal) {
       <div id="aLinks"></div>
       <button type="button" class="mitem" id="aArch" hidden>Ranger dans l’historique</button>
       <div class="nbar anew"><button type="button" id="aCancel">Annuler</button><span class="sp"></span><button type="button" class="primary" id="aAdd">Ajouter</button></div>
-      <div class="nbar aedit"><button type="button" id="aDel" class="ico adel" title="Supprimer la tâche" aria-label="Supprimer la tâche"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v5.5M14 11v5.5"/></svg></button><span class="sp"></span><button type="submit" class="ico ok" id="aOk" title="Fermer" aria-label="Fermer"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></div>
+      <div class="nbar aedit"><button type="button" id="aDel" class="ico adel" title="Supprimer la tâche" aria-label="Supprimer la tâche"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v5.5M14 11v5.5"/></svg></button><button type="button" id="aToNote" class="ico" title="En faire une note" aria-label="En faire une note"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v10.5L14.5 20H4z"/><path d="M20 14.5h-5.5V20"/><path d="M7.5 8.5h9M7.5 12h6"/></svg></button><span class="sp"></span><button type="submit" class="ico ok" id="aOk" title="Fermer" aria-label="Fermer"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></div>
     </form>
   </dialog>
   <dialog id="mAtt">
@@ -4213,16 +4307,19 @@ body.mobile:has(dialog:modal) {
       <p class="ameta">Fichier reçu</p>
       <p class="tfile" id="tFile"></p>
       <label>Nom du fichier<input id="tName"></label>
-      <div class="ntabs"><button type="button" data-p="new" class="on">Nouvelle tâche</button><button type="button" data-p="join">Joindre à une tâche</button></div>
+      <div class="ntabs"><button type="button" data-p="new" class="on">Nouvelle tâche</button><button type="button" data-p="note">Nouvelle note</button><button type="button" data-p="join">Joindre à…</button></div>
       <div class="npanel" id="tNew">
         <label>Intitulé de la tâche<input id="tTitle"></label>
         <label>Rubrique<select id="tSec"></select></label>
       </div>
+      <div class="npanel" id="tNoteP" hidden>
+        <label>Texte de la note<textarea id="tNoteTx" rows="3"></textarea></label>
+      </div>
       <div class="npanel" id="tJoin" hidden>
-        <input id="tQ" placeholder="Chercher une tâche" type="search">
+        <input id="tQ" placeholder="Chercher une tâche ou une note" type="search">
         <div id="tPick"></div>
       </div>
-      <p class="ameta">Le fichier sera confié à OneDrive : choisis-y le dossier « Pièces jointes », à côté de taches.md, sans changer son nom.</p>
+      <p class="ameta" id="tHelp">Le fichier sera confié à OneDrive : choisis-y le dossier « Pièces jointes », à côté de taches.md, sans changer son nom.</p>
       <div class="mrb"><button type="button" id="tCancel">Annuler</button><span class="sp"></span><button type="submit" class="primary" id="tOk">Créer la tâche</button></div>
     </form>
   </dialog>
@@ -4248,7 +4345,7 @@ body.mobile:has(dialog:modal) {
     <form method="dialog" id="nForm">
       <p class="ameta" id="nMeta"></p>
       <div class="ntool"><button type="button" id="nBold" class="ico" title="Gras" aria-label="Gras"><b>B</b></button><button type="button" id="nItal" class="ico" title="Italique" aria-label="Italique"><i>I</i></button><button type="button" id="nBullet" class="ico" title="Liste à puces" aria-label="Liste à puces"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="7" r="1.2" fill="currentColor" stroke="none"/><circle cx="5" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="5" cy="17" r="1.2" fill="currentColor" stroke="none"/><path d="M9.5 7H20M9.5 12H20M9.5 17H20"/></svg></button></div>
-      <div class="nwrap"><textarea id="nText" rows="6" placeholder="Ce qu’on vient de te dire…"></textarea><button type="button" id="nCopy" class="ico ccopy" title="Copier la note" aria-label="Copier la note"><span class="i1"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2.2"/><path d="M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5"/></svg></span><span class="i2"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></button></div>
+      <div id="nLinks"></div><div class="nwrap"><textarea id="nText" rows="6" placeholder="Ce qu’on vient de te dire…"></textarea><button type="button" id="nCopy" class="ico ccopy" title="Copier la note" aria-label="Copier la note"><span class="i1"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2.2"/><path d="M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5"/></svg></span><span class="i2"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></button></div>
       <div class="nbar"><button type="button" id="nDel" class="ico adel" title="Supprimer la note" aria-label="Supprimer la note"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v5.5M14 11v5.5"/></svg></button><button type="button" id="nCancel" class="ico" title="Annuler" aria-label="Annuler"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button><span class="sp"></span><span class="ntabs"><button type="button" class="ico" data-p="task" title="En faire une tâche" aria-label="En faire une tâche"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M8.2 12.3l2.6 2.6 5-5.2"/></svg></button><button type="button" class="ico" data-p="attach" title="Ajouter à une tâche" aria-label="Ajouter à une tâche"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h16v10H10l-4.5 3.5V15.5H4z"/><path d="M12 8v5M9.5 10.5h5"/></svg></button></span><button type="submit" class="ico ok" id="nOk" title="Enregistrer la note" aria-label="Enregistrer la note"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></div>
       <div id="nTriage">
                 <div class="npanel" id="nTask" hidden>
@@ -4665,7 +4762,8 @@ function trashNote(n) {
         note: ls.slice(1).join('\n'),
         level: 0,
         checked: false,
-        created: (n.at || '').slice(0, 10) || undefined
+        created: (n.at || '').slice(0, 10) || undefined,
+        links: n.links && n.links.length ? n.links.map(l => ({ ...l })) : undefined
       }
     ]
   });
@@ -4684,6 +4782,7 @@ function recoverCore(eid) {
     const x = e.items[0];
     snapshot();
     notes.unshift({ id: null, at: x.created || todayISO(), text: x.text + (x.note ? '\n' + x.note : '') });
+    if (x.links && x.links.length) notes[0].links = x.links.map(l => ({ ...l }));
     trash = trash.filter(y => y !== e);
     return true;
   }
@@ -5002,8 +5101,10 @@ function parse(md) {
     if (mode === 'n' && !hm) {
       const q = /^[ \t]*>\s?(.*)$/.exec(raw);
       if (q && raw.match(/^\s+/) && nt.length) {
-        const l = nt[nt.length - 1];
-        l.text += '\n' + q[1];
+        const l = nt[nt.length - 1],
+          lk = /^🔗\s*\[(.*?)\]\(<?(.+?)>?\)\s*$/.exec(q[1]);
+        if (lk) (l.links || (l.links = [])).push({ url: lk[2], label: lk[1] });
+        /* fichier ou lien relié à la note */ else l.text += '\n' + q[1];
         continue;
       }
       let b = raw.replace(/^\s*[-*+•]\s+/, '').trim(),
@@ -5338,6 +5439,8 @@ function serialize() {
       /* note en cours de saisie, encore vide */ const ls = n.text.replace(/\s+$/, '').split('\n');
       L.push('- ' + (n.at ? n.at + ' · ' : '') + ls[0] + ' {id ' + n.id + '}');
       for (const l of ls.slice(1)) L.push('  > ' + l);
+      for (const l of n.links || [])
+        L.push('  > 🔗 [' + (l.label || labelOf(l.url)).replace(/[\[\]]/g, '') + '](<' + l.url + '>)');
     }
   }
   if (done.length) {
@@ -5569,7 +5672,8 @@ function merge3(B, M, T) {
   const nB = new Map((B.notes || []).map(n => [n.id, n])),
     nM = new Map((M.notes || []).map(n => [n.id, n])),
     nT = new Map((T.notes || []).map(n => [n.id, n]));
-  const nsame = (a, b) => a.text === b.text && (a.at || '') === (b.at || '');
+  const lkOf = n => JSON.stringify(n.links || []);
+  const nsame = (a, b) => a.text === b.text && (a.at || '') === (b.at || '') && lkOf(a) === lkOf(b);
   const nts = [],
     nNew = [];
   for (const id of new Set([...nM.keys(), ...nT.keys()])) {
@@ -5585,6 +5689,16 @@ function merge3(B, M, T) {
         const bv = b ? b[f] || '' : null;
         if (b && mv === bv) n[f] = t[f];
         else if (!(b && tv === bv)) conflicts++;
+      }
+      /* liens de la note : même règle ; modifiés des deux côtés, on garde l'union */
+      if (lkOf(m) !== lkOf(t)) {
+        const bv = b ? lkOf(b) : null;
+        if (b && lkOf(m) === bv) n.links = t.links;
+        else if (!(b && lkOf(t) === bv)) {
+          const all = [...(m.links || [])];
+          for (const l of t.links || []) if (!all.some(x => x.url === l.url)) all.push(l);
+          n.links = all;
+        }
       }
       nts.push(n);
     } else {
@@ -6316,6 +6430,41 @@ function renderInbox() {
     };
     t.ondblclick = () => editNote(n.id);
     c.append(w, t, cp, x);
+    if (n.links && n.links.length) {
+      const lk = mkLinks(n.links, true);
+      lk.onclick = e => {
+        const lx = e.target.closest('.lx');
+        if (!lx) return;
+        e.preventDefault();
+        snapshot();
+        n.links.splice(+lx.closest('.lnk').dataset.k, 1);
+        if (!n.links.length) delete n.links;
+        render();
+        changed();
+      };
+      c.append(lk);
+    }
+    /* un e-mail, une adresse ou un chemin lâché sur la note : relié à elle */
+    c.addEventListener('dragover', e => {
+      if (noteDragId || dragId || !e.dataTransfer) return;
+      e.preventDefault();
+      e.stopPropagation();
+      e.dataTransfer.dropEffect = pickEffect(e.dataTransfer);
+      c.classList.add('link-over');
+    });
+    c.addEventListener('dragleave', () => c.classList.remove('link-over'));
+    c.addEventListener('drop', e => {
+      if (noteDragId || dragId || !e.dataTransfer) return;
+      c.classList.remove('link-over');
+      const got = linksFromDrop(e.dataTransfer);
+      if (!got) return;
+      e.preventDefault();
+      e.stopPropagation();
+      for (const l of got) addNoteLink(n.id, l.url, l.label);
+      render();
+      flashNote(n.id);
+      toast((got.length > 1 ? got.length + ' liens reliés' : 'Lien relié') + ' à la note · Ctrl+Z pour annuler');
+    });
     wrap.append(c);
   }
   box.append(wrap);
@@ -6325,6 +6474,15 @@ function renderInbox() {
     noteEditId = null;
     editNote(id);
   }
+}
+/* la note concernée s'illumine un instant (comme flash() pour les tâches) */
+function flashNote(id) {
+  const c = document.querySelector('#inbox .inote[data-id="' + id + '"]');
+  if (!c) return;
+  c.classList.remove('flash');
+  void c.offsetWidth;
+  c.classList.add('flash');
+  setTimeout(() => c.classList.remove('flash'), 2000);
 }
 /* modifier une note sur place : champ à la taille du texte, Ctrl+B gras, Ctrl+I italique, « - » liste ; Échap annule, clic ailleurs enregistre */
 function editNote(id) {
@@ -6471,6 +6629,7 @@ function noteToTask(nid, secId, state) {
     text: sp.title
   };
   if (sp.note) t.note = sp.note;
+  noteLinksTo(n, t);
   const dt = dateIn(n.text);
   if (dt && t.state !== 'fait') t.due = dt.d; /* « jeudi », « le 15 »… : échéance reprise, comme au téléphone */
   const pos = laneEndOf(secId);
@@ -6492,6 +6651,7 @@ function noteToComment(nid, taskId) {
   textSnapFor = null;
   notes = notes.filter(x => x !== n);
   it.note = (it.note ? it.note.replace(/\s+$/, '') + '\n' : '') + d.slice(8, 10) + '/' + d.slice(5, 7) + ' : ' + n.text;
+  noteLinksTo(n, it);
   commit();
   flash(it.id);
   toast('Note ajoutée au commentaire · Ctrl+Z pour annuler');
@@ -6517,6 +6677,7 @@ function noteToSub(nid, taskId) {
   if (sp.note)
     it.note =
       (it.note ? it.note.replace(/\s+$/, '') + '\n' : '') + d.slice(8, 10) + '/' + d.slice(5, 7) + ' : ' + sp.note;
+  noteLinksTo(n, it);
   commit();
   flash(it.id);
   toast('Note devenue sous-tâche de « ' + it.text + ' » · Ctrl+Z pour annuler');
@@ -7520,6 +7681,7 @@ function cardEntries(id, x, y) {
       { l: it.due ? 'Échéance (' + shortDate(it.due) + ')…' : 'Échéance…', on: () => dueTo(id, x, y) },
       '-',
       { l: 'En faire une tâche à part', on: () => promoteSub(id) },
+      { l: 'En faire une note', on: () => pcTaskToNote(id) },
       '-',
       { l: 'Supprimer la sous-tâche', k: 'Alt+Suppr', danger: true, on: () => removeTask(id, false) }
     ];
@@ -7559,7 +7721,8 @@ function cardEntries(id, x, y) {
     { l: 'Ajouter un lien…', on: () => askLink(id) },
     '-',
     { l: 'Dupliquer', on: () => duplicateBlock(id) },
-    { l: 'Copier le texte', on: () => copyBlock(id) }
+    { l: 'Copier le texte', on: () => copyBlock(id) },
+    { l: 'En faire une note', on: () => pcTaskToNote(id) }
   );
   if (it.state === 'fait')
     out.push({
@@ -7611,11 +7774,31 @@ function headEntries(id) {
     { l: 'Supprimer la rubrique', danger: true, on: () => deleteSection(id) }
   ];
 }
+function pcTaskToNote(id) {
+  const n = taskToNote(id);
+  if (!n) return;
+  render();
+  flashNote(n.id);
+  toast('Devenue note · Ctrl+Z pour annuler');
+}
 function noteEntries(nid) {
   const n = notes.find(x => x.id === nid);
   if (!n) return [];
   return [
     { l: 'Modifier', on: () => editNote(nid) },
+    {
+      l: 'Relier un lien ou un fichier…',
+      on: () => {
+        const u = prompt(
+          'Lien à relier à cette note\u00a0:\n– adresse web ou lien d’un e-mail (Outlook web, Gmail…)\n– chemin d’un fichier ou d’un dossier (clic droit › Copier en tant que chemin d’accès)'
+        );
+        if (!u || !u.trim()) return;
+        if (!isLinkish(u)) return toast('Ce n’est ni une adresse web ni un chemin de fichier');
+        addNoteLink(nid, u);
+        render();
+        flashNote(nid);
+      }
+    },
     '-',
     { l: 'En faire une tâche dans', sub: () => secEntries(sec => noteToTask(nid, sec, 'afaire'), null, null) },
     {
@@ -7910,6 +8093,25 @@ function taskIntoTask(srcId, tgtId) {
   items.splice(blockEnd(idx(top.id)), 0, ...blk);
   return top;
 }
+function intoAsk(srcId, tgtId, x, y) {
+  const src = items[idx(srcId)],
+    tgt = items[idx(tgtId)];
+  if (!src || !tgt) return;
+  const head = document.createElement('div');
+  head.className = 'ctxh';
+  head.textContent = '«\u00a0' + src.text + '\u00a0» dans «\u00a0' + tgt.text + '\u00a0»';
+  ctxOpen(
+    [
+      { el: () => head },
+      ...intoChoices(srcId).map(c => ({
+        l: c.l /* « liens seulement » : le message dira que la tâche est dans la corbeille */,
+        on: () => dropBlock(srcId, { id: tgtId, into: true, how: c.k })
+      }))
+    ],
+    x + 4,
+    y + 4
+  );
+}
 function dropBlock(srcId, tgt) {
   if (tgt.band) {
     const it = items[idx(srcId)];
@@ -7933,11 +8135,16 @@ function dropBlock(srcId, tgt) {
   if (src.kind === 'h' && tgt.cell) return;
   /* lâchée dans la rangée Urgentes : elle devient urgente et change de colonne, sans quitter sa rubrique */
   if (tgt.into) {
-    const top = taskIntoTask(srcId, tgt.id);
-    if (top) {
-      commit();
-      flash(top.id);
-      toast('Devenue sous-tâche de «\u00a0' + top.text + '\u00a0» · Ctrl+Z pour annuler');
+    /* lâchée sur une tâche : on demande quoi en faire (sauf depuis le menu volant, où le choix est déjà fait) */
+    if (!tgt.how) {
+      intoAsk(srcId, tgt.id, lastPt.x, lastPt.y);
+      return;
+    }
+    const r = intoApply(tgt.how, srcId, tgt.id);
+    if (r) {
+      render();
+      flash(r.top.id);
+      toast(r.msg + ' · Ctrl+Z pour annuler');
     }
     return;
   }
@@ -8459,6 +8666,20 @@ document.addEventListener('drop', e => {
     e.preventDefault();
     return;
   }
+  if (!dragId && e.dataTransfer && !e.defaultPrevented && e.target.closest && e.target.closest('#inbox')) {
+    const got = linksFromDrop(e.dataTransfer);
+    if (got) {
+      e.preventDefault();
+      snapshot();
+      const made = got.map(l => ({ id: uid(), at: nowStamp(), text: l.label || labelOf(l.url), links: [l] }));
+      notes.unshift(...made);
+      render();
+      changed();
+      flashNote(made[0].id);
+      toast((made.length > 1 ? made.length + ' notes créées' : 'Note créée') + ' avec le lien · Ctrl+Z pour annuler');
+      return;
+    }
+  }
   if (!dragId && e.dataTransfer && !e.defaultPrevented && !(e.target.closest && e.target.closest('#list .card'))) {
     const dt = e.dataTransfer,
       mails = mailsFrom(dt),
@@ -8573,6 +8794,21 @@ function mailURL(mb, iid) {
     'deeplink/read/' +
     encodeURIComponent(iid)
   );
+}
+/* ce qu'un dépôt apporte comme liens : e-mails d'Outlook, ou une adresse / un chemin ; null sinon */
+function linksFromDrop(dt) {
+  const mails = mailsFrom(dt);
+  if (mails) return mails.map(m => ({ url: m.url, label: m.label }));
+  const uri =
+    (dt.getData('text/uri-list') || '')
+      .split('\n')
+      .map(x => x.trim())
+      .find(x => x && !x.startsWith('#')) || dt.getData('text/plain').trim();
+  if (uri && isLinkish(uri)) {
+    const u = cleanLink(uri);
+    return [{ url: u, label: labelOf(u) }];
+  }
+  return null;
 }
 function mailsFrom(dt) {
   const res = [];
@@ -8953,7 +9189,8 @@ function stopDrag(apply) {
    de la tâche), la page se grise et les rubriques flottent en arc ; survoler une rubrique déploie ses tâches.
    Lâcher : sur une rubrique (nouvelle tâche, ou tâche rangée), sur une tâche (note : commentaire ou sous-tâche ;
    tâche : sous-tâche), ailleurs (rien). Revenir dans la zone de départ referme le menu. ---------- */
-let fly = null;
+let fly = null,
+  lastPt = { x: 200, y: 200 };
 function flyOpen(kind, srcId, home) {
   flyClose();
   const box = document.createElement('div');
@@ -8974,7 +9211,8 @@ function flyOpen(kind, srcId, home) {
     raf: 0,
     x: 0,
     y: 0,
-    inHome: false
+    inHome: false,
+    links: kind === 'task' && idx(srcId) >= 0 ? blockLinks(idx(srcId)).length : 0
   };
   const v = document.createElement('div');
   v.className = 'fv';
@@ -8992,6 +9230,8 @@ function flyOpen(kind, srcId, home) {
       c: '#c4524a',
       urg: true
     }); /* la marquer importante sans la changer de rubrique */
+  if (kind === 'task')
+    secs.unshift({ id: '!note', text: 'En faire une note', c: '#8a847a', urg: true, note: true });
   const cur =
     kind === 'task'
       ? (() => {
@@ -9022,7 +9262,7 @@ function flyOpen(kind, srcId, home) {
     p.style.left = x + 'px';
     p.style.top = y - 18 + 'px';
     p.style.animationDelay = k * 18 + 'ms';
-    if (sc.urg) p.classList.add('furg');
+    if (sc.urg) p.classList.add(sc.note ? 'fnote' : 'furg');
     if (!sc.none) {
       const i = document.createElement('i');
       i.style.background = sc.c;
@@ -9040,7 +9280,7 @@ function flyOpen(kind, srcId, home) {
   h.textContent =
     kind === 'note'
       ? 'Lâcher sur une rubrique\u00a0: nouvelle tâche · sur une tâche\u00a0: commentaire ou sous-tâche · ailleurs\u00a0: rien'
-      : 'Lâcher sur une rubrique\u00a0: l’y ranger · sur une tâche\u00a0: en faire une sous-tâche · ailleurs\u00a0: rien · Échap\u00a0: annuler';
+      : 'Lâcher sur une rubrique\u00a0: l’y ranger · sur une tâche\u00a0: sous-tâche, commentaire ou liens seulement · ailleurs\u00a0: rien · Échap\u00a0: annuler';
   box.append(h);
   const loop = () => {
     if (!fly) return;
@@ -9087,7 +9327,7 @@ function flyShowSec(secId) {
   fly.box.querySelectorAll('.ft,.fe,.fl.t2').forEach(x => x.remove());
   const p = fly.box.querySelector('.fp[data-sec="' + secId + '"]');
   if (!p) return;
-  if (secId === '!urg') {
+  if (secId === '!urg' || secId === '!note') {
     fly.list = [];
     fly.anchor = null;
     return;
@@ -9111,9 +9351,13 @@ function flyShowSec(secId) {
       z.innerHTML = '<span data-z="cmt">💬 en commentaire</span><span data-z="sub">↳ en sous-tâche</span>';
       d.append(z);
     } else {
+      /* tâche lâchée sur une tâche : sous-tâche, commentaire, ou seulement ses liens */
       const z = document.createElement('div');
-      z.className = 'fz1';
-      z.textContent = '↳ en faire une sous-tâche';
+      z.className = 'fz';
+      const n = fly.links;
+      z.innerHTML =
+        '<span data-z="sub">↳ en sous-tâche</span><span data-z="cmt">💬 en commentaire</span>' +
+        (n ? '<span data-z="pj">📎 ' + (n > 1 ? 'ses ' + n + ' liens seulement' : 'son lien seulement') + '</span>' : '');
       d.append(z);
     }
     fly.box.append(d);
@@ -9227,7 +9471,8 @@ function flyDrop() {
     else if (f.hot) noteToComment(f.srcId, f.hot);
     else if (f.onPill) noteToTask(f.srcId, f.pill, 'afaire');
   } else {
-    if (f.hot) dropBlock(f.srcId, { id: f.hot, into: true });
+    if (f.hot) dropBlock(f.srcId, { id: f.hot, into: true, how: f.zone || 'sub' });
+    else if (f.onPill && f.pill === '!note') pcTaskToNote(f.srcId);
     else if (f.onPill && f.pill === '!urg') {
       toggleUrgent(f.srcId);
       toast('Devenue importante · Ctrl+Z pour annuler');
@@ -9246,6 +9491,7 @@ document.addEventListener('pointermove', e => {
   }
   e.preventDefault();
   getSelection().removeAllRanges();
+  lastPt = { x: e.clientX, y: e.clientY };
   pd.ghost.style.left = e.clientX - pd.dx + 'px';
   pd.ghost.style.top = e.clientY - pd.dy + 'px';
   const src = items[idx(pd.srcId)];
@@ -9997,6 +10243,151 @@ setInterval(() => {
   if (dirty && backend && !saving) saveFile();
   else checkExternal();
 }, 30000);
+/* ---------- passages entre tâches et notes (communs au PC et au téléphone) ----------
+   tâche → note ; tâche lâchée sur une autre : sous-tâche (taskIntoTask), commentaire, ou pièces jointes seules.
+   Chaque fonction prend son instantané (Ctrl+Z / Annuler) et laisse l'affichage à l'appelant. */
+
+/* liens d'une tâche et de ses sous-tâches (copies) */
+function blockLinks(i) {
+  return items
+    .slice(i, blockEnd(i))
+    .flatMap(x => x.links || [])
+    .map(l => ({ ...l }));
+}
+/* une tâche en texte : intitulé, commentaire, puis sous-tâches en lignes à puces (« ✓ » si faites) ; l'échéance en clair */
+function blockText(i, withTitle) {
+  const e = blockEnd(i),
+    t = items[i],
+    L = withTitle === false ? [] : [t.text];
+  if (t.due && t.state !== 'fait')
+    L.push(
+      'Échéance : ' +
+        new Date(t.due + 'T12:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })
+    );
+  if (t.state === 'attente' && t.waitFor) L.push('En attente de ' + t.waitFor);
+  if (t.note && t.note.trim()) L.push(...t.note.replace(/\s+$/, '').split('\n'));
+  for (let k = i + 1; k < e; k++) {
+    const x = items[k];
+    L.push('  '.repeat(Math.max(0, x.level - t.level - 1)) + '- ' + x.text + (x.checked ? ' ✓' : ''));
+    if (x.note && x.note.trim()) L.push(...x.note.replace(/\s+$/, '').split('\n').map(l => '  ' + l));
+  }
+  return L.join('\n');
+}
+function dayPrefix(d) {
+  d = d || todayISO();
+  return d.slice(8, 10) + '/' + d.slice(5, 7) + ' : ';
+}
+/* une tâche (et ses sous-tâches) devient une note, en tête des notes ; ses liens la suivent */
+function taskToNote(id) {
+  const i = idx(id);
+  if (i < 0 || items[i].kind !== 't') return null;
+  const n = { id: uid(), at: nowStamp(), text: blockText(i) },
+    lk = blockLinks(i);
+  if (lk.length) n.links = lk;
+  snapshot();
+  if (typeof textSnapFor !== 'undefined') textSnapFor = null;
+  items.splice(i, blockEnd(i) - i);
+  notes.unshift(n);
+  normalize();
+  changed();
+  return n;
+}
+/* une tâche s'ajoute au commentaire d'une autre (sous-tâches en lignes à puces) ; ses liens rejoignent ceux de la cible */
+function taskToComment(srcId, tgtId) {
+  const i = idx(srcId),
+    t = idx(tgtId);
+  if (i < 0 || t < 0) return null;
+  const e = blockEnd(i);
+  if (t >= i && t < e) return null;
+  const tgt = items[t],
+    src = items[i],
+    txt = blockText(i),
+    lk = blockLinks(i);
+  snapshot();
+  if (typeof textSnapFor !== 'undefined') textSnapFor = null;
+  tgt.note = (tgt.note ? tgt.note.replace(/\s+$/, '') + '\n' : '') + dayPrefix(src.created) + txt;
+  if (lk.length) (tgt.links || (tgt.links = [])).push(...lk);
+  items.splice(i, e - i);
+  normalize();
+  changed();
+  return tgt;
+}
+/* seulement les pièces jointes et liens d'une tâche vers une autre ; la tâche vidée part à la corbeille */
+function taskLinksTo(srcId, tgtId) {
+  const i = idx(srcId),
+    t = idx(tgtId);
+  if (i < 0 || t < 0) return null;
+  const e = blockEnd(i);
+  if (t >= i && t < e) return null;
+  const lk = blockLinks(i);
+  if (!lk.length) return null;
+  const tgt = items[t];
+  snapshot();
+  if (typeof textSnapFor !== 'undefined') textSnapFor = null;
+  (tgt.links || (tgt.links = [])).push(...lk);
+  trashBlock(i);
+  items.splice(i, e - i);
+  normalize();
+  changed();
+  return { tgt, n: lk.length };
+}
+/* les choix proposés quand une tâche est lâchée sur une autre */
+function intoChoices(srcId) {
+  const i = idx(srcId),
+    n = i < 0 ? 0 : blockLinks(i).length;
+  const c = [
+    { k: 'sub', l: 'En faire une sous-tâche' },
+    { k: 'cmt', l: 'L’ajouter au commentaire' }
+  ];
+  if (n)
+    c.push({
+      k: 'pj',
+      l: n > 1 ? 'Ne joindre que ses ' + n + ' liens' : 'Ne joindre que son lien',
+      sub: 'la tâche part à la corbeille'
+    });
+  return c;
+}
+/* applique le choix ; renvoie le message à afficher (ou null) et la tâche qui reçoit */
+function intoApply(k, srcId, tgtId) {
+  const src = items[idx(srcId)],
+    name = src ? src.text : '';
+  if (k === 'cmt') {
+    const t = taskToComment(srcId, tgtId);
+    return t && { top: t, msg: 'Ajoutée au commentaire de « ' + t.text + ' »' };
+  }
+  if (k === 'pj') {
+    const r = taskLinksTo(srcId, tgtId);
+    return (
+      r && {
+        top: r.tgt,
+        msg:
+          (r.n > 1 ? r.n + ' liens joints' : 'Lien joint') +
+          ' à « ' +
+          r.tgt.text +
+          ' » · « ' +
+          name +
+          ' » dans la corbeille'
+      }
+    );
+  }
+  const top = taskIntoTask(srcId, tgtId);
+  if (top) normalize(), changed();
+  return top && { top, msg: 'Devenue sous-tâche de « ' + top.text + ' »' };
+}
+/* lier un fichier ou une adresse à une note */
+function addNoteLink(nid, raw, label) {
+  const n = notes.find(x => x.id === nid);
+  if (!n) return null;
+  const url = cleanLink(raw);
+  snapshot();
+  (n.links || (n.links = [])).push({ url, label: label || labelOf(url) });
+  changed();
+  return n;
+}
+/* liens d'une note qui passent à une tâche */
+function noteLinksTo(n, it) {
+  if (n && n.links && n.links.length && it) (it.links || (it.links = [])).push(...n.links.map(l => ({ ...l })));
+}
 /* ---------- vue téléphone ----------
    Dans un navigateur : lecture seule, saisie par e-mail préparé.
    Dans l'appli Android (pont TachesAndroid) : modifiable, enregistré directement dans le fichier, avec fusion ;
@@ -10603,6 +10994,11 @@ function mRender() {
             t.className = 'tx';
             t.innerHTML = fmtView(n.text);
             c.append(w, t);
+            if (n.links && n.links.length) {
+              const lk = mLinks(n.links);
+              lk.onclick = e => e.stopPropagation(); /* ouvrir le lien, pas la note */
+              c.append(lk);
+            }
             if (AND) {
               c.onclick = () => {
                 if (c.dataset.swiped) return;
@@ -10927,6 +11323,18 @@ function mHistFill(box, tr) {
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES = [
+  {
+    d: '2026-10-14 14:45',
+    type: 'web',
+    v: '2.19',
+    t: 'Tâches et notes : passer de l’une à l’autre',
+    items: [
+      'Une tâche peut devenir une note (clic droit, ou «\u00a0En faire une note\u00a0» dans le menu volant au PC\u00a0; bouton de la fiche ou glisser au téléphone). Intitulé, échéance, commentaire et sous-tâches passent dans le texte, les liens suivent.',
+      'Une tâche lâchée sur une autre\u00a0: au choix, sous-tâche, ajout au commentaire, ou seulement ses liens (elle part alors à la corbeille). Dans le menu volant, la zone survolée fait le choix.',
+      'Les notes ont leurs liens\u00a0: au PC, un e-mail ou une adresse lâché sur une note s’y relie (lâché dans le bandeau\u00a0: nouvelle note)\u00a0; au téléphone, un fichier partagé peut devenir une note ou se relier à une note. Ils suivent la note quand elle devient tâche.',
+      'Après une mise à jour du Compagnon Android, la fenêtre «\u00a0Nouvelle version installée\u00a0» s’ouvre aussi au redémarrage, avec ses notes.'
+    ]
+  },
   {
     d: '2026-10-14 14:00',
     type: 'appli',
@@ -11799,7 +12207,7 @@ async function pjFlushRun() {
   if (!AND || offHours() || !backend || !backend.direct || !settings.dossier) return 0;
   let n = 0;
   for (const p of pjQueue()) {
-    const holders = items.filter(it => (it.links || []).some(l => l.url === p.rel));
+    const holders = [...items, ...notes].filter(it => (it.links || []).some(l => l.url === p.rel));
     if (!holders.length) {
       /* tâche ou lien supprimés entre-temps : rien à envoyer */
       await andCallRaw('dropKept', p.key).catch(() => {});
@@ -11929,9 +12337,21 @@ function vcHide() {
 }
 /* nouvelle version installée : une vraie fenêtre (fond grisé, au centre), toutes les notes de la version, bouton OK.
    La carte (vcRender) ne sert plus qu'à annoncer un dépôt pour le PC fait plus tard, sans nouvelle version. */
+/* même fenêtre après une mise à jour du Compagnon Android (fabrication installée plus récente qu'au dernier lancement) */
+function vcOpenComp(prev, cur) {
+  vc.comp = { prev: +prev, cur: +cur };
+  if (vc.modal) return vmRender();
+  vc.web = false;
+  vc.copy = null;
+  vcShowModal();
+}
 function vcOpen(prev) {
   vc.prev = prev || '';
+  vc.web = true;
   vc.copy = !mDirect ? null : offHours() ? 'pause' : 'wait';
+  vcShowModal();
+}
+function vcShowModal() {
   vc.modal = true;
   let d = document.getElementById('vmod');
   if (!d) {
@@ -11940,6 +12360,7 @@ function vcOpen(prev) {
     document.body.append(d);
     d.addEventListener('close', () => {
       vc.modal = false;
+      vc.comp = null;
       mstore.set('taches-nouveautes-vues', NOUVEAUTES[0].d);
       newsDot();
     });
@@ -11959,10 +12380,23 @@ function vmRender() {
   const f = el('form');
   f.method = 'dialog';
   const h = el('div', 'vmh');
-  h.append(el('div', 'vmt', 'Nouvelle version installée'), el('div', 'vmv', 'Application web Chromium v' + WEB_V));
-  if (vc.prev && vc.prev !== WEB_V) h.append(el('div', 'vmp', 'précédente\u00a0: v' + vc.prev));
+  const cp0 = vc.comp;
+  h.append(el('div', 'vmt', 'Nouvelle version installée'));
+  if (vc.web !== false) {
+    h.append(el('div', 'vmv', 'Application web Chromium v' + WEB_V));
+    if (vc.prev && vc.prev !== WEB_V) h.append(el('div', 'vmp', 'précédente\u00a0: v' + vc.prev));
+  }
+  if (cp0) {
+    h.append(el('div', 'vmv', 'Compagnon Android ' + compV(cp0.cur)));
+    if (cp0.prev) h.append(el('div', 'vmp', 'précédent\u00a0: ' + compV(cp0.prev)));
+  }
   const b = el('div', 'vmb'),
     u = newsUnseen();
+  /* les notes du Compagnon installé, même déjà vues (elles arrivent souvent avant l'appli elle-même) */
+  if (cp0)
+    for (const e of NOUVEAUTES)
+      if (e.type === 'appli' && e.v > cp0.prev && e.v <= cp0.cur && !u.includes(e)) u.push(e);
+  u.sort((x, y) => (x.d < y.d ? 1 : x.d > y.d ? -1 : 0));
   for (const e of u) {
     const s = el('section');
     s.append(
@@ -12369,13 +12803,20 @@ function mDragStart(c, x, y) {
       }
     }
   };
+  {
+    const b = document.createElement('div');
+    b.className = 'dtonote';
+    b.innerHTML =
+      '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v10.5L14.5 20H4z"/><path d="M20 14.5h-5.5V20"/><path d="M7.5 8.5h9M7.5 12h6"/></svg><span>En faire une note</span>';
+    col.append(b);
+  }
   target(null);
   for (const hd of items.filter(x => x.kind === 'h')) target(hd);
   {
     const hint = document.createElement('div');
     hint.className = 'dhint';
     hint.textContent =
-      'Maintenir sur une rubrique\u00a0: ses tâches s’ouvrent, lâcher sur l’une d’elles pour en faire une sous-tâche';
+      'Maintenir sur une rubrique\u00a0: ses tâches s’ouvrent\u00a0; lâcher sur l’une d’elles\u00a0: sous-tâche, commentaire ou liens seulement';
     col.append(hint);
   }
   const g = document.createElement('div');
@@ -12478,7 +12919,7 @@ function mDragMove(x, y) {
     d.rf = requestAnimationFrame(step);
   }
   const el = document.elementFromPoint(x, y),
-    tg = el && el.closest('.dtgt,.dtask,.dtrash'),
+    tg = el && el.closest('.dtgt,.dtask,.dtrash,.dtonote'),
     lst = el && el.closest('.dlist');
   const hov = tg || null;
   /* note : maintenir sur une rubrique l'ouvre, pour lâcher la note sur une de ses tâches */
@@ -12572,6 +13013,7 @@ function mNoteDropToTask(nid, taskId) {
   snapshot();
   notes = notes.filter(z => z !== n);
   it.note = (it.note ? it.note.replace(/\s+$/, '') + '\n' : '') + pre + n.text;
+  noteLinksTo(n, it);
   normalize();
   changed();
   mRender();
@@ -12634,14 +13076,15 @@ function mDragEnd(cancel) {
     mUndoToast('Note déplacée');
     return;
   }
-  if (d.hov && d.hov.classList.contains('dtask')) {
-    const top = taskIntoTask(d.id, d.hov.dataset.id);
-    if (top) {
-      normalize();
-      changed();
+  if (d.hov && d.hov.classList.contains('dtonote')) {
+    if (taskToNote(d.id)) {
       mRender();
-      mUndoToast('Devenue sous-tâche de «\u00a0' + top.text + '\u00a0»');
+      mUndoToast('Devenue note');
     }
+    return;
+  }
+  if (d.hov && d.hov.classList.contains('dtask')) {
+    mIntoAsk(d.id, d.hov.dataset.id);
     return;
   }
   if (d.hov) {
@@ -12672,6 +13115,55 @@ function mDragEnd(cancel) {
   if (before ? before === sameNext : !sameNext) return;
   mMoveBlock(d.id, before ? { before } : { after }, 'Déplacée');
 }
+/* tâche lâchée sur une tâche : sous-tâche, commentaire, ou seulement ses liens */
+function mIntoAsk(srcId, tgtId) {
+  const src = items[idx(srcId)],
+    tgt = items[idx(tgtId)];
+  if (!src || !tgt) return;
+  let d = document.getElementById('mInto');
+  if (!d) {
+    d = document.createElement('dialog');
+    d.id = 'mInto';
+    document.body.append(d);
+    d.addEventListener('click', e => {
+      if (e.target === d) d.close(); /* toucher le fond grisé : annuler */
+    });
+  }
+  d.innerHTML = '';
+  const t = document.createElement('p');
+  t.className = 'mit';
+  t.textContent = '«\u00a0' + src.text + '\u00a0» dans «\u00a0' + tgt.text + '\u00a0»';
+  d.append(t);
+  for (const c of intoChoices(srcId)) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'mitem';
+    b.dataset.k = c.k;
+    b.textContent = c.l;
+    if (c.sub) {
+      const s = document.createElement('small');
+      s.textContent = c.sub;
+      b.append(s);
+    }
+    b.onclick = () => {
+      d.close();
+      const r = intoApply(c.k, srcId, tgtId);
+      if (r) {
+        mRender();
+        mUndoToast(r.msg);
+      }
+    };
+    d.append(b);
+  }
+  const no = document.createElement('button');
+  no.type = 'button';
+  no.className = 'mitem mino';
+  no.textContent = 'Annuler';
+  no.onclick = () => d.close();
+  d.append(no);
+  d.showModal();
+  buzz('tick');
+}
 function mNoteDropToSec(nid, sec) {
   const n = notes.find(z => z.id === nid);
   if (!n) return;
@@ -12683,6 +13175,7 @@ function mNoteDropToSec(nid, sec) {
   notes = notes.filter(z => z !== n);
   const t = mAddTask(sp.title, sp.note, sec || null, 'afaire', (n.at || '').slice(0, 10) || todayISO());
   if (dt) t.due = dt.d;
+  noteLinksTo(n, t);
   if (sp.subs.length)
     items.splice(
       idx(t.id) + 1,
@@ -12789,6 +13282,7 @@ function mFillAct() {
     el.disabled = ro;
   });
   $('#aDel').hidden = ro;
+  $('#aToNote').hidden = ro;
   $('#aNewRow').hidden = ro;
   $('#aTool').hidden = ro;
   $('#aArch').hidden = ro || items[i].state !== 'fait';
@@ -13194,6 +13688,14 @@ function mInitAct() {
       'Supprimée'
     );
   };
+  $('#aToNote').onclick = () => {
+    const id = mActId;
+    $('#mAct').close();
+    if (taskToNote(id)) {
+      mRender();
+      mUndoToast('Devenue note');
+    }
+  };
   $('#aArch').onclick = () => {
     const id = mActId;
     $('#mAct').close();
@@ -13369,6 +13871,7 @@ function mOpenNote(id, text) {
   const n = id ? notes.find(x => x.id === id) : null;
   if (id && !n) return;
   $('#nText').value = n ? n.text : text || '';
+  mNoteLinks(n);
   $('#nMeta').textContent = n ? 'Note du ' + mStamp(n.at) : 'Nouvelle note';
   $('#nTriage').hidden = false;
   $('#nDel').hidden = !n;
@@ -13388,6 +13891,32 @@ function mOpenNote(id, text) {
     t.focus();
     t.setSelectionRange(t.value.length, t.value.length);
   }
+}
+/* liens reliés à la note, avec une croix pour en retirer un */
+function mNoteLinks(n) {
+  const box = $('#nLinks');
+  box.innerHTML = '';
+  if (!n || !n.links || !n.links.length) return;
+  const d = mLinks(n.links);
+  [...d.children].forEach((a, k) => {
+    const x = document.createElement('button');
+    x.type = 'button';
+    x.className = 'nlx';
+    x.textContent = '×';
+    x.title = 'Retirer ce lien';
+    x.onclick = e => {
+      e.preventDefault();
+      e.stopPropagation();
+      snapshot();
+      n.links.splice(k, 1);
+      if (!n.links.length) delete n.links;
+      changed();
+      mRender();
+      mNoteLinks(n);
+    };
+    a.after(x);
+  });
+  box.append(d);
 }
 let mNoteDone = false;
 /* la note en cours : enregistrée (n) ou en train d'être saisie (n = null) */
@@ -13661,6 +14190,7 @@ function mNoteToTask() {
   const t = mAddTask(sp.title, sp.note, sec, st, (src.at || '').slice(0, 10) || todayISO());
   if (due) t.due = due;
   if (who) t.waitFor = who;
+  noteLinksTo(n, t);
   if (sp.subs.length)
     items.splice(
       idx(t.id) + 1,
@@ -13688,6 +14218,7 @@ function mNoteToComment(taskId) {
   snapshot();
   if (n) notes = notes.filter(x => x !== n);
   it.note = (it.note ? it.note.replace(/\s+$/, '') + '\n' : '') + pre + v;
+  noteLinksTo(n, it);
   normalize();
   changed();
   mNoteDone = true;
@@ -14087,7 +14618,8 @@ function mInitPull() {
   });
 }
 /* ---------- fichier partagé vers l'appli : nouvelle tâche, ou pièce jointe d'une tâche existante ---------- */
-let mAttInfo = null;
+let mAttInfo = null,
+  mAttMode = 'new';
 window.tachesAndroidFile = info => {
   if (!AND) return;
   const d = document.querySelector('dialog[open]');
@@ -14120,6 +14652,11 @@ window.tachesAndroidFile = info => {
   opt('', 'Hors rubrique');
   for (const h of items.filter(x => x.kind === 'h')) opt(h.id, h.text);
   sel.value = idx(mState.sec) >= 0 ? mState.sec : '';
+  $('#tNoteTx').value = $('#tTitle').value;
+  $('#tHelp').textContent =
+    backend && backend.direct
+      ? 'Le fichier sera rangé tout seul dans «\u00a0Pièces jointes\u00a0», à côté de taches.md (hors des heures de travail\u00a0: à la reprise).'
+      : 'Le fichier sera confié à OneDrive\u00a0: choisis-y le dossier «\u00a0Pièces jointes\u00a0», à côté de taches.md, sans changer son nom.';
   mAttPanel('new');
   $('#tQ').value = '';
   const b = $('#tOk');
@@ -14130,8 +14667,11 @@ window.tachesAndroidFile = info => {
 function mAttPanel(p) {
   document.querySelectorAll('#mAtt .ntabs button').forEach(b => b.classList.toggle('on', b.dataset.p === p));
   $('#tNew').hidden = p !== 'new';
+  $('#tNoteP').hidden = p !== 'note';
   $('#tJoin').hidden = p !== 'join';
-  $('#tOk').hidden = p !== 'new';
+  $('#tOk').hidden = p === 'join';
+  $('#tOk').textContent = p === 'note' ? 'Créer la note' : 'Créer la tâche';
+  mAttMode = p;
   if (p === 'join') mAttList();
 }
 function mAttList() {
@@ -14139,6 +14679,19 @@ function mAttList() {
     box = $('#tPick');
   box.innerHTML = '';
   let n = 0;
+  /* les notes d'abord : un fichier peut aussi s'y relier */
+  for (const z of sortedNotes()) {
+    if (!z.text.trim() || (q && !z.text.toLowerCase().includes(q))) continue;
+    if (n++ >= 40) break;
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = '📝 ' + plainFmt(z.text.split('\n')[0]);
+    const sm = document.createElement('small');
+    sm.textContent = 'Note · ' + mStampShort(z.at);
+    b.append(sm);
+    b.onclick = () => mAttSave(null, z.id);
+    box.append(b);
+  }
   items.forEach((it, i) => {
     if (it.kind !== 't' || it.level !== 0 || it.state === 'fait' || !it.text.trim()) return;
     if (q && !it.text.toLowerCase().includes(q)) return;
@@ -14155,15 +14708,21 @@ function mAttList() {
   });
   if (!n) box.innerHTML = '<p class="ameta">Aucune tâche ne correspond.</p>';
 }
-async function mAttSave(joinId) {
+async function mAttSave(joinId, noteId) {
   if (!backend) {
     toast('Choisis d’abord ton fichier taches.md');
     return;
   }
   const name = $('#tName').value.trim() || (mAttInfo && mAttInfo.name) || 'fichier',
     title = $('#tTitle').value.replace(/\s+/g, ' ').trim();
-  if (!joinId && !title) {
+  const asNote = !joinId && !noteId && mAttMode === 'note',
+    noteTx = $('#tNoteTx').value.replace(/\s+$/, '').trim();
+  if (!joinId && !noteId && !asNote && !title) {
     $('#tTitle').focus();
+    return;
+  }
+  if (asNote && !noteTx) {
+    $('#tNoteTx').focus();
     return;
   }
   const ok = $('#tOk');
@@ -14200,8 +14759,19 @@ async function mAttSave(joinId) {
   if (!rel) return;
   const link = { url: rel, label: rel.split('/').pop() };
   snapshot();
-  let tid = joinId;
-  if (joinId) {
+  let tid = joinId,
+    what = '';
+  if (noteId || asNote) {
+    let z = noteId && notes.find(x => x.id === noteId);
+    if (noteId && !z) return;
+    if (!z) {
+      z = { id: uid(), at: nowStamp(), text: noteTx };
+      notes.unshift(z);
+    }
+    (z.links || (z.links = [])).push(link);
+    tid = z.id;
+    what = noteId ? 'Fichier relié à la note' : 'Note créée avec le fichier';
+  } else if (joinId) {
     const it = items[idx(joinId)];
     if (!it) return;
     (it.links || (it.links = [])).push(link);
@@ -14217,7 +14787,8 @@ async function mAttSave(joinId) {
   mAttInfo = null;
   $('#mAtt').close();
   mRender();
-  const what = joinId ? 'Fichier joint à «\u00a0' + items[idx(joinId)].text + '\u00a0»' : 'Tâche créée avec le fichier';
+  what =
+    what || (joinId ? 'Fichier joint à «\u00a0' + items[idx(joinId)].text + '\u00a0»' : 'Tâche créée avec le fichier');
   if (!key) {
     toast(what);
     return;
@@ -14334,10 +14905,7 @@ async function mCheckUpdate(force) {
   /* juste après une mise à jour : le dire une fois */
   const prev = mstore.get('taches-app-version');
   mstore.set('taches-app-version', a);
-  if (prev && a > prev) {
-    if (newsUnseen().length) newsToast();
-    else toast('Compagnon Android mis à jour\u00a0: ' + compV(a));
-  }
+  if (prev && a > prev) vcOpenComp(prev, a);
   try {
     b = parseInt(await andCall('checkUpdate'), 10) || 0;
   } catch (e) {}
