@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261015105118">
+<meta name="taches-page" content="20261015111056">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -4799,6 +4799,22 @@ body.mobile:has(dialog:modal) {
   padding-top: 0.4rem;
   border-top: 1px solid var(--line);
 }
+.inote.editing .fmtb .ent {
+  margin: 0 0.6rem 0 0;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+.inote.editing .fmtb .ent.on {
+  opacity: 1;
+}
+.inote .fmtb .ent kbd {
+  font: inherit;
+  font-weight: 600;
+  color: var(--fg);
+  opacity: 0.7;
+}
 .inote.editing .fmtb .sp {
   flex: 1;
 }
@@ -7599,7 +7615,7 @@ function editNote(id) {
     I(
       '<circle cx="5" cy="7" r="1.2" fill="currentColor" stroke="none"/><circle cx="5" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="5" cy="17" r="1.2" fill="currentColor" stroke="none"/><path d="M9.5 7H20M9.5 12H20M9.5 17H20"/>'
     ) +
-    '</button><span class="sp"></span><button type="button" data-f="ok" class="fok" title="Enregistrer (Ctrl+Entrée, ou Entrée sur une note d’une ligne) · Échap : annuler">' +
+    '</button><span class="sp"></span><span class="hint ent"><kbd>Entrée</kbd> enregistrer · <kbd>Maj+Entrée</kbd> titre</span><button type="button" data-f="ok" class="fok" title="Enregistrer (Ctrl+Entrée, ou Entrée sur une note d’une ligne) · Échap : annuler">' +
     I('<path d="M5 12.5l4.5 4.5L19 7.5"/>') +
     '</button>';
   bar.onmousedown = e => e.preventDefault();
@@ -7614,6 +7630,10 @@ function editNote(id) {
     ed.focus();
   };
   c.append(bar);
+  /* note d'une ligne : rappeler ce que fait Entrée (voir onkeydown) */
+  const ent = bar.querySelector('.ent'),
+    entSync = () => ent.classList.toggle('on', ed.children.length === 1 && !ed.children[0].classList.contains('b'));
+  entSync();
   /* texte sélectionné : petite barre G | I | liste juste au-dessus de la sélection */
   const sel = document.createElement('div');
   sel.className = 'selbar';
@@ -7646,6 +7666,7 @@ function editNote(id) {
     requestAnimationFrame(() => {
       selPlace();
       if (!ed._comp) edAct(ed);
+      entSync();
     });
   document.addEventListener('selectionchange', onSel);
   let cancelled = false;
@@ -7676,6 +7697,7 @@ function editNote(id) {
     else hist.push(false, e.inputType);
   });
   ed.addEventListener('input', e => {
+    entSync();
     if (e.isComposing || ed._comp) return;
     edNorm(ed);
     edSync(ed);
@@ -12825,6 +12847,14 @@ function mHistFill(box, tr) {
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES = [
+  {
+    d: '2026-10-15 13:09',
+    type: 'web',
+    v: '2.23.2',
+    items: [
+      'PC\u00a0: tant qu’une note n’a qu’une ligne, la barre du bas le rappelle\u00a0: «\u00a0Entrée enregistrer · Maj+Entrée titre\u00a0». L’indication s’efface dès la deuxième ligne.'
+    ]
+  },
   {
     d: '2026-10-15 12:49',
     type: 'web',
