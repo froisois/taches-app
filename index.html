@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261015113237">
+<meta name="taches-page" content="20261015122336">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -731,6 +731,37 @@ body.dragging .tools {
 }
 .tools > button:hover {
   opacity: 1 !important;
+}
+.tools > .more {
+  display: inline-flex;
+  align-items: center;
+  color: var(--fg);
+}
+/* sous la tâche en cours d'écriture : ajouter à la souris */
+#list .qadd {
+  display: flex;
+  gap: 0.2rem;
+  margin: 0.15rem 0 0.05rem 1.55rem;
+  animation: qaddIn 0.18s ease-out;
+}
+#list .qadd button {
+  border: none;
+  background: none;
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  color: var(--muted);
+  cursor: pointer;
+}
+#list .qadd button:hover {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+@keyframes qaddIn {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
 }
 .due {
   display: inline-block;
@@ -6654,6 +6685,13 @@ function makeRow(it) {
   al.title = 'Relier un e-mail, un document ou une page (ou colle directement un lien ou un chemin dans la tâche)';
   al.tabIndex = -1;
   tools.append(al);
+  const mo = document.createElement('button');
+  mo.className = 'more';
+  mo.innerHTML =
+    '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><circle cx="5.5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="18.5" cy="12" r="1.7"/></svg>';
+  mo.tabIndex = -1;
+  mo.title = 'Toutes les actions : sous-tâche, commentaire, rubrique… (aussi au clic droit)';
+  tools.append(mo);
   const x = document.createElement('button');
   x.className = 'del';
   x.textContent = '×';
@@ -9656,6 +9694,20 @@ list.addEventListener('click', e => {
     toggleUrgent(ug.closest('.row').dataset.id, false);
     return;
   }
+  const mo = e.target.closest('.tools .more');
+  if (mo) {
+    const r = mo.getBoundingClientRect();
+    ctxOpen(cardEntries(mo.closest('.row').dataset.id, r.left, r.bottom), r.left, r.bottom + 4);
+    return;
+  }
+  const qa = e.target.closest('.qadd button');
+  if (qa) {
+    const id = qa.closest('.qadd').dataset.id;
+    qaddDrop();
+    if (qa.dataset.a === 'sub') addSubOf(id);
+    else openNote(idx(id));
+    return;
+  }
   const al = e.target.closest('.addl');
   if (al) {
     askLink(al.closest('.row').dataset.id);
@@ -10459,6 +10511,37 @@ function stopDrag(apply) {
   dropTarget = null;
   if (apply && id && t) dropBlock(id, t);
 }
+
+/* tâche en cours d'écriture : « + sous-tâche » et « + commentaire » sous elle, pour la souris (raccourcis dans les bulles) */
+function qaddDrop() {
+  document.querySelectorAll('#list .qadd').forEach(q => q.remove());
+}
+list.addEventListener('focusin', e => {
+  const t = e.target.closest('.row.top .txt');
+  if (!t) return;
+  const row = t.closest('.row'),
+    card = row.closest('.card'),
+    it = items[idx(row.dataset.id)];
+  if (!card || !it) return;
+  const old = card.querySelector(':scope > .qadd');
+  if (old && old.dataset.id === it.id) return;
+  qaddDrop();
+  const q = document.createElement('div');
+  q.className = 'qadd';
+  q.dataset.id = it.id;
+  q.innerHTML =
+    '<button type="button" data-a="sub" title="Ajouter une sous-tâche (Alt+Entrée puis Tab)">+ sous-tâche</button>' +
+    (it.note ? '' : '<button type="button" data-a="cmt" title="Ajouter un commentaire (Maj+Entrée)">+ commentaire</button>');
+  q.onmousedown = ev => ev.preventDefault(); /* le clic ne fait pas perdre la main à la tâche */
+  card.append(q);
+});
+list.addEventListener('focusout', e => {
+  if (!e.target.closest('.row.top .txt')) return;
+  setTimeout(() => {
+    const a = document.activeElement;
+    if (!(a && a.closest && a.closest('.row.top .txt'))) qaddDrop();
+  }, 0);
+});
 /* ---------- menu volant (PC) : en attrapant une note ou une tâche et en quittant sa zone (bandeau des notes, rubrique
    de la tâche), la page se grise et les rubriques flottent en arc ; survoler une rubrique déploie ses tâches.
    Lâcher : sur une rubrique (nouvelle tâche, ou tâche rangée), sur une tâche (note : commentaire ou sous-tâche ;
@@ -12888,6 +12971,16 @@ function mHistFill(box, tr) {
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES = [
+  {
+    d: '2026-10-15 14:21',
+    type: 'web',
+    v: '2.24',
+    t: 'Tout à la souris (PC)',
+    items: [
+      'PC\u00a0: un bouton «\u00a0⋯\u00a0» rejoint les petits boutons qui apparaissent au survol d’une tâche. Il ouvre le menu du clic droit (sous-tâche, commentaire, lien, rubrique, couleur…), avec les raccourcis en face de chaque action.',
+      'PC\u00a0: sous la tâche en cours d’écriture, «\u00a0+ sous-tâche\u00a0» et «\u00a0+ commentaire\u00a0» en petit. Ils disparaissent dès qu’on en sort.'
+    ]
+  },
   {
     d: '2026-10-15 13:30',
     type: 'web',
