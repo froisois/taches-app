@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261015090502">
+<meta name="taches-page" content="20261015091249">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -2946,10 +2946,31 @@ body.mobile button:focus {
   white-space: pre-wrap;
   word-break: break-word;
   margin-top: 0.15rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
+  max-height: 6.9em; /* cinq lignes ; « tout voir » déplie */
   overflow: hidden;
+  transition: max-height 0.32s cubic-bezier(0.25, 0.8, 0.3, 1);
+}
+.mnotec.long:not(.open) .tx {
+  -webkit-mask-image: linear-gradient(#000 70%, transparent);
+  mask-image: linear-gradient(#000 70%, transparent);
+}
+.mnotec .mmore {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0.25rem 0 -0.15rem auto;
+  padding: 0.2rem 0.1rem 0.2rem 0.6rem;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+.mnotec .mmore svg {
+  transition: transform 0.25s;
+}
+.mnotec.open .mmore svg {
+  transform: rotate(180deg);
 }
 .mtabs:empty {
   display: none;
@@ -3100,7 +3121,7 @@ body.mobile button:focus {
   min-width: 9rem;
   max-width: 100%;
   min-height: 3.3rem;
-  padding: 0.35rem 3.7rem 0.45rem 0.6rem;
+  padding: 0.35rem 0.75rem 0.45rem 0.6rem;
   border: 1px solid var(--line);
   border-left: 4px solid var(--note-bar);
   border-radius: 8px;
@@ -3111,6 +3132,8 @@ body.mobile button:focus {
   opacity: 0.4;
 }
 .inote .when {
+  /* la place des boutons (archiver, copier, supprimer) n'est réservée que sur la ligne de la date */
+  padding-right: 3rem;
   font-size: 0.72rem;
   color: var(--muted);
 }
@@ -11820,6 +11843,7 @@ async function withBusy(label, fn) {
     busyEnd(ok);
   }
 }
+const mNotesOpen = new Set(); /* notes dépliées (le temps de la session) */
 function mAgo(ms) {
   const m = Math.round((Date.now() - ms) / 60000);
   if (m < 1) return 'à l’instant';
@@ -12172,6 +12196,31 @@ function mRender() {
             t.className = 'tx';
             t.innerHTML = noteView(n.text);
             c.append(w, t);
+            /* note longue : « tout voir » la déplie sur place, sans l'ouvrir */
+            requestAnimationFrame(() => {
+              if (t.scrollHeight <= t.clientHeight + 2) return;
+              c.classList.add('long');
+              const mb = document.createElement('button');
+              mb.type = 'button';
+              mb.className = 'mmore tap';
+              const lab = () =>
+                (c.classList.contains('open') ? 'réduire' : 'tout voir') +
+                '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+              const set = open => {
+                c.classList.toggle('open', open);
+                t.style.maxHeight = open ? t.scrollHeight + 'px' : '';
+                mb.innerHTML = lab();
+                if (open) mNotesOpen.add(n.id);
+                else mNotesOpen.delete(n.id);
+              };
+              mb.onclick = e => {
+                e.stopPropagation();
+                set(!c.classList.contains('open'));
+                buzz('tick');
+              };
+              t.after(mb);
+              set(mNotesOpen.has(n.id));
+            });
             if (n.links && n.links.length) {
               const lk = mLinks(n.links);
               lk.onclick = e => e.stopPropagation(); /* ouvrir le lien, pas la note */
@@ -12521,6 +12570,15 @@ function mHistFill(box, tr) {
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES = [
+  {
+    d: '2026-10-15 11:35',
+    type: 'web',
+    v: '2.22.2',
+    items: [
+      'Téléphone : une note longue se déplie sur place (« tout voir »), sans avoir à l’ouvrir. « réduire » la replie ; elle reste dépliée le temps de la session.',
+      'PC : le texte d’une note utilise toute la largeur (la place des petits boutons n’est plus réservée que sur la ligne de la date) ; plus de mot renvoyé à la ligne alors qu’il y avait de la place.'
+    ]
+  },
   {
     d: '2026-10-15 11:30',
     type: 'web',
