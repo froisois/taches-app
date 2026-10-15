@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261015111925">
+<meta name="taches-page" content="20261015113237">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -7422,14 +7422,36 @@ function edAct(root, sel) {
     });
   });
 }
+function edSameShape(L, html) {
+  const tpl = document.createElement('div');
+  tpl.innerHTML = html;
+  const cur = L.innerHTML.replace(/ data-[se]="\d+"/g, '').replace(/ class="f f([bi]) on"/g, ' class="f f$1"'),
+    nxt = tpl.innerHTML.replace(/ data-[se]="\d+"/g, '');
+  if (cur !== nxt) return false;
+  const a = L.querySelectorAll('.f'),
+    b = tpl.querySelectorAll('.f');
+  a.forEach((x, i) => {
+    x.dataset.s = b[i].dataset.s;
+    x.dataset.e = b[i].dataset.e;
+  });
+  return true;
+}
 /* re-décorer les lignes dont le texte a changé, en gardant le curseur à la même place dans le texte */
 function edSync(root) {
   const sel = edSel(root);
   let touched = false;
   for (const L of root.children) {
     const t = L.textContent;
-    if (L._src === t && !L.querySelector('b,i,strong,em,font,span:not(.f):not(.mk)')) continue;
-    L.innerHTML = edLineHtml(t);
+    const foreign = !!L.querySelector('b,i,strong,em,font,span:not(.f):not(.mk)');
+    if (L._src === t && !foreign) continue;
+    const html = edLineHtml(t);
+    if (!foreign && edSameShape(L, html)) {
+      /* même découpage qu'avant (on a tapé dans un mot) : on ne touche pas au texte, sinon le correcteur
+         orthographique d'Edge perd ses soulignements ; seules les positions des passages sont mises à jour */
+      L._src = t;
+      continue;
+    }
+    L.innerHTML = html;
     L._src = t;
     touched = true;
   }
@@ -12867,6 +12889,15 @@ function mHistFill(box, tr) {
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES = [
   {
+    d: '2026-10-15 13:30',
+    type: 'web',
+    v: '2.23.4',
+    items: [
+      'PC\u00a0: le correcteur orthographique d’Edge souligne de nouveau les fautes pendant l’édition d’une note.',
+      'Téléphone\u00a0: quand une nouvelle version arrive pendant une synchronisation, la coche verte du rechargement s’affiche seule, sans «\u00a0À jour\u00a0» par-dessus.'
+    ]
+  },
+  {
     d: '2026-10-15 13:17',
     type: 'web',
     v: '2.23.3',
@@ -16392,6 +16423,7 @@ function buzz(p) {
 /* nouvelle version de l'application web, installée sur le téléphone seulement : pastille verte habituelle, puis rechargement.
    La fête arc-en-ciel vient après, sur la carte de version, quand la copie est déposée dans OneDrive pour le PC. */
 async function mPartyReload() {
+  busyQuiet(true); /* la coche du rechargement parle seule (sinon « À jour » de la synchro se pose dessus) */
   const ind = document.querySelector('.mpull');
   if (ind) {
     const ic = ind.firstChild;
