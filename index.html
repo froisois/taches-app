@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261015083929">
+<meta name="taches-page" content="20261015084925">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -4706,6 +4706,171 @@ body.mobile:has(dialog:modal) {
   border-top-color: var(--accent);
   animation: mReloadTurn 0.8s linear infinite;
 }
+
+/* notes : la première ligne d'une note de plusieurs lignes fait office de titre */
+.inote .nt1,
+.mnotec .nt1,
+.inote .ned > div:first-child:not(:only-child) {
+  font-weight: 650;
+}
+/* PC : modifier une note sur place (2.22) — la note se soulève, le reste du bandeau s'efface un peu */
+#inbox.noting .inote:not(.editing) {
+  opacity: 0.45;
+  transition: opacity 0.2s;
+}
+.inote.editing {
+  min-width: min(30rem, calc(100vw - 6rem));
+  border-left-color: var(--accent);
+  background: var(--panel, var(--bg));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent),
+    0 10px 28px rgba(0, 0, 0, 0.16);
+  transform: translateY(-2px);
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
+  z-index: 2;
+}
+.inote .ned {
+  min-height: 1.4em;
+  max-width: calc(100vw - 8rem);
+  padding: 0.1rem 0;
+  cursor: text;
+  white-space: normal;
+}
+.inote .ned > div {
+  min-height: 1.35em;
+}
+.inote .ned > div.b {
+  position: relative;
+  padding-left: 1.05em;
+}
+.inote .ned > div.b::before {
+  content: '•';
+  position: absolute;
+  left: 0.2em;
+  color: var(--accent);
+}
+.inote.editing .fmtb {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.45rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid var(--line);
+}
+.inote.editing .fmtb .sp {
+  flex: 1;
+}
+.inote.editing .fmtb button {
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  font-size: 0.9rem;
+  line-height: 1;
+  color: var(--muted);
+  transition:
+    background 0.15s,
+    color 0.15s,
+    transform 0.1s;
+}
+.inote.editing .fmtb button:hover {
+  background: color-mix(in srgb, var(--fg) 7%, transparent);
+  color: var(--fg);
+}
+.inote.editing .fmtb button:active {
+  transform: scale(0.92);
+}
+.inote.editing .fmtb .fok {
+  background: var(--accent);
+  color: #fff;
+  border-radius: 50%;
+}
+.inote.editing .fmtb .fok:hover {
+  background: var(--accent);
+  color: #fff;
+  filter: brightness(1.1);
+}
+.inote.editing .x,
+.inote.editing .cp,
+.inote.editing .ar {
+  display: none;
+}
+.inote.editing {
+  padding-right: 0.75rem;
+}
+
+/* affichage des notes : une ligne par bloc, puces vert sapin en retrait, comme dans l'éditeur */
+.inote .tx:not(.ned),
+.mnotec .tx {
+  white-space: normal;
+}
+.inote .tx > div,
+.mnotec .tx > div {
+  white-space: pre-wrap;
+  min-height: 1.35em;
+}
+.inote .tx > div.li,
+.mnotec .tx > div.li {
+  position: relative;
+  padding-left: 1.05em;
+}
+.inote .tx > div.li::before,
+.mnotec .tx > div.li::before {
+  content: '•';
+  position: absolute;
+  left: 0.2em;
+  color: var(--accent);
+}
+
+/* PC : barre de mise en forme au-dessus du texte sélectionné dans une note */
+.selbar {
+  position: fixed;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  padding: 0.2rem;
+  border-radius: 10px;
+  background: var(--fg);
+  color: var(--bg);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px) scale(0.94);
+  transition:
+    opacity 0.14s,
+    transform 0.18s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+.selbar.on {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+.selbar button {
+  display: grid;
+  place-items: center;
+  min-width: 2rem;
+  height: 1.9rem;
+  padding: 0 0.4rem;
+  border: none;
+  border-radius: 7px;
+  background: none;
+  color: inherit;
+  font-size: 0.95rem;
+}
+.selbar button:hover {
+  background: color-mix(in srgb, var(--bg) 18%, transparent);
+}
+.selbar .sep {
+  width: 1px;
+  height: 1.1rem;
+  background: color-mix(in srgb, var(--bg) 30%, transparent);
+}
 </style>
 </head>
 <body>
@@ -6722,6 +6887,19 @@ function fmtView(t) {
   const e = bulletsView(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
   return e.replace(RX_B, '<strong>$1</strong>').replace(RX_I, '$1<em>$2</em>');
 }
+/* une note de plusieurs lignes : la première fait office de titre (elle devient l'intitulé si la note devient tâche) */
+function noteView(t) {
+  /* une ligne par bloc, comme dans l'éditeur : mêmes puces, même titre */
+  const ls = (t || '').split('\n'),
+    multi = ls.filter(l => l.trim()).length > 1;
+  return ls
+    .map((l, k) => {
+      const m = /^\s*[-*•] (.*)$/.exec(l),
+        h = escHtml(m ? m[1] : l).replace(RX_B, '<strong>$1</strong>').replace(RX_I, '$1<em>$2</em>');
+      return '<div class="' + (m ? 'li' : '') + (k === 0 && multi ? ' nt1' : '') + '">' + (h || '<br>') + '</div>';
+    })
+    .join('');
+}
 function plainFmt(s) {
   return (s || '').replace(RX_B, '$1').replace(RX_I, '$1$2');
 }
@@ -6888,7 +7066,7 @@ function renderInbox() {
   hd.innerHTML = '<strong></strong><span class="hint"></span>';
   hd.querySelector('strong').textContent = notes.length ? 'Notes à trier (' + notes.length + ')' : 'Notes';
   hd.querySelector('.hint').textContent = notes.length
-    ? 'glisse une note hors du bandeau\u00a0: les rubriques s’affichent, lâche-la sur l’une d’elles ou sur une de ses tâches · entre les notes pour les ranger · double-clic pour modifier'
+    ? 'glisse une note hors du bandeau\u00a0: les rubriques s’affichent, lâche-la sur l’une d’elles ou sur une de ses tâches · entre les notes pour les ranger · clic pour modifier'
     : 'aucune note à trier';
   box.append(hd);
   const add = () => {
@@ -6916,7 +7094,7 @@ function renderInbox() {
     w.textContent = n.at ? fmtStamp(n.at) : '';
     const t = document.createElement('div');
     t.className = 'tx';
-    t.innerHTML = fmtView(n.text);
+    t.innerHTML = noteView(n.text);
     const x = document.createElement('button');
     x.className = 'x';
     x.textContent = '×';
@@ -6989,7 +7167,11 @@ function renderInbox() {
       render();
       changed();
     };
-    t.ondblclick = () => editNote(n.id);
+    /* un clic suffit pour modifier (un glisser ne déclenche pas de clic) ; les liens restent cliquables */
+    t.onclick = e => {
+      if (e.target.closest('a')) return;
+      editNote(n.id);
+    };
     c.append(w, t, ar, cp, x);
     if (n.links && n.links.length) {
       const lk = mkLinks(n.links, true);
@@ -7045,59 +7227,250 @@ function flashNote(id) {
   c.classList.add('flash');
   setTimeout(() => c.classList.remove('flash'), 2000);
 }
-/* modifier une note sur place : champ à la taille du texte, Ctrl+B gras, Ctrl+I italique, « - » liste ; Échap annule, clic ailleurs enregistre */
+/* ---------- modifier une note sur place, telle qu'elle s'affiche (gras, italique, puces), sans symboles techniques ;
+   le fichier garde le même format (**gras**, *italique*, « - » en début de ligne). Ctrl+B, Ctrl+I, Ctrl+L (liste) ;
+   Ctrl+Entrée ou clic ailleurs : enregistrer ; Échap : annuler. ---------- */
+function escHtml(s) {
+  return s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+}
+function noteToEd(text) {
+  return (text || '')
+    .split('\n')
+    .map(l => {
+      const m = /^\s*[-*•] (.*)$/.exec(l),
+        body = escHtml(m ? m[1] : l).replace(RX_B, '<b>$1</b>').replace(RX_I, '$1<i>$2</i>');
+      return '<div' + (m ? ' class="b"' : '') + '>' + (body || '<br>') + '</div>';
+    })
+    .join('');
+}
+function edInline(node) {
+  let s = '';
+  for (const c of node.childNodes) {
+    if (c.nodeType === 3) s += c.nodeValue;
+    else if (c.nodeType !== 1 || c.nodeName === 'BR') continue;
+    else {
+      const inner = edInline(c),
+        st = c.style || {},
+        b = /^(B|STRONG)$/.test(c.nodeName) || st.fontWeight === 'bold' || +st.fontWeight >= 600,
+        it = /^(I|EM)$/.test(c.nodeName) || st.fontStyle === 'italic';
+      const core = inner.trim(),
+        pre = inner.slice(0, inner.length - inner.trimStart().length),
+        post = inner.slice(inner.trimEnd().length);
+      if (!core || (!b && !it)) s += inner;
+      else s += pre + (b ? '**' : '') + (it ? '*' : '') + core + (it ? '*' : '') + (b ? '**' : '') + post;
+    }
+  }
+  return s;
+}
+function edToNote(root) {
+  const L = [];
+  let buf = null;
+  const flush = () => {
+    if (buf != null) L.push(buf);
+    buf = null;
+  };
+  const block = el => {
+    /* un bloc peut en contenir d'autres (collage) : on aplatit */
+    if ([...el.children].some(x => /^(DIV|P|LI|UL|OL)$/.test(x.nodeName))) {
+      for (const c of el.childNodes) visit(c);
+      flush();
+      return;
+    }
+    flush();
+    const b = el.classList.contains('b') || el.nodeName === 'LI';
+    L.push((b ? '- ' : '') + edInline(el));
+  };
+  const visit = c => {
+    if (c.nodeType === 1 && /^(DIV|P|LI|UL|OL)$/.test(c.nodeName)) block(c);
+    else if (c.nodeName === 'BR') {
+      L.push(buf || '');
+      buf = null;
+    } else {
+      const w = document.createElement('span');
+      w.append(c.cloneNode(true));
+      buf = (buf || '') + edInline(w);
+    }
+  };
+  for (const c of [...root.childNodes]) visit(c);
+  flush();
+  return L.map(l => l.replace(/\u00a0/g, ' ').replace(/\s+$/, ''))
+    .join('\n')
+    .replace(/^\s+|\s+$/g, '');
+}
+/* ligne où se trouve le curseur (bloc direct du champ) */
+function edLine(root) {
+  const s = getSelection();
+  if (!s.rangeCount) return null;
+  let n = s.getRangeAt(0).startContainer;
+  while (n && n.parentNode !== root) n = n.parentNode;
+  return n && n.nodeType === 1 ? n : null;
+}
+function edLinesInSel(root) {
+  const s = getSelection();
+  if (!s.rangeCount) return [];
+  const r = s.getRangeAt(0);
+  return [...root.children].filter(d => r.intersectsNode(d));
+}
+function edToggleList(root) {
+  const ls = edLinesInSel(root);
+  if (!ls.length) return;
+  const on = !ls.every(d => d.classList.contains('b'));
+  ls.forEach(d => d.classList.toggle('b', on));
+}
+/* « - » tapé (ou collé) en début de ligne devient une puce */
+function edNorm(root) {
+  for (const n of [...root.childNodes]) {
+    if (n.nodeType === 3 && n.nodeValue.trim()) {
+      const d = document.createElement('div');
+      n.replaceWith(d);
+      d.append(n);
+    }
+  }
+  for (const d of root.children) {
+    if (!/^[-*•][ \u00a0]/.test(d.textContent)) continue;
+    const w = document.createTreeWalker(d, NodeFilter.SHOW_TEXT);
+    let f = w.nextNode();
+    while (f && !f.nodeValue) f = w.nextNode();
+    if (f && /^[-*•][ \u00a0]/.test(f.nodeValue)) {
+      f.nodeValue = f.nodeValue.slice(2);
+      d.classList.add('b');
+      if (!d.textContent) d.innerHTML = '<br>';
+      const r = document.createRange();
+      r.setStart(f.isConnected ? f : d.firstChild, 0);
+      r.collapse(true);
+      const s = getSelection();
+      s.removeAllRanges();
+      s.addRange(r);
+    }
+  }
+}
 function editNote(id) {
   const c = document.querySelector('.inote[data-id="' + id + '"]'),
     n = notes.find(y => y.id === id);
   if (!c || !n) return;
   const old = c.querySelector('.tx'),
-    ta = document.createElement('textarea');
-  ta.className = 'tx';
-  ta.value = n.text;
-  ta.spellcheck = true;
-  old.replaceWith(ta);
+    ed = document.createElement('div');
+  ed.className = 'tx ned';
+  ed.contentEditable = 'true';
+  ed.spellcheck = true;
+  ed.innerHTML = noteToEd(n.text) || '<div><br></div>';
+  old.replaceWith(ed);
   c.classList.add('editing');
+  $('#inbox').classList.add('noting');
   c.draggable = false;
   const bar = document.createElement('div');
   bar.className = 'fmtb';
+  const I = p =>
+    '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    p +
+    '</svg>';
   bar.innerHTML =
-    '<button type="button" data-f="b" title="Gras (Ctrl+B)"><b>G</b></button><button type="button" data-f="i" title="Italique (Ctrl+I)"><i>I</i></button><button type="button" data-f="l" title="Liste (Ctrl+L)">• liste</button><span class="hint">Entrée : à la ligne · clic ailleurs : enregistrer · Échap : annuler</span>';
+    '<button type="button" data-f="b" title="Gras (Ctrl+B)"><b>G</b></button><button type="button" data-f="i" title="Italique (Ctrl+I)"><i>I</i></button><button type="button" data-f="l" title="Liste à puces (Ctrl+L, ou « - » en début de ligne)">' +
+    I(
+      '<circle cx="5" cy="7" r="1.2" fill="currentColor" stroke="none"/><circle cx="5" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="5" cy="17" r="1.2" fill="currentColor" stroke="none"/><path d="M9.5 7H20M9.5 12H20M9.5 17H20"/>'
+    ) +
+    '</button><span class="sp"></span><button type="button" data-f="ok" class="fok" title="Enregistrer (Ctrl+Entrée) · Échap : annuler">' +
+    I('<path d="M5 12.5l4.5 4.5L19 7.5"/>') +
+    '</button>';
   bar.onmousedown = e => e.preventDefault();
   bar.onclick = e => {
     const b = e.target.closest('button');
     if (!b) return;
-    if (b.dataset.f === 'l') toggleBullet(ta);
-    else wrapSel(ta, b.dataset.f === 'b' ? '**' : '*');
+    const f = b.dataset.f;
+    if (f === 'ok') return ed.blur();
+    if (f === 'l') edToggleList(ed);
+    else document.execCommand(f === 'b' ? 'bold' : 'italic');
+    ed.focus();
   };
   c.append(bar);
-  listKeys(ta);
+  /* texte sélectionné : petite barre G | I | liste juste au-dessus de la sélection */
+  const sel = document.createElement('div');
+  sel.className = 'selbar';
+  sel.innerHTML =
+    '<button type="button" data-f="b" title="Gras (Ctrl+B)"><b>G</b></button><i class="sep"></i><button type="button" data-f="i" title="Italique (Ctrl+I)"><i>I</i></button><i class="sep"></i><button type="button" data-f="l" title="Liste à puces (Ctrl+L)">•</button>';
+  sel.onmousedown = e => e.preventDefault();
+  sel.onclick = e => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    if (b.dataset.f === 'l') edToggleList(ed);
+    else document.execCommand(b.dataset.f === 'b' ? 'bold' : 'italic');
+    selPlace();
+  };
+  document.body.append(sel);
+  const selPlace = () => {
+    const s = getSelection();
+    if (!s.rangeCount || s.isCollapsed || !ed.contains(s.anchorNode) || !ed.contains(s.focusNode)) {
+      sel.classList.remove('on');
+      return;
+    }
+    const r = s.getRangeAt(0).getBoundingClientRect();
+    if (!r.width && !r.height) return sel.classList.remove('on');
+    sel.classList.add('on');
+    const w = sel.offsetWidth;
+    sel.style.left = Math.max(8, Math.min(innerWidth - w - 8, r.left + r.width / 2 - w / 2)) + 'px';
+    sel.style.top = Math.max(8, r.top - sel.offsetHeight - 8) + 'px';
+  };
+  const onSel = () => requestAnimationFrame(selPlace);
+  document.addEventListener('selectionchange', onSel);
   let cancelled = false;
-  ta.onkeydown = e => {
+  ed.addEventListener('paste', e => {
+    /* coller du texte brut (Outlook, Word…) : pas de mise en forme étrangère dans le fichier */
+    e.preventDefault();
+    const tx = (e.clipboardData.getData('text/plain') || '').replace(/\r\n?/g, '\n');
+    const ls = tx.split('\n');
+    ls.forEach((l, k) => {
+      if (k) document.execCommand('insertParagraph');
+      if (l) document.execCommand('insertText', false, l);
+    });
+    edNorm(ed);
+  });
+  ed.addEventListener('input', () => edNorm(ed));
+  ed.onkeydown = e => {
     e.stopPropagation();
     if (e.key === 'Escape') {
       cancelled = true;
-      ta.blur();
+      ed.blur();
       return;
     }
     if ((e.ctrlKey || e.metaKey) && !e.altKey) {
       const k = e.key.toLowerCase();
-      if (k === 'b') {
+      if (k === 'b' || k === 'i') {
         e.preventDefault();
-        wrapSel(ta, '**');
-      } else if (k === 'i') {
-        e.preventDefault();
-        wrapSel(ta, '*');
+        document.execCommand(k === 'b' ? 'bold' : 'italic');
       } else if (k === 'l') {
         e.preventDefault();
-        toggleBullet(ta);
+        edToggleList(ed);
       } else if (k === 'enter') {
         e.preventDefault();
-        ta.blur();
+        ed.blur();
+      }
+      return;
+    }
+    const line = edLine(ed);
+    if (!line || !line.classList.contains('b')) return;
+    /* Entrée sur une puce vide : fin de la liste ; Retour arrière au début d'une puce : la puce s'en va */
+    if (e.key === 'Enter' && !e.shiftKey && !line.textContent.trim()) {
+      e.preventDefault();
+      line.classList.remove('b');
+    } else if (e.key === 'Backspace') {
+      const s = getSelection(),
+        r = s.rangeCount && s.getRangeAt(0);
+      if (r && r.collapsed) {
+        const pre = document.createRange();
+        pre.selectNodeContents(line);
+        pre.setEnd(r.startContainer, r.startOffset);
+        if (!pre.toString().length) {
+          e.preventDefault();
+          line.classList.remove('b');
+        }
       }
     }
   };
-  ta.onblur = () => {
-    const v = ta.value.replace(/\s+$/, '').replace(/^\s+/, '');
+  ed.onblur = () => {
+    document.removeEventListener('selectionchange', onSel);
+    sel.remove();
+    $('#inbox').classList.remove('noting');
+    const v = edToNote(ed);
     if (!v || (cancelled && !n.text)) {
       if (n.text) {
         snapshot();
@@ -7116,12 +7489,18 @@ function editNote(id) {
       n.text = v;
       render();
       changed();
+      flashNote(n.id);
       return;
     }
     render();
   };
-  ta.focus();
-  ta.setSelectionRange(ta.value.length, ta.value.length);
+  ed.focus();
+  const r = document.createRange();
+  r.selectNodeContents(ed.lastElementChild || ed);
+  r.collapse(false);
+  const s = getSelection();
+  s.removeAllRanges();
+  s.addRange(r);
 }
 function newNote() {
   const cur = notes.find(y => !y.text);
@@ -11791,7 +12170,7 @@ function mRender() {
             w.textContent = mStampShort(n.at);
             const t = document.createElement('div');
             t.className = 'tx';
-            t.innerHTML = fmtView(n.text);
+            t.innerHTML = noteView(n.text);
             c.append(w, t);
             if (n.links && n.links.length) {
               const lk = mLinks(n.links);
@@ -12142,6 +12521,19 @@ function mHistFill(box, tr) {
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES = [
+  {
+    d: '2026-10-15 11:10',
+    type: 'web',
+    v: '2.22',
+    t: 'Éditer une note telle qu’elle s’affiche (PC)',
+    items: [
+      'PC\u00a0: un clic sur une note l’ouvre en édition, sans symboles techniques\u00a0: le gras reste gras, les puces restent des puces («\u00a0-\u00a0» en début de ligne en crée une\u00a0; Entrée sur une puce vide termine la liste). taches.md garde le même format.',
+      'La note en édition se soulève, liseré vert sapin\u00a0; les autres s’effacent un peu. Barre G · I · liste et ✓ en bas\u00a0; Ctrl+Entrée enregistre, Échap annule\u00a0; la note s’illumine à l’enregistrement.',
+      'Texte sélectionné\u00a0: petite barre G | I | • juste au-dessus.',
+      'Coller depuis Outlook ou Word\u00a0: texte seul, les lignes «\u00a0- \u00a0» deviennent des puces.',
+      'PC et téléphone\u00a0: la première ligne d’une note de plusieurs lignes s’affiche en titre\u00a0; puces vert sapin en retrait.'
+    ]
+  },
   {
     d: '2026-10-15 10:45',
     type: 'web',
