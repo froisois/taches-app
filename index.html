@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261015091249">
+<meta name="taches-page" content="20261015092647">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -6923,6 +6923,24 @@ function noteView(t) {
     })
     .join('');
 }
+/* version mise en forme pour le presse-papiers : vraie liste à puces, première ligne en gras si c'est un titre (Teams, Outlook, Word) */
+function noteHtml(t, title) {
+  const ls = (t || '').replace(/\s+$/, '').split('\n'),
+    multi = ls.filter(l => l.trim()).length > 1,
+    fmt = l => escHtml(l).replace(RX_B, '<strong>$1</strong>').replace(RX_I, '$1<em>$2</em>');
+  let h = '',
+    ul = false;
+  ls.forEach((l, k) => {
+    const m = /^\s*[-*•] (.*)$/.exec(l);
+    if (m && !ul) h += '<ul>';
+    if (!m && ul) h += '</ul>';
+    ul = !!m;
+    if (m) h += '<li>' + fmt(m[1]) + '</li>';
+    else if (!l.trim()) h += '<div><br></div>';
+    else h += '<div>' + (k === 0 && multi && title ? '<strong>' + fmt(l) + '</strong>' : fmt(l)) + '</div>';
+  });
+  return h + (ul ? '</ul>' : '');
+}
 function plainFmt(s) {
   return (s || '').replace(RX_B, '$1').replace(RX_I, '$1$2');
 }
@@ -7539,9 +7557,9 @@ function newNote() {
   $('#inbox').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 }
 /* copier : texte brut (puces •, sans astérisques) et version mise en forme quand le navigateur le permet */
-async function copyText(v, b) {
+async function copyText(v, b, note = true) {
   const text = plainFmt(bulletsView(v)),
-    html = fmtView(v).replace(/\n/g, '<br>');
+    html = noteHtml(v, note);
   let ok = false;
   try {
     await navigator.clipboard.write([
@@ -10644,7 +10662,7 @@ $('#setBtn').onclick = () => {
     d.querySelector('#sCancel').onclick = () => d.close();
     d.querySelector('#sJournal').onclick = e => {
       e.preventDefault();
-      copyText(sjText() || '(journal vide)', e.target);
+      copyText(sjText() || '(journal vide)', e.target, false);
       toast('Journal de synchronisation copié : colle-le à Claude');
     };
     d.querySelector('#sSave').onclick = () => {
@@ -12570,6 +12588,14 @@ function mHistFill(box, tr) {
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES = [
+  {
+    d: '2026-10-15 11:40',
+    type: 'web',
+    v: '2.22.3',
+    items: [
+      'Copier une note (PC et téléphone)\u00a0: une fois collée dans Teams, Outlook ou Word, la note garde une vraie liste à puces, et sa première ligne s’affiche en gras comme un titre. Au téléphone, colle par un appui long puis «\u00a0Coller\u00a0»\u202f: le texte proposé au-dessus du clavier perd la mise en forme.'
+    ]
+  },
   {
     d: '2026-10-15 11:35',
     type: 'web',
@@ -15140,7 +15166,7 @@ function mInitAct() {
     const b = $('#aCopy');
     b.onpointerdown = e => e.preventDefault();
     b.onmousedown = e => e.preventDefault();
-    b.onclick = () => mCopyText($('#aNote').value.trim(), b);
+    b.onclick = () => mCopyText($('#aNote').value.trim(), b, false, false);
   }
   const field = (sel, fn) => {
     $(sel).onchange = () => {
@@ -15593,13 +15619,13 @@ async function mSpTrial() {
     );
   }
 }
-async function mCopyText(v, b, raw) {
+async function mCopyText(v, b, raw, note = true) {
   if (!v) {
     toast('Rien à copier');
     return;
   }
   const text = raw ? v : plainFmt(bulletsView(v)),
-    html = raw ? '' : fmtView(v).replace(/\n/g, '<br>');
+    html = raw ? '' : noteHtml(v, note);
   let sys = false,
     ok = false;
   if (AND) {
