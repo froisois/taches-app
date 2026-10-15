@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261014222512">
+<meta name="taches-page" content="20261015071529">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -4618,6 +4618,94 @@ body.mobile:has(dialog:modal) {
   white-space: pre-line;
   margin: 0.6rem 0 0.3rem;
 }
+
+/* téléphone : échange avec OneDrive en cours — barre fine sous l'en-tête et pastille explicite, puis « À jour » */
+.mh {
+  position: sticky;
+}
+.msbar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 3px;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.msbar i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -40%;
+  width: 40%;
+  border-radius: 3px;
+  background: var(--accent);
+}
+.msbar.on {
+  opacity: 1;
+}
+.msbar.on i {
+  animation: msbarRun 1.1s ease-in-out infinite;
+}
+.msbar.done {
+  opacity: 0;
+  transition: opacity 0.6s 0.5s;
+}
+.msbar.done i {
+  left: 0;
+  width: 100%;
+  transition: width 0.3s;
+}
+@keyframes msbarRun {
+  0% {
+    left: -40%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+.mspill {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 0.5rem);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.8rem 0.35rem 0.6rem;
+  border-radius: 999px;
+  background: var(--panel, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--line));
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  color: var(--fg);
+  font-size: 0.82rem;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -6px) scale(0.96);
+  transition:
+    opacity 0.22s,
+    transform 0.28s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+.mspill.on {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+.mspill.ok {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+.mspill .spin {
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  border-top-color: var(--accent);
+  animation: mReloadTurn 0.8s linear infinite;
+}
 </style>
 </head>
 <body>
@@ -4672,6 +4760,8 @@ body.mobile:has(dialog:modal) {
     <button class="mbtn mupd" id="mUpd" hidden>Mettre à jour l’appli</button>
     <button class="mbtn" id="mReload">⟳ Relire</button><input type="file" id="mFile" hidden>
     <button class="mmenu" id="mMenuBtn" title="Options">⋮</button>
+    <div class="msbar" id="mSyncBar"><i></i></div>
+    <div class="mspill" id="mSyncPill" aria-live="polite"></div>
   </div>
   <div id="mFilters"></div>
   <nav class="mtabs" id="mTabs"></nav>
@@ -10569,6 +10659,7 @@ async function syncSave() {
     return;
   }
   saving = true;
+  if (MOBILE && typeof busyStart === 'function') busyStart(dirty ? 'Envoi vers OneDrive…' : 'Lecture de OneDrive…');
   try {
     let cur = await backend.read();
     const echo = staleEcho(cur);
@@ -10621,7 +10712,7 @@ async function syncSave() {
   } catch (err) {
     if (/^conflit:/.test(err && err.message) && (syncSave.retry = (syncSave.retry || 0) + 1) <= 3) {
       saving = false;
-      syncSave();
+      syncSave().finally(() => MOBILE && typeof busyEnd === 'function' && busyEnd(true));
       return;
     } /* changé en ligne entre lecture et écriture : on relit et on fusionne */
     saveErr =
@@ -10632,6 +10723,7 @@ async function syncSave() {
     toast('Échec de l’enregistrement : ' + saveErr);
   }
   saving = false;
+  if (MOBILE && typeof busyEnd === 'function') busyEnd(!saveErr);
   setStatus();
   if (saveAgain) {
     saveAgain = false;
@@ -11270,6 +11362,81 @@ function mobileHref(u) {
   }
   if (isPath(u)) return oneDriveURL(u);
   return u;
+}
+/* ---------- échange avec OneDrive en cours : barre fine sous l'en-tête et pastille qui dit ce qui se passe ;
+   à la fin, « À jour » en vert un instant. N'apparaît qu'au-delà de 350 ms (pas de clignotement pour un échange rapide). ---------- */
+const busy = { n: 0, label: '', t: 0, shown: false, hide: 0, fin: 0, err: false };
+function busyPaint() {
+  const p = $('#mSyncPill');
+  if (!p) return;
+  p.innerHTML = '<span class="spin"></span>';
+  p.append(busy.label);
+}
+function busyShow() {
+  busy.t = 0;
+  if (!busy.n) return;
+  busy.shown = true;
+  busyPaint();
+  $('#mSyncPill').className = 'mspill on';
+  $('#mSyncBar').className = 'msbar on';
+}
+function busyStart(label) {
+  if (!AND) return;
+  busy.n++;
+  busy.label = label;
+  clearTimeout(busy.hide);
+  clearTimeout(busy.fin);
+  if (busy.shown) {
+    busyPaint();
+    $('#mSyncPill').className = 'mspill on';
+    $('#mSyncBar').className = 'msbar on';
+  } else if (!busy.t) busy.t = setTimeout(busyShow, 350);
+}
+function busyEnd(ok) {
+  if (!AND || !busy.n) return;
+  busy.n--;
+  if (ok === false) busy.err = true;
+  if (busy.n) return;
+  /* une étape en appelle souvent une autre (envoi, pièce jointe, copie pour le PC) : on attend un instant avant de conclure */
+  clearTimeout(busy.fin);
+  busy.fin = setTimeout(busyFinish, 400);
+}
+function busyFinish() {
+  if (busy.n) return;
+  clearTimeout(busy.t);
+  busy.t = 0;
+  const err = busy.err;
+  busy.err = false;
+  if (!busy.shown) return;
+  busy.shown = false;
+  const p = $('#mSyncPill'),
+    b = $('#mSyncBar');
+  if (err) {
+    p.className = 'mspill';
+    b.className = 'msbar';
+    return;
+  }
+  p.innerHTML =
+    '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  p.append('À jour');
+  p.className = 'mspill on ok';
+  b.className = 'msbar done';
+  buzz('tick');
+  busy.hide = setTimeout(() => {
+    p.className = 'mspill';
+    b.className = 'msbar';
+  }, 1300);
+}
+async function withBusy(label, fn) {
+  busyStart(label);
+  let ok = false;
+  try {
+    const r = await fn();
+    ok = true;
+    return r;
+  } finally {
+    busyEnd(ok);
+  }
 }
 function mAgo(ms) {
   const m = Math.round((Date.now() - ms) / 60000);
@@ -11972,6 +12139,14 @@ function mHistFill(box, tr) {
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES = [
+  {
+    d: '2026-10-15 09:30',
+    type: 'web',
+    v: '2.21.1',
+    items: [
+      'Téléphone\u00a0: pendant un échange avec OneDrive (envoi du matin, lecture, pièce jointe, copie pour le PC), une barre défile sous l’en-tête et une pastille dit ce qui se passe\u00a0; à la fin, «\u00a0À jour\u00a0» en vert un instant.'
+    ]
+  },
   {
     d: '2026-10-15 00:45',
     type: 'web',
@@ -12978,7 +13153,7 @@ async function pjFlushRun() {
       if (!url) return n;
       let got;
       try {
-        got = await spCall('spUpload', JSON.stringify({ url, key: p.key }));
+        got = await withBusy('Pièce jointe vers OneDrive…', () => spCall('spUpload', JSON.stringify({ url, key: p.key })));
       } catch (e) {
         if (!/^perdu:/.test(e.message)) throw e;
         got = null; /* fichier disparu du téléphone : on retire de la file */
@@ -13025,8 +13200,11 @@ async function copyHtml() {
   const there = stamp(cur);
   if (there > me) return false; /* le dossier a déjà plus récent */
   if (there < me) {
-    if (cur == null) await spCall('spCreate', JSON.stringify({ url, text: html }));
-    else await spCall('spWrite', JSON.stringify({ url, text: html, etag }));
+    await withBusy('Copie de l’application pour le PC…', () =>
+      cur == null
+        ? spCall('spCreate', JSON.stringify({ url, text: html }))
+        : spCall('spWrite', JSON.stringify({ url, text: html, etag }))
+    );
   }
   mstore.set('taches-html-copie', me);
   if (vcmp(settings.webv, WEB_V) < 0) {
@@ -15270,7 +15448,7 @@ async function mRefresh() {
     return 'ok';
   }
   try {
-    const cur = await backend.fresh();
+    const cur = await withBusy('Lecture de OneDrive…', () => backend.fresh());
     sjLog('actualisation', {
       fichier: hash8(cur),
       'issu de': parentOf(cur) || '–',
@@ -15908,7 +16086,7 @@ async function mStartApp() {
     return;
   }
   try {
-    const cur = await backend.read();
+    const cur = await withBusy('Lecture de OneDrive…', () => backend.read());
     sjLog('démarrage', {
       fichier: hash8(cur),
       'issu de': parentOf(cur) || '–',
