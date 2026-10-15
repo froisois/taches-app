@@ -161,6 +161,37 @@ final class OneDriveWeb {
         throw new Exc("conflit", "trop de fichiers du même nom");
     }
 
+    /** Fichiers d'un dossier : [{ name, modified }] */
+    static String lister(Context c, String dossierUrl) throws Exception {
+        String[] d = decoupe(dossierUrl);
+        HttpURLConnection h = ouvre(c, d[0] + "/_api/web/GetFolderByServerRelativePath(decodedurl='" + Uri.encode(d[1].replace("'", "''"), "/")
+                + "')/Files?$select=Name,TimeLastModified", "GET");
+        h.setRequestProperty("Accept", "application/json;odata=nometadata");
+        verifie(h);
+        org.json.JSONArray v = new JSONObject(new String(corps(h), StandardCharsets.UTF_8)).getJSONArray("value");
+        org.json.JSONArray out = new org.json.JSONArray();
+        for (int i = 0; i < v.length(); i++) {
+            JSONObject f = v.getJSONObject(i), o = new JSONObject();
+            o.put("name", f.optString("Name"));
+            o.put("modified", f.optString("TimeLastModified"));
+            out.put(o);
+        }
+        return out.toString();
+    }
+
+    /** Met un fichier à la corbeille de OneDrive (récupérable depuis OneDrive) */
+    static void corbeille(Context c, String url) throws Exception {
+        String[] d = decoupe(url);
+        String digest = jeton(c, d[0]);
+        HttpURLConnection h = ouvre(c, d[0] + "/_api/web/GetFileByServerRelativePath(decodedurl='" + Uri.encode(d[1].replace("'", "''"), "/") + "')/recycle()", "POST");
+        h.setRequestProperty("Accept", "application/json;odata=nometadata");
+        h.setRequestProperty("X-RequestDigest", digest);
+        h.setDoOutput(true);
+        h.setFixedLengthStreamingMode(0);
+        h.getOutputStream().close();
+        verifie(h);
+    }
+
     private static boolean dejaLa(HttpURLConnection h) {
         try (InputStream in = h.getErrorStream()) {
             if (in == null) return false;

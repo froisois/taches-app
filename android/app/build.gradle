@@ -12,7 +12,7 @@ android {
         minSdk 26
         targetSdk 34
         versionCode((System.getenv('GITHUB_RUN_NUMBER') ?: '1').toInteger())
-        versionName '2.4'  // nom lisible, le même que la ligne de COMPAGNON (application web) pour cette fabrication
+        versionName '2.5'  // nom lisible, le même que la ligne de COMPAGNON (application web) pour cette fabrication
     }
     signingConfigs {
         if (cle) {

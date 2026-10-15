@@ -306,6 +306,20 @@ public class MainActivity extends Activity {
                         catch (Exception e) { repondre(id, false, "reseau:" + message(e)); }
                     });
                     break;
+                case "spList":
+                    reseau.execute(() -> {
+                        try { repondre(id, true, OneDriveWeb.lister(MainActivity.this, arg)); }
+                        catch (OneDriveWeb.Exc e) { repondre(id, false, e.code + ":" + e.getMessage()); }
+                        catch (Exception e) { repondre(id, false, "reseau:" + message(e)); }
+                    });
+                    break;
+                case "spRecycle":
+                    reseau.execute(() -> {
+                        try { OneDriveWeb.corbeille(MainActivity.this, arg); repondre(id, true, ""); }
+                        catch (OneDriveWeb.Exc e) { repondre(id, false, e.code + ":" + e.getMessage()); }
+                        catch (Exception e) { repondre(id, false, "reseau:" + message(e)); }
+                    });
+                    break;
                 case "spWrite":
                     reseau.execute(() -> {
                         try {
