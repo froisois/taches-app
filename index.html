@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261015093646">
+<meta name="taches-page" content="20261015104326">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -4759,7 +4759,24 @@ body.mobile:has(dialog:modal) {
   max-width: calc(100vw - 8rem);
   padding: 0.1rem 0;
   cursor: text;
-  white-space: normal;
+  white-space: pre-wrap;
+}
+/* marques de mise en forme : cachées, sauf autour du curseur */
+.ned .fi {
+  font-style: italic;
+}
+.ned .fb {
+  font-weight: 700;
+}
+.ned .mk {
+  display: none;
+}
+.ned .f.on > .mk {
+  display: inline;
+  color: var(--muted);
+  font-weight: 400;
+  font-style: normal;
+  opacity: 0.75;
 }
 .inote .ned > div {
   min-height: 1.35em;
@@ -7274,69 +7291,197 @@ function flashNote(id) {
 function escHtml(s) {
   return s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 }
+/* L'éditeur garde le texte source (avec ses astérisques) et le décore : **gras** et *italique* s'affichent mis en forme,
+   leurs marques restent cachées, sauf autour du curseur (gris clair) — on voit où le gras commence et finit, on peut l'effacer
+   ou le taper à la main. Chaque ligne est re-décorée à partir de son texte après chaque frappe (sauf pendant une saisie
+   composée : touches mortes, clavier du téléphone). Les puces restent une propriété de la ligne (« - » retiré du texte). */
+function edRanges(src) {
+  const R = [];
+  let m;
+  const rb = new RegExp(RX_B.source, 'g');
+  while ((m = rb.exec(src))) R.push({ k: 'b', s: m.index, e: m.index + m[0].length, m: 2 });
+  let ph = src;
+  R.forEach(r => (ph = ph.slice(0, r.s) + '\u0002'.repeat(r.e - r.s) + ph.slice(r.e)));
+  const ri = new RegExp(RX_I.source, 'gm');
+  while ((m = ri.exec(ph))) R.push({ k: 'i', s: m.index + m[1].length, e: m.index + m[0].length, m: 1 });
+  return R.sort((x, y) => x.s - y.s || y.e - x.e);
+}
+function edLineHtml(src) {
+  if (!src) return '<br>';
+  const out = (a, b, rs) => {
+    let h = '',
+      p = a;
+    for (let j = 0; j < rs.length; ) {
+      const r = rs[j],
+        kids = [];
+      let x = j + 1;
+      while (x < rs.length && rs[x].s < r.e) kids.push(rs[x++]);
+      h +=
+        escHtml(src.slice(p, r.s)) +
+        '<span class="f f' + r.k + '" data-s="' + r.s + '" data-e="' + r.e + '"><span class="mk">' +
+        src.substr(r.s, r.m) + '</span>' + out(r.s + r.m, r.e - r.m, kids) +
+        '<span class="mk">' + src.substr(r.e - r.m, r.m) + '</span></span>';
+      p = r.e;
+      j = x;
+    }
+    return h + escHtml(src.slice(p, b));
+  };
+  return out(0, src.length, edRanges(src));
+}
 function noteToEd(text) {
   return (text || '')
     .split('\n')
     .map(l => {
-      const m = /^\s*[-*•] (.*)$/.exec(l),
-        body = escHtml(m ? m[1] : l).replace(RX_B, '<b>$1</b>').replace(RX_I, '$1<i>$2</i>');
-      return '<div' + (m ? ' class="b"' : '') + '>' + (body || '<br>') + '</div>';
+      const m = /^\s*[-*•] (.*)$/.exec(l);
+      return '<div' + (m ? ' class="b"' : '') + '>' + edLineHtml(m ? m[1] : l) + '</div>';
     })
     .join('');
 }
-function edInline(node) {
-  let s = '';
-  for (const c of node.childNodes) {
-    if (c.nodeType === 3) s += c.nodeValue;
-    else if (c.nodeType !== 1 || c.nodeName === 'BR') continue;
-    else {
-      const inner = edInline(c),
-        st = c.style || {},
-        b = /^(B|STRONG)$/.test(c.nodeName) || st.fontWeight === 'bold' || +st.fontWeight >= 600,
-        it = /^(I|EM)$/.test(c.nodeName) || st.fontStyle === 'italic';
-      const core = inner.trim(),
-        pre = inner.slice(0, inner.length - inner.trimStart().length),
-        post = inner.slice(inner.trimEnd().length);
-      if (!core || (!b && !it)) s += inner;
-      else s += pre + (b ? '**' : '') + (it ? '*' : '') + core + (it ? '*' : '') + (b ? '**' : '') + post;
-    }
-  }
-  return s;
-}
 function edToNote(root) {
-  const L = [];
-  let buf = null;
-  const flush = () => {
-    if (buf != null) L.push(buf);
-    buf = null;
-  };
-  const block = el => {
-    /* un bloc peut en contenir d'autres (collage) : on aplatit */
-    if ([...el.children].some(x => /^(DIV|P|LI|UL|OL)$/.test(x.nodeName))) {
-      for (const c of el.childNodes) visit(c);
-      flush();
-      return;
-    }
-    flush();
-    const b = el.classList.contains('b') || el.nodeName === 'LI';
-    L.push((b ? '- ' : '') + edInline(el));
-  };
-  const visit = c => {
-    if (c.nodeType === 1 && /^(DIV|P|LI|UL|OL)$/.test(c.nodeName)) block(c);
-    else if (c.nodeName === 'BR') {
-      L.push(buf || '');
-      buf = null;
-    } else {
-      const w = document.createElement('span');
-      w.append(c.cloneNode(true));
-      buf = (buf || '') + edInline(w);
-    }
-  };
-  for (const c of [...root.childNodes]) visit(c);
-  flush();
-  return L.map(l => l.replace(/\u00a0/g, ' ').replace(/\s+$/, ''))
+  edNorm(root);
+  return [...root.children]
+    .map(d => ((d.classList.contains('b') ? '- ' : '') + d.textContent).replace(/ /g, ' ').replace(/\s+$/, ''))
     .join('\n')
     .replace(/^\s+|\s+$/g, '');
+}
+/* position dans le texte source d'une ligne <-> point du DOM */
+function edPt(root, node, off) {
+  const ls = [...root.children];
+  if (node === root) {
+    if (!ls.length) return null;
+    if (off >= ls.length) return { i: ls.length - 1, o: ls[ls.length - 1].textContent.length };
+    return { i: off, o: 0 };
+  }
+  let n = node;
+  while (n && n.parentNode !== root) n = n.parentNode;
+  if (!n) return null;
+  const r = document.createRange();
+  r.setStart(n, 0);
+  try {
+    r.setEnd(node, off);
+  } catch (e) {
+    return null;
+  }
+  return { i: ls.indexOf(n), o: r.toString().length };
+}
+function edSel(root) {
+  const s = getSelection();
+  if (!s.rangeCount || !root.contains(s.anchorNode) || !root.contains(s.focusNode)) return null;
+  const a = edPt(root, s.anchorNode, s.anchorOffset),
+    f = edPt(root, s.focusNode, s.focusOffset);
+  return a && f ? { a, f } : null;
+}
+function edDom(root, p) {
+  const L = root.children[Math.min(p.i, root.children.length - 1)];
+  if (!L) return [root, 0];
+  const w = document.createTreeWalker(L, NodeFilter.SHOW_TEXT);
+  let t,
+    acc = 0,
+    last = null;
+  while ((t = w.nextNode())) {
+    const n = t.nodeValue.length;
+    if (p.o <= acc + n) return [t, p.o - acc];
+    acc += n;
+    last = t;
+  }
+  return last ? [last, last.nodeValue.length] : [L, 0];
+}
+function edPlace(root, a, f) {
+  const [an, ao] = edDom(root, a),
+    [fn, fo] = edDom(root, f || a);
+  getSelection().setBaseAndExtent(an, ao, fn, fo);
+}
+/* marques visibles autour du curseur (et dans la sélection) */
+function edAct(root, sel) {
+  sel = sel || edSel(root);
+  root.querySelectorAll('.f.on').forEach(x => x.classList.remove('on'));
+  if (!sel) return;
+  const [p, q] = sel.a.i < sel.f.i || (sel.a.i === sel.f.i && sel.a.o <= sel.f.o) ? [sel.a, sel.f] : [sel.f, sel.a];
+  [...root.children].forEach((L, i) => {
+    if (i < p.i || i > q.i) return;
+    const s = i === p.i ? p.o : 0,
+      e = i === q.i ? q.o : Infinity;
+    L.querySelectorAll('.f').forEach(x => {
+      if (+x.dataset.s <= e && +x.dataset.e >= s) x.classList.add('on');
+    });
+  });
+}
+/* re-décorer les lignes dont le texte a changé, en gardant le curseur à la même place dans le texte */
+function edSync(root) {
+  const sel = edSel(root);
+  let touched = false;
+  for (const L of root.children) {
+    const t = L.textContent;
+    if (L._src === t && !L.querySelector('b,i,strong,em,font,span:not(.f):not(.mk)')) continue;
+    L.innerHTML = edLineHtml(t);
+    L._src = t;
+    touched = true;
+  }
+  if (sel) {
+    edAct(root, sel);
+    if (touched) edPlace(root, sel.a, sel.f);
+  }
+}
+/* gras ou italique sur la sélection (ou au curseur) : on ajoute ou retire les marques dans le texte */
+function edFmt(root, k) {
+  const sel = edSel(root);
+  if (!sel) return;
+  const ml = k === 'b' ? 2 : 1,
+    mk = k === 'b' ? '**' : '*',
+    ls = [...root.children];
+  const [p, q] = sel.a.i < sel.f.i || (sel.a.i === sel.f.i && sel.a.o <= sel.f.o) ? [sel.a, sel.f] : [sel.f, sel.a];
+  const segs = [];
+  for (let i = p.i; i <= q.i; i++) {
+    const src = ls[i].textContent;
+    let s = i === p.i ? p.o : 0,
+      e = i === q.i ? q.o : src.length;
+    if (p.i !== q.i || s !== e) {
+      while (s < e && /\s/.test(src[s])) s++;
+      while (e > s && /\s/.test(src[e - 1])) e--;
+      if (s === e) continue;
+    }
+    const r = edRanges(src).find(x => x.k === k && x.s <= s && e <= x.e);
+    segs.push({ i, src, s, e, r });
+  }
+  if (!segs.length) return;
+  const off = !segs.every(g => g.r);
+  let na = null,
+    nf = null;
+  for (const g of segs) {
+    let t = g.src,
+      s2 = g.s,
+      e2 = g.e;
+    if (!off) {
+      const r = g.r;
+      t = t.slice(0, r.s) + t.slice(r.s + ml, r.e - ml) + t.slice(r.e);
+      const mv = o => (o <= r.s ? o : o >= r.e ? o - 2 * ml : Math.min(Math.max(o - ml, r.s), r.e - 2 * ml));
+      s2 = mv(g.s);
+      e2 = mv(g.e);
+    } else if (g.r) {
+      continue;
+    } else if (g.s === g.e) {
+      t = t.slice(0, g.s) + mk + mk + t.slice(g.s);
+      s2 = e2 = g.s + ml;
+    } else {
+      /* les passages déjà au même format à l'intérieur perdent leurs marques : un seul gras autour du tout */
+      let mid = t.slice(g.s, g.e);
+      edRanges(mid)
+        .filter(x => x.k === k)
+        .reverse()
+        .forEach(x => (mid = mid.slice(0, x.s) + mid.slice(x.s + ml, x.e - ml) + mid.slice(x.e)));
+      t = t.slice(0, g.s) + mk + mid + mk + t.slice(g.e);
+      s2 = g.s + ml;
+      e2 = s2 + mid.length;
+    }
+    ls[g.i].textContent = t;
+    if (!na) na = { i: g.i, o: s2 };
+    nf = { i: g.i, o: e2 };
+  }
+  edSync(root);
+  if (na) {
+    edPlace(root, na, nf);
+    edAct(root);
+  }
 }
 /* ligne où se trouve le curseur (bloc direct du champ) */
 function edLine(root) {
@@ -7385,6 +7530,48 @@ function edNorm(root) {
     }
   }
 }
+/* annuler / rétablir dans l'éditeur : l'historique du navigateur ne suit pas les lignes re-décorées, on tient le nôtre */
+function edHistory(ed) {
+  const U = [],
+    R = [];
+  let last = 0,
+    kind = '';
+  const state = () => ({ h: [...ed.children].map(L => [L.className, L.textContent]), sel: edSel(ed) });
+  const load = st => {
+    ed.innerHTML = st.h.map(([c, t]) => '<div' + (c ? ' class="' + c + '"' : '') + '>' + edLineHtml(t) + '</div>').join('');
+    [...ed.children].forEach(L => (L._src = L.textContent));
+    if (st.sel) {
+      edPlace(ed, st.sel.a, st.sel.f);
+      edAct(ed);
+    }
+  };
+  return {
+    /* une étape par geste : un mot tapé d'affilée, une mise en forme, un collage */
+    push(force, k) {
+      const now = Date.now(),
+        g = /^delete/.test(k || '') ? 'd' : 'i';
+      if (force || now - last > 1000 || g !== kind) {
+        U.push(state());
+        if (U.length > 200) U.shift();
+        R.length = 0;
+      }
+      last = force ? 0 : now;
+      kind = force ? '' : g;
+    },
+    undo() {
+      if (!U.length) return;
+      R.push(state());
+      load(U.pop());
+      last = 0;
+    },
+    redo() {
+      if (!R.length) return;
+      U.push(state());
+      load(R.pop());
+      last = 0;
+    }
+  };
+}
 function editNote(id) {
   const c = document.querySelector('.inote[data-id="' + id + '"]'),
     n = notes.find(y => y.id === id);
@@ -7395,7 +7582,9 @@ function editNote(id) {
   ed.contentEditable = 'true';
   ed.spellcheck = true;
   ed.innerHTML = noteToEd(n.text) || '<div><br></div>';
+  [...ed.children].forEach(L => (L._src = L.textContent));
   old.replaceWith(ed);
+  const hist = edHistory(ed);
   c.classList.add('editing');
   $('#inbox').classList.add('noting');
   c.draggable = false;
@@ -7419,8 +7608,9 @@ function editNote(id) {
     if (!b) return;
     const f = b.dataset.f;
     if (f === 'ok') return ed.blur();
+    hist.push(true);
     if (f === 'l') edToggleList(ed);
-    else document.execCommand(f === 'b' ? 'bold' : 'italic');
+    else edFmt(ed, f);
     ed.focus();
   };
   c.append(bar);
@@ -7433,8 +7623,9 @@ function editNote(id) {
   sel.onclick = e => {
     const b = e.target.closest('button');
     if (!b) return;
+    hist.push(true);
     if (b.dataset.f === 'l') edToggleList(ed);
-    else document.execCommand(b.dataset.f === 'b' ? 'bold' : 'italic');
+    else edFmt(ed, b.dataset.f);
     selPlace();
   };
   document.body.append(sel);
@@ -7451,7 +7642,11 @@ function editNote(id) {
     sel.style.left = Math.max(8, Math.min(innerWidth - w - 8, r.left + r.width / 2 - w / 2)) + 'px';
     sel.style.top = Math.max(8, r.top - sel.offsetHeight - 8) + 'px';
   };
-  const onSel = () => requestAnimationFrame(selPlace);
+  const onSel = () =>
+    requestAnimationFrame(() => {
+      selPlace();
+      if (!ed._comp) edAct(ed);
+    });
   document.addEventListener('selectionchange', onSel);
   let cancelled = false;
   ed.addEventListener('paste', e => {
@@ -7459,13 +7654,32 @@ function editNote(id) {
     e.preventDefault();
     const tx = (e.clipboardData.getData('text/plain') || '').replace(/\r\n?/g, '\n');
     const ls = tx.split('\n');
+    hist.push(true);
     ls.forEach((l, k) => {
       if (k) document.execCommand('insertParagraph');
       if (l) document.execCommand('insertText', false, l);
     });
     edNorm(ed);
+    edSync(ed);
   });
-  ed.addEventListener('input', () => edNorm(ed));
+  ed.addEventListener('compositionstart', () => (ed._comp = true));
+  ed.addEventListener('compositionend', () => {
+    ed._comp = false;
+    edNorm(ed);
+    edSync(ed);
+  });
+  ed.addEventListener('beforeinput', e => {
+    if (e.inputType === 'historyUndo' || e.inputType === 'historyRedo') {
+      e.preventDefault();
+      hist[e.inputType === 'historyUndo' ? 'undo' : 'redo']();
+    } else if (/^format/.test(e.inputType)) e.preventDefault();
+    else hist.push(false, e.inputType);
+  });
+  ed.addEventListener('input', e => {
+    if (e.isComposing || ed._comp) return;
+    edNorm(ed);
+    edSync(ed);
+  });
   ed.onkeydown = e => {
     e.stopPropagation();
     if (e.key === 'Escape') {
@@ -7477,14 +7691,25 @@ function editNote(id) {
       const k = e.key.toLowerCase();
       if (k === 'b' || k === 'i') {
         e.preventDefault();
-        document.execCommand(k === 'b' ? 'bold' : 'italic');
+        hist.push(true);
+        edFmt(ed, k);
+      } else if (k === 'z' || k === 'y') {
+        e.preventDefault();
+        hist[k === 'y' || e.shiftKey ? 'redo' : 'undo']();
       } else if (k === 'l') {
         e.preventDefault();
+        hist.push(true);
         edToggleList(ed);
       } else if (k === 'enter') {
         e.preventDefault();
         ed.blur();
       }
+      return;
+    }
+    if (e.key === 'Enter' && e.shiftKey) {
+      /* pas de saut de ligne à l'intérieur d'une ligne : une nouvelle ligne, comme Entrée */
+      e.preventDefault();
+      document.execCommand('insertParagraph');
       return;
     }
     const line = edLine(ed);
@@ -8855,7 +9080,7 @@ document.addEventListener('contextmenu', e => {
   if (
     a &&
     a.matches &&
-    a.matches('.txt,.cmt,textarea,input') &&
+    a.matches('.txt,.cmt,textarea,input,.ned') &&
     (a === t || a.contains(t) || (t.closest('.card') && t.closest('.card').contains(a)))
   )
     return; /* en train d'écrire : menu d'Edge */
@@ -12590,6 +12815,17 @@ function mHistFill(box, tr) {
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES = [
+  {
+    d: '2026-10-15 12:41',
+    type: 'web',
+    v: '2.23',
+    t: 'Les astérisques sous le curseur (PC)',
+    items: [
+      'PC, édition d’une note\u00a0: quand le curseur touche un passage en gras ou en italique, ses astérisques apparaissent en gris clair (le texte reste en gras ou en italique)\u202f; ailleurs, ils restent cachés. On peut les effacer ou les taper à la main\u00a0: «\u00a0**mot**\u00a0» se met en gras dès le second astérisque.',
+      'Ctrl+B, Ctrl+I et la barre G\u00a0|\u00a0I ajoutent ou retirent ces marques\u202f; Ctrl+Z et Ctrl+Y annulent et rétablissent dans la note.',
+      'Clic droit dans une note en cours d’édition\u00a0: le menu d’Edge s’ouvre (corrections orthographiques comprises) au lieu de fermer la note.'
+    ]
+  },
   {
     d: '2026-10-15 11:50',
     type: 'web',
