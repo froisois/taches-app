@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261015160859">
+<meta name="taches-page" content="20261015173317">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -3643,17 +3643,155 @@ aside.open {
   opacity: 0.92;
 }
 /* ---------- menu volant pendant un glisser (PC) : rubriques en arc, puis tâches de la rubrique survolée ---------- */
+/* les cartes remplissent toute la largeur : autant de colonnes qu'il en tient, élargies pour finir la ligne */
 #list .cell.dcell {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  align-items: start;
   gap: 0.6rem;
   min-height: 3rem;
 }
 #list .cell.dcell > .card {
-  width: min(21rem, 100%);
+  width: auto;
+  min-width: 0;
   margin: 0;
+}
+/* calendrier à droite, quand la place le permet */
+body.dateview #list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 16.5rem;
+  column-gap: 1.6rem;
+  row-gap: 0;
+  align-items: start;
+}
+body.dateview #list > .section {
+  grid-column: 1;
+}
+.dcal {
+  grid-column: 2;
+  position: sticky;
+  top: calc(var(--hh, 2.6rem) + 0.8rem);
+  align-self: start;
+  margin-top: 0.6rem;
+  padding: 0.7rem 0.75rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel, var(--bg));
+  user-select: none;
+}
+.dcm + .dcm {
+  margin-top: 0.7rem;
+}
+.dct {
+  font-size: 0.82rem;
+  font-weight: 650;
+  margin: 0 0 0.3rem 0.2rem;
+  text-transform: capitalize;
+}
+.dcg {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+.dcg > b {
+  font-size: 0.64rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-align: center;
+  padding-bottom: 0.15rem;
+}
+.dcd {
+  position: relative;
+  height: 1.95rem;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  font: inherit;
+  font-size: 0.76rem;
+  color: var(--fg);
+  cursor: default;
+  padding: 0 0 0.35rem;
+  transition:
+    background 0.15s,
+    transform 0.15s;
+}
+.dcd.off {
+  color: var(--muted);
+  opacity: 0.75;
+}
+.dcd.past {
+  opacity: 0.4;
+}
+.dcd.has {
+  cursor: pointer;
+  font-weight: 650;
+}
+.dcd.today > span {
+  display: inline-grid;
+  place-items: center;
+  width: 1.45rem;
+  height: 1.45rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--bg);
+  margin-top: 0.05rem;
+}
+.dcd:not(.past):hover,
+.dcd.calhi {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+.dcd .dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.18rem;
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+}
+.dcd .dots i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.dcd .dots i.urg {
+  background: #c4643f;
+}
+.dcd .dots i.late {
+  background: #c4524a;
+}
+/* une tâche glissée au-dessus d'un jour */
+.dcal .dcd.drop-in {
+  background: var(--accent);
+  color: var(--bg);
+  transform: scale(1.15);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+}
+.dcal .dcd.drop-in .dots i {
+  background: var(--bg);
+}
+.dch {
+  margin-top: 0.55rem;
+  font-size: 0.68rem;
+  color: var(--muted);
+  text-align: center;
+}
+/* survol d'un jour : ses tâches ressortent, les autres s'effacent un peu */
+#list.calhov .dcell > .card:not(.calhi) {
+  opacity: 0.4;
+  transition: opacity 0.15s;
+}
+#list .dcell > .card.calhi {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+@media (max-width: 1080px) {
+  body.dateview #list {
+    display: block;
+  }
+  .dcal {
+    display: none;
+  }
 }
 .dband .lanehd .dn {
   margin-left: 0.5rem;
@@ -6959,6 +7097,7 @@ function renderDates(list, cols) {
         (dueSoon(it) && daysTo(it.due) === 0 ? ' jour' : '');
       card.style.setProperty('--c', COLORS[it.color] || (h && COLORS[h.color]) || CARD_COLOR);
       card.dataset.id = it.id;
+      if (it.due) card.dataset.due = it.due;
       const b = document.createElement('div');
       b.className = 'insec';
       b.textContent = (h ? h.text : 'Hors rubrique') + (it.state === 'attente' ? ' · en attente' : '');
@@ -6969,6 +7108,68 @@ function renderDates(list, cols) {
     }
     list.append(sec);
   }
+  list.append(dcalEl());
+}
+/* calendrier de la vue par échéance (PC, écran assez large) : ce mois et le suivant, une pastille par tâche à rendre ce
+   jour-là ; survoler un jour éclaire ses tâches (et l'inverse) ; lâcher une tâche sur un jour lui donne cette échéance */
+function dcalEl() {
+  const al = document.createElement('div');
+  al.className = 'dcal';
+  al.style.gridRow = '1 / span ' + BANDS.length;
+  const per = {},
+    today = todayISO();
+  items.forEach((it, i) => {
+    if (it.kind === 't' && it.level === 0 && it.state !== 'fait' && it.due && matchFilter(i))
+      (per[it.due] = per[it.due] || []).push(it);
+  });
+  const t0 = new Date(today + 'T12:00');
+  for (let m = 0; m < 2; m++) {
+    const first = new Date(t0.getFullYear(), t0.getMonth() + m, 1, 12),
+      mo = document.createElement('div');
+    mo.className = 'dcm';
+    const tt = document.createElement('div');
+    tt.className = 'dct';
+    tt.textContent = MOIS[first.getMonth()] + (first.getFullYear() !== t0.getFullYear() ? ' ' + first.getFullYear() : '');
+    mo.append(tt);
+    const g = document.createElement('div');
+    g.className = 'dcg';
+    g.innerHTML = ['L', 'M', 'M', 'J', 'V', 'S', 'D'].map(x => '<b>' + x + '</b>').join('');
+    for (let k = 0; k < (first.getDay() + 6) % 7; k++) g.append(document.createElement('span'));
+    for (let d = new Date(first); d.getMonth() === first.getMonth(); d.setDate(d.getDate() + 1)) {
+      const iso = isoOf(d),
+        c = document.createElement('button'),
+        ts = per[iso] || [],
+        off = offDayReason(d);
+      c.type = 'button';
+      c.tabIndex = -1;
+      c.dataset.d = iso;
+      c.className =
+        'dcd' + (iso === today ? ' today' : '') + (iso < today ? ' past' : '') + (off ? ' off' : '') + (ts.length ? ' has' : '');
+      c.innerHTML = '<span>' + d.getDate() + '</span>';
+      if (ts.length) {
+        const dots = document.createElement('i');
+        dots.className = 'dots';
+        ts.slice(0, 3).forEach(it => {
+          const x = document.createElement('i');
+          x.className = iso < today ? 'late' : isUrgent(it) || it.important ? 'urg' : '';
+          dots.append(x);
+        });
+        c.append(dots);
+      }
+      c.title =
+        fmtDate(iso) +
+        (off && off !== 'week-end' ? ' · ' + off : '') +
+        (ts.length ? '\n' + ts.map(it => '• ' + plainFmt(it.text)).join('\n') : iso < today ? '' : '\nLâche une tâche ici pour lui donner cette échéance');
+      g.append(c);
+    }
+    mo.append(g);
+    al.append(mo);
+  }
+  const hint = document.createElement('div');
+  hint.className = 'dch';
+  hint.textContent = 'Glisse une tâche sur un jour pour fixer son échéance.';
+  al.append(hint);
+  return al;
 }
 /* ---------- listes à puces et dates dans les notes ---------- */
 function bulletsView(t) {
@@ -9427,6 +9628,16 @@ function intoAsk(srcId, tgtId, x, y) {
   );
 }
 function dropBlock(srcId, tgt) {
+  if (tgt.due) {
+    const it = items[idx(srcId)];
+    if (!it || it.due === tgt.due) return;
+    snapshot();
+    it.due = tgt.due;
+    commit();
+    flash(srcId);
+    toast('Échéance\u00a0: ' + fmtDate(tgt.due).toLowerCase() + ' · Ctrl+Z pour annuler');
+    return;
+  }
   if (tgt.band) {
     const it = items[idx(srcId)];
     if (!it || bandOf(it) === tgt.band) return;
@@ -10382,6 +10593,9 @@ function computeTarget(t, y) {
     return { el: hr, tgt: { id: hr.dataset.id, after: vert(sec) } };
   }
   if (src.level === 0 && dateView()) {
+    /* un jour du calendrier (pas un jour passé) : cette échéance */
+    const day = t.closest('#list .dcal .dcd');
+    if (day) return day.classList.contains('past') ? null : { el: day, tgt: { due: day.dataset.d } };
     /* par échéance : on change la date en changeant de bande (ou on en fait une sous-tâche, au milieu d'une tâche) */
     const dc = t.closest('#list .dcell');
     if (!dc) return null;
@@ -10543,6 +10757,36 @@ list.addEventListener('focusout', e => {
     const a = document.activeElement;
     if (!(a && a.closest && a.closest('.row.top .txt'))) qaddDrop();
   }, 0);
+});
+
+/* vue par échéance : un jour du calendrier survolé éclaire ses tâches, une tâche survolée éclaire son jour */
+list.addEventListener('mouseover', e => {
+  if (!dateView() || (typeof pd !== 'undefined' && pd && pd.started)) return;
+  const day = e.target.closest('.dcal .dcd'),
+    card = !day && e.target.closest('.dcell .card');
+  const key = day ? 'd' + day.dataset.d : card ? 'c' + card.dataset.id : '';
+  if (key === list._calKey) return;
+  list._calKey = key;
+  list.querySelectorAll('.calhi').forEach(x => x.classList.remove('calhi'));
+  list.classList.toggle('calhov', !!(day && day.classList.contains('has')));
+  if (day && day.classList.contains('has'))
+    list.querySelectorAll('.dcell .card[data-due="' + day.dataset.d + '"]').forEach(x => x.classList.add('calhi'));
+  if (card && card.dataset.due) {
+    const d = list.querySelector('.dcal .dcd[data-d="' + card.dataset.due + '"]');
+    if (d) d.classList.add('calhi');
+  }
+});
+list.addEventListener('mouseleave', () => {
+  list._calKey = '';
+  list.classList.remove('calhov');
+  list.querySelectorAll('.calhi').forEach(x => x.classList.remove('calhi'));
+});
+/* clic sur un jour : on va à sa première tâche */
+list.addEventListener('click', e => {
+  const day = e.target.closest('.dcal .dcd.has');
+  if (!day) return;
+  const c = list.querySelector('.dcell .card[data-due="' + day.dataset.d + '"]');
+  if (c) flash(c.dataset.id);
 });
 /* ---------- menu volant (PC) : en attrapant une note ou une tâche et en quittant sa zone (bandeau des notes, rubrique
    de la tâche), la page se grise et les rubriques flottent en arc ; survoler une rubrique déploie ses tâches.
@@ -10877,11 +11121,19 @@ document.addEventListener('pointermove', e => {
   if (e.clientY < 70) scrollBy(0, -14);
   else if (e.clientY > innerHeight - 50) scrollBy(0, 14);
   const res = computeTarget(document.elementFromPoint(e.clientX, e.clientY), e.clientY);
+  /* au-dessus du calendrier : la tâche se fait petite, à gauche du pointeur, pour laisser voir le jour visé */
+  if (res && res.tgt.due && !pd.mini) {
+    pd.mini = Math.min(1, 230 / pd.ghost.offsetWidth);
+    pd.ghost.style.setProperty('--gs', pd.mini);
+    pd.ghost.classList.add('mini');
+    pd.ghost.style.left = e.clientX - pd.ghost.offsetWidth * pd.mini - 14 + 'px';
+    pd.ghost.style.top = e.clientY - (pd.ghost.offsetHeight * pd.mini) / 2 + 'px';
+  }
   clearDrop();
   dropTarget = res ? res.tgt : null;
   if (res)
     res.el.classList.add(
-      res.tgt.cell || res.tgt.into || res.tgt.band ? 'drop-in' : res.tgt.after ? 'drop-after' : 'drop-before'
+      res.tgt.cell || res.tgt.into || res.tgt.band || res.tgt.due ? 'drop-in' : res.tgt.after ? 'drop-after' : 'drop-before'
     );
 });
 document.addEventListener('pointerup', () => {
@@ -12973,6 +13225,17 @@ function mHistFill(box, tr) {
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES = [
+  {
+    d: '2026-10-15 19:31',
+    type: 'web',
+    v: '2.25',
+    t: 'Un calendrier dans la vue par échéance (PC)',
+    items: [
+      'PC, vue par échéance\u00a0: les cartes occupent toute la largeur (autant de colonnes qu’il en tient), plus de vide à droite.',
+      'Quand l’écran est assez large, un calendrier se tient à droite\u00a0: ce mois et le suivant, une pastille par tâche à rendre ce jour-là (rouge si elle est en retard). Survoler un jour fait ressortir ses tâches, survoler une tâche éclaire son jour, cliquer sur un jour mène à sa première tâche.',
+      'Glisse une tâche sur un jour du calendrier\u00a0: elle prend cette échéance (Ctrl+Z pour annuler).'
+    ]
+  },
   {
     d: '2026-10-15 18:07',
     type: 'web',
