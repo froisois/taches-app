@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261015173317">
+<meta name="taches-page" content="20261017073150">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -434,10 +434,19 @@ body.dragging * {
   animation: fabIn 0.2s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
 }
 .fabo:nth-child(1) {
-  animation-delay: 0.1s;
+  animation-delay: 0.15s;
 }
 .fabo:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.fabo:nth-child(3) {
   animation-delay: 0.05s;
+}
+.fabo.furg i {
+  background: #c4524a;
+}
+.fabo.furg:hover span {
+  color: #c4524a;
 }
 .fabo span {
   font-size: 0.85rem;
@@ -3240,6 +3249,10 @@ body.mobile button:focus {
 .inote.drop-l {
   box-shadow: -4px 0 0 -1px var(--accent, #2e6b57);
 }
+.inote.drop-in {
+  box-shadow: 0 0 0 2px var(--accent, #2e6b57);
+  background: color-mix(in srgb, var(--accent) 8%, var(--note-bg));
+}
 .inote.drop-r {
   box-shadow: 4px 0 0 -1px var(--accent, #2e6b57);
 }
@@ -3404,6 +3417,37 @@ body.mobile button:focus {
   background: #c4524a;
   color: #fff;
   font-weight: 600;
+}
+/* coche : un petit rebond, le trait se dessine ; puis la carte s'efface */
+.chk.pop {
+  animation: chkPop 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.chk.pop::after {
+  animation: chkDraw 0.22s ease-out;
+}
+@keyframes chkPop {
+  0% {
+    transform: scale(0.75);
+  }
+  60% {
+    transform: scale(1.18);
+  }
+}
+@keyframes chkDraw {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+#list .card.leaving {
+  opacity: 0;
+  transform: scale(0.96) translateY(-3px);
+  transition:
+    opacity 0.28s ease-in,
+    transform 0.28s ease-in;
+  pointer-events: none;
 }
 .chk.on::after {
   content: '';
@@ -3719,6 +3763,11 @@ body.dateview #list > .section {
   color: var(--muted);
   opacity: 0.75;
 }
+/* vacances, fériés et congés : un fond léger, d'un seul tenant */
+.dcd.vac {
+  background: color-mix(in srgb, #b8945a 14%, transparent);
+  border-radius: 0;
+}
 .dcd.past {
   opacity: 0.4;
 }
@@ -3757,6 +3806,9 @@ body.dateview #list > .section {
 }
 .dcd .dots i.urg {
   background: #c4643f;
+}
+.dcd .dots i.rel {
+  background: #8a6fb8;
 }
 .dcd .dots i.late {
   background: #c4524a;
@@ -4899,10 +4951,10 @@ body.mobile:has(dialog:modal) {
   animation: mReloadTurn 0.8s linear infinite;
 }
 
-/* notes : la première ligne d'une note de plusieurs lignes fait office de titre */
+/* notes : la première ligne fait office de titre quand une ligne vide la sépare de la suite (noteTitled) */
 .inote .nt1,
 .mnotec .nt1,
-.inote .ned > div:first-child:not(:only-child) {
+.inote .ned > div.nt1 {
   font-weight: 650;
 }
 /* PC : modifier une note sur place (2.22) — la note se soulève, le reste du bandeau s'efface un peu */
@@ -4952,13 +5004,31 @@ body.mobile:has(dialog:modal) {
 }
 .inote .ned > div.b {
   position: relative;
-  padding-left: 1.05em;
+  padding-left: calc(1.05em + var(--lv, 0) * 1.15em);
 }
 .inote .ned > div.b::before {
   content: '•';
   position: absolute;
-  left: 0.2em;
+  left: calc(0.2em + var(--lv, 0) * 1.15em);
   color: var(--accent);
+}
+/* sous-puces : retrait d'un cran par niveau, puce creuse aux niveaux impairs */
+.l1 {
+  --lv: 1;
+}
+.l2 {
+  --lv: 2;
+}
+.l3 {
+  --lv: 3;
+}
+.inote .ned > div.b.l1::before,
+.inote .ned > div.b.l3::before,
+.inote .tx > div.li.l1::before,
+.mnotec .tx > div.li.l1::before,
+.inote .tx > div.li.l3::before,
+.mnotec .tx > div.li.l3::before {
+  content: '◦';
 }
 .inote.editing .fmtb {
   display: flex;
@@ -5043,13 +5113,13 @@ body.mobile:has(dialog:modal) {
 .inote .tx > div.li,
 .mnotec .tx > div.li {
   position: relative;
-  padding-left: 1.05em;
+  padding-left: calc(1.05em + var(--lv, 0) * 1.15em);
 }
 .inote .tx > div.li::before,
 .mnotec .tx > div.li::before {
   content: '•';
   position: absolute;
-  left: 0.2em;
+  left: calc(0.2em + var(--lv, 0) * 1.15em);
   color: var(--accent);
 }
 
@@ -5096,6 +5166,43 @@ body.mobile:has(dialog:modal) {
   height: 1.1rem;
   background: color-mix(in srgb, var(--bg) 30%, transparent);
 }
+
+/* nom de la rubrique sous une tâche : un clic pour en changer */
+#list .card > .insec {
+  cursor: pointer;
+}
+#list .card > .insec:hover {
+  color: var(--fg);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ⚙ : mes congés */
+#sConges .cgr {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.25rem 0;
+}
+#sConges .cgr input {
+  width: auto;
+  margin: 0;
+}
+#sConges .cgx,
+#sConges .cgadd {
+  border: none;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0.1rem 0.3rem;
+}
+#sConges .cgadd {
+  color: var(--accent);
+  padding-left: 0;
+}
+#sConges .cgx:hover {
+  color: #c4524a;
+}
 </style>
 </head>
 <body>
@@ -5104,6 +5211,7 @@ body.mobile:has(dialog:modal) {
   <span id="status"></span>
   <span id="filters"></span>
   <button id="histBtn">Historique</button>
+  <button id="expBtn" title="Copier la liste des tâches en cours, mise en page, à coller dans un e-mail">Copier la liste</button>
   <button id="openBtn" title="Ouvrir un fichier .md existant">Ouvrir…</button>
   <button id="newBtn" title="Enregistrer la liste dans un nouveau fichier">Créer…</button>
   <button id="setBtn" title="Réglages">⚙</button>
@@ -5183,7 +5291,7 @@ body.mobile:has(dialog:modal) {
       <div id="aSubs"></div>
       <div class="arow" id="aNewRow"><input id="aNewSub" placeholder="+ Sous-tâche" enterkeyhint="done"></div>
       <div id="aLinks"></div>
-      <button type="button" class="mitem" id="aArch" hidden>Ranger dans l’historique</button>
+      <button type="button" class="mitem" id="aArch" hidden>Archiver</button>
       <div class="nbar anew"><button type="button" id="aCancel">Annuler</button><span class="sp"></span><button type="button" class="primary" id="aAdd">Ajouter</button></div>
       <div class="nbar aedit"><button type="button" id="aDel" class="ico adel" title="Supprimer la tâche" aria-label="Supprimer la tâche"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v5.5M14 11v5.5"/></svg></button><button type="button" id="aToNote" class="ico" title="En faire une note" aria-label="En faire une note"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v10.5L14.5 20H4z"/><path d="M20 14.5h-5.5V20"/><path d="M7.5 8.5h9M7.5 12h6"/></svg></button><span class="sp"></span><button type="submit" class="ico ok" id="aOk" title="Fermer" aria-label="Fermer"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></div>
     </form>
@@ -5256,7 +5364,7 @@ body.mobile:has(dialog:modal) {
   <div class="hhead"><strong id="htitle">Historique</strong><input id="hq" placeholder="Rechercher…"><button id="htrash" title="Tâches et notes supprimées depuis moins de 30 jours">Corbeille</button><button id="hclose">Fermer</button></div>
   <div id="hlist"></div>
 </aside>
-<div id="fabMenu" hidden><button type="button" class="fabo" id="fabSec"><span>Nouvelle rubrique</span><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6.5" cy="10" r="2.6" fill="currentColor" stroke="none"/><path d="M11.5 10h9"/><path d="M3.5 16.5h17"/></svg></i></button><button type="button" class="fabo" id="fabNote" title="Alt+N"><span>Nouvelle note</span><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 4.5h15v9.5l-5.5 5.5H4.5z"/><path d="M14 19.5V14h5.5"/><path d="M8 9h8M8 12.5h4"/></svg></i></button><button type="button" class="fabo" id="fabTask" title="Hors rubrique · Alt+T"><span>Nouvelle tâche</span><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M8.2 12.3l2.6 2.6 5-5.2"/></svg></i></button></div>
+<div id="fabMenu" hidden><button type="button" class="fabo" id="fabSec"><span>Nouvelle rubrique</span><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6.5" cy="10" r="2.6" fill="currentColor" stroke="none"/><path d="M11.5 10h9"/><path d="M3.5 16.5h17"/></svg></i></button><button type="button" class="fabo" id="fabNote" title="Alt+N"><span>Nouvelle note</span><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 4.5h15v9.5l-5.5 5.5H4.5z"/><path d="M14 19.5V14h5.5"/><path d="M8 9h8M8 12.5h4"/></svg></i></button><button type="button" class="fabo furg" id="fabUrg" title="Hors rubrique, marquée importante : elle va dans les Priorités"><span>Tâche prioritaire</span><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5.5v8.5"/><circle cx="12" cy="18.2" r="1.2" fill="currentColor" stroke="none"/></svg></i></button><button type="button" class="fabo" id="fabTask" title="Hors rubrique · Alt+T"><span>Nouvelle tâche</span><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M8.2 12.3l2.6 2.6 5-5.2"/></svg></i></button></div>
 <button class="fab" id="fab" title="Nouvelle note ou nouvelle tâche (Alt+N, Alt+T)" aria-label="Nouveau"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
 <div id="toast"></div>
 
@@ -5968,9 +6076,23 @@ const BANDS = [
   ['tard', 'Plus tard', '#8a8f98'],
   ['sans', 'Sans échéance', '#b8945a']
 ];
+/* date qui compte dans l'affichage par échéance : l'échéance, ou pour une tâche en attente sa relance si elle vient
+   avant (une relance déjà passée compte pour aujourd'hui : c'est à faire maintenant, pas « en retard ») */
+function bandDue(it) {
+  if (it.level === 0 && it.state === 'attente' && it.relance) {
+    const r = it.relance < todayISO() ? todayISO() : it.relance;
+    return it.due && it.due < r ? it.due : r;
+  }
+  return it.due;
+}
+/* « Priorités » : urgentes, importantes, et en attente à relancer */
+function inPrioRow(it) {
+  return isPrio(it) || !!isLate(it);
+}
 function bandOf(it) {
-  if (!it.due) return 'sans';
-  const n = daysTo(it.due);
+  const due = bandDue(it);
+  if (!due) return 'sans';
+  const n = daysTo(due);
   if (n < 0) return 'retard';
   const dow = (new Date(todayISO() + 'T12:00').getDay() + 6) % 7,
     toSun = 6 - dow;
@@ -5993,7 +6115,7 @@ function bandTops() {
     if (it.kind === 't' && it.level === 0 && it.state !== 'fait' && matchFilter(i)) by[bandOf(it)].push(i);
   });
   for (const k in by)
-    by[k] = sortIdx(by[k], k === 'sans' ? it => (it.important ? '0' : '1') + createdOf(it) : it => it.due + urgKey(it));
+    by[k] = sortIdx(by[k], k === 'sans' ? it => (it.important ? '0' : '1') + createdOf(it) : it => bandDue(it) + urgKey(it));
   return by;
 }
 /* ---------- Markdown ---------- */
@@ -6067,6 +6189,9 @@ function parse(md) {
       } else if (k === 'bientôtà' || k === 'bientôt' || k === 'bientotà') {
         const n = parseInt(v.replace(/^J/i, '').replace('-', ''), 10);
         if (!isNaN(n)) st.bientotJ = Math.max(0, n);
+      } else if (k === 'congés' || k === 'conges') {
+        const m = /^(\d{4}-\d\d-\d\d)\s*(?:→|->|au)\s*(\d{4}-\d\d-\d\d)$/.exec(v.trim());
+        if (m) (st.conges || (st.conges = [])).push({ du: m[1] < m[2] ? m[1] : m[2], au: m[1] < m[2] ? m[2] : m[1] });
       } else if (k === 'règle' || k === 'regle') {
         if (v) (st.regles || (st.regles = [])).push(v);
       } else if (k === 'onedrive') {
@@ -6387,6 +6512,7 @@ function serialize() {
     settings.webv ||
     settings.urgJ != null ||
     settings.bientotJ != null ||
+    (settings.conges && settings.conges.length) ||
     settings.parent
   ) {
     L.push('', '# ⚙ Réglages');
@@ -6396,6 +6522,7 @@ function serialize() {
     if (settings.archivage != null) L.push('- archivage : ' + settings.archivage + ' jours');
     if (settings.urgJ != null) L.push('- urgente à : J-' + settings.urgJ);
     if (settings.bientotJ != null) L.push('- bientôt à : J-' + settings.bientotJ);
+    for (const c of settings.conges || []) L.push('- congés : ' + c.du + ' → ' + c.au);
     for (const r of settings.regles || []) L.push('- règle : ' + r);
     if (settings.webv) L.push('- version web : ' + settings.webv);
     if (settings.parent) L.push('- issu de : ' + settings.parent);
@@ -6598,7 +6725,7 @@ function merge3(B, M, T) {
   const bs = B.settings || {},
     ms = M.settings || {},
     ts = T.settings || {};
-  for (const f of ['email', 'dossier', 'onedrive', 'archivage', 'regles']) {
+  for (const f of ['email', 'dossier', 'onedrive', 'archivage', 'regles', 'urgJ', 'bientotJ', 'conges']) {
     const j = x => (x == null ? '' : JSON.stringify(x));
     const mv = j(ms[f]),
       tv = j(ts[f]),
@@ -6986,6 +7113,7 @@ function render() {
       if (up) {
         const b = document.createElement('div');
         b.className = 'insec';
+        b.title = 'Changer de rubrique';
         b.textContent = cur_h ? cur_h.text : 'Hors rubrique';
         b.style.setProperty('--sc', cur_h ? cols['#' + cur_h.id] || CARD_COLOR : 'var(--muted)');
         card.append(b);
@@ -7097,9 +7225,10 @@ function renderDates(list, cols) {
         (dueSoon(it) && daysTo(it.due) === 0 ? ' jour' : '');
       card.style.setProperty('--c', COLORS[it.color] || (h && COLORS[h.color]) || CARD_COLOR);
       card.dataset.id = it.id;
-      if (it.due) card.dataset.due = it.due;
+      if (bandDue(it)) card.dataset.due = bandDue(it);
       const b = document.createElement('div');
       b.className = 'insec';
+        b.title = 'Changer de rubrique';
       b.textContent = (h ? h.text : 'Hors rubrique') + (it.state === 'attente' ? ' · en attente' : '');
       b.style.setProperty('--sc', h ? cols['#' + h.id] || CARD_COLOR : 'var(--muted)');
       card.append(b);
@@ -7119,8 +7248,8 @@ function dcalEl() {
   const per = {},
     today = todayISO();
   items.forEach((it, i) => {
-    if (it.kind === 't' && it.level === 0 && it.state !== 'fait' && it.due && matchFilter(i))
-      (per[it.due] = per[it.due] || []).push(it);
+    if (it.kind === 't' && it.level === 0 && it.state !== 'fait' && bandDue(it) && matchFilter(i))
+      (per[bandDue(it)] = per[bandDue(it)] || []).push(it);
   });
   const t0 = new Date(today + 'T12:00');
   for (let m = 0; m < 2; m++) {
@@ -7139,19 +7268,19 @@ function dcalEl() {
       const iso = isoOf(d),
         c = document.createElement('button'),
         ts = per[iso] || [],
-        off = offDayReason(d);
+        off = offDayReason(d) || (congeOf(iso) ? 'congés' : '');
       c.type = 'button';
       c.tabIndex = -1;
       c.dataset.d = iso;
       c.className =
-        'dcd' + (iso === today ? ' today' : '') + (iso < today ? ' past' : '') + (off ? ' off' : '') + (ts.length ? ' has' : '');
+        'dcd' + (iso === today ? ' today' : '') + (iso < today ? ' past' : '') + (off ? ' off' : '') + (off && off !== 'week-end' ? ' vac' : '') + (ts.length ? ' has' : '');
       c.innerHTML = '<span>' + d.getDate() + '</span>';
       if (ts.length) {
         const dots = document.createElement('i');
         dots.className = 'dots';
         ts.slice(0, 3).forEach(it => {
           const x = document.createElement('i');
-          x.className = iso < today ? 'late' : isUrgent(it) || it.important ? 'urg' : '';
+          x.className = iso < today ? 'late' : isUrgent(it) || it.important ? 'urg' : bandDue(it) !== it.due ? 'rel' : '';
           dots.append(x);
         });
         c.append(dots);
@@ -7159,7 +7288,7 @@ function dcalEl() {
       c.title =
         fmtDate(iso) +
         (off && off !== 'week-end' ? ' · ' + off : '') +
-        (ts.length ? '\n' + ts.map(it => '• ' + plainFmt(it.text)).join('\n') : iso < today ? '' : '\nLâche une tâche ici pour lui donner cette échéance');
+        (ts.length ? '\n' + ts.map(it => '• ' + plainFmt(it.text) + (bandDue(it) !== it.due ? ' (relance)' : '')).join('\n') : iso < today ? '' : '\nLâche une tâche ici pour lui donner cette échéance');
       g.append(c);
     }
     mo.append(g);
@@ -7183,35 +7312,54 @@ function fmtView(t) {
   return e.replace(RX_B, '<strong>$1</strong>').replace(RX_I, '$1<em>$2</em>');
 }
 /* une note de plusieurs lignes : la première fait office de titre (elle devient l'intitulé si la note devient tâche) */
+/* puce d'une ligne de note : « - texte », et sous-puces par retrait de deux espaces (niveaux 0 à 3) */
+const RX_LI = /^(\s*)[-*•] (.*)$/;
+function liLevel(ind) {
+  return Math.min(3, Math.floor(ind.replace(/\t/g, '  ').length / 2));
+}
+/* titre d'une note : sa première ligne, quand une ligne vide la sépare de la suite (comme l'objet d'un e-mail) */
+function noteTitled(ls) {
+  return ls.length > 2 && !!ls[0].trim() && !RX_LI.test(ls[0]) && !ls[1].trim() && ls.slice(2).some(l => l.trim());
+}
 function noteView(t) {
   /* une ligne par bloc, comme dans l'éditeur : mêmes puces, même titre */
   const ls = (t || '').split('\n'),
-    multi = ls.filter(l => l.trim()).length > 1;
+    multi = noteTitled(ls);
   return ls
     .map((l, k) => {
-      const m = /^\s*[-*•] (.*)$/.exec(l),
-        h = escHtml(m ? m[1] : l).replace(RX_B, '<strong>$1</strong>').replace(RX_I, '$1<em>$2</em>');
-      return '<div class="' + (m ? 'li' : '') + (k === 0 && multi ? ' nt1' : '') + '">' + (h || '<br>') + '</div>';
+      const m = RX_LI.exec(l),
+        lv = m ? liLevel(m[1]) : 0,
+        h = escHtml(m ? m[2] : l).replace(RX_B, '<strong>$1</strong>').replace(RX_I, '$1<em>$2</em>');
+      return (
+        '<div class="' + (m ? 'li' + (lv ? ' l' + lv : '') : '') + (k === 0 && multi ? ' nt1' : '') + '">' + (h || '<br>') + '</div>'
+      );
     })
     .join('');
 }
 /* version mise en forme pour le presse-papiers : vraie liste à puces, première ligne en gras si c'est un titre (Teams, Outlook, Word) */
 function noteHtml(t, title) {
   const ls = (t || '').replace(/\s+$/, '').split('\n'),
-    multi = ls.filter(l => l.trim()).length > 1,
+    multi = noteTitled(ls),
     fmt = l => escHtml(l).replace(RX_B, '<strong>$1</strong>').replace(RX_I, '$1<em>$2</em>');
   let h = '',
-    ul = false;
+    depth = 0; /* listes ouvertes : une par niveau de puce */
+  const to = d => {
+    while (depth < d) (h += '<ul>'), depth++;
+    while (depth > d) (h += '</ul>'), depth--;
+  };
   ls.forEach((l, k) => {
-    const m = /^\s*[-*•] (.*)$/.exec(l);
-    if (m && !ul) h += '<ul>';
-    if (!m && ul) h += '</ul>';
-    ul = !!m;
-    if (m) h += '<li>' + fmt(m[1]) + '</li>';
-    else if (!l.trim()) h += '<div><br></div>';
+    const m = RX_LI.exec(l);
+    if (m) {
+      to(Math.min(liLevel(m[1]) + 1, depth + 1));
+      h += '<li>' + fmt(m[2]) + '</li>';
+      return;
+    }
+    to(0);
+    if (!l.trim()) h += '<div><br></div>';
     else h += '<div>' + (k === 0 && multi && title ? '<strong>' + fmt(l) + '</strong>' : fmt(l)) + '</div>';
   });
-  return h + (ul ? '</ul>' : '');
+  to(0);
+  return h;
 }
 function plainFmt(s) {
   return (s || '').replace(RX_B, '$1').replace(RX_I, '$1$2');
@@ -7379,8 +7527,8 @@ function renderInbox() {
   hd.innerHTML = '<strong></strong><span class="hint"></span>';
   hd.querySelector('strong').textContent = notes.length ? 'Notes à trier (' + notes.length + ')' : 'Notes';
   hd.querySelector('.hint').textContent = notes.length
-    ? 'glisse une note hors du bandeau\u00a0: les rubriques s’affichent, lâche-la sur l’une d’elles ou sur une de ses tâches · entre les notes pour les ranger · clic pour modifier'
-    : 'aucune note à trier';
+    ? 'glisse une note hors du bandeau\u00a0: les rubriques s’affichent, lâche-la sur l’une d’elles ou sur une de ses tâches · entre les notes pour les ranger, sur une autre pour les fusionner · clic pour modifier, clic dans le vide pour en écrire une'
+    : 'aucune note à trier · clic ici pour en écrire une';
   box.append(hd);
   const add = () => {
     const g = document.createElement('button');
@@ -7454,7 +7602,7 @@ function renderInbox() {
       flyClose();
       noteDragId = null;
       c.classList.remove('dragging');
-      document.querySelectorAll('.inote.drop-l,.inote.drop-r').forEach(z => z.classList.remove('drop-l', 'drop-r'));
+      document.querySelectorAll('.inote.drop-l,.inote.drop-r,.inote.drop-in').forEach(z => z.classList.remove('drop-l', 'drop-r', 'drop-in'));
     };
     /* ranger les notes entre elles : moitié gauche = avant, moitié droite = après */
     c.ondragover = e => {
@@ -7462,21 +7610,35 @@ function renderInbox() {
       e.preventDefault();
       e.stopPropagation();
       e.dataTransfer.dropEffect = 'move';
+      /* bords : ranger avant / après ; milieu : fusionner (la note glissée se colle à la suite de celle-ci) */
       const r = c.getBoundingClientRect(),
-        after = e.clientX > r.left + r.width / 2;
-      document.querySelectorAll('.inote.drop-l,.inote.drop-r').forEach(z => z.classList.remove('drop-l', 'drop-r'));
-      c.classList.add(after ? 'drop-r' : 'drop-l');
+        f = (e.clientX - r.left) / r.width;
+      document
+        .querySelectorAll('.inote.drop-l,.inote.drop-r,.inote.drop-in')
+        .forEach(z => z.classList.remove('drop-l', 'drop-r', 'drop-in'));
+      c.classList.add(f < 0.28 ? 'drop-l' : f > 0.72 ? 'drop-r' : 'drop-in');
     };
-    c.ondragleave = () => c.classList.remove('drop-l', 'drop-r');
+    c.ondragleave = () => c.classList.remove('drop-l', 'drop-r', 'drop-in');
     c.ondrop = e => {
       if (!noteDragId || noteDragId === n.id) return;
       e.preventDefault();
       e.stopPropagation();
-      const after = c.classList.contains('drop-r');
-      c.classList.remove('drop-l', 'drop-r');
+      const after = c.classList.contains('drop-r'),
+        merge = c.classList.contains('drop-in');
+      c.classList.remove('drop-l', 'drop-r', 'drop-in');
       const src = notes.find(y => y.id === noteDragId);
       if (!src) return;
       snapshot();
+      if (merge) {
+        n.text = n.text.replace(/\s+$/, '') + '\n\n' + src.text.replace(/^\s+|\s+$/g, '');
+        if (src.links && src.links.length) n.links = (n.links || []).concat(src.links);
+        notes = notes.filter(y => y !== src);
+        render();
+        changed();
+        flashNote(n.id);
+        toast('Notes fusionnées · Ctrl+Z pour annuler');
+        return;
+      }
       notes = notes.filter(y => y !== src);
       notes.splice(notes.indexOf(n) + (after ? 1 : 0), 0, src);
       render();
@@ -7589,15 +7751,16 @@ function noteToEd(text) {
   return (text || '')
     .split('\n')
     .map(l => {
-      const m = /^\s*[-*•] (.*)$/.exec(l);
-      return '<div' + (m ? ' class="b"' : '') + '>' + edLineHtml(m ? m[1] : l) + '</div>';
+      const m = RX_LI.exec(l),
+        lv = m ? liLevel(m[1]) : 0;
+      return '<div' + (m ? ' class="b' + (lv ? ' l' + lv : '') + '"' : '') + '>' + edLineHtml(m ? m[2] : l) + '</div>';
     })
     .join('');
 }
 function edToNote(root) {
   edNorm(root);
   return [...root.children]
-    .map(d => ((d.classList.contains('b') ? '- ' : '') + d.textContent).replace(/ /g, ' ').replace(/\s+$/, ''))
+    .map(d => ((d.classList.contains('b') ? '  '.repeat(edLv(d)) + '- ' : '') + d.textContent).replace(/ /g, ' ').replace(/\s+$/, ''))
     .join('\n')
     .replace(/^\s+|\s+$/g, '');
 }
@@ -7780,7 +7943,30 @@ function edToggleList(root) {
   const ls = edLinesInSel(root);
   if (!ls.length) return;
   const on = !ls.every(d => d.classList.contains('b'));
-  ls.forEach(d => d.classList.toggle('b', on));
+  ls.forEach(d => (on ? d.classList.add('b') : edSetLv(d, -1)));
+}
+/* niveau d'une puce dans l'éditeur (classes l1 à l3) ; -1 : plus une puce */
+function edLv(d) {
+  const m = /\bl([1-3])\b/.exec(d.className);
+  return m ? +m[1] : 0;
+}
+function edSetLv(d, lv) {
+  d.classList.remove('l1', 'l2', 'l3');
+  if (lv < 0) d.classList.remove('b');
+  else {
+    d.classList.add('b');
+    if (lv) d.classList.add('l' + lv);
+  }
+}
+/* Tab : sous-puce (jusqu'à un cran sous la ligne du dessus) ; Maj+Tab : remonter d'un cran */
+function edIndent(root, dir) {
+  edLinesInSel(root).forEach(d => {
+    if (!d.classList.contains('b')) return;
+    const p = d.previousElementSibling,
+      max = p && p.classList.contains('b') ? Math.min(3, edLv(p) + 1) : 0,
+      lv = edLv(d);
+    edSetLv(d, dir > 0 ? Math.min(max, lv + 1) : Math.max(0, lv - 1));
+  });
 }
 /* « - » tapé (ou collé) en début de ligne devient une puce */
 function edNorm(root) {
@@ -7878,7 +8064,9 @@ function editNote(id) {
     I(
       '<circle cx="5" cy="7" r="1.2" fill="currentColor" stroke="none"/><circle cx="5" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="5" cy="17" r="1.2" fill="currentColor" stroke="none"/><path d="M9.5 7H20M9.5 12H20M9.5 17H20"/>'
     ) +
-    '</button><span class="sp"></span><span class="hint ent"><kbd>Entrée</kbd> enregistrer · <kbd>Maj+Entrée</kbd> titre</span><button type="button" data-f="ok" class="fok" title="Enregistrer (Ctrl+Entrée, ou Entrée sur une note d’une ligne) · Échap : annuler">' +
+    '</button><span class="sp"></span><span class="hint ent"><kbd>Entrée</kbd> enregistrer · <kbd>Maj+Entrée</kbd> titre</span><button type="button" data-f="x" class="fx" title="Quitter sans enregistrer (Échap)">' +
+    I('<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>') +
+    '</button><button type="button" data-f="ok" class="fok" title="Enregistrer (Ctrl+Entrée, ou Entrée sur une note d’une ligne) · Échap : annuler">' +
     I('<path d="M5 12.5l4.5 4.5L19 7.5"/>') +
     '</button>';
   bar.onmousedown = e => e.preventDefault();
@@ -7887,6 +8075,10 @@ function editNote(id) {
     if (!b) return;
     const f = b.dataset.f;
     if (f === 'ok') return ed.blur();
+    if (f === 'x') {
+      cancelled = true;
+      return ed.blur();
+    }
     hist.push(true);
     if (f === 'l') edToggleList(ed);
     else edFmt(ed, f);
@@ -7895,7 +8087,11 @@ function editNote(id) {
   c.append(bar);
   /* note d'une ligne : rappeler ce que fait Entrée (voir onkeydown) */
   const ent = bar.querySelector('.ent'),
-    entSync = () => ent.classList.toggle('on', ed.children.length === 1 && !ed.children[0].classList.contains('b'));
+    entSync = () => {
+      ent.classList.toggle('on', ed.children.length === 1 && !ed.children[0].classList.contains('b'));
+      const ch = [...ed.children];
+      ch.forEach((d, k) => d.classList.toggle('nt1', k === 0 && noteTitled(ch.map(x => (x.classList.contains('b') ? '- ' : '') + x.textContent))));
+    };
   entSync();
   /* texte sélectionné : petite barre G | I | liste juste au-dessus de la sélection */
   const sel = document.createElement('div');
@@ -7996,7 +8192,9 @@ function editNote(id) {
     if (e.key === 'Enter' && !e.isComposing && ed.children.length === 1 && !ed.children[0].classList.contains('b')) {
       e.preventDefault();
       if (e.shiftKey) {
+        /* le titre : une ligne vide le sépare de la suite */
         hist.push(true);
+        document.execCommand('insertParagraph');
         document.execCommand('insertParagraph');
       } else ed.blur();
       return;
@@ -8007,12 +8205,19 @@ function editNote(id) {
       document.execCommand('insertParagraph');
       return;
     }
+    if (e.key === 'Tab') {
+      /* dans une note, Tab ne quitte pas le champ : sous-puce (Maj+Tab : un cran plus haut) */
+      e.preventDefault();
+      hist.push(true);
+      edIndent(ed, e.shiftKey ? -1 : 1);
+      return;
+    }
     const line = edLine(ed);
     if (!line || !line.classList.contains('b')) return;
-    /* Entrée sur une puce vide : fin de la liste ; Retour arrière au début d'une puce : la puce s'en va */
+    /* Entrée sur une puce vide : un cran plus haut, puis fin de la liste ; Retour arrière au début d'une puce : pareil */
     if (e.key === 'Enter' && !e.shiftKey && !line.textContent.trim()) {
       e.preventDefault();
-      line.classList.remove('b');
+      edSetLv(line, edLv(line) - 1);
     } else if (e.key === 'Backspace') {
       const s = getSelection(),
         r = s.rangeCount && s.getRangeAt(0);
@@ -8022,7 +8227,7 @@ function editNote(id) {
         pre.setEnd(r.startContainer, r.startOffset);
         if (!pre.toString().length) {
           e.preventDefault();
-          line.classList.remove('b');
+          edSetLv(line, edLv(line) - 1);
         }
       }
     }
@@ -9235,7 +9440,7 @@ function cardEntries(id, x, y) {
   );
   if (it.state === 'fait')
     out.push({
-      l: 'Ranger dans l’historique',
+      l: 'Archiver',
       on: () => {
         const k = idx(id);
         if (k < 0) return;
@@ -9501,6 +9706,86 @@ function editWho(btn, id) {
   };
   inp.onblur = () => finish(true);
 }
+
+/* « Copier la liste » : les tâches en cours (à faire, en attente) par rubrique, avec échéances, sous-tâches et
+   commentaires, mises en page pour un e-mail (Outlook) ; version texte pour le reste */
+function exportList() {
+  const esc = t => escHtml(plainFmt(t || '')),
+    when = it => {
+      const b = [];
+      if (it.due) b.push('échéance le ' + shortDate(it.due));
+      if (it.state === 'attente')
+        b.push('en attente' + (it.waitFor ? ' de ' + it.waitFor : '') + (it.relance ? ', relance le ' + shortDate(it.relance) : ''));
+      return b.join(' · ');
+    };
+  const groups = [];
+  let g = { name: 'Sans rubrique', tops: [] };
+  groups.push(g);
+  items.forEach((it, i) => {
+    if (it.kind === 'h') {
+      g = { name: it.text, tops: [] };
+      groups.push(g);
+    } else if (it.kind === 't' && it.level === 0 && it.state !== 'fait' && it.text.trim()) g.tops.push(i);
+  });
+  const S = {
+    h: 'margin:14px 0 4px;font-size:15px;font-weight:bold;color:#2e6b57',
+    t: 'margin:3px 0',
+    m: 'color:#8a6f3a;font-size:12px',
+    c: 'color:#666;font-size:12px;font-style:italic',
+    s: 'margin:1px 0;list-style:none'
+  };
+  const nTop = groups.reduce((a, x) => a + x.tops.length, 0);
+  let h = '<div style="font-family:Segoe UI,Arial,sans-serif;font-size:14px">',
+    t = '';
+  const head = 'Missions en cours au ' + fmtDate(todayISO()).toLowerCase().replace(/^\S+ /, '') + ' (' + nTop + ')';
+  h += '<p style="margin:0 0 6px;font-weight:bold">' + escHtml(head) + '</p>';
+  t += head + '\n';
+  for (const gr of groups) {
+    if (!gr.tops.length) continue;
+    const tops = sortIdx(gr.tops, it => (it.state === 'attente' ? '1' : '0') + urgKey(it));
+    h += '<p style="' + S.h + '">' + escHtml(gr.name) + '</p><ul style="margin:0 0 0 18px;padding:0">';
+    t += '\n' + gr.name.toUpperCase() + '\n';
+    for (const i of tops) {
+      const it = items[i],
+        w = when(it),
+        subs = items.slice(i + 1, blockEnd(i)).filter(x => x.kind === 't' && x.text.trim());
+      h += '<li style="' + S.t + '"><b>' + esc(it.text) + '</b>' + (it.important ? ' <span style="color:#c4524a">(prioritaire)</span>' : '') + (w ? ' <span style="' + S.m + '">— ' + escHtml(w) + '</span>' : '');
+      t += '• ' + plainFmt(it.text) + (it.important ? ' (prioritaire)' : '') + (w ? ' — ' + w : '') + '\n';
+      if (it.note && it.note.trim()) {
+        h += '<br><span style="' + S.c + '">' + esc(it.note.trim()).replace(/\n/g, '<br>') + '</span>';
+        t += it.note.trim().split('\n').map(l => '    ' + plainFmt(l)).join('\n') + '\n';
+      }
+      if (subs.length) {
+        h += '<ul style="margin:2px 0 4px 6px;padding:0">';
+        for (const x of subs) {
+          h += '<li style="' + S.s + (x.checked ? ';color:#888;text-decoration:line-through' : '') + '">' + (x.checked ? '☑ ' : '☐ ') + esc(x.text) + (x.due ? ' <span style="' + S.m + '">— ' + shortDate(x.due) + '</span>' : '') + '</li>';
+          t += '    ' + (x.checked ? '☑ ' : '☐ ') + plainFmt(x.text) + (x.due ? ' — ' + shortDate(x.due) : '') + '\n';
+        }
+        h += '</ul>';
+      }
+      h += '</li>';
+    }
+    h += '</ul>';
+  }
+  h += '</div>';
+  return { h, t };
+}
+async function exportCopy(b) {
+  const { h, t } = exportList();
+  try {
+    await navigator.clipboard.write([
+      new ClipboardItem({ 'text/plain': new Blob([t], { type: 'text/plain' }), 'text/html': new Blob([h], { type: 'text/html' }) })
+    ]);
+  } catch (e) {
+    try {
+      await navigator.clipboard.writeText(t);
+    } catch (e2) {
+      toast('Copie impossible');
+      return;
+    }
+  }
+  toast('Liste copiée : colle-la dans un e-mail (Ctrl+V)');
+}
 /* ---------- filtres ---------- */
 let filter = null; /* {t:'urgent'|'late'|'who', v} */
 function cardMatch(i, f) {
@@ -9520,7 +9805,7 @@ function setUrgTop(v) {
   } catch (e) {}
 }
 function inUrgLane(it) {
-  return urgTop() && it.kind === 't' && it.level === 0 && it.state !== 'fait' && isPrio(it);
+  return urgTop() && it.kind === 't' && it.level === 0 && it.state !== 'fait' && inPrioRow(it);
 }
 function matchFilter(i) {
   return !filter || cardMatch(i, filter);
@@ -9571,12 +9856,13 @@ function renderFilters() {
     box.append(b);
   }
 }
-function quickAdd() {
+function quickAdd(imp) {
   const fh = items.findIndex(x => x.kind === 'h'),
     end = fh < 0 ? items.length : fh;
   for (let k = 0; k < end; k++) {
     const x = items[k];
     if (x.kind === 't' && x.level === 0 && x.state === 'afaire' && !x.text.trim() && blockEnd(k) === k + 1) {
+      if (imp) x.important = true;
       render();
       focusItem(x.id);
       txtEl(x.id).scrollIntoView({ block: 'center' });
@@ -9584,6 +9870,7 @@ function quickAdd() {
     }
   }
   const n = { id: uid(), kind: 't', text: '', level: 0, state: 'afaire', created: todayISO() };
+  if (imp) n.important = true;
   items.splice(end, 0, n);
   render();
   focusItem(n.id, 0); /* en dernier (choix de François) ; les notes, elles, viennent en premier */
@@ -9907,6 +10194,25 @@ list.addEventListener('click', e => {
     toggleUrgent(ug.closest('.row').dataset.id, false);
     return;
   }
+  const ins = e.target.closest('.card > .insec');
+  if (ins) {
+    /* nom de la rubrique sous une tâche (Priorités, vue par échéance) : en changer */
+    const id = ins.closest('.card').dataset.id,
+      h = headingOf(idx(id)),
+      r = ins.getBoundingClientRect();
+    ctxOpen(
+      secEntries(
+        sec => {
+          if (sec !== (h ? h.id : '')) moveToSec(id, sec);
+        },
+        h ? h.id : '',
+        name => moveToNewSec(id, name)
+      ),
+      r.left,
+      r.bottom + 4
+    );
+    return;
+  }
   const mo = e.target.closest('.tools .more');
   if (mo) {
     const r = mo.getBoundingClientRect();
@@ -9933,7 +10239,7 @@ list.addEventListener('click', e => {
   }
   const c = e.target.closest('.chk');
   if (c) {
-    toggle(c.closest('.row').dataset.id, false);
+    checkAnim(c);
     return;
   }
   const d = e.target.closest('.dot');
@@ -10788,6 +11094,39 @@ list.addEventListener('click', e => {
   const c = list.querySelector('.dcell .card[data-due="' + day.dataset.d + '"]');
   if (c) flash(c.dataset.id);
 });
+
+/* clic dans le vide du bandeau des notes : nouvelle note (sauf si ce clic sert à quitter une note en cours d'écriture) */
+{
+  const box = $('#inbox');
+  box.addEventListener('pointerdown', () => (box._was = !!box.querySelector('.inote.editing')), true);
+  box.addEventListener('click', e => {
+    /* (un clic sur une note la remplace par l'éditeur : la cible n'est alors plus dans la page) */
+    if (box._was || MOBILE || !e.target.isConnected || box.querySelector('.inote.editing')) return;
+    if (e.target.closest('.inote, button, a, input, textarea, .selbar')) return;
+    newNote();
+  });
+}
+
+/* cocher : la coche se dessine, puis la carte s'efface avant de partir (tâche faite) ; une sous-tâche se coche simplement */
+function checkAnim(c) {
+  const row = c.closest('.row'),
+    id = row.dataset.id,
+    it = items[idx(id)];
+  if (!it || row._anim) return;
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (calm || (it.level === 0 && it.state === 'fait') || (it.level > 0 && it.checked)) return toggle(id, false);
+  row._anim = true;
+  c.classList.add('on', 'pop');
+  if (it.level > 0) return setTimeout(() => toggle(id, false), 180);
+  const card = row.closest('.card');
+  setTimeout(() => card && card.classList.add('leaving'), 260);
+  setTimeout(() => toggle(id, false), 560);
+}
+
+/* garder la main sur la tâche en cours d'écriture quand on clique le nom de sa rubrique */
+list.addEventListener('mousedown', e => {
+  if (e.button === 0 && e.target.closest && e.target.closest('.card > .insec')) e.preventDefault();
+});
 /* ---------- menu volant (PC) : en attrapant une note ou une tâche et en quittant sa zone (bandeau des notes, rubrique
    de la tâche), la page se grise et les rubriques flottent en arc ; survoler une rubrique déploie ses tâches.
    Lâcher : sur une rubrique (nouvelle tâche, ou tâche rangée), sur une tâche (note : commentaire ou sous-tâche ;
@@ -11240,6 +11579,11 @@ $('#fabNote').onclick = e => {
   fabToggle(false);
   newNote();
 };
+$('#fabUrg').onclick = e => {
+  e.stopPropagation();
+  fabToggle(false);
+  quickAdd(true);
+};
 $('#fabTask').onclick = e => {
   e.stopPropagation();
   fabToggle(false);
@@ -11256,6 +11600,7 @@ document.addEventListener('click', e => {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && !$('#fabMenu').hidden) fabToggle(false);
 });
+$('#expBtn').onclick = e => exportCopy(e.target);
 $('#setBtn').onclick = () => {
   let d = $('#settings');
   if (!d) {
@@ -11268,14 +11613,17 @@ $('#setBtn').onclick = () => {
     <fieldset><legend>Documents OneDrive ouverts sans avertissement d’Office</legend>
     <label>Dossier OneDrive sur ce PC<input id="sLocal" placeholder="C:\\Users\\…\\OneDrive - …"></label>
     <label>Adresse web de ce dossier<input id="sWeb" placeholder="https://…-my.sharepoint.com/personal/…/Documents"></label></fieldset>
-    <label>Ranger dans l’historique les tâches faites depuis (jours ; 0 = jamais)<input id="sArch" type="number" min="0" placeholder="7"></label>
+    <label>Archiver les tâches faites au bout de (jours ; 2 = le surlendemain matin, elles restent visibles jusqu’au lendemain soir ; 0 = jamais)<input id="sArch" type="number" min="0" placeholder="2"></label>
     <label>Une échéance rend la tâche urgente à J-…<input id="sUrgJ" type="number" min="0" placeholder="3"></label>
     <label>et la signale (corail) dès J-…<input id="sBientotJ" type="number" min="0" placeholder="7"></label>
+    <fieldset id="sConges"><legend>Mes congés <span class="muted">(grisés dans le calendrier ; les vacances fixes de l’application ne changent pas)</span></legend>
+    <div class="cgl"></div><button type="button" class="cgadd">+ Ajouter une période</button></fieldset>
     <label>Règles des rubriques (une par ligne)<textarea id="sRules" rows="4" placeholder="Commandes = Demande de devis ; Bon de commande&#10;Conventions = → Calendrier"></textarea></label>
     <p class="muted" style="margin:.2rem 0 0;font-size:.8rem">Quand une tâche arrive dans la rubrique (créée ou déplacée) : les sous-tâches listées sont ajoutées ; « → Rubrique » en crée une copie dans cette rubrique.</p>
     <div class="rb"><button id="sSave" class="primary">Enregistrer</button><button id="sCancel">Annuler</button><button id="sJournal" style="margin-left:auto">Copier le journal de synchronisation</button></div>`;
     document.body.append(d);
     d.querySelector('#sCancel').onclick = () => d.close();
+    d.querySelector('.cgadd').onclick = () => congeRow(d, {});
     d.querySelector('#sJournal').onclick = e => {
       e.preventDefault();
       copyText(sjText() || '(journal vide)', e.target, false);
@@ -11324,6 +11672,15 @@ $('#setBtn').onclick = () => {
         if (rl.length) settings.regles = rl;
         else delete settings.regles;
       }
+      {
+        const cg = [...d.querySelectorAll('.cgr')]
+          .map(r => [r.querySelector('.cdu').value, r.querySelector('.cau').value || r.querySelector('.cdu').value])
+          .filter(([a, b]) => a && b)
+          .map(([a, b]) => ({ du: a < b ? a : b, au: a < b ? b : a }))
+          .sort((x, y) => (x.du < y.du ? -1 : 1));
+        if (cg.length) settings.conges = cg;
+        else delete settings.conges;
+      }
       rulesInit();
       d.close();
       render();
@@ -11340,6 +11697,8 @@ $('#setBtn').onclick = () => {
   d.querySelector('#sUrgJ').value = settings.urgJ == null ? '' : settings.urgJ;
   d.querySelector('#sBientotJ').value = settings.bientotJ == null ? '' : settings.bientotJ;
   d.querySelector('#sRules').value = (settings.regles || []).join('\n');
+  d.querySelector('.cgl').innerHTML = '';
+  (settings.conges || []).filter(c => c.au >= addDays(todayISO(), -60)).forEach(c => congeRow(d, c));
   d.showModal();
 };
 $('#hclose').onclick = () => $('#hist').classList.remove('open');
@@ -11606,9 +11965,13 @@ function subSync(k) {
   }
   return '';
 }
-/* tâches faites depuis plus de N jours (7 par défaut, réglable dans ⚙) : rangées dans l'historique */
+/* tâches faites archivées au bout de N jours (2 par défaut : faite un jeudi, encore visible vendredi, archivée samedi ;
+   réglable dans ⚙) */
+function archDays() {
+  return settings.archivage == null ? 2 : +settings.archivage;
+}
 function autoArchive() {
-  const n = settings.archivage == null ? 7 : +settings.archivage;
+  const n = archDays();
   if (!(n > 0)) return 0;
   const lim = addDays(todayISO(), -n);
   let c = 0;
@@ -11632,16 +11995,7 @@ function housekeeping() {
     if (typeof mRender === 'function') mRender();
   } else render();
   changed();
-  const n = settings.archivage == null ? 7 : settings.archivage;
-  toast(
-    c +
-      (c > 1 ? ' tâches faites' : ' tâche faite') +
-      ' depuis plus de ' +
-      n +
-      ' jours ' +
-      (c > 1 ? 'rangées' : 'rangée') +
-      ' dans l’historique'
-  );
+  toast(c + (c > 1 ? ' tâches faites archivées' : ' tâche faite archivée') + ' (dans l’historique)');
 }
 let sjFaites = -1;
 function changed() {
@@ -12003,6 +12357,27 @@ setInterval(() => {
   if (dirty && backend && !saving) saveFile();
   else checkExternal();
 }, 30000);
+
+/* ⚙ : une période de congés (du … au …), retirable */
+function congeRow(d, c) {
+  const r = document.createElement('div');
+  r.className = 'cgr';
+  r.innerHTML =
+    '<span>du</span><input type="date" class="cdu"><span>au</span><input type="date" class="cau"><button type="button" class="cgx" title="Retirer cette période">×</button>';
+  r.querySelector('.cdu').value = c.du || '';
+  r.querySelector('.cau').value = c.au || '';
+  r.querySelector('.cdu').onchange = e => {
+    const au = r.querySelector('.cau');
+    if (!au.value || au.value < e.target.value) au.value = e.target.value;
+  };
+  r.querySelector('.cgx').onclick = () => r.remove();
+  d.querySelector('.cgl').append(r);
+  if (!c.du) r.querySelector('.cdu').focus();
+}
+/* jour de congé saisi dans ⚙ (calendrier seulement : n'agit pas sur les échanges avec OneDrive) */
+function congeOf(iso) {
+  return (settings.conges || []).some(c => c.du <= iso && iso <= c.au);
+}
 /* ---------- passages entre tâches et notes (communs au PC et au téléphone) ----------
    tâche → note ; tâche lâchée sur une autre : sous-tâche (taskIntoTask), commentaire, ou pièces jointes seules.
    Chaque fonction prend son instantané (Ctrl+Z / Annuler) et laisse l'affichage à l'appelant. */
@@ -12379,9 +12754,11 @@ window.tachesAndroidPause = () => {
     syncSave();
   }
 };
+let mBackClose = false; /* la fenêtre se ferme par le bouton retour d'Android (la note n'est alors pas enregistrée) */
 window.tachesAndroidBack = () => {
   const d = document.querySelector('dialog[open]');
   if (d) {
+    mBackClose = d.id === 'mNote'; /* remis à zéro par la fermeture de la note */
     d.close();
     return true;
   }
@@ -12673,7 +13050,7 @@ function mCard(i, withSec) {
           const t = $('#toast');
           if (t.classList.contains('undo') && t.classList.contains('show')) return;
           mstore.set('taches-astuce-glisser', 1);
-          toast('Astuce : glisse une tâche faite sur le côté pour la ranger dans l’historique');
+          toast('Astuce : glisse une tâche faite sur le côté pour l’archiver');
         }, 2800);
     };
     t.append(k);
@@ -12962,7 +13339,7 @@ function mRender() {
   /* urgentes d'abord (affichage seulement : l'ordre du fichier ne change pas) */
   const urgentFirst = arr => sortIdx(arr, urgKey);
   /* urgentes : une section à part, avant les rubriques (rubrique d'origine en puce) */
-  const urg = urgTop() ? urgentFirst(groups.flatMap(g => g.todo.filter(i => isPrio(items[i])))) : [];
+  const urg = urgTop() ? urgentFirst(groups.flatMap(g => g.todo.filter(i => inPrioRow(items[i])))) : [];
   let shown = urg.length;
   if (urg.length)
     list.append(
@@ -12998,7 +13375,7 @@ function mRender() {
     );
   }
   for (const g of groups) {
-    if (urgTop()) g.todo = g.todo.filter(i => !isPrio(items[i]));
+    if (urgTop()) g.todo = g.todo.filter(i => !inPrioRow(items[i]));
     const n = g.todo.length + g.done.length;
     if (!n) continue;
     shown += n;
@@ -13225,6 +13602,22 @@ function mHistFill(box, tr) {
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES = [
+  {
+    d: '2026-10-17 09:31',
+    type: 'web',
+    v: '2.26',
+    t: 'La liste du samedi',
+    items: [
+      'Notes (PC)\u00a0: un clic dans le vide du bandeau en ouvre une nouvelle. Tab sur une puce crée une sous-puce (Maj+Tab la remonte). Une note glissée au milieu d’une autre s’y ajoute à la suite (les bords servent toujours à les ranger). Le bouton ✕ quitte une note sans enregistrer.',
+      'Titre d’une note\u00a0: la première ligne n’est en gras que si une ligne vide la sépare de la suite (Maj+Entrée sur une note d’une ligne crée ce titre).',
+      'Téléphone\u00a0: le bouton retour d’Android quitte une note sans enregistrer\u202f; «\u00a0Rétablir\u00a0» la remet pendant quelques secondes.',
+      'En attente\u00a0: les tâches à relancer montent dans les Priorités\u202f; dans la vue par échéance, la date de relance compte (une relance arrivée remonte en haut), avec une pastille violette au calendrier.',
+      'PC\u00a0: un clic sur le nom de la rubrique, sous une tâche, permet d’en changer. Une petite animation quand on coche. Le +\u00a0propose «\u00a0Tâche prioritaire\u00a0».',
+      '«\u00a0Ranger dans l’historique\u00a0» devient «\u00a0Archiver\u00a0»\u202f; les tâches faites sont archivées le surlendemain (visibles jusqu’au lendemain soir), réglable dans ⚙.',
+      '⚙\u00a0: «\u00a0Mes congés\u00a0», grisés dans le calendrier (sans effet sur les échanges avec OneDrive).',
+      '«\u00a0Copier la liste\u00a0» (en haut)\u00a0: les tâches en cours par rubrique, avec échéances, attentes, sous-tâches et commentaires, mises en page pour un e-mail.'
+    ]
+  },
   {
     d: '2026-10-15 19:31',
     type: 'web',
@@ -14824,7 +15217,7 @@ const SW_ICON =
 const SW_TRASH =
   '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 12.5h9l1-12.5M10 11v5.5M14 11v5.5"/></svg>';
 function mSwipe(c, id) {
-  mSwipeAct(c, 'Ranger dans l’historique', () => mArchive(id), () => {
+  mSwipeAct(c, 'Archiver', () => mArchive(id), () => {
     const i = idx(id);
     if (i < 0) return;
     const t = items[i].text;
@@ -16664,12 +17057,14 @@ function mInitNotes() {
     mRender();
     toast('Note enregistrée');
   };
-  /* fermée autrement (bouton retour d'Android…) : une note en cours de saisie n'est jamais perdue */
+  /* bouton retour d'Android : on sort sans enregistrer (choix de François), mais rien n'est perdu pour autant :
+     « Rétablir » pendant quelques secondes remet ce qui avait été écrit */
   $('#mNote').addEventListener('close', () => {
-    if (mNoteId) mSaveNoteEdit();
-    else if (!mNoteDone) {
-      const v = mNoteText();
-      if (v) {
+    const v = mNoteText();
+    if (!mBackClose) {
+      /* fermée en touchant à côté : rien n'est perdu, on enregistre comme avant */
+      if (mNoteId) mSaveNoteEdit();
+      else if (!mNoteDone && v) {
         snapshot();
         notes.unshift({ id: null, at: nowStamp(), text: v });
         normalize();
@@ -16677,9 +17072,41 @@ function mInitNotes() {
         mRender();
         toast('Note enregistrée');
       }
-    }
+    } else if (mNoteId) {
+      const id = mNoteId,
+        n = notes.find(x => x.id === id);
+      if (n && v && v !== n.text)
+        toastAct(
+          'Modifications abandonnées',
+          'Rétablir',
+          () => {
+            const m = notes.find(x => x.id === id);
+            if (!m) return;
+            snapshot();
+            m.text = v;
+            changed();
+            mRender();
+            toast('Modifications rétablies');
+          },
+          6000
+        );
+    } else if (!mNoteDone && v)
+      toastAct(
+        'Note abandonnée',
+        'Rétablir',
+        () => {
+          snapshot();
+          notes.unshift({ id: null, at: nowStamp(), text: v });
+          normalize();
+          changed();
+          mRender();
+          toast('Note rétablie');
+        },
+        6000
+      );
     mNoteDone = true;
     mNoteId = null;
+    mBackClose = false;
   });
 }
 /* tirer vers le bas pour actualiser : enregistre ce qui attend, sinon relit le fichier (en demandant à OneDrive sa dernière version) */
