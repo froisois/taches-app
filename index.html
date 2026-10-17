@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261017073150">
+<meta name="taches-page" content="20261017074808">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -4443,7 +4443,8 @@ body.mobile:has(dialog:modal) {
   font-size: 0.85rem;
   color: var(--muted);
 }
-#mInto .mitem small {
+#mInto .mitem small,
+#mMenu .mitem small {
   display: block;
   font-size: 0.78rem;
   color: var(--muted);
@@ -5326,6 +5327,7 @@ body.mobile:has(dialog:modal) {
       <input type="checkbox" id="oUrgTop" hidden><input type="checkbox" id="oDate" hidden>
       <label class="mswitch"><span>Filtres<small>priorités, à relancer, personnes</small></span><input type="checkbox" id="oFilters" role="switch"><i></i></label>
       <div class="msync" id="oSync"><div class="ms1" id="oSync1"></div><p class="ms2" id="oOff" hidden></p><button type="button" class="oforce" id="oForce" hidden>Envoyer quand même…</button></div>
+      <button type="button" class="mitem" id="oExport">Copier la liste des tâches<small>pour un e-mail : rubriques, échéances, sous-tâches, commentaires</small></button>
       <button type="button" class="mitem mnews" id="oNews">Notes de version</button>
       <details class="madv" id="oAdv"><summary>Plus d’options</summary>
         <button type="button" class="mitem" id="oUpdate">Vérifier la mise à jour du Compagnon Android</button>
@@ -13603,6 +13605,12 @@ function mHistFill(box, tr) {
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES = [
   {
+    d: '2026-10-17 09:46',
+    type: 'web',
+    v: '2.26.1',
+    items: ['Téléphone\u00a0: «\u00a0Copier la liste des tâches\u00a0» dans le menu, avec la même mise en page qu’au PC (dans l’e-mail\u00a0: appui long puis «\u00a0Coller\u00a0»).']
+  },
+  {
     d: '2026-10-17 09:31',
     type: 'web',
     v: '2.26',
@@ -18003,6 +18011,24 @@ function initMobile() {
     $('#mMenu').close();
     mCopyText(sjText() || '(journal vide)', null, true);
     toast('Journal de synchronisation copié : colle-le à Claude');
+  };
+  $('#oExport').onclick = async () => {
+    const { h, t } = exportList();
+    let ok = false;
+    if (AND) {
+      try {
+        await andCall('copy', JSON.stringify({ text: t, html: h }));
+        ok = true;
+      } catch (e) {}
+    }
+    if (!ok) {
+      try {
+        await navigator.clipboard.writeText(t);
+        ok = true;
+      } catch (e) {}
+    }
+    $('#mMenu').close();
+    toast(ok ? 'Liste copiée : dans l’e-mail, appui long puis « Coller »' : 'Copie impossible');
   };
   $('#oNews').onclick = () => {
     $('#mMenu').close();
