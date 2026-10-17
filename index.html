@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="taches-page" content="20261017080202">
+<meta name="taches-page" content="20261017093248">
 <title>Tâches</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNmZmYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIgLTIyKSI+PHJlY3QgeD0iMzEiIHk9IjMxLjUiIHdpZHRoPSI0NiIgaGVpZ2h0PSIxMyIgcng9IjMuNSIgZmlsbD0iIzJGNkY1RSIvPjxyZWN0IHg9IjM4IiB5PSIzNS44IiB3aWR0aD0iMjQiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxyZWN0IHg9IjM4IiB5PSIzOS44IiB3aWR0aD0iMTUiIGhlaWdodD0iMi40IiByeD0iMS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjxyZWN0IHg9IjMxIiB5PSI0Ny41IiB3aWR0aD0iNDYiIGhlaWdodD0iMTMiIHJ4PSIzLjUiIGZpbGw9IiMyRjZGNUUiLz48cmVjdCB4PSIzMy45IiB5PSI0OS45IiB3aWR0aD0iOC4yIiBoZWlnaHQ9IjguMiIgcng9IjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzFFNEEzRSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSI0NiIgeT0iNTIuOCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48cmVjdCB4PSIzMSIgeT0iNjMuNSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjEzIiByeD0iMy41IiBmaWxsPSIjMkY2RjVFIiBmaWxsLW9wYWNpdHk9Ii40NSIvPjxyZWN0IHg9IjMzLjQiIHk9IjY1LjQiIHdpZHRoPSI5LjIiIGhlaWdodD0iOS4yIiByeD0iMi4yIiBmaWxsPSIjMkY2RjVFIi8+PHBhdGggZD0iTTM1LjkgNzBsMS41IDEuNiAyLjktMy4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cmVjdCB4PSI0NiIgeT0iNjguOCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48L2c+PC9zdmc+">
 <style>
@@ -746,30 +746,99 @@ body.dragging .tools {
   align-items: center;
   color: var(--fg);
 }
-/* sous la tâche en cours d'écriture : ajouter à la souris */
+/* sous la tâche en cours d'écriture : son volet (importante, échéance, état, rubrique, ajouts) */
 #list .qadd {
+  margin: 0.35rem -0.1rem 0.05rem;
+  padding: 0.4rem 0.1rem 0.1rem;
+  border-top: 1px dashed color-mix(in srgb, var(--c, var(--accent)) 35%, var(--line));
+  animation: qaddIn 0.2s ease-out;
+  transform-origin: top;
+}
+#list .qadd .qrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+}
+#list .qadd .qrow2 {
   display: flex;
   gap: 0.2rem;
-  margin: 0.15rem 0 0.05rem 1.55rem;
-  animation: qaddIn 0.18s ease-out;
+  margin-top: 0.3rem;
 }
 #list .qadd button {
-  border: none;
-  background: none;
-  padding: 0.05rem 0.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  padding: 0.12rem 0.55rem;
   border-radius: 999px;
   font-size: 0.74rem;
   color: var(--muted);
   cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+}
+#list .qadd .qrow2 button {
+  border-color: transparent;
+  background: none;
+  padding: 0.05rem 0.4rem;
 }
 #list .qadd button:hover {
   color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+}
+#list .qadd .qrow2 button:hover {
   background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+#list .qadd .qimp b {
+  font-weight: 800;
+  color: #c4524a;
+}
+#list .qadd .qimp.on {
+  background: #c4524a;
+  border-color: #c4524a;
+  color: #fff;
+}
+#list .qadd .qimp.on b {
+  color: #fff;
+}
+#list .qadd .qdue.on {
+  color: var(--fg);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+}
+#list .qadd .qseg {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 1px;
+  background: var(--bg);
+}
+#list .qadd .qseg button {
+  border: none;
+  background: none;
+}
+#list .qadd .qseg button.on {
+  background: var(--accent);
+  color: var(--bg);
+}
+#list .qadd .qsd {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}
+#list .qadd .whoin {
+  font-size: 0.74rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  width: 9rem;
 }
 @keyframes qaddIn {
   from {
     opacity: 0;
-    transform: translateY(-3px);
+    transform: scaleY(0.6) translateY(-4px);
   }
 }
 .due {
@@ -4397,7 +4466,8 @@ body.mobile:has(dialog:modal) {
   outline: 2px dashed var(--accent);
   outline-offset: 2px;
 }
-#inbox .inote.flash {
+#inbox .inote.flash,
+.mcard.flash {
   animation: cardFlash 1.8s ease-out;
 }
 /* choix au lâcher d'une tâche sur une autre (PC : menu ; téléphone : fenêtre) */
@@ -8736,6 +8806,7 @@ function toggle(id, viaKey) {
   } else it.state = it.state === 'fait' ? 'afaire' : 'fait';
   normalize();
   render();
+  if (it.level === 0 && it.state === 'afaire') flash(id); /* décochée : on la retrouve d'un coup d'œil */
   if (viaKey) focusItem(id);
   changed();
   if (msg) toast(msg + ' · Ctrl+Z pour annuler');
@@ -9170,6 +9241,8 @@ window.addEventListener('resize', ctxClose);
 document.addEventListener(
   'scroll',
   e => {
+    /* (un défilement encore en cours au moment où le menu s'ouvre ne le referme pas) */
+    if (ctxEl && ctxEl._t && Date.now() - ctxEl._t < 400) return;
     if (!(e.target.closest && e.target.closest('.cmenu'))) ctxClose();
   },
   true
@@ -10237,10 +10310,7 @@ list.addEventListener('click', e => {
   }
   const qa = e.target.closest('.qadd button');
   if (qa) {
-    const id = qa.closest('.qadd').dataset.id;
-    qaddDrop();
-    if (qa.dataset.a === 'sub') addSubOf(id);
-    else openNote(idx(id));
+    qaddAct(qa);
     return;
   }
   const al = e.target.closest('.addl');
@@ -11050,9 +11120,124 @@ function stopDrag(apply) {
   if (apply && id && t) dropBlock(id, t);
 }
 
-/* tâche en cours d'écriture : « + sous-tâche » et « + commentaire » sous elle, pour la souris (raccourcis dans les bulles) */
+/* tâche en cours d'écriture : sa carte s'agrandit d'un volet, comme la fiche du téléphone — importante, échéance,
+   à faire / en attente (de qui, relance), rubrique ; puis « + sous-tâche », « + commentaire ». Tout à la souris,
+   sans quitter l'écriture (chaque choix rend la main à la tâche). */
 function qaddDrop() {
   document.querySelectorAll('#list .qadd').forEach(q => q.remove());
+}
+const CAL_I =
+  '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg>';
+function qaddBuild(card, it) {
+  const h = headingOf(idx(it.id)),
+    q = document.createElement('div');
+  q.className = 'qadd';
+  q.dataset.id = it.id;
+  const B = (a, cls, label, title) =>
+    '<button type="button" data-a="' + a + '"' + (cls ? ' class="' + cls + '"' : '') + (title ? ' title="' + title + '"' : '') + '>' + label + '</button>';
+  const att = it.state === 'attente';
+  q.innerHTML =
+    '<div class="qrow">' +
+    B('imp', 'qimp' + (it.important ? ' on' : ''), '<b>!</b> Importante', 'Alt+I') +
+    B('due', 'qdue' + (it.due ? ' on' : ''), CAL_I + (it.due ? shortDate(it.due) : 'Échéance'), it.due ? 'Changer l’échéance (ou l’effacer dans le calendrier)' : 'Fixer une échéance') +
+    '<span class="qseg">' +
+    B('st', it.state !== 'attente' ? 'on' : '', 'À faire').replace('data-a="st"', 'data-a="st" data-v="afaire"') +
+    B('st', att ? 'on' : '', 'En attente').replace('data-a="st"', 'data-a="st" data-v="attente"') +
+    '</span>' +
+    (att
+      ? B('who', 'qwho', it.waitFor ? 'de ' + escHtml(it.waitFor) : 'de qui ?', 'Qui doit répondre ou agir') +
+        B('rel', 'qrel', 'relance ' + (it.relance ? shortDate(it.relance) : '…'), 'Date de relance')
+      : '') +
+    B('sec', 'qsec', '<i class="qsd"></i>' + escHtml(h ? h.text : 'Hors rubrique'), 'Changer de rubrique') +
+    '</div><div class="qrow2">' +
+    B('sub', '', '+ sous-tâche', 'Ajouter une sous-tâche (Alt+Entrée puis Tab)') +
+    (it.note ? '' : B('cmt', '', '+ commentaire', 'Ajouter un commentaire (Maj+Entrée)')) +
+    '</div>';
+  q.querySelector('.qsd').style.background = h ? sectionColors()['#' + h.id] || CARD_COLOR : 'var(--muted)';
+  q.onmousedown = ev => {
+    if (!ev.target.closest('input')) ev.preventDefault(); /* le clic ne fait pas perdre la main à la tâche */
+  };
+  card.append(q);
+}
+function qaddAct(b) {
+  const q = b.closest('.qadd'),
+    id = q.dataset.id,
+    it = items[idx(id)],
+    a = b.dataset.a,
+    r = b.getBoundingClientRect();
+  if (!it) return;
+  const info = activeInfo(),
+    back = () => focusItem(id, info && info.id === id ? info.off : undefined),
+    commit2 = msg => {
+      normalize();
+      render();
+      changed();
+      back();
+      if (msg) toast(msg);
+    };
+  if (a === 'sub') {
+    qaddDrop();
+    addSubOf(id);
+  } else if (a === 'cmt') {
+    qaddDrop();
+    openNote(idx(id));
+  } else if (a === 'imp') {
+    snapshot();
+    if (it.important) delete it.important;
+    else it.important = true;
+    commit2(it.important ? 'Importante' : 'N’est plus importante');
+  } else if (a === 'st') {
+    if (it.state === b.dataset.v) return;
+    snapshot();
+    it.state = b.dataset.v;
+    commit2(it.state === 'attente' ? 'En attente' : 'À faire');
+  } else if (a === 'due' || a === 'rel') {
+    pickDate(
+      { clientX: r.left, clientY: r.bottom },
+      a === 'due' ? it.due || addDays(todayISO(), 7) : it.relance || addDays(todayISO(), RELANCE_JOURS),
+      v => {
+        const x = items[idx(id)];
+        if (!x) return back();
+        snapshot();
+        if (a === 'rel') {
+          if (v) x.relance = v;
+        } else if (v) x.due = v;
+        else delete x.due;
+        commit2(a === 'rel' ? 'Relance le ' + fmtDate(v).toLowerCase() : v ? 'Échéance le ' + fmtDate(v).toLowerCase() : 'Échéance retirée');
+      },
+      a === 'due'
+    );
+  } else if (a === 'who') {
+    editWho(b, id);
+    const inp = q.querySelector('.whoin');
+    if (inp) {
+      inp.addEventListener('blur', () => setTimeout(back, 0));
+      inp.addEventListener('keydown', ev => {
+        if (ev.key === 'Enter' || ev.key === 'Escape') setTimeout(back, 0);
+      });
+    }
+  } else if (a === 'sec') {
+    const cur = headingOf(idx(id));
+    /* menu ouvert sans lui donner la main : l'écriture de la tâche continue derrière */
+    ctxClose();
+    ctxEl = ctxBuild(
+      secEntries(
+        sec => {
+          if (sec !== (cur ? cur.id : '')) moveToSec(id, sec);
+          back();
+        },
+        cur ? cur.id : '',
+        name => {
+          moveToNewSec(id, name);
+          back();
+        }
+      ),
+      r.left,
+      r.bottom + 4,
+      null
+    );
+    ctxEl._t = Date.now();
+  }
 }
 list.addEventListener('focusin', e => {
   const t = e.target.closest('.row.top .txt');
@@ -11064,20 +11249,13 @@ list.addEventListener('focusin', e => {
   const old = card.querySelector(':scope > .qadd');
   if (old && old.dataset.id === it.id) return;
   qaddDrop();
-  const q = document.createElement('div');
-  q.className = 'qadd';
-  q.dataset.id = it.id;
-  q.innerHTML =
-    '<button type="button" data-a="sub" title="Ajouter une sous-tâche (Alt+Entrée puis Tab)">+ sous-tâche</button>' +
-    (it.note ? '' : '<button type="button" data-a="cmt" title="Ajouter un commentaire (Maj+Entrée)">+ commentaire</button>');
-  q.onmousedown = ev => ev.preventDefault(); /* le clic ne fait pas perdre la main à la tâche */
-  card.append(q);
+  qaddBuild(card, it);
 });
 list.addEventListener('focusout', e => {
-  if (!e.target.closest('.row.top .txt')) return;
+  if (!e.target.closest('.row.top .txt, .qadd')) return;
   setTimeout(() => {
     const a = document.activeElement;
-    if (!(a && a.closest && a.closest('.row.top .txt'))) qaddDrop();
+    if (!(a && a.closest && a.closest('.row.top .txt, .qadd'))) qaddDrop();
   }, 0);
 });
 
@@ -13063,7 +13241,10 @@ function mCard(i, withSec) {
         },
         f ? 'Remise dans « À faire »' : 'Faite'
       );
-      if (f || matchMedia('(prefers-reduced-motion: reduce)').matches) go();
+      if (f) {
+        go();
+        mFlashCard(it.id); /* décochée : elle réapparaît, mise en évidence */
+      } else if (matchMedia('(prefers-reduced-motion: reduce)').matches) go();
       else {
         c._anim = true;
         k.classList.add('on', 'pop');
@@ -13623,11 +13804,35 @@ function mHistFill(box, tr) {
     box.append(m);
   }
 }
+
+/* une tâche qui réapparaît (décochée…) : halo vert qui s'éteint, et on la fait venir à l'écran */
+function mFlashCard(id) {
+  requestAnimationFrame(() => {
+    const c = document.querySelector('.mcard[data-id="' + id + '"]');
+    if (!c) return;
+    const r = c.getBoundingClientRect();
+    if (r.top < 60 || r.bottom > innerHeight - 40) c.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    c.classList.remove('flash');
+    void c.offsetWidth;
+    c.classList.add('flash');
+    setTimeout(() => c.classList.remove('flash'), 1900);
+  });
+}
 /* ---------- notes de version ----------
    Une entrée par publication qui change quelque chose de visible. type 'web' (« Application web Chromium » = cette page, arrive toute seule ; v = numéro suivant)
    ou 'appli' (« Compagnon Android », l'appli du téléphone, à installer ; v = numéro de fabrication, affiché 1.v). Noms toujours en entier.
    d = date et heure de publication (heure de Paris), les plus récentes en premier. À compléter à chaque publication. */
 const NOUVEAUTES = [
+  {
+    d: '2026-10-17 11:31',
+    type: 'web',
+    v: '2.27',
+    t: 'Le volet de la tâche (PC)',
+    items: [
+      'PC\u00a0: pendant qu’on écrit une tâche, sa carte s’agrandit d’un volet, comme la fiche du téléphone\u00a0: «\u00a0Importante\u00a0», échéance, «\u00a0À faire\u00a0» ou «\u00a0En attente\u00a0» (de qui, date de relance), rubrique, puis «\u00a0+ sous-tâche\u00a0» et «\u00a0+ commentaire\u00a0». Chaque choix se fait d’un clic, sans interrompre l’écriture.',
+      'Une tâche décochée revient mise en évidence (halo vert), au PC comme au téléphone.'
+    ]
+  },
   {
     d: '2026-10-17 10:00',
     type: 'web',
